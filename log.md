@@ -15,6 +15,10 @@ Auto-resolved: 0. New pages created: 2 ([[llm-wiki-pattern]], [[2026-karpathy-ll
 Added: [[2026-anthropic-automated-alignment-researchers]]. Updated: none. Contradictions flagged: 0.
 Auto-resolved: 0. New pages created: 3 ([[scalable-oversight]], [[weak-to-strong-supervision]], [[2026-anthropic-automated-alignment-researchers]]).
 
+## [2026-04-22] ingest | Using LLMs to Improve Workplace Social Skills
+Added: [[2026-stanford-hai-llms-workplace-skills]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[ai-assisted-skills-training]], [[2026-stanford-hai-llms-workplace-skills]]).
+
 ## [2026-04-22] ingest | Management as AI Superpower
 Added: [[2026-mollick-management-ai-superpower]]. Updated: none. Contradictions flagged: 0.
 Auto-resolved: 0. New pages created: 2 ([[ai-agentic-workflows]], [[2026-mollick-management-ai-superpower]]).
