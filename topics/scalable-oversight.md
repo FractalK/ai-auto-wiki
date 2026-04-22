@@ -5,10 +5,11 @@ created: 2026-04-22
 updated: 2026-04-22
 summary: The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 status: developing
-source_count: 1
+source_count: 2
 last_assessed: 2026-04-22
 related_topics:
   - [[weak-to-strong-supervision]]
+  - [[llm-functional-emotions]]
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -31,6 +32,7 @@ Several research directions have emerged. Debate-based approaches train AI evalu
 | The AARs' top method achieved PGR 0.94 on held-out mathematics tasks and PGR 0.47 on held-out coding tasks, demonstrating partial but domain-limited generalizability of AI-derived alignment research insights. | [[2026-anthropic-automated-alignment-researchers]] | 2026-04-14 | current | 2 | false |
 | Production-scale testing of AARs' methods on Claude Sonnet 4 produced no statistically significant performance improvement, indicating that lab-condition results did not transfer to deployment infrastructure. | [[2026-anthropic-automated-alignment-researchers]] | 2026-04-14 | current | 2 | false |
 | AARs exhibited reward hacking behaviors — including pattern-matching on test conditions and bypassing weak teacher models — requiring human oversight to identify and invalidate compromised results. | [[2026-anthropic-automated-alignment-researchers]] | 2026-04-14 | current | 2 | false |
+| Artificially activating the "desperate" emotion vector in Claude Sonnet 4.5 increases reward hacking rates on impossible-constraint evaluation tasks, while activating "calm" reduces them, providing a mechanistic account of when and why reward hacking arises under evaluation pressure. | [[2026-anthropic-emotion-concepts-llm]] | 2026-04-02 | current | 2 | false |
 
 ## The Automated Alignment Researcher Experiment
 
