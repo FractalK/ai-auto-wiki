@@ -9,6 +9,7 @@ source_count: 1
 last_assessed: 2026-04-22
 related_topics:
   - [[scalable-oversight]]
+  - [[constitutional-ai]]
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy

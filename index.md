@@ -12,7 +12,7 @@ concept area, product, and use case — updated continuously as new sources are 
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*13 pages. Last updated: 2026-04-22.*
+*26 pages. Last updated: 2026-04-22.*
 
 ---
 
@@ -25,8 +25,16 @@ professional roles, see the [[teaching-index]].
 - [[llm-functional-emotions]] — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
 - [[ai-agentic-workflows]] — A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
 - [[ai-assisted-skills-training]] — A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
+- [[ai-in-higher-education]] — A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
+- [[ai-assisted-vulnerability-discovery]] — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
+- [[constitutional-ai]] — Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 
 ## Tools
+
+- [[anthropic-claude-mythos-preview]] — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
+- [[anthropic-claude-opus-4-7]] — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[google-notebooklm]] — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
+- [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
 
 ## Sources
 
@@ -36,6 +44,12 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-emotion-concepts-llm]] — Anthropic Interpretability Team, 2026-04-02, institutional
 - [[2026-mollick-management-ai-superpower]] — Ethan Mollick, 2026-02-17, practitioner
 - [[2026-stanford-hai-llms-workplace-skills]] — Stanford HAI News, 2026-04-20, practitioner
+- [[undated-stanford-ctl-ai-teaching-strategies]] — Stanford CTL, 2025-09-02, practitioner
+- [[undated-stanford-ctl-student-ai-guide]] — Stanford CTL, undated, practitioner
+- [[2026-anthropic-project-glasswing]] — Anthropic, 2026-04-07, institutional
+- [[2026-mindstudio-claude-mythos-alignment-paradox]] — MindStudio Team, 2026-04-10, practitioner
+- [[2026-atlas-notebooklm-usage-guide]] — Jet New, 2026-04-03, practitioner
+- [[2026-anthropic-claude-opus-4-7-announcement]] — Anthropic, 2026-04-16, institutional
 
 ## Comparisons
 
