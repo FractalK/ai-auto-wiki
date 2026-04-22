@@ -12,6 +12,7 @@ updated: 2026-04-22
 - [[weak-to-strong-supervision]] — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 - [[constitutional-classifiers]] — A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 - [[llm-functional-emotions]] — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
+- [[ai-agentic-workflows]] — A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
 
 ## Tools
 
@@ -21,6 +22,7 @@ updated: 2026-04-22
 - [[2026-anthropic-automated-alignment-researchers]] — Anthropic research team, 2026-04-14, institutional
 - [[2025-anthropic-constitutional-classifiers-jailbreaks]] — Anthropic Safeguards Research Team, 2025-02-23, institutional
 - [[2026-anthropic-emotion-concepts-llm]] — Anthropic Interpretability Team, 2026-04-02, institutional
+- [[2026-mollick-management-ai-superpower]] — Ethan Mollick, 2026-02-17, practitioner
 
 ## Comparisons
 
