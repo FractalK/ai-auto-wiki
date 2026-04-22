@@ -280,9 +280,31 @@ primarily about task-level prompting. Apply each only to the specific scope it c
 ## 5. TO BE ENRICHED from Operational Experience
 
 **5.1 Tool Page Examples**
-Most examples above use Topic pages. Populate with worked examples for Tool pages —
-especially the common case where a tool page covers `tool-evaluation-and-selection`
-broadly but lacks substantive content in any other domain.
+
+*Case: teaching_relevance gated by source quality, not topic (2026-04-22)*
+
+Two tool pages created in the same session required opposite `teaching_relevance`
+decisions, illustrating that the decision gates on source quality as much as topic fit.
+
+**`google-notebooklm` — tagged `teaching_relevance: true`**
+Source: practitioner blog (industry-blog, practitioner tier). The page describes the
+tool's behavior and use cases clearly; Key Claims are observable product behaviors,
+not vendor assertions. Tags assigned: `practical-ai-use-and-interaction` +
+`tool-evaluation-and-selection`. Professional contexts: `teaching-and-instruction`,
+`graduate-and-doctoral-education`, `journalism-and-media`. Technical depth: foundational.
+The tool warrants both domains because it covers task-level use (how to interact with it)
+and selection criteria (when to choose it over alternatives).
+
+**`mindstudio` — no `teaching_relevance` tag (deferred)**
+Source: vendor-content (vendor_bias: true). Every Key Claim on the page carries
+a vendor-bias hedge ("vendor-sourced — treat comparative claims with caution"). A student
+or instructor using this page would be unable to trust capability or comparison claims
+without independent verification. Tagging it as teaching-relevant would mislead users
+about the page's evidential standing.
+
+**Rule:** When a tool page's only source is `vendor-content` and all Key Claims carry
+vendor-bias annotations, defer `teaching_relevance` regardless of topic fit. Re-evaluate
+after a non-vendor source is ingested for that tool.
 
 **5.2 Pitfalls Page Examples**
 Pitfalls pages frequently warrant `output-verification-and-risk-assessment` and

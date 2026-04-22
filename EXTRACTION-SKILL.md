@@ -300,8 +300,25 @@ The following sections should be populated after the first five ingest operation
 Until then, the rules above are the operative guidance.
 
 **6.1 Additional Failure Mode Examples**
-Populate with real cases from ingested sources — at least one good example and one
-bad example per failure mode, drawn from the actual source material used with this wiki.
+
+*Case: Truncated staged file — URL fallback (2026-04-22)*
+
+Staged file "AI Teaching Strategies.md" existed in `raw/staged/` but contained only
+the article introduction; the body was absent (truncated on copy-paste). The extraction
+candidate list after Step 11 would have yielded zero claims — only introductory framing
+was present.
+
+**Signal:** A staged file ends within the first section, or reading the file reveals
+only a heading and a paragraph with no substantive procedural or empirical content.
+
+**Correct behavior:** Surface as a pre-flight forced choice before extraction begins.
+Do not attempt extraction from a truncated file — the claim list will be empty or
+misleading. Forced choice options: (A) fetch full content from URL, (B) skip this
+source. If the URL is unavailable, tag `[fetch-failed]` and move on.
+
+The URL fetch in this case succeeded via subagent even though a prior session had
+received a 403 from the same URL, suggesting intermittent access rather than a
+permanent block. Do not assume a prior `[fetch-failed]` tag is permanent.
 
 **6.2 Full-Depth Extraction Edge Cases**
 Populate when a peer-reviewed source has non-standard section structure (e.g., a paper

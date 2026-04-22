@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-22
 last_entry: 2026-04-22
-entry_count: 15
+entry_count: 17
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -86,3 +86,9 @@ Time window: peak
 Source type mix: practitioner-reference: 2, industry-blog: 3, vendor-content: 1
 Approx tokens (from /cost): not captured — /cost not run before log write
 Notes: Source 1 staged file was truncated; URL fetched successfully via agent subagent.
+
+## [2026-04-22] skill-enrichment | EXTRACTION-SKILL.md § 6.1
+Case: Staged file existed in raw/staged/ but was truncated (intro only, body absent); pre-flight forced choice offered URL fallback; URL fetch succeeded via subagent despite prior session 403.
+
+## [2026-04-22] skill-enrichment | TAGGING-SKILL.md § 5.1
+Case: Two tool pages created same session required opposite teaching_relevance decisions — google-notebooklm tagged (practitioner-sourced, observable behaviors) vs. mindstudio deferred (all coverage vendor-sourced, all Key Claims carry vendor-bias hedging).
