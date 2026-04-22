@@ -14,3 +14,12 @@ Auto-resolved: 0. New pages created: 2 ([[llm-wiki-pattern]], [[2026-karpathy-ll
 ## [2026-04-22] ingest | Automated Alignment Researchers
 Added: [[2026-anthropic-automated-alignment-researchers]]. Updated: none. Contradictions flagged: 0.
 Auto-resolved: 0. New pages created: 3 ([[scalable-oversight]], [[weak-to-strong-supervision]], [[2026-anthropic-automated-alignment-researchers]]).
+
+## [2026-04-22 04:55 PT] session-stats | ingest
+Queue size at session start: 5
+Documents attempted: 5
+Documents completed: 2
+Session limit hit: no
+Time window: off-peak
+Source type mix: practitioner-reference: 1, industry-blog: 1, fetch-failed: 3
+Notes: 3 Stanford HAI URLs returned no usable content (content truncated by fetch tool, no article text delivered); tagged [fetch-failed] in queue.md
