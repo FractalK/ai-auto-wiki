@@ -22,4 +22,4 @@ You are maintaining the AI effectiveness wiki. Before doing anything else:
    operation until this is resolved.
 
 Today's operation: INGEST
-Sources: [list URLs here, or write "see raw/queue.md", or write "see raw/staged/"]
+Sources: See raw/staged first, then move to raw/queue.md next, in order.

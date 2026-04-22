@@ -1,8 +1,19 @@
 ---
 type: index
-title: Wiki Index
+title: AI Effectiveness Wiki
 created: 2026-04-22
 updated: 2026-04-22
+---
+
+This wiki tracks AI tools, capabilities, workflows, and failure modes for practitioners
+who need to evaluate and apply AI in professional settings. Content is organized by
+concept area, product, and use case — updated continuously as new sources are ingested.
+
+Browse by category below. For content aligned to specific learning objectives and
+professional roles, see the [[teaching-index]].
+
+*13 pages. Last updated: 2026-04-22.*
+
 ---
 
 ## Topics
