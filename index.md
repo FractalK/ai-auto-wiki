@@ -7,9 +7,16 @@ updated: 2026-04-22
 
 ## Topics
 
+- [[llm-wiki-pattern]] — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
+- [[scalable-oversight]] — The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
+- [[weak-to-strong-supervision]] — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
+
 ## Tools
 
 ## Sources
+
+- [[2026-karpathy-llm-wiki-pattern]] — Karpathy, 2026-04-04, practitioner
+- [[2026-anthropic-automated-alignment-researchers]] — Anthropic research team, 2026-04-14, institutional
 
 ## Comparisons
 
