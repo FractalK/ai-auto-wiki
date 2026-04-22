@@ -132,28 +132,53 @@ If either command is not found: output exactly:
 ```
 PREREQUISITE GAP — Node.js is not installed or not on PATH.
 
-Node.js 18 or later is required for Quartz.
-Install from: https://nodejs.org/en/download
-After installing, run `node --version` to confirm it is version 18 or later,
+Node.js v22 or later and npm v10.9.2 or later are required for Quartz.
+
+Recommended install method on macOS/Linux (nvm):
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+  # Open a new terminal window, then:
+  nvm install 22
+  nvm use 22
+
+On Windows: download from https://nodejs.org/en/download and select version 22.
+
+After installing, run `node --version` and `npm --version` to confirm versions,
 then reply CONTINUE.
 ```
 
 Wait for CONTINUE before proceeding.
 
-If either command returns a version below 18 (e.g., v16.x.x or v17.x.x): output
+If `node --version` returns a version below v22 (e.g., v18.x.x or v20.x.x): output
 exactly:
 
 ```
-PREREQUISITE GAP — Node.js version [X] is below the required minimum of 18.
+PREREQUISITE GAP — Node.js version [X] is below the required minimum of v22.
 
-Install Node.js 18 or later from: https://nodejs.org/en/download
+Upgrade using nvm:
+  nvm install 22
+  nvm use 22
+
+Or download Node.js 22 from https://nodejs.org/en/download.
 Then reply CONTINUE.
 ```
 
 Wait for CONTINUE before proceeding.
 
-If both commands return version 18 or later: output a one-line confirmation and
-continue to Step 5.
+If `npm --version` returns a version below 10.9.2: output exactly:
+
+```
+PREREQUISITE GAP — npm version [X] is below the required minimum of 10.9.2.
+
+Upgrade npm:
+  npm install -g npm@latest
+
+Then run `npm --version` to confirm, and reply CONTINUE.
+```
+
+Wait for CONTINUE before proceeding.
+
+If both commands return acceptable versions (node v22+, npm v10.9.2+): output a
+one-line confirmation and continue to Step 5.
 
 ---
 
@@ -166,12 +191,27 @@ If it does **not** exist: output exactly:
 ```
 PREREQUISITE GAP — quartz.config.ts not found.
 
-Quartz must be scaffolded before initialization continues. Run this command
-in the wiki root directory:
+Quartz must be cloned and initialized before initialization continues.
+Run these commands from the PARENT of your intended wiki root directory:
 
-    npx quartz create
+  git clone https://github.com/jackyzha0/quartz.git <your-wiki-name>
+  cd <your-wiki-name>
+  rm -rf .git          # remove Quartz's git history
+  npm i                # install Quartz dependencies
+  npx quartz create    # initialize content scaffold
 
-Follow the prompts (choose "Empty Quartz" when asked). Then reply CONTINUE.
+When npx quartz create prompts:
+  "What type of Quartz would you like to start with?" → choose Empty Quartz
+  "What link resolution strategy would you like to use?" → choose Shortest Path (default)
+
+After that, delete the Quartz boilerplate files that do not belong in the wiki repo:
+  rm -rf docs content README.md CODE_OF_CONDUCT.md LICENSE.txt Dockerfile
+
+Then re-initialize git and set your remote:
+  git init
+  git remote add origin https://github.com/<username>/<your-wiki-name>.git
+
+Return to this directory and reply CONTINUE once quartz.config.ts is present.
 ```
 
 Wait for CONTINUE before proceeding.
@@ -248,9 +288,20 @@ no lint or discovery pass has run yet.
 ```markdown
 ---
 type: index
-title: Wiki Index
+title: AI Effectiveness Wiki
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
+---
+
+This wiki tracks AI tools, capabilities, workflows, and failure modes for practitioners
+who need to evaluate and apply AI in professional settings. Content is organized by
+concept area, product, and use case — updated continuously as new sources are ingested.
+
+Browse by category below. For content aligned to specific learning objectives and
+professional roles, see the [[teaching-index]].
+
+*0 pages. Last updated: YYYY-MM-DD.*
+
 ---
 
 ## Topics
@@ -263,6 +314,11 @@ updated: YYYY-MM-DD
 
 ## Pitfalls
 ```
+
+The intro prose and At a Glance line are part of the scaffold. The At a Glance line
+(`*0 pages. Last updated: YYYY-MM-DD.*`) uses `0` at initialization; Claude Code
+updates the page count and date after each ingest. The intro prose is written once
+and never modified by Claude Code — it is the public-facing landing page identity.
 
 ---
 
@@ -429,7 +485,7 @@ Output a one-line confirmation noting whether the file was created or appended t
 ## Step 9 — Patch quartz.config.ts
 
 Read the existing `quartz.config.ts` in full before making any changes. Make exactly
-two targeted changes:
+three targeted changes:
 
 **Change 1 — ignorePatterns**
 
@@ -445,10 +501,23 @@ preserving any existing entries:
 "wiki-lessons-learned.md"
 "assets/**"
 "raw/**"
+"docs/**"
+"content/**"
+"prompts/**"
+"node_modules/**"
+"INIT-PROMPT.md"
+"public/**"
+"overview.md"
+"log.md"
 ```
 
 If no `ignorePatterns` field exists anywhere in the file, add one. The resulting
-array must contain at minimum the seven paths listed above.
+array must contain at minimum the fifteen paths listed above.
+
+Note: Do NOT add `"index.md"` to ignorePatterns. Quartz requires `index.md` at the
+repo root to generate `index.html` — the site's home page. Excluding it will cause
+Quartz to emit no root HTML page; browsers will serve `index.xml` (the RSS feed)
+instead.
 
 **Change 2 — Mermaid plugin**
 
@@ -456,9 +525,42 @@ Locate the `transformers` array in the plugins configuration block. Add
 `Plugin.Mermaid()` to the list if it is not already present. Position does not
 matter as long as it is inside the `transformers` array.
 
-After patching, output a brief description of both changes: confirm whether
-`ignorePatterns` was extended or created from scratch, and whether `Plugin.Mermaid()`
-was added or was already present.
+**Change 3 — baseUrl**
+
+Locate the `baseUrl` field. Change its value to:
+
+```
+"<your-github-username>.github.io/<your-repo-name>"
+```
+
+This is a placeholder. The human must replace it with their actual GitHub Pages URL
+before committing. For a repository at `github.com/myusername/my-wiki`, the correct
+value is `"myusername.github.io/my-wiki"`. Do not include `https://` — Quartz
+prepends the protocol automatically.
+
+After patching, stop and output exactly:
+
+```
+CONFIGURATION REQUIRED — quartz.config.ts baseUrl
+
+I have set baseUrl to the placeholder value:
+  "<your-github-username>.github.io/<your-repo-name>"
+
+You must replace this with your actual GitHub Pages URL before committing.
+For your repository at https://github.com/<username>/<repo>, the value should be:
+  "<username>.github.io/<repo>"
+
+Do not include https:// — Quartz adds the protocol automatically.
+
+Edit quartz.config.ts now to replace the placeholder, then reply CONTINUE.
+```
+
+Wait for CONTINUE before proceeding to Step 10.
+
+After receiving CONTINUE, output a brief description of all three changes: confirm
+whether `ignorePatterns` was extended or created from scratch, whether
+`Plugin.Mermaid()` was added or was already present, and confirm the baseUrl the
+human entered.
 
 Do not rewrite any other parts of `quartz.config.ts`.
 
@@ -487,6 +589,9 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -500,7 +605,7 @@ jobs:
       - name: Install Quartz dependencies
         run: npm ci
       - name: Build Quartz
-        run: npx quartz build
+        run: npx quartz build -d .
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -523,6 +628,12 @@ Output a one-line confirmation that the file was created.
 Note: This workflow will not succeed until GitHub Pages is enabled for the repository
 (Settings → Pages → Source: GitHub Actions). The human verifies this in Phase 2 of
 the implementation guide, not during this session.
+
+The `-d .` flag on `npx quartz build` tells Quartz to read content from the repository
+root rather than the default `content/` subdirectory. This is required because wiki
+pages live at the repo root alongside `quartz.config.ts`. The `ignorePatterns` entries
+added in Step 9 prevent non-wiki files (docs/, content/, skill files, etc.) from being
+built into the site.
 
 ---
 
@@ -627,7 +738,7 @@ Copied from design project (verified present, not created):
 
 --- Configuration applied ---
 .gitignore          [created / appended to]
-quartz.config.ts    ignorePatterns [added / extended]; Plugin.Mermaid() [added / already present]
+quartz.config.ts    baseUrl [value the human entered]; ignorePatterns [added / extended]; Plugin.Mermaid() [added / already present]
 .github/workflows/deploy.yml    created
 .git/hooks/pre-commit           created and made executable
 
@@ -642,13 +753,17 @@ Opening Obsidian (do this after this session ends)
 First wiki maintenance session (use the session-start prompt template)
 
 --- Next steps ---
-1. Open the wiki directory (not a parent) as your Obsidian vault. Verify graph view
-   shows wiki files.
+1. Open the wiki directory (not a parent) as your Obsidian vault. Configure
+   excluded files before opening graph view: Settings → Files & Links →
+   Excluded files → add: node_modules, docs, quartz, .github
 2. Enable GitHub Pages in your repository settings:
    Settings → Pages → Source: GitHub Actions
 3. Make a first commit and push to main. Confirm the GitHub Actions build succeeds.
-4. Run the first wiki session: paste the session-start prompt from
-   implementation-handoff.md Section 5 (or tooling-recommendation.md Section 7)
+4. Open the published URL in a browser and confirm it renders the Quartz wiki
+   interface (not an RSS feed). If you see RSS XML, the baseUrl in quartz.config.ts
+   was not updated from the placeholder — fix it, commit, and push again.
+5. Run the first wiki session: paste the session-start prompt from
+   implementation-handoff.md Section 5 (or use a pre-filled stub from prompts/)
    into a new Claude Code session and run a test ingest.
 ```
 
@@ -659,8 +774,9 @@ First wiki maintenance session (use the session-start prompt template)
 This prompt assumes the following are true before the session starts:
 
 - A GitHub repository has been created for the wiki (human prerequisite)
-- Node.js 18+ and npm are installed — checked at Step 4
-- Quartz has been scaffolded with `npx quartz create` — checked at Step 5
+- Node.js v22+ and npm v10.9.2+ are installed — checked at Step 4
+- Quartz has been cloned and scaffolded per Phase 0 Step 4 of implementation-handoff.md,
+  with `quartz.config.ts` present at the wiki root — checked at Step 5
 - CLAUDE.md, EXTRACTION-SKILL.md, TAGGING-SKILL.md, and CONTRADICTION-SKILL.md
   have been copied from design project output to this directory — checked at Step 3
 - The working directory is the intended wiki root — confirmed at Pause Point 1

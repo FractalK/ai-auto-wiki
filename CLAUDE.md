@@ -71,11 +71,17 @@ wiki/
 ```
 ignorePatterns: [
   "CLAUDE.md", "EXTRACTION-SKILL.md", "TAGGING-SKILL.md",
-  "CONTRADICTION-SKILL.md", "wiki-lessons-learned.md", "assets/**", "raw/**"
+  "CONTRADICTION-SKILL.md", "wiki-lessons-learned.md",
+  "assets/**", "raw/**", "docs/**", "content/**", "prompts/**",
+  "node_modules/**", "INIT-PROMPT.md", "public/**",
+  "overview.md", "log.md"
 ]
 ```
-If this is not configured, operational files and raw sources will be rendered as wiki
-pages. Verify this before the first Quartz build.
+Do NOT add `"index.md"` to this list — Quartz requires it to generate the root
+`index.html` home page. Excluding it causes browsers to receive `index.xml` (the
+RSS feed) instead of the site interface.
+If this is not configured, operational files, build output, and raw sources will be
+rendered as wiki pages. Verify this before the first Quartz build.
 
 [ENV] The staging directory default is `raw/staged/`. Confirm this path before first
 ingest. Claude Code must not assume a different path.
@@ -108,9 +114,20 @@ last_contradiction_id: 0
 ```yaml
 ---
 type: index
-title: Wiki Index
+title: AI Effectiveness Wiki
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
+---
+
+This wiki tracks AI tools, capabilities, workflows, and failure modes for practitioners
+who need to evaluate and apply AI in professional settings. Content is organized by
+concept area, product, and use case — updated continuously as new sources are ingested.
+
+Browse by category below. For content aligned to specific learning objectives and
+professional roles, see the [[teaching-index]].
+
+*0 pages. Last updated: YYYY-MM-DD.*
+
 ---
 
 ## Topics
@@ -123,6 +140,10 @@ updated: YYYY-MM-DD
 
 ## Pitfalls
 ```
+
+**Note:** At initialization the At a Glance line uses `0` for the page count and today's
+date. Claude Code updates both values after each ingest per the generation rule in
+Section 12.
 
 `log.md`:
 ```yaml
@@ -2289,6 +2310,24 @@ Structure:
 ```
 
 Do not list deprecated Tool pages in index.md.
+
+**Landing page header zone:** `index.md` begins with a static intro zone (two prose
+paragraphs and a wikilink to `[[teaching-index]]`) followed by a generated "At a Glance"
+line, separated from the catalog sections by a horizontal rule (`---`). The intro zone
+is written once by the wiki owner and is never modified by Claude Code. Do not alter the
+intro zone during ingest, lint, or any other automated operation — even if the prose
+appears inconsistent with the current wiki state.
+
+At a Glance line format:
+
+```
+*{N} pages. Last updated: YYYY-MM-DD.*
+```
+
+Update the At a Glance line on every ingest that writes to `index.md`. Set `{N}` to the
+`total_pages` value from `overview.md` after incrementing it for this ingest. Set
+`YYYY-MM-DD` to today's date. Replace the existing line in place — do not append a
+second line below it.
 
 ### log.md
 Append an entry to `log.md` after every operation. Entry formats:
