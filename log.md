@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-22
 last_entry: 2026-04-22
-entry_count: 7
+entry_count: 8
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -39,3 +39,12 @@ Session limit hit: no
 Time window: off-peak
 Source type mix: practitioner-reference: 1, industry-blog: 1, fetch-failed: 3
 Notes: 3 Stanford HAI URLs returned no usable content (content truncated by fetch tool, no article text delivered); tagged [fetch-failed] in queue.md
+
+## [2026-04-22 12:30 PT] session-stats | ingest
+Queue size at session start: 7 (4 staged files + 3 queue.md URLs)
+Documents attempted: 5
+Documents completed: 4
+Session limit hit: no
+Time window: peak
+Source type mix: industry-blog: 3, publication-article: 1, fetch-failed: 1
+Notes: ctl.stanford.edu/aimes/ai-teaching-strategies returned 403; tagged [fetch-failed]. 2 arxiv/transformer-circuits nominations added to queue.md [nominated].
