@@ -16,7 +16,7 @@ const config: QuartzConfig = {
       provider: "plausible",
     },
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
+    baseUrl: "fractalk.github.io/ai-auto-wiki",
     ignorePatterns: [
       "private",
       "templates",
