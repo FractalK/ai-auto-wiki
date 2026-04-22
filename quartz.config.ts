@@ -31,6 +31,8 @@ const config: QuartzConfig = {
       "node_modules/**",
       "INIT-PROMPT.md",
       "public/**",
+      "docs/**",
+      "prompts/**",
     ],
     defaultDateType: "modified",
     theme: {
