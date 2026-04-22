@@ -28,6 +28,8 @@ const config: QuartzConfig = {
       "wiki-lessons-learned.md",
       "assets/**",
       "raw/**",
+      "node_modules/**",
+      "INIT-PROMPT.md"
     ],
     defaultDateType: "modified",
     theme: {
