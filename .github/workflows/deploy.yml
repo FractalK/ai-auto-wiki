@@ -30,7 +30,7 @@ jobs:
       - name: Install Quartz dependencies
         run: npm ci
       - name: Build Quartz
-        run: npx quartz build -d
+        run: npx quartz build -d .
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
