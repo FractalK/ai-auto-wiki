@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-22
 last_entry: 2026-04-22
-entry_count: 17
+entry_count: 22
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -92,3 +92,30 @@ Case: Staged file existed in raw/staged/ but was truncated (intro only, body abs
 
 ## [2026-04-22] skill-enrichment | TAGGING-SKILL.md § 5.1
 Case: Two tool pages created same session required opposite teaching_relevance decisions — google-notebooklm tagged (practitioner-sourced, observable behaviors) vs. mindstudio deferred (all coverage vendor-sourced, all Key Claims carry vendor-bias hedging).
+
+## [2026-04-22] ingest | AI Teaching Strategies (enrichment)
+Added: (enrichment — no new source page). Updated: [[ai-in-higher-education]] (prose additions: safety valve mechanism, AI dependency risk, CJR citation corroboration). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+  Note: staged file was full content matching prior URL fetch; Key Claims at ceiling (5), no new claims added.
+
+## [2026-04-22] ingest | AI and Your Learning: A Guide for Students (enrichment)
+Added: (enrichment — no new source page). Updated: none (existing Key Claims and prose fully capture source content). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+
+## [2026-04-22] ingest | Can we create a clear understanding of what agentic AI is and does?
+Added: [[2026-oecd-agentic-ai-landscape]]. Updated: [[ai-agentic-workflows]] (source_count 1→2, definitional intro added, OECD Key Claim 5 added). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 1 ([[2026-oecd-agentic-ai-landscape]]).
+  Citation nominated: 1 — OECD full report "The agentic AI landscape and its conceptual foundations" added to queue.md [nominated].
+
+## [2026-04-22] ingest | Claude For Dummies
+Added: [[2026-hassid-claude-beginners-guide]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 4 ([[anthropic-claude]], [[openai-chatgpt]], [[anthropic-claude-vs-openai-chatgpt]], [[2026-hassid-claude-beginners-guide]]).
+
+## [2026-04-22] session-stats | ingest
+Queue size at session start: 4 (4 staged files + 0 queued URLs)
+Documents attempted: 4
+Documents completed: 4
+Session limit hit: no
+Time window: off-peak
+Source type mix: practitioner-reference: 2 (enrichment), publication-article: 1, practitioner-reference: 1
+Approx tokens (from /cost): not captured

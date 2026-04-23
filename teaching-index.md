@@ -5,7 +5,7 @@ created: 2026-04-22
 updated: 2026-04-22
 ---
 
-*Generated 2026-04-22 after ingest pass. 13 pages tagged teaching_relevance: true.*
+*Generated 2026-04-22 after ingest pass. 14 pages tagged teaching_relevance: true.*
 
 ---
 
@@ -24,12 +24,17 @@ updated: 2026-04-22
 
 ### entrepreneurship-and-startups
 - [[anthropic-claude-opus-4-7]] | Tool | practitioner | Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 
 ### journalism-and-media
 - [[google-notebooklm]] | Tool | foundational | Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
 
 ### teaching-and-instruction
 - [[google-notebooklm]] | Tool | foundational | Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
+- [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
+
+### professional-and-continuing-education
+- [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 
 ---
 
@@ -37,23 +42,26 @@ updated: 2026-04-22
 
 ### organizational-leadership-and-change-management
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
-- [[ai-agentic-workflows]] | Topic | practitioner | A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 
 ### project-and-program-management
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
-- [[ai-agentic-workflows]] | Topic | practitioner | A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 
 ### entrepreneurship-and-startups
-- [[ai-agentic-workflows]] | Topic | practitioner | A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
+- [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 
 ### teaching-and-instruction
 - [[ai-assisted-skills-training]] | Topic | practitioner | A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[ai-in-higher-education]] | Topic | foundational | A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 - [[google-notebooklm]] | Tool | foundational | Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
+- [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 
 ### professional-and-continuing-education
 - [[ai-assisted-skills-training]] | Topic | practitioner | A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[ai-in-higher-education]] | Topic | foundational | A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
+- [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 
 ### non-profit-and-ngo-work
 - [[ai-assisted-skills-training]] | Topic | practitioner | A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
@@ -73,14 +81,14 @@ updated: 2026-04-22
 
 ### organizational-leadership-and-change-management
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
-- [[ai-agentic-workflows]] | Topic | practitioner | A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 
 ### project-and-program-management
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
-- [[ai-agentic-workflows]] | Topic | practitioner | A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 
 ### entrepreneurship-and-startups
-- [[ai-agentic-workflows]] | Topic | practitioner | A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 
 ### graduate-and-doctoral-education
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
