@@ -12,7 +12,7 @@ concept area, product, and use case — updated continuously as new sources are 
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*26 pages. Last updated: 2026-04-22.*
+*31 pages. Last updated: 2026-04-22.*
 
 ---
 
@@ -31,10 +31,12 @@ professional roles, see the [[teaching-index]].
 
 ## Tools
 
+- [[anthropic-claude]] — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 - [[anthropic-claude-mythos-preview]] — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 - [[anthropic-claude-opus-4-7]] — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 - [[google-notebooklm]] — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
 - [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
+- [[openai-chatgpt]] — OpenAI's general-purpose AI assistant and the most widely recognized conversational AI product, with strengths in voice interaction, native image generation, and real-time web search.
 
 ## Sources
 
@@ -50,7 +52,11 @@ professional roles, see the [[teaching-index]].
 - [[2026-mindstudio-claude-mythos-alignment-paradox]] — MindStudio Team, 2026-04-10, practitioner
 - [[2026-atlas-notebooklm-usage-guide]] — Jet New, 2026-04-03, practitioner
 - [[2026-anthropic-claude-opus-4-7-announcement]] — Anthropic, 2026-04-16, institutional
+- [[2026-oecd-agentic-ai-landscape]] — OECD.AI Expert Group on Agentic AI, 2026-03-03, institutional
+- [[2026-hassid-claude-beginners-guide]] — Ruben Hassid, 2026-04-17, practitioner
 
 ## Comparisons
+
+- [[anthropic-claude-vs-openai-chatgpt]] — Selecting a general-purpose AI assistant for writing, document work, and multi-step task execution
 
 ## Pitfalls

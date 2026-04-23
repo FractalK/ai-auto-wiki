@@ -9,6 +9,7 @@ author: Stanford Center for Teaching and Learning
 publication: Stanford Center for Teaching and Learning AIMES
 published_date: 2025-09-02
 ingested_date: 2026-04-22
+enriched: 2026-04-22
 url: https://ctl.stanford.edu/aimes/ai-teaching-strategies
 credibility_tier: practitioner
 extraction_depth: standard
