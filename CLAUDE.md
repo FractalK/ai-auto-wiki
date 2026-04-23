@@ -394,9 +394,11 @@ superseded_by:       # conditional | full-path wikilink; required when status: d
 
 ### 5.4 Source Page
 
-Source pages are created once at ingest and are not updated afterward, except to populate
-`superseded_by` or to correct `status` when a retraction or ingested-in-error correction
-is initiated by the human. All other fields are immutable after creation.
+Source pages are created once at ingest and are not updated afterward, with three
+exceptions: (1) populate `superseded_by` when a later source replaces this one; (2)
+correct `status` when a retraction or ingested-in-error correction is initiated by the
+human; (3) set `enriched` and update `updated` when source enrichment is executed (Step
+2a). All other fields are immutable after creation.
 
 ```yaml
 type: source
@@ -419,7 +421,11 @@ source_type:      # required | controlled: research-paper | industry-blog | whit
 author:           # optional | string or list of strings
 publication:      # optional | free text; journal, outlet, or channel name
 published_date:   # optional | ISO 8601; omit if genuinely unavailable; do not fabricate
-ingested_date:    # required | ISO 8601; set at ingest time
+ingested_date:    # required | ISO 8601; set at ingest time; immutable after creation
+enriched:         # optional | ISO 8601; set by Step 2a when a richer version of this
+                  #   source is ingested to replace shallow extraction. Absent on first
+                  #   ingest. Present only when enrichment has occurred. Immutable
+                  #   thereafter except if enrichment is performed a second time.
 url:              # optional | canonical URL; omit for offline-only sources
 transcript_file:  # conditional | required when source_type: youtube-video
                   #   path to the transcript file relative to wiki root
@@ -1293,16 +1299,17 @@ decisions are resolved.
 
 Step 0 — Pre-ingest budget check
 
-Count the items in the `[queued]` section of `raw/queue.md`. If count ≤ 5: proceed to
-Step 1 without surfacing a forced choice — a queue of this size is safe on Pro tier at
-any hour.
+Count total items: (a) files present in `raw/staged/` — run `ls raw/staged/` via bash
+and count the results; (b) items in the `[queued]` section of `raw/queue.md`. Set
+N = (a) + (b). If N ≤ 5: proceed to Step 1 without surfacing a forced choice — a
+session of this size is safe on Pro tier at any hour.
 
-If count > 5: run `date` via bash to determine current local time. Convert to PT and
+If N > 5: run `date` via bash to determine current local time. Convert to PT and
 determine whether the session falls in peak hours: 05:00–11:00 PT (13:00–19:00 GMT).
 Surface the following forced choice block:
 
 ```
-Pre-ingest check: {N} documents are queued for processing.
+Pre-ingest check: {N} items in this session ({a} staged files + {b} queued URLs).
 
 Session budget note: Claude Code Pro tier operates on a 5-hour session window. During
 peak hours (05:00–11:00 PT / 13:00–19:00 GMT), that window yields less work than
@@ -1310,8 +1317,8 @@ off-peak. Current time: {HH:MM PT} — {PEAK | OFF-PEAK}.
 
 Reliable batch for Pro tier: 3–5 documents per session. Processing large batches risks
 hitting the session limit mid-ingest, which halts work without a clean checkpoint.
-Documents not processed in this session remain in [queued] and are picked up next
-session — per-document git commits ensure no completed work is lost.
+Documents not processed in this session remain in [queued] and staged files remain in
+raw/staged/ — per-document git commits ensure no completed work is lost.
 
 {If PEAK — include:}
 Running a large batch during peak hours will exhaust your session budget faster than
@@ -1327,7 +1334,7 @@ E) Defer — abort ingest now and save queue state for next session
 ```
 
 **If option E is selected:**
-- Make no changes to any wiki file or to `raw/queue.md`.
+- Make no changes to any wiki file, to `raw/queue.md`, or to files in `raw/staged/`.
 - Write `raw/deferred-ingest.md` with the following content:
 
 ```markdown
@@ -1338,7 +1345,8 @@ created: {YYYY-MM-DD HH:MM PT}
 
 ## Deferred Ingest — Resume Next Session
 
-{N} documents were in the ingest queue at time of deferral. No processing occurred.
+{N} items were ready for ingest at time of deferral ({a} staged files + {b} queued
+URLs). No processing occurred.
 
 Recommended timing: off-peak (after 11:00 PT / 19:00 GMT on weekdays).
 
@@ -1351,9 +1359,9 @@ To resume: start a new wiki session and tell Claude Code:
 ```
 
 - Commit `raw/deferred-ingest.md` to git with message: `chore: save deferred ingest state`.
-- Report to the human: "Ingest aborted. {N} documents remain queued. Deferral note
-  written to raw/deferred-ingest.md. Recommended: resume off-peak (after 11:00 PT /
-  19:00 GMT)."
+- Report to the human: "Ingest aborted. {N} items ready ({a} staged + {b} queued).
+  Deferral note written to raw/deferred-ingest.md. Recommended: resume off-peak
+  (after 11:00 PT / 19:00 GMT)."
 - End session. Do not proceed to Step 1.
 
 **If options A–D are selected:** proceed to Step 1 with the selected document scope.
@@ -1373,9 +1381,48 @@ Step 1 — Receive source and determine ingest mode
 
 Step 2 — Duplicate detection
 - Check `sources/` for URL match (exact) and title match (near-duplicate)
-- Exact URL match: stop, report to human, do not proceed
+- Exact URL match, `status: retracted` or `ingested-in-error`: stop, report to human,
+  do not proceed
+- Exact URL match, `status: active`: surface as forced choice in pre-flight report:
+
+  ```
+  [N] Duplicate URL detected: [[{existing-source-slug}]] (ingested {YYYY-MM-DD})
+      A new staged file matches this source's URL. Options:
+      A) Abort — discard staged file, retain existing source as-is
+      B) Enrich — re-extract from richer version; update downstream pages;
+         preserve existing Key Claims on downstream pages unless superseded
+  ```
+
+  If A selected: discard staged file, do not proceed with this source.
+  If B selected: execute Step 2a before Step 3; skip Step 10.
+
 - Near-duplicate: add to pre-flight report as forced choice
 - No match: proceed
+
+Step 2a — Source enrichment execution (Path B only — execute when Step 2 forced choice
+resolved B; skip otherwise)
+
+1. **Source page frontmatter update:** Set `updated` to today. Add `enriched: YYYY-MM-DD`
+   (today's date) to the Source page frontmatter. Do not change the source slug, the
+   `ingested_date`, or any other immutable field.
+2. **Classification already established:** Skip Steps 3–5. Source type, credibility tier,
+   and model/application class are carried from the existing Source page frontmatter
+   unchanged.
+3. **Pre-flight continues from Step 6:** Proceed with Steps 6–9 (affected page
+   identification, comparison proposal, teaching relevance, decay_exempt) using the
+   richer file as the extraction basis.
+4. **Skip Step 10:** Do not create a new Source page.
+5. **Downstream deduplication rule (applies during Steps 11–13):** Before running the
+   contradiction protocol on a newly extracted claim, apply this check: if an existing
+   Key Claim on the target page cites this source slug and is substantively identical in
+   meaning to the newly extracted claim, skip that claim silently — do not add a
+   duplicate row, do not surface a forced choice. "Substantively identical" means the
+   same assertion about the same entity; minor wording differences do not make claims
+   distinct. Only claims that are genuinely new or that contradict an existing claim
+   proceed through Steps 14–18 as normal.
+6. **Staged file disposal:** Remove the richer file from `raw/staged/` as normal
+   post-ingest cleanup.
+7. **Commit message:** `enrich: {source-slug} — richer source version ingested`
 
 Step 3 — Source type classification
 - Apply eight-type decision tree (Section 11.1) in order
@@ -1516,18 +1563,9 @@ Step 21a — Skill enrichment nomination (after Steps 20–21)
   genuinely novel example — a failure mode variant, boundary condition, or edge case not
   already covered by existing examples in that section. The test: would this example
   teach Claude Code something the existing examples do not?
-- If yes: draft proposed addition language and include in the post-ingest summary as a
-  forced choice:
-
-```
-[N] Skill enrichment candidate: {skill-file}.md § {section number and title}
-    Case: [one-sentence description of what was encountered]
-    Proposed addition: [drafted example text]
-    A) Confirm — write to skill file
-    B) Confirm with edits — I will amend before you write
-    C) Discard
-```
-
+- If yes: draft the proposed addition language. These drafts are held and assembled into
+  Section B of the Step 22 summary, where they receive PS-N labels in sequence. Do not
+  output them separately before Step 22.
 - If no genuinely novel cases exist: omit this block entirely. Do not nominate
   additional instances of cases already illustrated.
 - Write confirmed enrichments to the skill file immediately, replacing the TO BE ENRICHED
@@ -1535,6 +1573,10 @@ Step 21a — Skill enrichment nomination (after Steps 20–21)
   section). Append a `skill-enrichment` log entry.
 
 Step 22 — Post-ingest summary
+
+Output in two sections. Do not interleave informational lines with forced choices.
+
+**Section A — Session Summary**
 
 ```
 Source ingested: {title} ({source_type}, {credibility_tier}, {extraction_depth})
@@ -1547,19 +1589,39 @@ Comparison pages proposed: {confirmed/declined}
 Teaching Index regenerated: yes | no
 Spot-check: [block if applicable]
 Lessons learned draft: [entry if applicable]
-Skill enrichment proposals: {N} — {list or "none"}
-Citations nominated: {N} — from [[source-slug]] | none
-  [list each as: {title} | {url}]
-  A) Leave in queue — nominations remain for query-time surfacing
-  B) Dismiss all nominations from this source — remove from queue.md now
 Items requiring human review: {list or "none"}
+Notes: [fetch failures, remediation notes, or other session observations; omit if none]
 ```
 
-Omit the "Citations nominated" block entirely when Step 11a produces zero nominations.
-Include it whenever N ≥ 1. Option B in the forced choice removes all nominations from
-this source from queue.md immediately without requiring individual review. Option A
-requires no action — nominations remain passively in the `[nominated]` section and will
-surface via query-time matching (Step Q2a) if a relevant sparse or shallow result occurs.
+**Section B — Decisions Required**
+
+Omit this section entirely when there are zero forced choices. When present, open with
+the response format line, assign PS-N labels sequentially (citations first, then skill
+enrichment candidates in the order Step 21a drafted them), and list each item in full.
+
+```
+Respond with: PS-1:X PS-2:X ... for each item below.
+
+PS-1 Citations nominated: {count} — from [[source-slug]]
+  {title} | {url}
+  ...
+  A) Leave in queue — nominations remain for query-time surfacing
+  B) Dismiss all nominations from this source — remove from queue.md now
+
+PS-{N} Skill enrichment candidate: {skill-file}.md § {section number and title}
+  Case: [one-sentence description of what was encountered]
+  Proposed addition: [drafted example text]
+  A) Confirm — write to skill file
+  B) Confirm with edits — I will amend before you write
+  C) Discard
+```
+
+Omit the citations PS item when Step 11a produces zero nominations. Omit skill
+enrichment PS items when Step 21a produces no novel cases. If only one type of forced
+choice is present, start numbering from PS-1. Option B on citations removes all
+nominations from this source from queue.md immediately. Option A requires no action —
+nominations remain in the `[nominated]` section and surface via query-time matching
+(Step Q2a) if a relevant sparse or shallow result occurs.
 
 Step 22a — Session stats log entry
 
