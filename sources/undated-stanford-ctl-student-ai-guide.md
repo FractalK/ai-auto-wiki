@@ -8,6 +8,7 @@ source_type: practitioner-reference
 author: Stanford Center for Teaching and Learning
 publication: Stanford Center for Teaching and Learning AIMES
 ingested_date: 2026-04-22
+enriched: 2026-04-22
 url: https://ctl.stanford.edu/aimes/ai-learning-guide-students
 credibility_tier: practitioner
 extraction_depth: standard
