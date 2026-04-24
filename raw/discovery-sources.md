@@ -1,9 +1,9 @@
 # Discovery Sources
-# Format: {url} | {type: arxiv | lab-blog | academic-blog} | {label}
-# academic-blog: academic institution publications (Stanford HAI, Berkeley BAIR, etc.)
-#   — fetched identically to lab-blog; distinction is metadata only.
+Format: {url} | {type: arxiv | lab-blog | academic-blog} | {label}
+
+academic-blog: academic institution publications (Stanford HAI, Berkeley BAIR, etc.) — fetched identically to lab-blog; distinction is metadata only.
 # Edit this list before the first discovery pass.
-# Add or remove feeds as the team's source priorities evolve.
+Add or remove feeds as the team's source priorities evolve.
 
 https://www.anthropic.com/news | lab-blog | Anthropic News
 https://openai.com/news/research | lab-blog | OpenAI Research

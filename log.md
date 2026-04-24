@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-22
-last_entry: 2026-04-22
-entry_count: 22
+updated: 2026-04-23
+last_entry: 2026-04-23
+entry_count: 25
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -118,4 +118,21 @@ Documents completed: 4
 Session limit hit: no
 Time window: off-peak
 Source type mix: practitioner-reference: 2 (enrichment), publication-article: 1, practitioner-reference: 1
+Approx tokens (from /cost): not captured
+
+## [2026-04-23] ingest | Claude Opus 4.7 — A New Frontier, in Performance and Drama
+Added: [[2026-aiexplained-claude-opus-4-7]]. Updated: [[anthropic-claude-opus-4-7]] (source_count 1→2, limitations extended, prose updated), [[anthropic-claude-mythos-preview]] (source_count 2→3, prose updated with survey methodology critique and Vidok findings). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 1 ([[2026-aiexplained-claude-opus-4-7]]).
+
+## [2026-04-23] ingest | The AI Dilemma with Tristan Harris
+Added: [[2025-pivot-harris-ai-dilemma]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[2025-pivot-harris-ai-dilemma]], [[ai-companion-risks]], [[ai-governance-policy]]).
+
+## [2026-04-23] session-stats | ingest
+Queue size at session start: 2 (2 staged files + 0 queued URLs)
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: no
+Time window: off-peak
+Source type mix: youtube-video: 2
 Approx tokens (from /cost): not captured

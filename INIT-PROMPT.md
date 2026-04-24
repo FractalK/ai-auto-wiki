@@ -228,6 +228,7 @@ create it and add an empty `.gitkeep` file so git will track the directory.
 ```
 assets/
 raw/staged/
+raw/processed/
 topics/
 tools/
 sources/
@@ -236,7 +237,7 @@ pitfalls/
 ```
 
 Do not add `.gitkeep` to `raw/` itself — it will contain real files. Do not add
-`.gitkeep` to `raw/staged/` if it contains existing files.
+`.gitkeep` to `raw/staged/` or `raw/processed/` if they contain existing files.
 
 After completing this step, output a brief summary:
 - Which directories were created
@@ -360,9 +361,13 @@ updated: YYYY-MM-DD
 ## [nominated]
 
 ## [stale-nominated]
+
+## [processed]
 ```
 
-No other content. Three section headers only.
+No other content. Four section headers only. Entries move from `## [queued]` to
+`## [processed]` after successful ingest (Step 22b), with `processed: YYYY-MM-DD`
+appended to the original entry line. The human prunes this section periodically.
 
 ---
 
@@ -469,6 +474,7 @@ preserving all existing content:
 ```
 # Wiki: exclude source files — potentially large or copyright-restricted
 raw/staged/
+raw/processed/
 
 # Keep .gitkeep files in tracked empty directories
 !**/.gitkeep

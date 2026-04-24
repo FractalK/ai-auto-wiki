@@ -9,3 +9,7 @@ Building AI Cyber Defenders | https://www.anthropic.com/research/building-ai-cyb
 Strengthening cyber resilience | https://openai.com/index/strengthening-cyber-resilience/ | industry-blog | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-anthropic-project-glasswing]]]
 
 ## [stale-nominated]
+
+
+
+## [processed]
