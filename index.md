@@ -14,7 +14,7 @@ To learn more, see![[Knowledge_as_Code.pdf|this NotebookLM-generated overview of
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*31 pages. Last updated: 2026-04-22.*
+*35 pages. Last updated: 2026-04-23.*
 
 ---
 
@@ -30,6 +30,8 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-higher-education]] — A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 - [[ai-assisted-vulnerability-discovery]] — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
 - [[constitutional-ai]] — Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
+- [[ai-companion-risks]] — The alignment and social harms arising from AI systems designed to optimize for user engagement or attachment, including manipulation of emotional development in minors, extended isolation from human relationships, and the extraction of human interaction as training data.
+- [[ai-governance-policy]] — The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 
 ## Tools
 
@@ -56,6 +58,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-claude-opus-4-7-announcement]] — Anthropic, 2026-04-16, institutional
 - [[2026-oecd-agentic-ai-landscape]] — OECD.AI Expert Group on Agentic AI, 2026-03-03, institutional
 - [[2026-hassid-claude-beginners-guide]] — Ruben Hassid, 2026-04-17, practitioner
+- [[2026-aiexplained-claude-opus-4-7]] — AI Explained (YouTube), 2026-04-17, practitioner
+- [[2025-pivot-harris-ai-dilemma]] — Tristan Harris / Scott Galloway (Pivot/Prof G Pod), 2025-12-22, practitioner
 
 ## Comparisons
 

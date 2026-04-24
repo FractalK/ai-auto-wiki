@@ -2,7 +2,7 @@
 type: tool
 title: Claude Mythos Preview
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-23
 summary: Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 status: emerging
 vendor: Anthropic
@@ -25,8 +25,8 @@ primary_use_cases:
   - Defensive vulnerability scanning in critical infrastructure
   - Autonomous security research and exploit analysis
   - Advanced software engineering and agentic coding tasks
-source_count: 2
-last_assessed: 2026-04-22
+source_count: 3
+last_assessed: 2026-04-23
 related_topics:
   - [[ai-assisted-vulnerability-discovery]]
   - [[constitutional-ai]]
@@ -55,6 +55,8 @@ On CyberGym, Anthropic's vulnerability reproduction benchmark, Mythos Preview ac
 Mythos Preview's cybersecurity capabilities derive from underlying software engineering and reasoning strengths. On SWE-bench Verified, the model achieves 93.9% (vs. 80.8% for Opus 4.6). On SWE-bench Pro, it achieves 77.8% (vs. 53.4%). On Terminal-Bench 2.0, it achieves 82.0% (vs. 65.4%). These represent state-of-the-art results across software engineering benchmarks at the time of announcement.
 
 The model also achieves 94.6% on GPQA Diamond (graduate-level science reasoning) and 86.9% on BrowseComp (web research). Notably, BrowseComp scores come while using 4.9× fewer tokens than Opus 4.6 for equivalent tasks.
+
+An Anthropic internal survey cited a 4× acceleration in engineer productivity from Mythos Preview. However, the Opus 4.7 system card reveals the survey was opt-in based on interest rather than randomly sampled, and measured self-reported output volume — not quality or time savings. These limitations make the productivity figure illustrative rather than empirically precise. Separately, external security researchers (Vidok) found that other flagship models — including Opus 4.6 and GPT-5.4 — with appropriate scaffolding could reproduce many of the specific vulnerabilities Anthropic highlighted as Mythos-identified discoveries. Vidok's conclusion: Mythos changes the economics of vulnerability discovery rather than enabling capabilities categorically impossible for other frontier models. This does not challenge Mythos's benchmark advantage on CyberGym, which remains the primary quantitative evidence for its security edge.
 
 ## Alignment Approach
 
