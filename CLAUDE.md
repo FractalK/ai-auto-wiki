@@ -54,6 +54,8 @@ wiki/
 ├── assets/                      ← static images; excluded from Quartz rendering
 ├── raw/
 │   ├── staged/                  ← local source files awaiting ingest
+│   ├── processed/               ← post-ingest archive; staged files moved here after ingest;
+│   │                                gitignored (same policy as staged/); pruned by human periodically
 │   ├── queue.md                 ← URL queue and override signals, synced across machines via git
 │   ├── discovery-sources.md     ← feed list for proactive discovery pass
 │   ├── collection-gaps.md      ← persistent collection gap recommendations; updated by lint
@@ -171,14 +173,21 @@ updated: YYYY-MM-DD
 
 **Three raw/ files:**
 
-`raw/queue.md` — create with exactly these three section headers and no other content:
+`raw/queue.md` — create with exactly these four section headers and no other content:
 ```markdown
 ## [queued]
 
 ## [nominated]
 
 ## [stale-nominated]
+
+## [processed]
 ```
+
+Entries move from `## [queued]` to `## [processed]` after successful ingest, with
+`processed: YYYY-MM-DD` appended to the original entry line. The `## [processed]`
+section accumulates indefinitely; the human prunes it periodically. The schema does
+not automate pruning.
 
 `raw/collection-gaps.md`:
 ```markdown
@@ -426,6 +435,11 @@ enriched:         # optional | ISO 8601; set by Step 2a when a richer version of
                   #   source is ingested to replace shallow extraction. Absent on first
                   #   ingest. Present only when enrichment has occurred. Immutable
                   #   thereafter except if enrichment is performed a second time.
+ingest_via:       # optional | controlled: queue | staged
+                  #   queue: URL fetched by Claude Code from raw/queue.md [queued]
+                  #   staged: local file processed from raw/staged/
+                  #   Set at ingest time (Step 10). Immutable after creation.
+                  #   Absent on pages ingested before this field was added.
 url:              # optional | canonical URL; omit for offline-only sources
 transcript_file:  # conditional | required when source_type: youtube-video
                   #   path to the transcript file relative to wiki root
@@ -443,6 +457,13 @@ related_tools:    # optional | list of short-form wikilinks to Tool pages this s
 superseded_by:    # optional | full-path wikilink; populate only when a later source
                   #   replaces this one; immutable thereafter
 ```
+
+**Body (required):** One paragraph, 2–5 sentences. State the central argument, key
+findings or claims, and any notable scope limitations or caveats. Plain prose. Present
+tense. Written by the agent at ingest time from the extraction pass. Do not include
+citations or wikilinks. Immutable after first creation, with one exception: when Step 2a
+(source enrichment) has been executed, this paragraph is rewritten from the richer
+source as part of the enrichment pass.
 
 ### 5.5 Comparison Page
 
@@ -1420,8 +1441,9 @@ resolved B; skip otherwise)
    same assertion about the same entity; minor wording differences do not make claims
    distinct. Only claims that are genuinely new or that contradict an existing claim
    proceed through Steps 14–18 as normal.
-6. **Staged file disposal:** Remove the richer file from `raw/staged/` as normal
-   post-ingest cleanup.
+6. **Staged file disposal:** Rewrite the source page summary paragraph from the richer
+   extraction per Section 5.4. Then move the richer file from `raw/staged/` to
+   `raw/processed/`. Preserve the original filename.
 7. **Commit message:** `enrich: {source-slug} — richer source version ingested`
 
 Step 3 — Source type classification
@@ -1476,7 +1498,9 @@ Step 10 — Create Source page
 - Generate filename slug: 4–6 meaningful words, stopwords stripped, year prefix
 - Verify uniqueness before writing; surface collision to human if found
 - Populate all required frontmatter; set `status: active`
+- Set `ingest_via` to `queue` or `staged` per the intake mechanism used for this source
 - Leave `superseded_by` absent (not blank)
+- Write a summary paragraph immediately below the frontmatter block per Section 5.4
 
 Step 11 — Extraction pass
 - `full` depth: section-by-section; extract claims, evidence, quantitative findings,
@@ -1649,6 +1673,18 @@ option E at Step 0), write a partial entry immediately before the session ends:
 set `session limit hit: yes` and `documents completed: {K}` where K is the count
 of documents for which a git commit was successfully made. Documents without a
 commit are not counted as completed.
+
+Step 22b — Post-ingest housekeeping
+
+After Step 22a, for each document successfully ingested in this session:
+
+- **Staged source:** Move the processed file from `raw/staged/` to `raw/processed/`.
+  Preserve the original filename.
+- **Queue URL source:** In `raw/queue.md`, move the entry from `## [queued]` to
+  `## [processed]`, appending `processed: YYYY-MM-DD` to the entry line.
+
+Do not run this step for documents that did not complete (no git commit made). Those
+sources remain in `raw/staged/` or `## [queued]` for the next session.
 
 ### 11.3 Proactive Discovery Pass
 
