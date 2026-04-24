@@ -5,11 +5,11 @@ created: 2026-04-22
 updated: 2026-04-22
 ---
 
-This wiki tracks AI tools, capabilities, workflows, and failure modes for practitioners
+This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
 who need to evaluate and apply AI in professional settings. Content is organized by
 concept area, product, and use case and updated continuously as new sources are ingested in accordance with the principles outlined in [[2026-karpathy-llm-wiki-pattern|Andrej Karpathy's famous April 2026 GitHub gist]], though customized for these purposes. 
 
-To learn more, see![[Knowledge_as_Code.pdf|this NotebookLM-generated overview of the process]]
+To learn more, see [[how-this-wiki-works]].
 
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
