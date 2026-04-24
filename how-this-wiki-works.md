@@ -5,4 +5,6 @@ This wiki is a customized implementation of the LLM-Wiki concept first proposed 
 
 Below is a NotebookLM-generated deck on the importance and novelty of this approach and how it is implemented here.
 
-![[Knowledge_as_Code.pdf]]
+<object data="quartz/static/Knowledge_as_Code.pdf" type="application/pdf" width="100%" height="600px">
+    <p>It appears you don't have a PDF plugin for this browser. You can <a href="quartz/static/Knowledge_as_Code.pdf">click here to download the file.</a></p>
+</object>
