@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.7
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-23
 summary: Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 status: active
 vendor: Anthropic
@@ -23,13 +23,15 @@ limitations:
   - Tokenizer update increases effective token consumption 1.0–1.35× depending on content type; prompts tuned for Opus 4.6 may need re-evaluation
   - Modestly weaker harm-reduction for controlled substances compared to Opus 4.6 per safety evaluation
   - Safety evaluation characterizes alignment as "largely well-aligned and trustworthy, though not fully ideal"
+  - Underperforms Opus 4.6 on BrowseComp (agentic web search benchmark); Mythos Preview also underperforms GPT-5.4 on the same benchmark
+  - Adaptive thinking is mandatory; the model autonomously determines inference depth and defaults to medium effort; users cannot force extended thinking without actively overriding to high or max
 primary_use_cases:
   - Professional software engineering and code review
   - Document-heavy analysis and legal/financial workflows
   - Long-horizon agentic task execution
   - Vision-intensive document processing
-source_count: 1
-last_assessed: 2026-04-22
+source_count: 2
+last_assessed: 2026-04-23
 related_tools:
   - [[anthropic-claude-mythos-preview]]
 teaching_relevance: true
@@ -61,6 +63,8 @@ These improvements make Opus 4.7 materially better suited for workflows involvin
 Opus 4.7 introduces two new controls for agentic task management. Task budgets (public beta) allow operators to set a per-task computational spend cap, enabling predictable cost management for long-horizon agentic workflows. The `xhigh` effort control level provides a new ceiling above existing effort settings for tasks requiring maximum reasoning depth. These controls are particularly relevant for deployment contexts where agentic tasks run at scale with variable complexity.
 
 The Claude Code CLI gains a `/ultrareview` command with this release, enabling multi-agent cloud-based code review.
+
+One significant behavioral change in Opus 4.7 is mandatory adaptive thinking: the model autonomously determines inference depth based on its assessment of task difficulty and defaults to medium effort. Prior Claude models could be configured to always engage extended reasoning; Opus 4.7 cannot be forced to do so without explicit effort-level specification (high or max). This change appears linked to Anthropic's compute constraints — external reports indicate thinking character counts declined substantially in prior Claude models before this release, with medium effort becoming the enforced default. Users running heavy reasoning workloads should confirm effort settings rather than assuming maximum inference depth. Separately, on BrowseComp — an agentic web search benchmark measuring multi-step information retrieval — Opus 4.7 underperforms Opus 4.6, the one documented benchmark regression against its predecessor.
 
 ## Alignment Properties
 
