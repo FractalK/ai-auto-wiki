@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*39 pages. Last updated: 2026-04-25.*
+*46 pages. Last updated: 2026-04-25.*
 
 ---
 
@@ -33,6 +33,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-companion-risks]] — The alignment and social harms arising from AI systems designed to optimize for user engagement or attachment, including manipulation of emotional development in minors, extended isolation from human relationships, and the extraction of human interaction as training data.
 - [[ai-governance-policy]] — The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 - [[ai-search-citation-accuracy]] — The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+- [[legal-ai-hallucination]] — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 
 ## Tools
 
@@ -42,6 +43,9 @@ professional roles, see the [[teaching-index]].
 - [[google-notebooklm]] — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
 - [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
 - [[openai-chatgpt]] — OpenAI's general-purpose AI assistant and the most widely recognized conversational AI product, with strengths in voice interaction, native image generation, and real-time web search.
+- [[lexisnexis-lexis-plus-ai]] — LexisNexis's RAG-based legal AI research assistant, marketed as providing hallucination-free linked legal citations, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab.
+- [[thomson-reuters-westlaw-ai]] — Thomson Reuters's AI-assisted legal research product, independently benchmarked at a greater than 34 percent hallucination rate — the highest of the three leading legal AI tools tested by Stanford RegLab in 2024.
+- [[thomson-reuters-ask-practical-law-ai]] — Thomson Reuters's AI assistant for practical law questions, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab in 2024, comparable to Lexis+ AI.
 
 ## Sources
 
@@ -62,12 +66,15 @@ professional roles, see the [[teaching-index]].
 - [[2026-aiexplained-claude-opus-4-7]] — AI Explained (YouTube), 2026-04-17, practitioner
 - [[2025-pivot-harris-ai-dilemma]] — Tristan Harris / Scott Galloway (Pivot/Prof G Pod), 2025-12-22, practitioner
 - [[2025-ai-search-citation-problem]] — Jaźwińska & Chandrasekar (Tow Center / CJR), 2025-03-05, practitioner
+- [[2024-ai-trial-legal-models-hallucinate]] — Magesh, Surani et al. (Stanford RegLab / HAI), 2024-05-23, practitioner
 
 ## Comparisons
 
 - [[anthropic-claude-vs-openai-chatgpt]] — Selecting a general-purpose AI assistant for writing, document work, and multi-step task execution
 - [[ai-search-tools-citation-comparison]] — Evaluating eight generative AI search tools for citation accuracy and attribution reliability when citing news content
+- [[legal-ai-tools-hallucination-comparison]] — Comparing hallucination rates across three leading legal AI research tools (Lexis+ AI, Westlaw AI, Ask Practical Law AI) on the Stanford RegLab 2024 benchmark
 
 ## Pitfalls
 
 - [[ai-search-citation-accuracy-pitfalls]] — parent: ai-search-citation-accuracy
+- [[legal-ai-hallucination-pitfalls]] — parent: legal-ai-hallucination
