@@ -16,3 +16,5 @@ entry_count: 0
 ## Lint
 
 ## Query
+
+## Schema Signals

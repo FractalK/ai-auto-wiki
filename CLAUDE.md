@@ -51,7 +51,9 @@ wiki/
 ├── log.md                       ← singleton; append-only operation log
 ├── teaching-index.md            ← singleton; derived artifact, regenerated on ingest/lint
 ├── wiki-lessons-learned.md      ← singleton; append-only precedent log; excluded from Quartz
-├── assets/                      ← static images; excluded from Quartz rendering
+├── assets/                      ← operational images for LLM reference; excluded from Quartz rendering
+│                                    (files here are NOT served by the public site — use quartz/static/ for
+│                                     any image or document that must render in the Quartz-published site)
 ├── raw/
 │   ├── staged/                  ← local source files awaiting ingest
 │   ├── processed/               ← post-ingest archive; staged files moved here after ingest;
@@ -212,7 +214,7 @@ without `EXTRACTION-SKILL.md` at minimum.
 
 Create `wiki-lessons-learned.md` with the required frontmatter (Section 5.9) and
 five empty operation-type sections: `## Ingest`, `## Contradiction`, `## Tagging`,
-`## Lint`, `## Query`.
+`## Lint`, `## Query`, `## Schema Signals`.
 
 Replace all `YYYY-MM-DD` placeholders with the actual initialization date.
 
@@ -425,8 +427,8 @@ status:           # required | controlled: active | retracted | ingested-in-erro
                   #     human only. Triggers the correction procedure (Section 8.6). Source
                   #     page is never deleted. Do not use for superseded sources.
 source_type:      # required | controlled: research-paper | industry-blog | white-paper |
-                  #   publication-article | youtube-video | practitioner-reference |
-                  #   vendor-content | policy-document
+                  #   publication-article | youtube-video | podcast-transcript |
+                  #   practitioner-reference | vendor-content | policy-document
 author:           # optional | string or list of strings
 publication:      # optional | free text; journal, outlet, or channel name
 published_date:   # optional | ISO 8601; omit if genuinely unavailable; do not fabricate
@@ -441,7 +443,7 @@ ingest_via:       # optional | controlled: queue | staged
                   #   Set at ingest time (Step 10). Immutable after creation.
                   #   Absent on pages ingested before this field was added.
 url:              # optional | canonical URL; omit for offline-only sources
-transcript_file:  # conditional | required when source_type: youtube-video
+transcript_file:  # conditional | required when source_type: youtube-video or podcast-transcript
                   #   path to the transcript file relative to wiki root
 credibility_tier: # required | controlled: peer-reviewed | institutional |
                   #   practitioner | community
@@ -594,17 +596,38 @@ entry_count:  # required | integer
 ```
 
 Entries are organized under H2 headings by operation type: `## Ingest`, `## Contradiction`,
-`## Tagging`, `## Lint`, `## Query`. Within each section, entries are append-only,
+`## Tagging`, `## Lint`, `## Query`, `## Schema Signals`. Within each section, entries are append-only,
 newest last. Entry format:
 
 ```markdown
 ### [YYYY-MM-DD] {one-line title}
-**Operation:** ingest | contradiction | tagging | lint | query
+**Operation:** ingest | contradiction | tagging | lint | query | schema-signal
 **What happened:** [one sentence describing the case]
 **What was wrong:** [one sentence on the error or gap]
 **Correct behavior:** [one sentence on what should have happened]
 **Signal for future cases:** [one actionable rule Claude Code can apply]
 ```
+
+`## Schema Signals` entries use a distinct format written by lint Step L12c (auto-execute,
+no human confirmation required):
+
+```markdown
+### [YYYY-MM-DD] Override pattern: {category}
+**Operation:** schema-signal
+**Override count:** {N} in past 30 days
+**Date range:** YYYY-MM-DD to YYYY-MM-DD
+**Hypotheses:**
+  1. Schema definition overlap — definitions allow the same content to qualify for multiple types
+  2. Inference gap — agent cannot reliably route this content from available source signals
+  3. Human preference drift — the human's intended definition has shifted; schema may be correct
+  4. Vocabulary gap — no type covers this case; schema needs a new entry
+  5. Source ambiguity — source is genuinely dual-natured; precedent entry is the resolution
+**Status:** open | resolved YYYY-MM-DD (DM-NNN)
+```
+
+When a Schema Signals entry is resolved (root cause identified and addressed), set
+`**Status:** resolved YYYY-MM-DD (DM-NNN)` in place — this is the only permitted
+in-place edit on a Schema Signals entry.
 
 You draft a new entry after any ingest or lint pass where the human overrode your
 decision. The human confirms or discards the draft as part of the post-ingest review.
@@ -1237,7 +1260,7 @@ signals systematic under-tagging rather than genuine low relevance.
 
 ### 11.1 Source Classification Taxonomy
 
-Eight confirmed source types with extraction depth and credibility tier assignment:
+Nine confirmed source types with extraction depth and credibility tier assignment:
 
 | Source Type | Extraction Depth | Credibility Tier |
 |---|---|---|
@@ -1246,6 +1269,7 @@ Eight confirmed source types with extraction depth and credibility tier assignme
 | `white-paper` | `full` | institutional / practitioner |
 | `publication-article` | `standard` | institutional / practitioner / community |
 | `youtube-video` | `standard` | institutional / practitioner |
+| `podcast-transcript` | `standard` | institutional / practitioner |
 | `practitioner-reference` | `standard` | practitioner always |
 | `vendor-content` | `standard` | practitioner always + vendor_bias flag |
 | `policy-document` | `full` | institutional always |
@@ -1282,6 +1306,15 @@ Eight confirmed source types with extraction depth and credibility tier assignme
 `youtube-video`:
 - Channel is official AI lab or research institution → `institutional`
 - All other channels → `practitioner`
+
+`podcast-transcript`:
+- Show is produced by or features an official AI lab or research institution as primary
+  host → `institutional`
+- All other shows → `practitioner`
+- `transcript_file` is required (same as youtube-video); the transcript is the ingested
+  artifact, not an audio or video file
+- If only a partial transcript is available, note in the source page body and apply
+  standard extraction depth to the available text
 
 `vendor-content`:
 - `practitioner` always
@@ -1447,7 +1480,7 @@ resolved B; skip otherwise)
 7. **Commit message:** `enrich: {source-slug} — richer source version ingested`
 
 Step 3 — Source type classification
-- Apply eight-type decision tree (Section 11.1) in order
+- Apply nine-type decision tree (Section 11.1) in order
 - Ambiguous classifications: add to pre-flight report as forced choice
 
 Step 4 — Credibility tier assignment
@@ -1469,6 +1502,29 @@ Step 7 — Comparison page proposal (conditional)
   named models, or explicit multi-dimensional argument for one approach over another:
   propose Comparison page creation as forced choice in pre-flight report
 - Single-criterion comparisons and passing mentions do not qualify
+
+Step 7a — Pitfalls page proposal (conditional)
+- Threshold: source must contain at least one failure mode with sufficient detail to
+  populate a named `### [Failure mode name]` entry with a `**Status:**` designation.
+  Passing mentions of limitations without a nameable failure mode do not qualify.
+- If threshold is met: identify the parent entity (Topic or Tool) and determine whether
+  a Pitfalls page for that entity already exists in index.md.
+  - If no Pitfalls page exists: propose creation as forced choice in pre-flight report.
+  - If a Pitfalls page exists: propose updating it as forced choice in pre-flight report.
+- Apply routing rule before proposing: if the failure mode is cross-cutting (not specific
+  to a single tool), route to the Topic-scoped parent entity's Pitfalls page, not the
+  Tool Pitfalls page. Do not duplicate cross-cutting antipatterns across multiple Tool
+  Pitfalls pages.
+- Multiple parent entities with qualifying failure mode content: surface one forced
+  choice per entity.
+
+```
+[N] Pitfalls page {proposed | update proposed}: [[{parent-slug}]]
+    Failure mode(s) extracted: {N} — {one-line names}
+    Routing: tool-scoped | topic-scoped (cross-cutting)
+    A) {Create | Update} Pitfalls page
+    B) Skip — do not create or update
+```
 
 Step 8 — Teaching relevance proposal
 - For each new or substantially revised page: evaluate against threshold (Section 7.3)
@@ -1544,6 +1600,19 @@ Step 13 — Update or create Tool/Product pages
   duplicates, remove superseded items)
 - Version handling per Section 9
 
+Step 13a — Create or update Pitfalls page (if confirmed in pre-flight Step 7a)
+- Apply full Section 5.6 spec: three mandatory H2 sections in order
+  (`## Technical Limitations`, `## Usage Antipatterns`, `## Alignment and Safety Concerns`),
+  failure mode heading format, `**Status:**` field on the line immediately following
+  each `### [Failure mode name]` heading
+- Routing rule applies: cross-cutting antipatterns go to Topic-scoped Pitfalls pages;
+  do not create a Tool Pitfalls page for a cross-cutting failure mode
+- New Pitfalls page: populate `parent_entity` with full-path wikilink to parent;
+  set `parent_type`, `status: current`, `failure_mode_count` to count of H3 entries written
+- Existing Pitfalls page: add new failure mode entries to the appropriate section(s);
+  do not duplicate entries already present; update `failure_mode_count` and `updated`
+- Add new Pitfalls page to index.md under `## Pitfalls` section in the same pass
+
 Step 14 — Handle contradictions
 - Apply three-path protocol (Section 8) for all contradictions detected in Steps 12–13
 - Path B flags and Path A auto-resolutions on current pages: surface in post-ingest summary
@@ -1554,7 +1623,7 @@ Step 15 — Create Comparison page (if confirmed in pre-flight)
 
 Step 16 — Update index.md
 - Add new Source page to Sources section
-- Add new Topic, Tool, Comparison pages with one-line summaries from summary field
+- Add new Topic, Tool, Comparison, Pitfalls pages with one-line summaries (Pitfalls: parent entity name)
 - Update summaries for substantially revised pages
 - Do not list deprecated Tool pages
 
@@ -2040,6 +2109,28 @@ choice to the lint pre-flight report:
 If the file is 14 days old or fewer: add to the informational summary only —
 "Pending deferral: raw/deferred-ingest.md exists ({N} days old)." No forced choice.
 
+**Step L12c — Override pattern detection**
+
+Read `wiki-lessons-learned.md` `## Ingest` and `## Lint` sections. For each entry,
+read the entry date (from the `### [YYYY-MM-DD]` heading) and the `**Operation:**` field.
+Count entries whose date falls within the past 30 days, grouped by the category described
+in `**What was wrong:**`.
+
+If any category has 3 or more entries within the 30-day window:
+- This is a pattern signal. Auto-execute (no forced choice, no human confirmation needed):
+  write a new entry to `wiki-lessons-learned.md` under `## Schema Signals` using the
+  format specified in Section 5.9. Set `**Status:** open`.
+- Add to lint informational summary: "Schema signal written: override pattern detected
+  in {category} — {N} overrides in past 30 days. See wiki-lessons-learned.md
+  ## Schema Signals."
+
+Do not write a Schema Signals entry if a `## Schema Signals` entry for the same category
+already exists with `**Status:** open`. One open signal per category is sufficient.
+
+This step has no forced choice and generates no pre-flight report item. It is
+informational only. The human decides, outside the wiki, whether to bring the signal
+to a design session as a friction report.
+
 **Step L13 — Consolidate pre-flight report**
 
 ```
@@ -2065,6 +2156,7 @@ Informational summary:
 - Stale nominations being deleted (≥180 days): {N} — {titles or "none"}
 - Items without nominated_date (aging skipped): {N or "none"}
 - Pending deferral: {raw/deferred-ingest.md exists — N days old | none}
+- Schema signal written (L12c): {category and count | none}
 - Skill file TO BE ENRICHED sections with no real examples after 5+ ingests: {list or "none"}
 ```
 
@@ -2101,7 +2193,9 @@ skill file enrichment in the next ingest session.
 5. Update `failure_mode_count` on all marked Pitfalls pages.
 6. Apply confirmed `decay_exempt: true` settings.
 7. Create stub pages for confirmed concept gap choices.
-8. Update `raw/collection-gaps.md`: add confirmed active gaps; mark addressed gaps;
+8. Write Schema Signals entries to `wiki-lessons-learned.md` if L12c detected patterns
+   (auto-execute — no human confirmation).
+9. Update `raw/collection-gaps.md`: add confirmed active gaps; mark addressed gaps;
    remove dismissed gaps. Format:
 
 ```markdown
@@ -2118,14 +2212,14 @@ Last updated: YYYY-MM-DD (lint pass {N})
 - **{topic-tag}** — marked addressed YYYY-MM-DD
 ```
 
-9. Regenerate `teaching-index.md` from current tags.
-10. Update `overview.md`: set `last_lint` to today; update `total_pages`,
+10. Regenerate `teaching-index.md` from current tags.
+11. Update `overview.md`: set `last_lint` to today; update `total_pages`,
     `open_contradictions`, `last_contradiction_id` if changed.
-11. Execute nomination queue aging from Step L1a:
+12. Execute nomination queue aging from Step L1a:
     - Move all Stage 1 items from `[nominated]` to `[stale-nominated]` in queue.md.
       Preserve the full line content including `nominated_date`; do not update the date.
     - Delete all Stage 2 items from `[stale-nominated]` in queue.md.
-12. Append lint log entry.
+13. Append lint log entry.
 
 ---
 

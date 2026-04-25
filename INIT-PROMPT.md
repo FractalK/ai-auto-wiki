@@ -428,6 +428,8 @@ entry_count: 0
 ## Lint
 
 ## Query
+
+## Schema Signals
 ```
 
 `last_entry` is initialized to today's date (the creation date). `entry_count` is 0.
