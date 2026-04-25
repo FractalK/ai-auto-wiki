@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*35 pages. Last updated: 2026-04-23.*
+*39 pages. Last updated: 2026-04-25.*
 
 ---
 
@@ -32,6 +32,7 @@ professional roles, see the [[teaching-index]].
 - [[constitutional-ai]] — Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 - [[ai-companion-risks]] — The alignment and social harms arising from AI systems designed to optimize for user engagement or attachment, including manipulation of emotional development in minors, extended isolation from human relationships, and the extraction of human interaction as training data.
 - [[ai-governance-policy]] — The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
+- [[ai-search-citation-accuracy]] — The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
 
 ## Tools
 
@@ -60,9 +61,13 @@ professional roles, see the [[teaching-index]].
 - [[2026-hassid-claude-beginners-guide]] — Ruben Hassid, 2026-04-17, practitioner
 - [[2026-aiexplained-claude-opus-4-7]] — AI Explained (YouTube), 2026-04-17, practitioner
 - [[2025-pivot-harris-ai-dilemma]] — Tristan Harris / Scott Galloway (Pivot/Prof G Pod), 2025-12-22, practitioner
+- [[2025-ai-search-citation-problem]] — Jaźwińska & Chandrasekar (Tow Center / CJR), 2025-03-05, practitioner
 
 ## Comparisons
 
 - [[anthropic-claude-vs-openai-chatgpt]] — Selecting a general-purpose AI assistant for writing, document work, and multi-step task execution
+- [[ai-search-tools-citation-comparison]] — Evaluating eight generative AI search tools for citation accuracy and attribution reliability when citing news content
 
 ## Pitfalls
+
+- [[ai-search-citation-accuracy-pitfalls]] — parent: ai-search-citation-accuracy

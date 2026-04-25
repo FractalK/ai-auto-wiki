@@ -3,8 +3,8 @@ type: log
 title: Operation Log
 created: 2026-04-22
 updated: 2026-04-23
-last_entry: 2026-04-23
-entry_count: 25
+last_entry: 2026-04-25
+entry_count: 26
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -136,3 +136,7 @@ Session limit hit: no
 Time window: off-peak
 Source type mix: youtube-video: 2
 Approx tokens (from /cost): not captured
+
+## [2026-04-25] ingest | AI Search Has a Citation Problem
+Added: [[2025-ai-search-citation-problem]]. Updated: [[openai-chatgpt]] (source_count 1→2, Key Claim 3 added, status stub→developing). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 4 ([[ai-search-citation-accuracy]], [[ai-search-citation-accuracy-pitfalls]], [[ai-search-tools-citation-comparison]], [[2025-ai-search-citation-problem]]).
