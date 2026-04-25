@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-23
 last_entry: 2026-04-25
-entry_count: 27
+entry_count: 29
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -136,6 +136,12 @@ Session limit hit: no
 Time window: off-peak
 Source type mix: youtube-video: 2
 Approx tokens (from /cost): not captured
+
+## [2026-04-25] ingest | On the Emergence of Position Bias in Transformers
+Added: [[2025-emergence-position-bias-transformers]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[llm-position-bias]], [[2025-emergence-position-bias-transformers]]).
+  Citation harvesting: full-depth extraction; no URL-resolvable citations identified in fetched content.
+  Teaching relevance deferred for [[llm-position-bias]] — page created at stub status.
 
 ## [2026-04-25] ingest | AI on Trial: Legal Models Hallucinate in 1 out of 6 (or More) Benchmarking Queries
 Added: [[2024-ai-trial-legal-models-hallucinate]]. Updated: none. Contradictions flagged: 0.

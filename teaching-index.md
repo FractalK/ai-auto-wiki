@@ -2,10 +2,10 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-25
 ---
 
-*Generated 2026-04-22 after ingest pass. 14 pages tagged teaching_relevance: true.*
+*Generated 2026-04-25 after ingest pass. 18 pages tagged teaching_relevance: true.*
 
 ---
 
@@ -108,9 +108,21 @@ updated: 2026-04-22
 
 ### graduate-and-doctoral-education
 - [[ai-in-higher-education]] | Topic | foundational | A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
+- [[legal-ai-hallucination]] | Topic | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
+- [[legal-ai-hallucination-pitfalls]] | Pitfalls | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 
 ### professional-and-continuing-education
 - [[ai-in-higher-education]] | Topic | foundational | A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
+
+### journalism-and-media
+- [[ai-search-citation-accuracy]] | Topic | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+- [[ai-search-citation-accuracy-pitfalls]] | Pitfalls | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+
+### legal-practice
+- [[ai-search-citation-accuracy]] | Topic | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+- [[ai-search-citation-accuracy-pitfalls]] | Pitfalls | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+- [[legal-ai-hallucination]] | Topic | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
+- [[legal-ai-hallucination-pitfalls]] | Pitfalls | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 
 ---
 
@@ -119,6 +131,8 @@ updated: 2026-04-22
 ### graduate-and-doctoral-education
 - [[scalable-oversight]] | Topic | research | The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 - [[weak-to-strong-supervision]] | Topic | research | A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
+- [[legal-ai-hallucination]] | Topic | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
+- [[legal-ai-hallucination-pitfalls]] | Pitfalls | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 
 ### teaching-and-instruction
 - [[scalable-oversight]] | Topic | research | The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
@@ -137,6 +151,10 @@ updated: 2026-04-22
 
 ### project-and-program-management
 - [[anthropic-claude-mythos-preview]] | Tool | practitioner | Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
+
+### legal-practice
+- [[legal-ai-hallucination]] | Topic | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
+- [[legal-ai-hallucination-pitfalls]] | Pitfalls | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 
 ---
 
@@ -178,3 +196,11 @@ updated: 2026-04-22
 
 ### professional-and-continuing-education
 - [[ai-in-higher-education]] | Topic | foundational | A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
+
+### journalism-and-media
+- [[ai-search-citation-accuracy]] | Topic | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+- [[ai-search-citation-accuracy-pitfalls]] | Pitfalls | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+
+### legal-practice
+- [[ai-search-citation-accuracy]] | Topic | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+- [[ai-search-citation-accuracy-pitfalls]] | Pitfalls | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
