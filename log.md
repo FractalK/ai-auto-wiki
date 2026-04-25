@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-23
-last_entry: 2026-04-23
-entry_count: 25
+updated: 2026-04-25
+last_entry: 2026-04-25
+entry_count: 30
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -136,3 +136,26 @@ Session limit hit: no
 Time window: off-peak
 Source type mix: youtube-video: 2
 Approx tokens (from /cost): not captured
+
+## [2026-04-25] ingest | On the Emergence of Position Bias in Transformers
+Added: [[2025-emergence-position-bias-transformers]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[llm-position-bias]], [[2025-emergence-position-bias-transformers]]).
+  Citation harvesting: full-depth extraction; no URL-resolvable citations identified in fetched content.
+  Teaching relevance deferred for [[llm-position-bias]] — page created at stub status.
+
+## [2026-04-25] ingest | AI on Trial: Legal Models Hallucinate in 1 out of 6 (or More) Benchmarking Queries
+Added: [[2024-ai-trial-legal-models-hallucinate]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 7 ([[legal-ai-hallucination]], [[legal-ai-hallucination-pitfalls]], [[legal-ai-tools-hallucination-comparison]], [[lexisnexis-lexis-plus-ai]], [[thomson-reuters-westlaw-ai]], [[thomson-reuters-ask-practical-law-ai]], [[2024-ai-trial-legal-models-hallucinate]]).
+
+## [2026-04-25] ingest | AI Search Has a Citation Problem
+Added: [[2025-ai-search-citation-problem]]. Updated: [[openai-chatgpt]] (source_count 1→2, Key Claim 3 added, status stub→developing). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 4 ([[ai-search-citation-accuracy]], [[ai-search-citation-accuracy-pitfalls]], [[ai-search-tools-citation-comparison]], [[2025-ai-search-citation-problem]]).
+
+## [2026-04-25 PT] session-stats | ingest
+Queue size at session start: 3 (3 staged files + 0 queued URLs)
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: no
+Time window: off-peak
+Source type mix: publication-article: 2, research-paper: 1
+Notes: Source 3 staged file was MIT News article (thin practitioner); user selected 1:B to fetch full ICML 2025 arxiv paper instead (peer-reviewed, full extraction). All 3 staged files moved to raw/processed/.
