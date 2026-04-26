@@ -338,7 +338,15 @@ alignment, reward hacking, goal misgeneralization, sycophancy under pressure) or
 operational misuse patterns (unchecked outputs, workflow design errors, context limits,
 tool integration risks)? Alignment-theoretic failures warrant `ai-safety-and-alignment-literacy`.
 Operational patterns do not — `output-verification-and-risk-assessment` is sufficient.
+
+Alignment-theoretic → include `ai-safety-and-alignment-literacy`.
+Operational → `output-verification-and-risk-assessment` is sufficient.
+
 Speculative alignment entries that are one of six failure modes do not tip the balance.
+
+Note: the original placeholder for this section stated both domains "frequently" apply
+to Pitfalls pages. That was incorrect. Only `output-verification-and-risk-assessment`
+is routine; `ai-safety-and-alignment-literacy` is conditional on failure mode type.
 
 **5.3 Calibration for Less-Obvious Domain Mappings**
 `attribution-ip-and-professional-integrity` and `capability-horizon-awareness` are the
