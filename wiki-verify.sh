@@ -142,8 +142,10 @@ else
         pass '"index.md" not present as an excluded path'
     fi
 
-    # baseUrl must not be the default Quartz placeholder
-    if grep -qF 'quartz.jzhao.xyz' quartz.config.ts; then
+    # baseUrl must not be the default Quartz placeholder.
+    # Narrow to lines containing "baseUrl" to avoid matching commented-out
+    # examples or other strings elsewhere in the file.
+    if grep 'baseUrl' quartz.config.ts | grep -qF 'quartz.jzhao.xyz'; then
         fail 'baseUrl still contains default placeholder "quartz.jzhao.xyz" — set to your GitHub Pages URL before publishing'
     else
         pass 'baseUrl does not contain default Quartz placeholder'
@@ -320,7 +322,7 @@ fi
 printf "\n--- 6. Naming convention (no uppercase or spaces in content dir filenames) ---\n"
 
 NAMING_FAIL=0
-for d in topics tools sources comparisons pitfalls raw; do
+for d in topics tools sources comparisons pitfalls; do
     if [ -d "$d" ]; then
         # Find .md files in this dir with uppercase letters or spaces in the basename
         while IFS= read -r filepath; do

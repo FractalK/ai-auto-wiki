@@ -29,6 +29,7 @@ const config: QuartzConfig = {
       "assets/**",
       "raw/**",
       "node_modules/**",
+      "content/**",
       "INIT-PROMPT.md",
       "public/**",
       "docs/**",
