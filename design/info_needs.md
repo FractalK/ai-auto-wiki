@@ -488,3 +488,31 @@ Add "Exclude stub pages" to Section 10 generation rules, parallel to the existin
 "Exclude deprecated Tool pages" rule. One-line addition.
 
 **References:** DM-068
+
+---
+
+## IN-015 | Query-Generated Visualizations Have No Filing Workflow
+
+- **Status:** OPEN
+- **Priority:** P3
+- **Category:** Architecture
+- **Raised:** 2026-04-26
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+Karpathy's gist describes query outputs that include matplotlib charts, and notes that
+good query results should be filed back into the wiki as pages. If a query generates an
+image (e.g., a comparison chart), where does the image file live such that it renders
+in the Quartz-published site? The current schema has no naming convention, storage path,
+or ingest step for query-generated images. `assets/` is excluded from Quartz rendering;
+`quartz/static/` renders publicly but has no specified wiki workflow.
+
+**Why This Blocks Progress:**
+Does not block current operation — no query has yet generated a visualization requiring
+filing. Becomes relevant when the query workflow is extended to support matplotlib or
+similar chart outputs, or when a filed Comparison page needs an embedded figure.
+
+**Resolution:**
+—
+
+**References:** DM-077, DM-035

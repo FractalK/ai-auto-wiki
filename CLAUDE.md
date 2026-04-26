@@ -1618,6 +1618,14 @@ Step 11 — Extraction pass
   quantitative findings, named entities
 - PDF quality check before extraction (Section 11.1)
 - `vendor_bias` flag applied during extraction for vendor-content sources
+- **Image handling (full-depth sources only):** When a full-depth source contains inline
+  images, fetch and view any figure that is visually referenced by the surrounding text
+  and is not purely decorative (headers, logos, and layout images are decorative). If a
+  figure contains quantitative data or structural information not captured in the
+  surrounding prose — benchmark charts, training curves, architecture diagrams — write a
+  one-sentence description of the figure's key content in the target wiki page body at
+  the point where the source references it. Do not store image files locally. Skip this
+  step for standard-depth sources entirely.
 - Extraction output is internal working list — not filed as wiki artifact
 
 Step 11a — Citation harvesting

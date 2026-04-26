@@ -784,3 +784,36 @@ conform. When adding a directory to a conformance scan, confirm that all files i
 directory tree are subject to the convention being checked. Gitignored directories that
 hold externally-sourced or archived content should be excluded unless there is a specific
 affirmative reason to include them.
+
+---
+
+## LL-025 | LL-022 Root Cause Recurred Under Simulation-Mode Framing
+
+- **Date:** 2026-04-26
+- **Context:** Abstract dry-run exercise — assessing whether existing wiki pages
+  covered concepts in the paper being classified.
+
+**Problem:**
+During a classification dry-run, the agent repeatedly hedged with "cannot assess from
+abstract alone whether [page] exists in the wiki" — despite the live wiki being
+accessible throughout the session. LL-022 and DM-072 document this exact failure mode
+and amend the collaboration contract to require checking all accessible sources before
+declaring information unavailable.
+
+**Root Cause:**
+The agent was reasoning in "simulation mode" — framing the exercise as what the ingest
+pipeline would know given only an abstract. In that frame, "existing wiki coverage" was
+treated as a runtime input to the simulated pipeline rather than information resolvable
+in this session. The simulation framing caused the agent to unconsciously scope its own
+information access to match the simulated agent's constraints, even though no such
+constraint applied to the design session.
+
+**Fix Applied:**
+None mid-session (issue was moot for the dry-run). Logged here for pattern recognition.
+
+**Implication Going Forward:**
+Simulation mode is a specific trigger for the LL-022 substitution error. Any time the
+agent begins reasoning about how a *different agent* would behave, that is precisely
+when the accessible-source check must fire — because the simulation framing is where
+scope-narrowing is most likely to occur silently. "What would the pipeline know?" and
+"What can I verify in this session?" are different questions; they must not be conflated.

@@ -208,6 +208,13 @@ Process section by section. For each section:
   paragraph to it.
 - Note explicit limitations, failure conditions, or scope boundaries stated by the authors.
   These are candidates for Pitfalls pages, not Key Claims.
+- **Inline images:** When the source contains an inline image that is visually referenced
+  by the surrounding text and is not purely decorative (headers, logos, and layout images
+  are decorative), fetch and view it. If the figure contains quantitative data or
+  structural information not captured in the surrounding prose — benchmark charts, training
+  curves, architecture diagrams — write a one-sentence description of the figure's key
+  content in the target wiki page body at the point where the source references it.
+  Do not store image files locally.
 
 After processing all sections, apply the 3–5 claim filter. Select the most
 consequential claims by the following priority:

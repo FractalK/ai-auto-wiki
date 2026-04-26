@@ -3042,3 +3042,54 @@ CLAUDE.md update that changes directory structure, frontmatter fields, or ignore
   cross-checked against Section 2.5 before delivery.
 
 **References:** DM-073, DM-074
+
+---
+
+## DM-077 | INGEST STEP 11: IMAGE HANDLING FOR FULL-DEPTH SOURCES
+
+- **Date:** 2026-04-26
+- **Status:** ACTIVE
+
+**Decision:**
+For full-depth source types (`research-paper`, `white-paper`) that contain inline images:
+during the Step 11 extraction pass, fetch and view any figure that is visually referenced
+by the surrounding text and is not purely decorative. If the figure contains quantitative
+data or structural information not captured in the surrounding prose (benchmark charts,
+training curves, architecture diagrams), write a one-sentence description of the figure's
+key content in the target wiki page body at the point where the source references it.
+Do not store image files locally. Standard-depth sources are excluded from this step
+entirely. CLAUDE.md Step 11 and EXTRACTION-SKILL.md Section 3 updated to reflect this.
+
+**Context:**
+Karpathy's gist describes downloading images locally so the LLM can reference them
+during extraction. The rationale is that benchmark charts and architecture diagrams
+frequently contain quantitative data not captured in the surrounding text — text-only
+extraction loses this. The local-storage approach (Obsidian Web Clipper hotkey to
+`raw/assets/`) has material maintenance costs: storage growth, copyright exposure for
+stored third-party images, and no automated cleanup. `assets/` is also excluded from
+Quartz rendering, making stored images unavailable in the public wiki.
+
+**Rationale:**
+The prose-description approach captures the same extraction value (LLM views the figure
+and integrates its content) without storage overhead or copyright exposure. The one-sentence
+figure description in the wiki page body survives link rot and is immediately useful to
+readers. The Obsidian Web Clipper local-download path remains available for ad hoc human
+use when a specific figure warrants preservation, using the existing `assets/` directory.
+
+**Alternatives Considered:**
+- **Status quo (drop all images):** Zero cost; loses quantitative data visible only in
+  figures. Ruled out as a meaningful and fixable gap for full-depth sources.
+- **Local storage via Web Clipper hotkey:** Preserves images for future reference but
+  adds storage growth, periodic pruning, and copyright exposure. Not adopted as a
+  workflow step; remains available for ad hoc human use.
+- **URL fetch with no prose capture:** LLM views the image but writes nothing. Loses
+  the extraction value after the session ends.
+
+**Consequences to Watch:**
+- "Purely decorative" is a judgment call. If the agent systematically over-fetches
+  (logos, layout images), add a negative-example list to EXTRACTION-SKILL.md Section 3
+  from operational experience.
+- If HTML versions of arXiv papers render figures differently than PDF (e.g., figures
+  not inline in HTML), revisit whether HTML-first fetching adequately exposes figures.
+
+**References:** IN-003 (Karpathy gist), DM-008 (assets/ directory)
