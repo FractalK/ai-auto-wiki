@@ -362,9 +362,10 @@ source. The procedure is independent of support scores.
 **Procedure:**
 1. Identify every Key Claim in the wiki where the Source field references this page as
    its **sole** citation (no other wikilinks in the Source field for that claim row,
-   excluding `[minority view]`-annotated sources).
-2. For each such claim, surface as a retraction impact forced choice per CLAUDE.md
-   Section 8.2. Do not auto-resolve.
+   excluding `[minority view]`-annotated sources). Also identify every failure mode entry
+   on any Pitfalls page whose `**Source:**` field contains only this source slug.
+2. For each such claim or failure mode entry, surface as a retraction impact forced choice
+   per CLAUDE.md Section 8.2. Do not auto-resolve.
 3. For Key Claims that cite this page alongside other non-minority-view sources: do not
    surface as a retraction impact. Recalculate support score with the retracted source
    removed. If the removal shifts an existing `contested` claim's path determination
@@ -393,6 +394,7 @@ a provenance error.
 | **Governing procedure** | Section 8.2 retraction procedure | Section 8.6 correction procedure |
 | **CTRD cleanup** | Not applicable — a retracted source was never the contesting source in a CTRD flag generated under normal ingest | Auto-execute Step IE-2 closes any open CTRD flags where this source is the contesting source; incumbent claim restored unconditionally |
 | **Orphaned page handling** | Not applicable — a retracted source was legitimately ingested and contributed to pages that remain valid | Step IE-4 surfaces orphaned pages (those with `source_count: 1`) as delete/stub forced choices |
+| **Pitfalls page handling** | Scan failure mode entries whose `**Source:**` is solely this page; surface as forced choice: remove entry, provide replacement, or set status to speculative | Scan failure mode entries whose `**Source:**` is solely this page; surface as forced choice: remove entry or provide replacement (no speculative option — content from a never-valid source is not retained in degraded form) |
 | **Key Claims forced choice options** | A) Remove claim, B) I will provide a replacement source, C) Downgrade page status to stale and leave claim contested | A) Remove claim, B) I will provide a replacement source (no option C — content from a never-valid source is not retained as contested) |
 
 **Decision rule:** If you are uncertain which status to apply, ask: was the source ever
