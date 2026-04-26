@@ -68,8 +68,18 @@ wiki/
 ├── tools/                       ← Tool/Product pages
 ├── sources/                     ← Source pages
 ├── comparisons/                 ← Comparison pages
-└── pitfalls/                    ← Pitfalls pages
+├── pitfalls/                    ← Pitfalls pages
+├── about/                       ← human-authored, schema-exempt public pages;
+│                                    rendered by Quartz (not in ignorePatterns);
+│                                    never created, modified, or linted by Claude Code
+└── design/                      ← design project governance files; version-controlled alongside
+                                     the wiki for backup; excluded from Quartz; never read, created,
+                                     or modified by Claude Code
 ```
+
+Do not read, create, or modify any file in `design/`. That directory contains design project governance files versioned in this repository for backup purposes. It has no role in any wiki operation and is not part of the wiki schema.
+
+Do not read, create, or modify any file in `about/`. That directory contains manually authored explanatory pages outside the wiki schema. Quartz renders its contents; the wiki agent does not touch it.
 
 [ENV] The following must be set in `quartz.config.ts` before the wiki is published:
 ```
@@ -78,7 +88,7 @@ ignorePatterns: [
   "CONTRADICTION-SKILL.md", "wiki-lessons-learned.md",
   "assets/**", "raw/**", "docs/**", "content/**", "prompts/**",
   "node_modules/**", "INIT-PROMPT.md", "public/**",
-  "overview.md", "log.md"
+  "overview.md", "log.md", "design/**"
 ]
 ```
 Do NOT add `"index.md"` to this list — Quartz requires it to generate the root
@@ -491,6 +501,10 @@ related_topics:    # optional | list of short-form wikilinks
 page becomes potentially stale. The lint procedure flags any Comparison page whose `updated`
 date is older than the `updated` date of any page in `entities_compared`.
 
+**Comparison pages are derived artifacts.** Factual claims in Comparison page prose are
+sourced from the Key Claims of the pages listed in `entities_compared`. No independent
+Key Claims section is required.
+
 ### 5.6 Pitfalls Page
 
 ```yaml
@@ -508,6 +522,10 @@ failure_mode_count: # optional | integer; total count of failure mode entries ac
 teaching_relevance:  # optional | boolean
 competency_domains:  # conditional | same as Topic
 professional_contexts: # conditional | same as Topic
+contributing_sources: # optional | list of short-form wikilinks to Source pages;
+                      #   all source pages whose content contributed at least one
+                      #   failure mode entry to this page; updated by Step 13a on
+                      #   every create or update pass
 ```
 
 **Mandatory body structure:** Every Pitfalls page must contain all three of the following
@@ -519,13 +537,17 @@ sections as H2 headings, in this order. A section may be brief but may not be om
 ## Alignment and Safety Concerns
 ```
 
-Each failure mode entry within any section must include an explicit status on the line
-immediately following the failure mode heading:
+Each failure mode entry within any section must include an explicit status and source
+attribution on the two lines immediately following the failure mode heading:
 
 ```markdown
 ### [Failure mode name]
 **Status:** active | mitigated | unresolved | speculative
+**Source:** [[source-slug]]
 ```
+
+For entries with multiple contributing sources, use comma-separated wikilinks:
+`**Source:** [[source-slug-1]], [[source-slug-2]]`
 
 **Routing rule:** Cross-cutting usage antipatterns that are not specific to a single tool
 belong on Topic-scoped Pitfalls pages. Do not duplicate a cross-cutting antipattern across
@@ -876,6 +898,12 @@ annotation. Do not change claim status. Do not flag for human review. Log a
 - `practitioner`: 1
 - `community`: 0 — not eligible to anchor Key Claims
 
+The `vendor_bias` flag on vendor-content source pages is an annotation and
+extraction-quality signal. It does not modify the credibility weight used in
+Path A/B/C calculations — vendor-content sources enter contradiction resolution at
+their assigned tier weight (practitioner: 1). The flag may affect path determination
+under the conditions described in CONTRADICTION-SKILL.md Section 4.
+
 **Score decay:** Sources older than 12 months contribute half their weight to Support Score
 calculations. Recalculate on every ingest pass touching the page and on every lint pass.
 Exclude `[minority view]`-annotated sources from incumbent Support Score calculations.
@@ -891,6 +919,17 @@ non-minority-view citation. Present each as a forced choice:
     A) Remove the claim
     B) I will provide a replacement source
     C) Downgrade page status to stale and leave claim contested
+```
+
+Additionally, scan all Pitfalls pages for failure mode entries whose `**Source:**` field
+contains only this source slug. For each such entry, present as a forced choice:
+
+```
+[N] Retraction impact — Pitfalls: [[pitfalls-page-slug]] — Failure mode: {failure mode name}
+    This entry's sole attributed source is being retracted.
+    A) Remove the failure mode entry
+    B) I will provide a replacement source
+    C) Set entry status to speculative
 ```
 
 ### 8.3 Contradiction Flag Format
@@ -1130,6 +1169,20 @@ For Key Claims that cite the bad source alongside other non-minority-view source
 remove the bad source from the Source field, recalculate the support score, and update
 the Key Claims table. No forced choice.
 
+Additionally, scan all Pitfalls pages for failure mode entries whose `**Source:**` field
+contains only this source slug. For each such entry, surface as a forced choice alongside
+the Key Claims items above:
+
+```
+[N] Ingested-in-error impact — Pitfalls: [[pitfalls-page-slug]] — Failure mode: {failure mode name}
+    This entry's sole attributed source was ingested in error.
+    A) Remove the failure mode entry
+    B) I will provide a replacement source
+```
+
+For failure mode entries that cite the bad source alongside other sources: silently remove
+the bad source slug from the `**Source:**` line and from `contributing_sources`. No forced choice.
+
 Resolve all Step IE-3 forced choices before proceeding to Step IE-4.
 
 #### Step IE-4 — Orphaned page pass (forced choice)
@@ -1239,7 +1292,7 @@ Regenerate `teaching-index.md` on:
 
 ### Generation rules
 1. Collect all pages where `teaching_relevance: true`
-2. Exclude deprecated Tool pages
+2. Exclude deprecated Tool pages and pages with `status: stub`
 3. Organize by primary axis: `competency_domains` (Section 7.1)
 4. Within each domain, organize by secondary axis: `professional_contexts` (Section 7.2)
 5. Under each context, list matching pages with: page title (wikilink), page type,
@@ -1604,13 +1657,19 @@ Step 13a — Create or update Pitfalls page (if confirmed in pre-flight Step 7a)
 - Apply full Section 5.6 spec: three mandatory H2 sections in order
   (`## Technical Limitations`, `## Usage Antipatterns`, `## Alignment and Safety Concerns`),
   failure mode heading format, `**Status:**` field on the line immediately following
-  each `### [Failure mode name]` heading
+  each `### [Failure mode name]` heading, `**Source:**` field on the line immediately
+  following `**Status:**`
 - Routing rule applies: cross-cutting antipatterns go to Topic-scoped Pitfalls pages;
   do not create a Tool Pitfalls page for a cross-cutting failure mode
 - New Pitfalls page: populate `parent_entity` with full-path wikilink to parent;
   set `parent_type`, `status: current`, `failure_mode_count` to count of H3 entries written
 - Existing Pitfalls page: add new failure mode entries to the appropriate section(s);
   do not duplicate entries already present; update `failure_mode_count` and `updated`
+- After writing all failure mode entries (new or updated page): reconcile the
+  `contributing_sources` frontmatter list to reflect all unique source slugs cited
+  across all `**Source:**` lines on the page. Add any new slug; do not remove existing
+  slugs — a source that contributed entries remains on record even if its specific
+  entries are later edited.
 - Add new Pitfalls page to index.md under `## Pitfalls` section in the same pass
 
 Step 14 — Handle contradictions
@@ -1913,6 +1972,25 @@ If the human selects C repeatedly across lint passes, the item continues appeari
 until the window expires and L4a auto-confirms it. Repeated C selections are a valid
 conscious deferral, not a system error.
 
+**Step L4c — open_contradictions counter reconciliation**
+
+Count the total number of individual entries in `open_contradictions` frontmatter lists
+across all wiki pages. Compare this actual count against the `open_contradictions` field
+in `overview.md`.
+
+- If the difference is ±1: add to informational summary. Auto-correct in Phase 3 item 11.
+  Message: "open_contradictions counter drift: overview.md shows {N}, actual count is {M}
+  — off by {diff}. Will auto-correct."
+- If the difference is ±2 or more: surface as a forced choice.
+
+```
+[N] open_contradictions counter drift: overview.md shows {N}, actual count is {M}.
+    A) Correct the counter to {M}
+    B) Investigate before correcting — skip counter update this pass
+```
+
+- If actual count matches overview.md: add to informational summary as "Counter verified: {N}."
+
 **Step L5 — Staleness checks**
 
 *Topic and Tool pages:* For each page with `status` not `deprecated`: if `last_assessed`
@@ -1923,6 +2001,26 @@ informational only.
 *Comparison pages:* For each Comparison page: read `entities_compared`. If the
 Comparison page's `updated` date is older than any entity page's `updated` date: mark
 `status` for downgrade to `stale`. Auto-execute.
+
+**Step L5a — Stale → current upgrade check**
+
+For each Topic or Tool page with `status: stale`, evaluate both conditions:
+- (a) `last_assessed` is within 90 days of today
+- (b) `open_contradictions` is absent or empty in the page's frontmatter
+
+If both conditions are met: surface as a forced choice.
+
+```
+[N] Status upgrade candidate: [[page-slug]]
+    Current status: stale
+    last_assessed: YYYY-MM-DD ({N} days ago)
+    Open contradictions: none
+    A) Upgrade to current
+    B) Skip — retain stale
+```
+
+If only one condition is met: add to informational summary noting which condition is unmet.
+If neither condition is met: no action.
 
 **Step L6 — Orphan page detection**
 
@@ -2003,7 +2101,7 @@ against:
 | Claim granularity | Single sentence per row; no semicolons joining assertions, no questions, no topic labels |
 | Prose length | Body word count ≤ 1,200 (excluding frontmatter, Key Claims table, headers) |
 | Required frontmatter | All required fields present and non-empty for page type |
-| summary field | Present, non-empty, single sentence |
+| summary field | Present, non-empty, single sentence — Topic and Tool pages only |
 | status vocabulary | Value within controlled set for page type |
 | Mandatory sections | Pitfalls pages: all three H2 headings present |
 | Derived claim sourcing | [derived]-annotated claims not flagged as sourcing gaps |
@@ -2131,6 +2229,17 @@ This step has no forced choice and generates no pre-flight report item. It is
 informational only. The human decides, outside the wiki, whether to bring the signal
 to a design session as a friction report.
 
+**Step L12d — Schema Signals age check**
+
+Read `wiki-lessons-learned.md` `## Schema Signals` section. For each entry with
+`**Status:** open`:
+- Read the entry date from the `### [YYYY-MM-DD]` heading.
+- Compute age in days from today's date.
+- If age > 60 days: record for informational summary.
+
+This step is informational only. No forced choice. The human decides whether to bring
+an aged signal to a design session.
+
 **Step L13 — Consolidate pre-flight report**
 
 ```
@@ -2147,6 +2256,8 @@ Informational summary:
 - Expired contradiction flags (will auto-confirm): {list or "none"}
 - Pages downgraded to stale: {list or "none"}
 - Comparison pages downgraded to stale: {list or "none"}
+- Stale pages eligible for upgrade (one condition unmet): {list or "none"}
+- open_contradictions counter: overview.md {N}, actual {M} {— auto-corrected | — discrepancy flagged for investigation | — verified match}
 - Orphan pages detected: {list or "none"}
 - Pitfalls failure_mode_count updates: {N}
 - CTRD-NNN signals found in queue.md: {list or "none"}
@@ -2157,6 +2268,7 @@ Informational summary:
 - Items without nominated_date (aging skipped): {N or "none"}
 - Pending deferral: {raw/deferred-ingest.md exists — N days old | none}
 - Schema signal written (L12c): {category and count | none}
+- Open Schema Signals older than 60 days: {N} — {name and age in days each | "none"}
 - Skill file TO BE ENRICHED sections with no real examples after 5+ ingests: {list or "none"}
 ```
 
@@ -2190,6 +2302,8 @@ skill file enrichment in the next ingest session.
 3. Process expired contradiction flags: apply window-expired-confirmed state changes
    per Section 8.4.
 4. Update `status` to `stale` on all marked Topic, Tool, and Comparison pages.
+4a. Apply confirmed stale → current upgrades from Step L5a: set `status: current` on
+    each confirmed page.
 5. Update `failure_mode_count` on all marked Pitfalls pages.
 6. Apply confirmed `decay_exempt: true` settings.
 7. Create stub pages for confirmed concept gap choices.
@@ -2214,7 +2328,9 @@ Last updated: YYYY-MM-DD (lint pass {N})
 
 10. Regenerate `teaching-index.md` from current tags.
 11. Update `overview.md`: set `last_lint` to today; update `total_pages`,
-    `open_contradictions`, `last_contradiction_id` if changed.
+    `open_contradictions`, `last_contradiction_id` if changed. If Step L4c flagged a
+    ±1 auto-correction or the human confirmed a ±2+ correction: set `open_contradictions`
+    to the actual count derived in Step L4c.
 12. Execute nomination queue aging from Step L1a:
     - Move all Stage 1 items from `[nominated]` to `[stale-nominated]` in queue.md.
       Preserve the full line content including `nominated_date`; do not update the date.

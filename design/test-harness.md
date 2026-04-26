@@ -20,6 +20,7 @@ before it causes ingest or lint failures.
 run actual wiki operations against real sources. Confirms that the wiki agent's end-to-end
 behavior conforms to the ingest, lint, and query workflows specified in CLAUDE.md. Not
 automated — pass/fail determination is a human judgment against the criteria listed here.
+**Tier 2 was designed but not adopted — see Section 3 notice (DM-071).**
 
 **What this harness does not cover:**
 - Correctness of Key Claims extraction (EXTRACTION-SKILL.md governs this)
@@ -110,6 +111,13 @@ When the schema changes, update the script in the following cases:
 ---
 
 ## 3. Tier 2 — Workflow Smoke Tests
+
+> **NOT ADOPTED.** Tier 2 was designed but not run before the wiki went live, and no
+> Tier 2 sessions will be run (DM-071). Behavioral assurance relies on real operations
+> as their own tests: anomalies observed during actual ingest, lint, and query sessions
+> are logged as FRIC entries and resolved through the normal schema-correction process
+> (Option C). The pass criteria below are preserved as a reference and may inform FRIC
+> diagnosis, but they do not define an active testing protocol.
 
 Tier 2 tests run actual wiki operations in a Claude Code session and verify the
 observable outputs against the pass criteria below. All four tests run on the
@@ -249,10 +257,10 @@ judgment — there is no automated assertion layer.
 
 | Trigger | Tier 1 | Tier 2 |
 |---------|--------|--------|
-| Before first ingest (Phase 2 verification) | Run | Run (all four tests, in sequence) |
+| Before first ingest (Phase 2 verification) | Run | Not adopted (DM-071) |
 | After manual edit to `quartz.config.ts`, `.gitignore`, or scaffold files | Run | Not needed |
-| After schema changes affecting frontmatter or directory structure | Run | Consider if changes touch workflow steps |
-| After a CLAUDE.md version update | Run | Consider running ingest and lint smoke tests |
+| After schema changes affecting frontmatter or directory structure | Run | Not adopted (DM-071) |
+| After a CLAUDE.md version update | Run | Not adopted (DM-071) |
 | When an ingest or lint failure produces unexpected behavior | Run | Not needed (Tier 1 diagnoses configuration issues) |
 | Periodically as the wiki grows (every ~50 pages) | Run | Not needed unless behavior changes observed |
 

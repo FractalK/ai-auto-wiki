@@ -21,8 +21,10 @@
 # Limitations:
 #   - YAML field checks use grep, not a YAML parser. Field presence is
 #     confirmed; type validation for integers uses a numeric regex only.
-#   - quartz.config.ts checks confirm string presence anywhere in the file,
-#     not specifically within the ignorePatterns array.
+#   - quartz.config.ts ignorePatterns checks confirm string presence anywhere in the
+#     file, not specifically within the ignorePatterns array. The baseUrl check is
+#     narrowed to lines containing "baseUrl" to avoid false positives from commented-out
+#     examples elsewhere in the file.
 #   - "index.md" absence check emits WARN (not FAIL) because the string may
 #     legitimately appear in a comment explaining NOT to add it.
 #   - Pre-commit hook is inspected for expected content, not executed.

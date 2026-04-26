@@ -2787,3 +2787,258 @@ backup entirely.
 
 ---
 
+## DM-071 | WIKI TEST HARNESS — TIER 1 SHELL SCRIPT ONLY; TIER 2 DROPPED
+
+- **Date:** 2026-04-25
+- **Status:** ACTIVE
+
+**Decision:**
+The wiki test harness consists of a single Tier 1 configuration and conformance check
+script (`wiki-verify.sh`). Tier 2 workflow smoke tests were designed but then dropped
+before adoption. Behavioral conformance relies on real operations serving as their own
+tests, with anomalies surfacing as FRIC entries through the existing escalation path
+(Option C).
+
+**Context:**
+Two tiers of verification were initially designed: Tier 1 (shell script, deterministic
+configuration checks) and Tier 2 (four Claude Code smoke test sessions covering ingest,
+contradiction, lint, and query workflows). On review, the cost of dedicated Tier 2
+sessions was identified as equivalent to the cost of running real wiki operations, which
+additionally produce residual value (actual wiki content). Three options were evaluated
+for behavioral assurance: Option A (post-operation conformance summaries embedded in
+CLAUDE.md workflows), Option B (human spot-check list after first ingest), Option C
+(no dedicated verification layer; operations are their own tests). Option C was selected.
+
+**Rationale:**
+Tier 1 is worth its cost: it is deterministic, read-only, re-runnable at near-zero
+overhead, and catches configuration drift that cannot be detected by running operations.
+Tier 2 is not worth its cost: a smoke test session produces no wiki content, consumes
+the same token budget as a real ingest, and does not catch failure modes that real
+operations with real sources would catch. The existing FRIC escalation path (anomalies
+surfaced as friction reports, logged, resolved in design sessions) already provides the
+behavioral oversight function that Tier 2 was intended to serve. Adding a parallel
+oversight layer duplicates that function at material cost.
+
+**Alternatives Considered:**
+- **Option A (conformance summaries per operation):** Marginal token cost, potentially
+  useful signal. Not selected because it adds schema complexity and the FRIC path already
+  covers the same ground.
+- **Option B (spot-check list):** Zero token cost, adequate for first-run verification.
+  Not selected as a standalone mechanism because it is one-time and not re-runnable.
+- **Tier 2 as originally designed:** Token cost equivalent to real operations; no
+  residual value. Ruled out.
+
+**Consequences to Watch:**
+- `wiki-verify.sh` must be updated when CLAUDE.md adds new required ignorePatterns
+  entries, scaffold files, or required frontmatter fields. See test-harness.md Section
+  2.5 (maintenance table) for the specific trigger conditions.
+- If a behavioral failure mode emerges that `wiki-verify.sh` cannot detect and the FRIC
+  path does not catch quickly enough, reconsider Option A (conformance summaries).
+
+**References:** LL-020, LL-021, LL-022
+
+---
+
+## DM-072 | PROJECT INSTRUCTIONS AMENDED: PLAN-THEN-PAUSE, ACCESSIBLE-SOURCE CHECK, SELF-VIOLATION LOGGING REQUIREMENT
+
+- **Date:** 2026-04-25
+- **Status:** ACTIVE
+
+**Decision:**
+Three amendments to the project instructions governing this design session:
+
+1. **Plan-then-pause requirement (Collaboration Contract).** The "plan first, act second"
+   clause is amended to require an explicit stop after stating any plan, pending user
+   confirmation. The prior text ("state the plan explicitly before writing code or
+   drafting artifacts") was read as permission to plan-and-execute in a single response.
+   The amended text adds: "After stating the plan, stop and wait for explicit user
+   confirmation before executing. Do not treat absence of pushback as confirmation. Do
+   not proceed on your own judgment that the plan is sound."
+
+2. **Accessible-source check before declaring unavailability (Collaboration Contract).**
+   A new bullet is added: "Before stating that information is unavailable or unknown,
+   check all accessible sources: project knowledge files, web fetch of URLs documented
+   in the project instructions, and any other tool appropriate to the query. Declaring
+   information unavailable without first checking the sources that would contain it is
+   a collaboration failure — this applies equally to project files, live URLs, and any
+   other accessible resource."
+
+3. **Self-violation logging requirement (End-of-Chat Ritual item 2).** The existing
+   lessons-learned trigger is amended to explicitly cover violations of the project
+   instructions themselves: "This includes violations of this document's own rules.
+   Any session in which a rule from these project instructions was broken must produce
+   a `lessons_learned.md` entry regardless of whether the violation was caught
+   mid-session or in retrospect."
+
+**Context:**
+Three collaboration failures occurred in a single session: (1) a plan was stated and
+immediately executed without user confirmation, repeating the root cause of LL-014
+despite that entry existing in the log; (2) a governance document entry was delivered
+inline instead of as a complete file; (3) the names of two Pitfalls pages were declared
+unavailable without checking the live wiki URL present in the project instructions.
+None of these failures were logged as lessons learned until the user raised them
+explicitly, which is itself a violation of the end-of-chat ritual.
+
+**Rationale:**
+Amendment 1 makes the plan-then-pause requirement unambiguous. LL-014 identified the
+same root cause; the prior fix ("after stating a plan, stop") was not encoded in the
+project instructions, only in lessons_learned.md. Encoding it in the instructions closes
+the gap. Amendment 2 addresses a pattern that appeared in two forms in the same session:
+declaring a project file missing without checking project knowledge (a prior session
+pattern), and declaring live-wiki information unavailable without checking the URL in
+the instructions. Both are the same failure: incomplete search scope before declaring
+unavailability. Amendment 3 addresses the failure to self-report. The ritual already
+requires logging process errors, but prior sessions have shown that the agent does not
+reliably apply this to its own rule violations. Making the self-violation case explicit
+removes any ambiguity.
+
+**Alternatives Considered:**
+- **Rely on existing LL-014 and lessons_learned.md:** Did not prevent recurrence of the
+  same root cause. Ruled out — the fix must be in the instructions, not only in the log.
+- **Add a mandatory pre-execution pause prompt:** More explicit but adds mechanical
+  overhead to every plan presentation. The language amendment is sufficient given that
+  the failure was interpretation, not forgetfulness.
+
+**Consequences to Watch:**
+- Amendment 1 applies to every plan, including single-item decisions about artifact form.
+  There is no threshold below which a plan can be executed without confirmation.
+- If the accessible-source check (Amendment 2) adds friction to straightforward responses
+  where information is obviously unavailable, the clause can be tightened with examples.
+
+**References:** LL-014, LL-020, LL-021, LL-022
+
+---
+
+## DM-073 | ABOUT/ DIRECTORY ESTABLISHED FOR SCHEMA-EXEMPT PUBLIC PAGES
+
+- **Date:** 2026-04-26
+- **Status:** ACTIVE
+
+**Decision:**
+A dedicated `about/` directory is established for human-authored, schema-exempt pages
+intended for public readers. Pages in `about/` are rendered by Quartz (not in
+ignorePatterns) but are never created, modified, or linted by Claude Code. The directory
+is documented in CLAUDE.md Section 2 with an explicit agent-exclusion note alongside
+the existing `design/` note.
+
+**Context:**
+`how-this-wiki-works.md` was manually created at the wiki root to explain the wiki's
+auto-generation concept to public readers. It does not conform to the wiki schema and
+triggered a FAIL in wiki-verify.sh Group 7 (stray root file check).
+
+**Rationale:**
+Root placement fails the stray-root conformance check. Adding the file to the
+`ALLOWED_ROOT` array is a point solution that does not scale to future schema-exempt
+pages. Adding it to ignorePatterns prevents Quartz from rendering it, defeating its
+purpose. A dedicated directory handles the category cleanly: Quartz-rendered but
+agent-invisible, physically separated from schema-governed content directories.
+
+**Alternatives Considered:**
+- **Add to `ALLOWED_ROOT` in wiki-verify.sh:** Does not scale; each new schema-exempt
+  file requires another script edit. Ruled out.
+- **Add to ignorePatterns:** Prevents public rendering. Ruled out.
+
+**Consequences to Watch:**
+- CLAUDE.md Section 2 updated with directory entry and agent-exclusion note.
+- wiki-verify.sh requires no update — the stray-root check (Group 7) only fires on
+  files at the wiki root; files inside `about/` are not at root level. The naming
+  convention check (Group 6) does not scan `about/`. No script changes needed for
+  this directory to be invisible to conformance checks.
+- If a future schema-exempt file is added to `about/`, no additional configuration
+  is required.
+
+---
+
+## DM-074 | WIKI-VERIFY.SH SCRIPT FIXES: BASEURL CHECK AND NAMING SCAN SCOPE
+
+- **Date:** 2026-04-26
+- **Status:** ACTIVE
+
+**Decision:**
+Two targeted fixes applied to wiki-verify.sh. (1) The baseUrl check is narrowed from
+a whole-file string match to lines containing `baseUrl` before checking for the
+placeholder string, preventing false positives from commented-out examples elsewhere
+in quartz.config.ts. (2) The naming convention scan loop is narrowed from
+`topics tools sources comparisons pitfalls raw` to `topics tools sources comparisons
+pitfalls`, removing `raw/` from scope to avoid false positives on gitignored archive
+files in `raw/staged/` and `raw/processed/`.
+
+**Context:**
+First verification run produced two categories of false positive: (1) a baseUrl FAIL
+despite the active setting being correctly configured (`fractalk.github.io/ai-auto-wiki`),
+caused by a commented Quartz default still containing `quartz.jzhao.xyz` elsewhere in
+the file; (2) five naming FAILs from archived source files in `raw/processed/` that
+were never wiki pages and were never subject to naming conventions.
+
+**Rationale:**
+Both false positives were script design errors, not configuration errors. The
+whole-file grep approach for baseUrl matches comments, not just the active setting.
+The `raw/` directory contains gitignored archives whose filenames reflect original
+source titles — they were never intended to conform to wiki naming conventions.
+Files in `raw/` that require conformance checking (`queue.md`, `collection-gaps.md`,
+`discovery-sources.md`) are already checked by name in Group 4.
+
+**Consequences to Watch:**
+- wiki-verify.sh header comment updated to accurately describe the narrowed scope
+  of the baseUrl check.
+- test-harness.md Section 2.3 check catalogue descriptions remain accurate;
+  no table updates required.
+
+---
+
+## DM-075 | TIER 2 SMOKE TESTS ANNOTATED AS NOT ADOPTED IN TEST-HARNESS.MD
+
+- **Date:** 2026-04-26
+- **Status:** ACTIVE
+
+**Decision:**
+test-harness.md Section 1, Section 3, and Section 4 are updated to reflect that Tier 2
+smoke tests were designed but not adopted (DM-071). The test content is preserved as
+reference. Section 3 receives a prominent notice block. Section 1's Tier 2 description
+gains a parenthetical. Section 4's "When to Run" table replaces Tier 2 "Run"
+recommendations with "Not adopted (DM-071)."
+
+**Context:**
+test-harness.md presented Tier 2 as an active practice. A future operator — or a future
+agent instance — reading Section 3 would have no way to know the tests were never run
+and are not part of current practice. DM-071 dropped Tier 2 before adoption; this
+decision had not been reflected in the document.
+
+**Rationale:**
+Deletion would lose the pass criteria and design rationale, which have reference value
+for diagnosing FRIC entries. Annotation preserves the record while preventing a future
+reader from acting on instructions that describe a procedure that will not be followed.
+
+**Consequences to Watch:**
+- If operational experience ever produces a class of behavioral failures not detectable
+  by Tier 1 or FRIC entries, the Tier 2 pass criteria provide a ready-made starting
+  point for a structured re-evaluation. The not-adopted notice would need to be revisited.
+
+**References:** DM-071
+
+---
+
+## DM-076 | TEST-HARNESS.MD AND WIKI-VERIFY.SH ADDED TO PROJECT INSTRUCTIONS
+
+- **Date:** 2026-04-26
+- **Status:** ACTIVE
+
+**Decision:**
+Entries for test-harness.md and wiki-verify.sh added to the "Project Files — Consult
+Before Proceeding" section of the project instructions. test-harness.md is the reference
+for when schema changes require script updates (Section 2.5 maintenance table).
+wiki-verify.sh is an execution artifact, not a design-session reference document.
+
+**Context:**
+Both files existed in the project without any guidance on when to consult them. The
+project instructions govern session behavior for every project file; their omission
+meant no defined trigger for consulting the maintenance table before delivering a
+CLAUDE.md update that changes directory structure, frontmatter fields, or ignorePatterns.
+
+**Consequences to Watch:**
+- The Section 2.5 maintenance table in test-harness.md must be kept current as the
+  schema evolves. Any CLAUDE.md change that touches directory structure, required
+  frontmatter fields, scaffold files, allowed root files, or ignorePatterns should be
+  cross-checked against Section 2.5 before delivery.
+
+**References:** DM-073, DM-074
