@@ -2,13 +2,14 @@
 type: topic
 title: Weak-to-Strong Supervision
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-26
 summary: A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 status: developing
-source_count: 1
-last_assessed: 2026-04-22
+source_count: 2
+last_assessed: 2026-04-26
 related_topics:
   - [[scalable-oversight]]
+  - [[ai-alignment]]
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -29,6 +30,7 @@ Weak-to-strong supervision is a training technique and alignment research method
 | The Performance Gap Recovered (PGR) metric measures what fraction of the gap between weak-label training (PGR=0) and oracle-supervised performance (PGR=1) a supervision method achieves; higher scores indicate closer approximation to optimal supervision. | [[2026-anthropic-automated-alignment-researchers]] | 2026-04-14 | current | 2 | false |
 | Nine Claude Opus 4.6 agents achieved PGR 0.97 on weak-to-strong supervision after 800 cumulative agent-hours, outperforming a human researcher baseline of PGR 0.23 achieved in seven days of research on the same task. | [[2026-anthropic-automated-alignment-researchers]] | 2026-04-14 | current | 2 | false |
 | The top AAR-derived weak-to-strong supervision method achieved PGR 0.94 on held-out mathematics tasks and PGR 0.47 on held-out coding tasks, indicating domain-dependent limits on research transfer. | [[2026-anthropic-automated-alignment-researchers]] | 2026-04-14 | current | 2 | false |
+| Weak-to-strong generalization is a robust phenomenon verified across NLP classification, chess puzzles, and reward modeling tasks, with the strong model generalizing beyond weak labels rather than merely imitating the weak teacher; however, a gap between weak-label and oracle performance persists and represents active research work. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 
 ## Mechanics and Metrics
 

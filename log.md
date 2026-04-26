@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-26
 last_entry: 2026-04-26
-entry_count: 32
+entry_count: 33
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -150,6 +150,11 @@ Auto-resolved: 0. New pages created: 7 ([[legal-ai-hallucination]], [[legal-ai-h
 ## [2026-04-25] ingest | AI Search Has a Citation Problem
 Added: [[2025-ai-search-citation-problem]]. Updated: [[openai-chatgpt]] (source_count 1→2, Key Claim 3 added, status stub→developing). Contradictions flagged: 0.
 Auto-resolved: 0. New pages created: 4 ([[ai-search-citation-accuracy]], [[ai-search-citation-accuracy-pitfalls]], [[ai-search-tools-citation-comparison]], [[2025-ai-search-citation-problem]]).
+
+## [2026-04-26] ingest | AI Alignment: A Comprehensive Survey
+Added: [[2025-ai-alignment-comprehensive-survey]]. Updated: [[scalable-oversight]] (source_count 3→4, prose update on IDA/RRM/Debate/CIRL), [[weak-to-strong-supervision]] (source_count 1→2, Key Claim 5 added). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 5 ([[ai-alignment]], [[reward-hacking]], [[goal-misgeneralization]], [[ai-alignment-pitfalls]], [[2025-ai-alignment-comprehensive-survey]]).
+  Citation harvesting: full-depth extraction; all bibliography citations use author+year format without resolvable URLs in the extracted content — no nominations generated.
 
 ## [2026-04-26] ingest | AI Self-preferencing in Algorithmic Hiring: Empirical Evidence and Insights
 Added: [[2026-self-preference-llm-hiring]]. Updated: none. Contradictions flagged: 0.
