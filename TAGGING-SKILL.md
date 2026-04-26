@@ -307,9 +307,38 @@ vendor-bias annotations, defer `teaching_relevance` regardless of topic fit. Re-
 after a non-vendor source is ingested for that tool.
 
 **5.2 Pitfalls Page Examples**
-Pitfalls pages frequently warrant `output-verification-and-risk-assessment` and
-`ai-safety-and-alignment-literacy`. Populate with a worked example showing how the
-failure-mode structure of Pitfalls pages maps to these domains.
+
+*Case: Pitfalls page domain mapping varies by parent topic — not uniform across all Pitfalls pages (2026-04-26)*
+
+Three Pitfalls pages created in the same session had different domain profiles, illustrating that the mapping is driven by the content of the failure modes, not by the fact that a page is a Pitfalls page.
+
+**`llm-fundamentals-pitfalls`** (parent: Topic — foundational LLM mechanics)
+Domains: `practical-ai-use-and-interaction` + `output-verification-and-risk-assessment`
+Not tagged: `ai-safety-and-alignment-literacy` — the failure modes are operational
+(context window limits, System 1 reasoning ceiling, unchecked agentic tool use, prompt
+injection). These are misuse and limitation patterns, not alignment-theoretic failures.
+Tagging alignment literacy here would overclaim the page's scope.
+
+**`ai-alignment-pitfalls`** (parent: Topic — alignment research)
+Domains: `ai-safety-and-alignment-literacy` + `output-verification-and-risk-assessment`
+Not tagged: `practical-ai-use-and-interaction` — the failure modes are alignment-theoretic
+(deceptive alignment, outer/inner alignment gap, RLHF-as-alignment substitution error).
+These are research-level failure modes, not task-level use patterns.
+
+**`llm-self-preference-bias-pitfalls`** (parent: Topic — evaluator bias in hiring contexts)
+Domains: `output-verification-and-risk-assessment` + `ai-integration-in-organizational-workflows`
+Not tagged: `ai-safety-and-alignment-literacy` — the failure modes are workflow design
+errors (AI-generates-AI-evaluates without bias controls, treating automation as
+neutrality). The compounding bias in training loops entry carries `speculative` status
+and does not alone justify the alignment domain.
+
+**Rule:** Do not default to `ai-safety-and-alignment-literacy` for all Pitfalls pages.
+Read the actual failure modes and ask: are these alignment-theoretic failures (deceptive
+alignment, reward hacking, goal misgeneralization, sycophancy under pressure) or
+operational misuse patterns (unchecked outputs, workflow design errors, context limits,
+tool integration risks)? Alignment-theoretic failures warrant `ai-safety-and-alignment-literacy`.
+Operational patterns do not — `output-verification-and-risk-assessment` is sufficient.
+Speculative alignment entries that are one of six failure modes do not tip the balance.
 
 **5.3 Calibration for Less-Obvious Domain Mappings**
 `attribution-ip-and-professional-integrity` and `capability-horizon-awareness` are the

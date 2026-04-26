@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-26
 last_entry: 2026-04-26
-entry_count: 34
+entry_count: 35
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -186,3 +186,6 @@ Session limit hit: no
 Time window: off-peak
 Source type mix: youtube-video: 1, research-paper: 2
 Notes: Source 3 staged file was MIT News article about the alignment survey (thin practitioner); user selected 1:B to fetch full arxiv paper instead (practitioner tier, full-depth extraction). All 3 staged files moved to raw/processed/.
+
+## [2026-04-26] skill-enrichment | TAGGING-SKILL.md § 5.2
+Case: Three Pitfalls pages created in the same session had different domain profiles — llm-fundamentals-pitfalls mapped to practical-ai-use-and-interaction + output-verification, ai-alignment-pitfalls to ai-safety-and-alignment-literacy + output-verification, and llm-self-preference-bias-pitfalls to output-verification + ai-integration — demonstrating that Pitfalls page domain tagging is not uniform and must be derived from the failure mode content, not the page type.
