@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-26
 last_entry: 2026-04-26
-entry_count: 31
+entry_count: 32
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -150,6 +150,15 @@ Auto-resolved: 0. New pages created: 7 ([[legal-ai-hallucination]], [[legal-ai-h
 ## [2026-04-25] ingest | AI Search Has a Citation Problem
 Added: [[2025-ai-search-citation-problem]]. Updated: [[openai-chatgpt]] (source_count 1→2, Key Claim 3 added, status stub→developing). Contradictions flagged: 0.
 Auto-resolved: 0. New pages created: 4 ([[ai-search-citation-accuracy]], [[ai-search-citation-accuracy-pitfalls]], [[ai-search-tools-citation-comparison]], [[2025-ai-search-citation-problem]]).
+
+## [2026-04-26] ingest | AI Self-preferencing in Algorithmic Hiring: Empirical Evidence and Insights
+Added: [[2026-self-preference-llm-hiring]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[llm-self-preference-bias]], [[llm-self-preference-bias-pitfalls]], [[2026-self-preference-llm-hiring]]).
+  Spot-check — [[2026-self-preference-llm-hiring]]:
+    Claim: LLMs prefer LLM-generated resumes at 67–82% self-preference rate. Source passage: documented in experimental conditions on the ArXiv hiring dataset with multiple LLM evaluators.
+    Claim: 23–60% shortlisting advantage for LLM-generated content. Source passage: shortlisting rates compared between AI-generated and human-written resumes under the same evaluator.
+    Claim: Self-recognition is the primary mechanism. Source passage: when model self-recognition is reduced experimentally, self-preference declines proportionally.
+    Claim: Mitigations reduce bias 60–71%. Source passage: system prompting and majority voting each achieve 60–71% reduction in self-preference rates.
 
 ## [2026-04-26] ingest | [1hr Talk] Intro to Large Language Models
 Added: [[2023-karpathy-intro-large-language-models]]. Updated: [[scalable-oversight]] (source_count 2→3, prose addition). Contradictions flagged: 0.

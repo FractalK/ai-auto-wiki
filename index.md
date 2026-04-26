@@ -14,13 +14,14 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*51 pages. Last updated: 2026-04-26.*
+*54 pages. Last updated: 2026-04-26.*
 
 ---
 
 ## Topics
 
 - [[llm-fundamentals]] — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
+- [[llm-self-preference-bias]] — The empirically documented tendency of large language models acting as evaluators to systematically prefer LLM-generated content over human-authored content, with self-recognition identified as the primary mechanism and documented shortlisting advantages of 23–60% in hiring experiments.
 - [[llm-wiki-pattern]] — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[scalable-oversight]] — The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 - [[weak-to-strong-supervision]] — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
@@ -52,6 +53,7 @@ professional roles, see the [[teaching-index]].
 ## Sources
 
 - [[2023-karpathy-intro-large-language-models]] — Karpathy, 2023-11-22, practitioner
+- [[2026-self-preference-llm-hiring]] — Xu, Li, Jiang (UMD / NUS / Ohio State), 2026-02-09, practitioner
 - [[2026-karpathy-llm-wiki-pattern]] — Karpathy, 2026-04-04, practitioner
 - [[2026-anthropic-automated-alignment-researchers]] — Anthropic research team, 2026-04-14, institutional
 - [[2025-anthropic-constitutional-classifiers-jailbreaks]] — Anthropic Safeguards Research Team, 2025-02-23, institutional
@@ -83,3 +85,4 @@ professional roles, see the [[teaching-index]].
 - [[ai-search-citation-accuracy-pitfalls]] — parent: ai-search-citation-accuracy
 - [[legal-ai-hallucination-pitfalls]] — parent: legal-ai-hallucination
 - [[llm-fundamentals-pitfalls]] — parent: llm-fundamentals
+- [[llm-self-preference-bias-pitfalls]] — parent: llm-self-preference-bias
