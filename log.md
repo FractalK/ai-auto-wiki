@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-26
 last_entry: 2026-04-26
-entry_count: 33
+entry_count: 34
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -177,3 +177,12 @@ Session limit hit: no
 Time window: off-peak
 Source type mix: publication-article: 2, research-paper: 1
 Notes: Source 3 staged file was MIT News article (thin practitioner); user selected 1:B to fetch full ICML 2025 arxiv paper instead (peer-reviewed, full extraction). All 3 staged files moved to raw/processed/.
+
+## [2026-04-26 PT] session-stats | ingest
+Queue size at session start: 3 (3 staged files + 0 queued URLs)
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: no
+Time window: off-peak
+Source type mix: youtube-video: 1, research-paper: 2
+Notes: Source 3 staged file was MIT News article about the alignment survey (thin practitioner); user selected 1:B to fetch full arxiv paper instead (practitioner tier, full-depth extraction). All 3 staged files moved to raw/processed/.
