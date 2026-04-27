@@ -5,7 +5,7 @@ created: 2026-04-22
 updated: 2026-04-27
 ---
 
-*Generated 2026-04-27 after ingest pass. 28 pages tagged teaching_relevance: true.*
+*Generated 2026-04-27 after ingest pass. 29 pages tagged teaching_relevance: true.*
 
 ---
 
@@ -105,6 +105,7 @@ updated: 2026-04-27
 ### domestic-civil-service-and-public-administration
 - [[responsible-ai-government-evaluation]] | Topic | practitioner | A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 - [[ai-governance-policy]] | Topic | practitioner | The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
+- [[ai-governance-policy-pitfalls]] | Pitfalls | practitioner | Failure modes and antipatterns in AI governance and policy, covering data readiness gaps, workforce and expertise deficits, AI anthropomorphization in public sector deployment, autonomous decision-making risks, and opacity from closed proprietary models.
 
 ### entrepreneurship-and-startups
 - [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
@@ -130,6 +131,7 @@ updated: 2026-04-27
 ### domestic-civil-service-and-public-administration
 - [[constitutional-classifiers]] | Topic | research | A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 - [[responsible-ai-government-evaluation]] | Topic | practitioner | A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
+- [[ai-governance-policy-pitfalls]] | Pitfalls | practitioner | Failure modes and antipatterns in AI governance and policy, covering data readiness gaps, workforce and expertise deficits, AI anthropomorphization in public sector deployment, autonomous decision-making risks, and opacity from closed proprietary models.
 
 ### teaching-and-instruction
 - [[llm-fundamentals]] | Topic | foundational | The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.

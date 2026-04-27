@@ -7,6 +7,12 @@ parent_entity: [[topics/ai-governance-policy]]
 parent_type: topic
 status: current
 failure_mode_count: 5
+teaching_relevance: true
+competency_domains:
+  - output-verification-and-risk-assessment
+  - ai-integration-in-organizational-workflows
+professional_contexts:
+  - domestic-civil-service-and-public-administration
 contributing_sources:
   - [[2025-responsible-ai-public-evaluation]]
   - [[2025-ibm-government-ai-era]]
