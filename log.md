@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-26
-last_entry: 2026-04-26
-entry_count: 35
+updated: 2026-04-27
+last_entry: 2026-04-27
+entry_count: 37
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -189,3 +189,24 @@ Notes: Source 3 staged file was MIT News article about the alignment survey (thi
 
 ## [2026-04-26] skill-enrichment | TAGGING-SKILL.md § 5.2
 Case: Three Pitfalls pages created in the same session had different domain profiles — llm-fundamentals-pitfalls mapped to practical-ai-use-and-interaction + output-verification, ai-alignment-pitfalls to ai-safety-and-alignment-literacy + output-verification, and llm-self-preference-bias-pitfalls to output-verification + ai-integration — demonstrating that Pitfalls page domain tagging is not uniform and must be derived from the failure mode content, not the page type.
+
+## [2026-04-27] ingest | Responsible AI for Public Evaluation
+Added: [[2025-responsible-ai-public-evaluation]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[responsible-ai-government-evaluation]], [[2025-responsible-ai-public-evaluation]]).
+  Source: white-paper (IBM Center for The Business of Government), practitioner, staged PDF.
+
+## [2026-04-27] ingest | Government in the AI Era
+Added: [[2025-ibm-government-ai-era]]. Updated: [[ai-governance-policy]] (source_count 1→3, status stub→developing, teaching_relevance tagged, 2 Key Claims added, prose expanded with US policy reversals and IBM survey data). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[2025-ibm-government-ai-era]], [[ai-governance-policy-pitfalls]], pitfalls page for ai-governance-policy).
+  Source: white-paper (IBM Institute for Business Value), practitioner, staged PDF.
+  Fetch-failed: 3 queued URLs (openai.com/introducing-gpt-5-5/, thenewstack.io/disappearing-ai-middle-class/, openai.com/strengthening-cyber-resilience/) — all returned 403 or access-blocked. Tagged [fetch-failed] in queue.md.
+
+## [2026-04-27 PT] session-stats | ingest
+Queue size at session start: 5 (2 staged files + 3 queued URLs)
+Documents attempted: 5
+Documents completed: 2
+Session limit hit: no
+Time window: off-peak
+Source type mix: white-paper: 2, fetch-failed: 3
+Approx tokens (from /cost): not captured
+Notes: 3 queued URLs all returned 403 or access-blocked errors; user instructed to proceed with PDFs only. Both staged PDFs processed successfully; moved to raw/processed/.

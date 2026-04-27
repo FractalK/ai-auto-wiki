@@ -2,10 +2,10 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-04-26
+updated: 2026-04-27
 ---
 
-*Generated 2026-04-26 after ingest pass. 26 pages tagged teaching_relevance: true.*
+*Generated 2026-04-27 after ingest pass. 28 pages tagged teaching_relevance: true.*
 
 ---
 
@@ -93,12 +93,18 @@ updated: 2026-04-26
 - [[llm-self-preference-bias-pitfalls]] | Pitfalls | practitioner | Failure modes and antipatterns for LLM evaluator workflows where AI-generated and human-authored content compete, including unchecked AI-generates-AI-evaluates pipelines and the risk of compounding bias through training feedback loops.
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
+- [[ai-governance-policy]] | Topic | practitioner | The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 
 ### project-and-program-management
 - [[llm-self-preference-bias]] | Topic | practitioner | The empirically documented tendency of large language models acting as evaluators to systematically prefer LLM-generated content over human-authored content, with self-recognition identified as the primary mechanism and documented shortlisting advantages of 23–60% in hiring experiments.
 - [[llm-self-preference-bias-pitfalls]] | Pitfalls | practitioner | Failure modes and antipatterns for LLM evaluator workflows where AI-generated and human-authored content compete, including unchecked AI-generates-AI-evaluates pipelines and the risk of compounding bias through training feedback loops.
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
+- [[responsible-ai-government-evaluation]] | Topic | practitioner | A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
+
+### domestic-civil-service-and-public-administration
+- [[responsible-ai-government-evaluation]] | Topic | practitioner | A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
+- [[ai-governance-policy]] | Topic | practitioner | The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 
 ### entrepreneurship-and-startups
 - [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
@@ -123,6 +129,7 @@ updated: 2026-04-26
 
 ### domestic-civil-service-and-public-administration
 - [[constitutional-classifiers]] | Topic | research | A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
+- [[responsible-ai-government-evaluation]] | Topic | practitioner | A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 
 ### teaching-and-instruction
 - [[llm-fundamentals]] | Topic | foundational | The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
@@ -185,10 +192,12 @@ updated: 2026-04-26
 - [[llm-functional-emotions]] | Topic | research | A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
 - [[anthropic-claude-mythos-preview]] | Tool | practitioner | Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 - [[constitutional-ai]] | Topic | practitioner | Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
+- [[ai-governance-policy]] | Topic | practitioner | The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 
 ### domestic-civil-service-and-public-administration
 - [[constitutional-classifiers]] | Topic | research | A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 - [[ai-assisted-vulnerability-discovery]] | Topic | practitioner | The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
+- [[ai-governance-policy]] | Topic | practitioner | The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 
 ### project-and-program-management
 - [[anthropic-claude-mythos-preview]] | Tool | practitioner | Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.

@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*59 pages. Last updated: 2026-04-26.*
+*63 pages. Last updated: 2026-04-27.*
 
 ---
 
@@ -40,6 +40,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-search-citation-accuracy]] — The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
 - [[legal-ai-hallucination]] — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 - [[llm-position-bias]] — The structural tendency of transformer language models to overweight information at the beginning and end of input sequences while neglecting the middle, caused by causal masking and amplified by model depth, with implications for information retrieval, long-context reasoning, and RAG systems.
+- [[responsible-ai-government-evaluation]] — A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 
 ## Tools
 
@@ -77,6 +78,8 @@ professional roles, see the [[teaching-index]].
 - [[2025-ai-search-citation-problem]] — Jaźwińska & Chandrasekar (Tow Center / CJR), 2025-03-05, practitioner
 - [[2024-ai-trial-legal-models-hallucinate]] — Magesh, Surani et al. (Stanford RegLab / HAI), 2024-05-23, practitioner
 - [[2025-emergence-position-bias-transformers]] — Wu, Wang, Jegelka, Jadbabaie (MIT / ICML 2025), 2025-07-18, peer-reviewed
+- [[2025-responsible-ai-public-evaluation]] — Daniel F. Fonner (SMU / IBM Center), 2025-12-01, practitioner
+- [[2025-ibm-government-ai-era]] — IBM Institute for Business Value, 2025-12-01, practitioner
 
 ## Comparisons
 
@@ -91,3 +94,4 @@ professional roles, see the [[teaching-index]].
 - [[llm-fundamentals-pitfalls]] — parent: llm-fundamentals
 - [[ai-alignment-pitfalls]] — parent: ai-alignment
 - [[llm-self-preference-bias-pitfalls]] — parent: llm-self-preference-bias
+- [[ai-governance-policy-pitfalls]] — parent: ai-governance-policy
