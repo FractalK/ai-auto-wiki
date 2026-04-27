@@ -454,10 +454,10 @@ fields.
 ## FRIC-027 | Agent Improvised Feature-Branch/PR Workflow; gh CLI Not Authenticated
 
 - **Date:** 2026-04-27
-- **Status:** open
+- **Status:** closed
 - **Phase:** Post-setup
 - **Document implicated:** CLAUDE.md — Section 11.2 (ingest workflow); implementation-handoff.md Phase 0; INIT-PROMPT.md
 - **Symptom:** After an ingest operation, Claude Code attempted `gh pr create` and failed with "gh isn't authenticated in this environment." The agent had created a feature branch and was trying to open a pull request — behavior not prescribed by the schema. git push had succeeded (git and gh use independent authentication mechanisms); only the PR creation step failed.
 - **Verdict:** Confirmed weakness — two distinct gaps. (1) CLAUDE.md's ingest workflow specifies per-document git commits but never prescribes the push strategy or explicitly prohibits feature-branch and PR workflows. This leaves the agent free to improvise a branching model, which conflicts with the deployment model: GitHub Actions deploys on push to main, so a feature branch blocks deployment until merged manually. (2) gh CLI installation and `gh auth login` are never mentioned in implementation-handoff.md Phase 0 or INIT-PROMPT.md. Even if the agent's PR behavior were intentional, authentication would silently fail on any new machine.
 - **Fix plan:** Add an explicit commit-and-push instruction to CLAUDE.md Section 11.2, either as a sub-step of Step 22b or as a new Step 22c: commit all changes directly to main, run `git push origin main`, no feature branches, no `gh pr create`. The gh CLI is not required for any wiki operation. Remove any implicit affordance for branching by making the direct-to-main push instruction explicit. No change to INIT-PROMPT.md or implementation-handoff.md is required unless the push step is confirmed as a Phase 1 init-session item (it is not — first push is Phase 2).
-- **Resolved:** —
+- **Resolved:** 2026-04-27

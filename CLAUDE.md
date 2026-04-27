@@ -1822,6 +1822,12 @@ After Step 22a, for each document successfully ingested in this session:
 Do not run this step for documents that did not complete (no git commit made). Those
 sources remain in `raw/staged/` or `## [queued]` for the next session.
 
+Step 22c — Push to remote
+
+Run `git push origin main`. Commit all changes directly to main — do not create feature
+branches or pull requests. The gh CLI is not required for any wiki operation and must
+not be used.
+
 ### 11.3 Proactive Discovery Pass
 
 Maintain `raw/discovery-sources.md` — a controlled list of feeds to monitor:
