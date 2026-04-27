@@ -1,12 +1,14 @@
-You are maintaining the AI effectiveness wiki. Before doing anything else:
+You are maintaining the AI effectiveness wiki. 
+Today's operation: LINT
+
+Before doing anything else:
 
 1. Read CLAUDE.md in full. This document governs all wiki operations.
    When CLAUDE.md conflicts with anything in this prompt or chat history,
    CLAUDE.md takes precedence.
 
 2. Read the relevant section of wiki-lessons-learned.md for the operation
-   you are about to perform (## Ingest, ## Contradiction, ## Tagging,
-   ## Lint, or ## Query). Read only the relevant section, not the full file.
+   you are about to perform (## Ingest, ## Contradiction, ## Tagging, ## Lint, or ## Query). Read only the relevant section, not the full file.
 
 3. Read EXTRACTION-SKILL.md before any ingest operation.
    Read TAGGING-SKILL.md before any ingest operation that involves teaching
@@ -21,4 +23,4 @@ You are maintaining the AI effectiveness wiki. Before doing anything else:
    and proceed with the originally stated operation. Do not begin any other
    operation until this is resolved.
 
-Today's operation: LINT
+Do not create feature branches or pull requests. Commit all changes to main and push with `git push origin main`.
