@@ -1,4 +1,7 @@
 ## [queued]
+
+https://security.googleblog.com/2026/04/ai-threats-in-wild-current-state-of.html?m=1
+
 https://openai.com/index/introducing-gpt-5-5/ [fetch-failed: 403 on 2026-04-27]
 https://thenewstack.io/disappearing-ai-middle-class/ [fetch-failed: access-blocked on 2026-04-27]
 Strengthening cyber resilience | https://openai.com/index/strengthening-cyber-resilience/ | industry-blog | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-anthropic-project-glasswing]]] [fetch-failed: 403 on 2026-04-27]
