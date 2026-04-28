@@ -66,7 +66,7 @@ Despite these advances, Anthropic characterizes the alignment challenge of Mytho
 
 ## Access and Pricing
 
-Project Glasswing partners receive access through the Claude API, Amazon Bedrock, Google Cloud Vertex AI, and Microsoft Foundry. Anthropic has committed up to $100M in usage credits. After the research preview period, access is priced at $25/$125 per million input/output tokens. Open-source software maintainers can apply through the Claude for Open Source program. Security researchers whose legitimate work is affected by cybersecurity safeguards can apply to an upcoming Cyber Verification Program.
+Project Glasswing partners receive access through the Claude API, Amazon Bedrock, Google Cloud Vertex AI, and Microsoft Foundry. Anthropic has committed up to \$100M in usage credits. After the research preview period, access is priced at \$25/\$125 per million input/output tokens. Open-source software maintainers can apply through the Claude for Open Source program. Security researchers whose legitimate work is affected by cybersecurity safeguards can apply to an upcoming Cyber Verification Program.
 
 ## Key Claims
 

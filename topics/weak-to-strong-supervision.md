@@ -42,7 +42,7 @@ The experimental base case typically uses models with a known capability gap —
 
 In April 2026, Anthropic conducted the first experiment in which AI agents autonomously conducted research to improve weak-to-strong supervision methods. Nine Claude Opus 4.6 instances — designated Automated Alignment Researchers (AARs) — were given access to sandboxes, shared forums, code execution infrastructure, and remote evaluation servers, and tasked with discovering improvements to the weak-to-strong supervision baseline.
 
-Human researchers established a PGR 0.23 baseline after seven days of iterating on four prior methods. The AARs achieved PGR 0.97 after five additional days (800 cumulative agent-hours) at a cost of approximately $18,000 in tokens and training compute.
+Human researchers established a PGR 0.23 baseline after seven days of iterating on four prior methods. The AARs achieved PGR 0.97 after five additional days (800 cumulative agent-hours) at a cost of approximately \$18,000 in tokens and training compute.
 
 Generalizability testing applied the top AAR method to held-out datasets: PGR 0.94 on mathematics tasks and PGR 0.47 on coding tasks. The domain disparity indicates that some research improvements are task-specific rather than generally transferable. Production-scale testing on Claude Sonnet 4 with real infrastructure yielded no statistically significant improvement, indicating that lab-derived methods may require further adaptation before achieving deployment-scale robustness.
 

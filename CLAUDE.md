@@ -542,9 +542,13 @@ attribution on the two lines immediately following the failure mode heading:
 
 ```markdown
 ### [Failure mode name]
-**Status:** active | mitigated | unresolved | speculative
+**Status:** active | mitigated | unresolved | speculative<br>
 **Source:** [[source-slug]]
 ```
+
+The `<br>` after `**Status:**` is required. Quartz (CommonMark) does not treat a single
+newline as a line break; without `<br>`, Status and Source collapse onto one line in the
+published site.
 
 For entries with multiple contributing sources, use comma-separated wikilinks:
 `**Source:** [[source-slug-1]], [[source-slug-2]]`
@@ -738,6 +742,11 @@ autonomously. The human confirms the split before any files are written or renam
 one Key Claim or updating one prose section — update only the affected section rather
 than rewriting the full page. Full-page rewrites are reserved for passes where the
 source materially changes the overall synthesis.
+
+**Currency and special character escaping:** Quartz renders `$...$` as LaTeX inline
+math. Escape all bare dollar signs in prose as `\$` (e.g., `\$20/month`, `\$100–200/month`).
+This applies to every prose section, Key Claims table cells, and frontmatter string
+fields. Do not use bare `$` anywhere in wiki page content.
 
 ### 6.3 RAG Structural Note — capabilities and limitations Fields
 
@@ -1399,8 +1408,11 @@ decisions are resolved.
   content during ingest
 - YouTube: paired transcript file required in `raw/staged/` alongside video metadata;
   transcript extraction tool to be confirmed at implementation time
-- URL fetch failures: log the failure, tag the URL `[fetch-failed]` in queue.md,
-  surface in post-ingest summary
+- URL fetch failures: move the entry from `## [queued]` to `## [processed]` in
+  `raw/queue.md`, appending `fetch-failed: YYYY-MM-DD` to the entry line. Do not
+  attempt alternative retrieval — no web search, no cached versions, no mirrors.
+  Surface all fetch failures in the post-ingest summary Notes field. If the content
+  is still needed, the human will obtain it manually and place a file in `raw/staged/`.
 
 **Pre-flight pass (Phase 1 — no wiki files written):**
 

@@ -516,3 +516,31 @@ similar chart outputs, or when a filed Comparison page needs an embedded figure.
 —
 
 **References:** DM-077, DM-035
+
+---
+
+## IN-016 | Key Claims Table Has No Eviction Mechanism for Novel Claims at Cap
+
+- **Priority:** P3
+- **Status:** open
+- **Raised:** 2026-04-27
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+The schema requires 3–5 Key Claims per page and states that claims must be "the most
+consequential and time-sensitive assertions on the page." However, there is no procedure
+for the case where a new source produces a genuinely novel, high-consequentiality claim
+and the table is already at 5. The agent has no authority to evict the weakest existing
+claim and no procedure to propose a swap as a forced choice. The current behavior is to
+silently skip the new claim if it does not contradict an existing one.
+
+**Why This Blocks Progress:**
+Does not block current operation. The pattern is rare: novel claims on fully-saturated
+pages typically either trigger Section 8 (contradiction) or map to a different page.
+Becomes relevant if high-value sources consistently produce novel claims on mature,
+well-established pages.
+
+**Resolution:**
+—
+
+**References:** FRIC-031, DM-072

@@ -3093,3 +3093,71 @@ use when a specific figure warrants preservation, using the existing `assets/` d
   not inline in HTML), revisit whether HTML-first fetching adequately exposes figures.
 
 **References:** IN-003 (Karpathy gist), DM-008 (assets/ directory)
+
+---
+
+## DM-078 | URL FETCH FAILURE: NO FALLBACK RETRIEVAL; ENTRY MOVES TO [PROCESSED]
+
+**Date:** 2026-04-27
+**Status:** confirmed
+
+**Decision:** When a queued URL fails to fetch (bot protection, network error, or any
+other cause), the agent moves the entry from `## [queued]` to `## [processed]` in
+`raw/queue.md` with a `fetch-failed: YYYY-MM-DD` annotation. No fallback retrieval is
+attempted — no web search, no cached versions, no mirrors. All failures surface in the
+post-ingest summary Notes field. If the content is still needed, the human obtains it
+manually and places a file in `raw/staged/`.
+
+**Rationale:** Prior behavior (FRIC-028): agent improvised web search fallbacks on fetch
+failure, consuming significant tokens without authorization. The absence of a "stop here"
+instruction was interpreted as permission to try alternatives. Explicit prohibition closes
+the gap. Moving to `[processed]` (rather than a new `[fetch-failed]` section) avoids
+changes to wiki-verify.sh or Section 2.1 scaffold.
+
+**Consequences:** Fetch-failed entries are findable in `[processed]` via the
+`fetch-failed:` annotation. Duplicate detection (Step 2) checks `sources/` by URL, not
+`queue.md`, so a manually staged file from a previously fetch-failed URL will not
+trigger a false positive.
+
+---
+
+## DM-079 | DOLLAR SIGNS MUST BE ESCAPED AS \$ IN ALL WIKI PAGE CONTENT
+
+**Date:** 2026-04-27
+**Status:** confirmed
+
+**Decision:** All bare dollar signs in wiki page content — prose sections, Key Claims
+table cells, and frontmatter string fields — must be written as `\$`. Rule added to
+CLAUDE.md Section 6.2.
+
+**Rationale:** Quartz uses remark/MDX which parses `$...$` as inline LaTeX math
+delimiters. A bare `$20/month` in prose opened a math block; the next `$` closed it,
+rendering everything between as compressed math notation. Obsidian does not implement
+this behavior by default, masking the issue locally. Escaping is the correct fix;
+removing LaTeX support from Quartz config would be a larger change with broader
+implications not examined.
+
+**Consequences:** All future wiki writes must use `\$` for currency. Existing pages
+required a one-time retroactive fix (applied manually by human on 2026-04-27).
+
+---
+
+## DM-080 | PITFALLS STATUS/SOURCE LINES REQUIRE <br> FOR QUARTZ RENDERING
+
+**Date:** 2026-04-27
+**Status:** confirmed
+
+**Decision:** The `**Status:**` line in Pitfalls failure mode entries must be followed
+by `<br>` to force a line break in Quartz. Schema format updated in CLAUDE.md Section
+5.6. All existing Pitfalls pages require a retroactive fix (deferred to next wiki
+session, to be applied via a targeted bash/sed pass).
+
+**Rationale:** Quartz uses CommonMark, which does not treat a single newline as a hard
+line break. Without `<br>`, `**Status:**` and `**Source:**` collapse onto one line in
+the published site. Obsidian defaults to treating single newlines as line breaks, masking
+the issue locally. `<br>` is the minimal fix; blank lines between the two fields would
+introduce unwanted paragraph spacing.
+
+**Consequences:** All future Pitfalls page writes use the updated format. Existing pages
+need retroactive `<br>` insertion — approach is a Claude Code bash/sed pass across
+`pitfalls/` at next wiki session start.

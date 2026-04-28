@@ -461,3 +461,103 @@ fields.
 - **Verdict:** Confirmed weakness — two distinct gaps. (1) CLAUDE.md's ingest workflow specifies per-document git commits but never prescribes the push strategy or explicitly prohibits feature-branch and PR workflows. This leaves the agent free to improvise a branching model, which conflicts with the deployment model: GitHub Actions deploys on push to main, so a feature branch blocks deployment until merged manually. (2) gh CLI installation and `gh auth login` are never mentioned in implementation-handoff.md Phase 0 or INIT-PROMPT.md. Even if the agent's PR behavior were intentional, authentication would silently fail on any new machine.
 - **Fix plan:** Add an explicit commit-and-push instruction to CLAUDE.md Section 11.2, either as a sub-step of Step 22b or as a new Step 22c: commit all changes directly to main, run `git push origin main`, no feature branches, no `gh pr create`. The gh CLI is not required for any wiki operation. Remove any implicit affordance for branching by making the direct-to-main push instruction explicit. No change to INIT-PROMPT.md or implementation-handoff.md is required unless the push step is confirmed as a Phase 1 init-session item (it is not — first push is Phase 2).
 - **Resolved:** 2026-04-27
+
+---
+
+## FRIC-028 | Agent Improvised Fallback Web Search on URL Fetch Failure
+
+- **Date:** 2026-04-27
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** CLAUDE.md — Section 11.2 (source intake mechanisms, URL fetch
+  failure handling)
+- **Symptom:** Three queued URLs failed to fetch due to bot protection. Rather than
+  treating them as failures and moving on, Claude Code improvised a web search fallback
+  to find alternative access paths to the same content, consuming significant tokens
+  without authorization.
+- **Verdict:** Confirmed weakness — two gaps. (1) The fetch failure line specified tagging
+  the URL `[fetch-failed]` in queue.md but did not say which section the entry moves to,
+  leaving its final state undefined. (2) No prohibition on fallback retrieval methods
+  existed; the agent interpreted the absence of a "stop here" instruction as permission
+  to try alternative means.
+- **Fix plan:** Replace the fetch failure bullet in Section 11.2 source intake mechanisms
+  to: (a) move the entry from `## [queued]` to `## [processed]` with a
+  `fetch-failed: YYYY-MM-DD` annotation, (b) explicitly prohibit web search, cached
+  versions, and mirrors as fallbacks, (c) direct the human to use `raw/staged/` if
+  content is still needed. Reuses the existing `[processed]` section — no new queue.md
+  section, no wiki-verify.sh update, no Section 2.1 change required.
+- **Resolved:** 2026-04-27
+
+---
+
+## FRIC-029 | Dollar Signs Parsed as LaTeX Math by Quartz
+
+- **Date:** 2026-04-27
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** CLAUDE.md — Section 6.2 (prose rules); affected pages in
+  `tools/` and `topics/` containing currency amounts
+- **Symptom:** On the published Quartz site, prose containing `$20/month` and
+  `$100–200/month` rendered as compressed LaTeX math with run-together characters and
+  enlarged font. The text rendered correctly in Obsidian. The affected page was
+  `tools/anthropic-claude`.
+- **Verdict:** Confirmed schema gap. Quartz uses remark/MDX which treats `$...$` as
+  inline math delimiters. The opening `$` in `$20/month` started a math block; the
+  next `$` in `$100–200/month` closed it. CLAUDE.md had no rule requiring dollar sign
+  escaping. Obsidian does not implement LaTeX math by default, masking the issue locally.
+- **Fix plan:** Add a "Currency and special character escaping" rule to CLAUDE.md
+  Section 6.2 requiring all bare `$` in wiki content to be written as `\$`. Rule
+  applies to prose sections, Key Claims table cells, and frontmatter string fields.
+  Retroactive fix to existing pages: human applied manually on 2026-04-27.
+- **Resolved:** 2026-04-27
+
+---
+
+## FRIC-030 | Pitfalls Status/Source Lines Collapse to Single Line on Quartz
+
+- **Date:** 2026-04-27
+- **Status:** open
+- **Phase:** Post-setup
+- **Document implicated:** CLAUDE.md — Section 5.6 (Pitfalls page spec, failure mode
+  entry format); all existing Pitfalls pages
+- **Symptom:** On the published Quartz site, the `**Status:**` and `**Source:**` lines
+  in Pitfalls failure mode entries rendered concatenated on a single line (e.g.,
+  "Status: active Source: [[slug]]"). In Obsidian, they rendered as separate lines.
+- **Verdict:** Confirmed schema gap. Quartz uses CommonMark, which does not treat a
+  single newline as a hard line break. Obsidian defaults to treating single newlines as
+  line breaks (strict line breaks off), masking the issue locally. CLAUDE.md Section 5.6
+  specified the two fields on adjacent lines with no `<br>` tag.
+- **Fix plan:** (1) Update CLAUDE.md Section 5.6 failure mode entry format to append
+  `<br>` after the `**Status:**` line, with an explanatory note. (2) Retroactive fix:
+  all existing Pitfalls pages need `<br>` inserted after each `**Status:**` line.
+  Retroactive fix method: use Claude Code in the next wiki session with a targeted
+  bash find/sed pass across all files in `pitfalls/`. Human to confirm approach at
+  session start before execution.
+- **Resolved:** —
+
+---
+
+## FRIC-031 | Key Claims Table Has No Eviction Mechanism for Novel Claims at Cap
+
+- **Date:** 2026-04-27
+- **Status:** open
+- **Phase:** Post-setup
+- **Document implicated:** CLAUDE.md — Section 6.1 (Key Claims rules), Section 11.2
+  Step 12 (update Topic pages)
+- **Symptom:** A PDF source mapped to an existing Topic page that already had 5 Key
+  Claims. The agent reported that all 5 claims "existed" and added no content. In this
+  case the behavior was correct (the PDF was corroborating, not novel). However, the
+  schema has no procedure for the case where a new source produces a genuinely novel,
+  high-consequentiality claim and the table is already at capacity.
+- **Verdict:** Confirmed latent gap. Section 6.1 says claims must be "the most
+  consequential and time-sensitive assertions on the page" but this is a write-time
+  check, not a standing re-evaluation trigger. Step 12 says "maintain 3–5" with no
+  eviction path. An agent encountering a novel claim on a saturated page has no
+  authority to displace the weakest existing claim and no procedure to propose the
+  swap as a forced choice.
+- **Fix plan (low priority):** Add an eviction forced-choice case to Step 12: when
+  extraction produces a claim not already represented and the table is at 5, surface
+  the new claim alongside the table sorted by Support Score ascending and propose
+  displacing the lowest-scoring claim as a forced choice. Human confirms before any
+  write. Defer until the pattern recurs operationally.
+- **Resolved:** —

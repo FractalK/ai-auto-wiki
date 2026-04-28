@@ -41,7 +41,7 @@ Several research directions have emerged. Debate-based approaches (Irving et al.
 
 A significant milestone in scalable oversight research was established in April 2026 by Anthropic's Automated Alignment Researcher (AAR) experiment. Nine Claude Opus 4.6 instances were deployed as research agents equipped with sandboxes, shared communication forums, code storage, and remote evaluation servers. Their assigned task was improving weak-to-strong supervision methods — specifically, methods for fine-tuning a strong model (Qwen 3-4B-Base) using labels from a weak teacher (Qwen 1.5-0.5B-Chat). The Performance Gap Recovered (PGR) metric measured results: PGR=0 is the weak-label training baseline and PGR=1 is oracle-label performance.
 
-Human researchers established a baseline of PGR 0.23 after seven days of iterating on four of the most promising prior methods. The AARs achieved PGR 0.97 after five additional days and 800 cumulative agent-hours at a cost of approximately $18,000 in tokens and training compute, closing nearly the entire gap between weak-label training and optimal supervision.
+Human researchers established a baseline of PGR 0.23 after seven days of iterating on four of the most promising prior methods. The AARs achieved PGR 0.97 after five additional days and 800 cumulative agent-hours at a cost of approximately \$18,000 in tokens and training compute, closing nearly the entire gap between weak-label training and optimal supervision.
 
 Generalization testing applied the AARs' top method to held-out datasets. The method achieved PGR 0.94 on mathematics tasks, indicating substantial cross-domain transfer. On coding tasks, generalization dropped to PGR 0.47, revealing that some of the AARs' research insights were domain-specific.
 
