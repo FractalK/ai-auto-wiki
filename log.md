@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-27
-last_entry: 2026-04-27
-entry_count: 37
+updated: 2026-04-28
+last_entry: 2026-04-28
+entry_count: 38
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -210,3 +210,20 @@ Time window: off-peak
 Source type mix: white-paper: 2, fetch-failed: 3
 Approx tokens (from /cost): not captured
 Notes: 3 queued URLs all returned 403 or access-blocked errors; user instructed to proceed with PDFs only. Both staged PDFs processed successfully; moved to raw/processed/.
+
+## [2026-04-28] lint | pass 1
+Pages assessed: 39 (21 Topics, 9 Tools, 3 Comparisons, 6 Pitfalls). Sources in wiki: 24.
+Support scores recalculated: 1 page (4 claims updated: constitutional-classifiers 2→1).
+Expired contradictions auto-confirmed: 0 — none
+CTRD-NNN signals processed: 0 — none
+Pages downgraded to stale: 1 — [[anthropic-claude-vs-openai-chatgpt]]
+Orphan pages flagged: 2 — [[mindstudio]], [[anthropic-claude-vs-openai-chatgpt]]
+Concept gaps surfaced: 1 — confirmed: [[retrieval-augmented-generation]] stub created
+decay_exempt confirmed: 0 — none
+Schema drift flags: 0 — none (1 individual deviation auto-corrected: openai-chatgpt status developing→active)
+Teaching relevance ratio: 76.7% (above 20% threshold)
+Collection gaps confirmed: 0 | addressed: 0 | dismissed: 0
+Nominations aged to stale: 0 — none
+Stale nominations deleted: 0 — none
+Teaching Index regenerated: no
+Skill enrichment staleness flags: 1 — CONTRADICTION-SKILL.md § 7 (all 5 sub-sections unpopulated after 26 ingests)

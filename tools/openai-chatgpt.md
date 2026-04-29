@@ -2,9 +2,9 @@
 type: tool
 title: ChatGPT (OpenAI)
 created: 2026-04-22
-updated: 2026-04-25
+updated: 2026-04-28
 summary: OpenAI's general-purpose AI assistant and the most widely recognized conversational AI product, with strengths in voice interaction, native image generation, and real-time web search.
-status: developing
+status: active
 vendor: OpenAI
 pricing_model: freemium
 access_tier:

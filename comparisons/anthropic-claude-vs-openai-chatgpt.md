@@ -2,13 +2,13 @@
 type: comparison
 title: Claude vs. ChatGPT — General-Purpose AI Assistant Comparison
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-28
 comparison_type: tool-vs-tool
 entities_compared:
   - "[[tools/anthropic-claude]]"
   - "[[tools/openai-chatgpt]]"
 use_case: Selecting a general-purpose AI assistant for professional writing, document work, and multi-step task execution
-status: current
+status: stale
 source_count: 1
 related_topics:
   - [[ai-agentic-workflows]]
