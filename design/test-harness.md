@@ -1,4 +1,5 @@
 # Wiki Test Harness — Specification
+**Last Updated:** 30/04/2026 15:00
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -71,13 +72,19 @@ are nested, quoted, or appear mid-document outside a frontmatter block.
 
 | Group | Checks | Rationale |
 |-------|--------|-----------|
-| 1. `quartz.config.ts` | 16 required ignorePatterns entries; `"index.md"` absence (WARN); baseUrl not default placeholder | QTZ-01; DM-070; FRIC-012, FRIC-014, FRIC-015 |
+| 1. `quartz.config.ts` | 17 required ignorePatterns entries; `"index.md"` absence (WARN); baseUrl not default placeholder | QTZ-01; DM-070; FRIC-012, FRIC-014, FRIC-015 |
 | 2. `.gitignore` | `raw/staged/`, `raw/processed/`, `!**/.gitkeep` present | GIT-06; INIT-PROMPT.md Step 8 |
 | 3. Pre-commit hook | File exists; executable; covers wiki content dirs; contains `[A-Z ]` rejection pattern | GIT-03; CLAUDE.md Section 4 |
 | 4. Scaffold file conformance | All five singleton .md files exist with required frontmatter fields and correct `type` values; `raw/queue.md` has all four section headers; raw/ support files exist; skill files exist | CLAUDE.md Section 2.1, 5.7–5.9 |
-| 5. Page count consistency | `total_pages` in `overview.md` matches actual `.md` file count in `topics/`, `tools/`, `sources/`, `comparisons/`, `pitfalls/` | CLAUDE.md Section 5.7 |
+| 5. Page count consistency | `total_pages` in `overview.md` matches actual `.md` file count in `topics/`, `tools/`, `sources/`, `comparisons/`, `pitfalls/`, `teaching/` | CLAUDE.md Section 5.7 |
 | 6. Naming convention | No `.md` file in a wiki content directory contains uppercase letters or spaces in its filename | DM-014; CLAUDE.md Section 4 |
-| 7. Stray .md files at root | No `.md` files at wiki root other than the 10 defined singletons and operational files | CLAUDE.md Section 2 |
+| 7. Stray .md files at root | No `.md` files at wiki root other than the defined singletons and operational files | CLAUDE.md Section 2 |
+| 8. Teaching-brief page conformance | Every file in `teaching/` has `type: teaching-brief`, `teaching_relevance: true`, and all required fields: `title`, `created`, `updated`, `status`, `query_date`, `derived_from`, `last_reviewed`, `competency_domains`, `professional_contexts` | CLAUDE.md Section 5.10; DM-083; DM-088 |
+| 9. YAML wikilink quoting | No `.md` file in any content directory contains unquoted `[[wikilinks]]` in YAML frontmatter — either as block-list items (`- [[slug]]`) or single-value fields (`field: [[slug]]`). Uses awk scoped to frontmatter block only. | CLAUDE.md Section 5 preamble; FRIC-032; DM-088 |
+| 10. Pitfalls `<br>` conformance | Every `**Status:**` line in any `pitfalls/` file ends with `<br>`. Missing `<br>` causes Status and Source to collapse onto one line in Quartz (CommonMark single-newline rendering). | CLAUDE.md Section 5.6; FRIC-030; DM-088 |
+| 11. Comparison Verdict section | Every file in `comparisons/` contains a `## Verdict` section. Absence indicates an incomplete or pre-DM-087 page not retroactively fixed. | CLAUDE.md Section 5.5; DM-087; DM-088 |
+| 12. Dollar sign escaping (WARN) | No content-directory `.md` file contains a bare `$` immediately before a digit. Quartz renders `$...$` as LaTeX math. Already-escaped `\$` occurrences are filtered. False-positive risk from code blocks — WARN only. | CLAUDE.md Section 6.2; FRIC-029; DM-088 |
+| 13. `teaching_notes_reviewed` field (WARN) | Topic and Tool pages with `teaching_relevance: true` that contain a `## Teaching Notes` body section must also have `teaching_notes_reviewed` in frontmatter. Lint Step L5b is the authoritative backstop; this provides earlier warning. | CLAUDE.md Sections 5.2, 5.3; DM-088 |
 
 ### 2.4 Usage
 
@@ -87,6 +94,7 @@ bash wiki-verify.sh
 ```
 
 Run:
+- Before every ingest or lint session (pre-session habit per DM-084 — catches drift from the previous session before new work begins)
 - Before the first ingest (part of the Phase 2 verification checklist)
 - After any manual edit to `quartz.config.ts`, `.gitignore`, or scaffold files
 - After schema changes that affect frontmatter or directory structure
@@ -108,6 +116,10 @@ When the schema changes, update the script in the following cases:
 | New allowed `.md` file at wiki root | Add to `ALLOWED_ROOT` array in Section 7 |
 | Naming convention change (e.g., new character class) | Update grep pattern in Section 6 |
 | New content directory added (e.g., `teaching/`) | Add to pre-commit hook check string (Section 3), page count loop (Section 5), and naming convention loop (Section 6); also update INIT-PROMPT.md Step 6 directory list and pre-commit hook DIRS string, and the hook template in INIT-PROMPT.md Step 11 |
+| New page type with required frontmatter fields | Add a check group modelled on Group 8: `check_yaml_value` for `type` and any hardcoded field values; `check_scaffold_fields` for required-presence fields. Update Section 2.3 catalogue. |
+| New FRIC regression check needed (content-level pattern) | Add a check group (Groups 9–12 pattern): awk for frontmatter-scoped checks; grep + filter for body-content checks. Assign FAIL for rendering-breaking violations; WARN for false-positive-risk checks. Update Section 2.3 catalogue. |
+| New required body section on a page type (e.g., `## Verdict`) | Add a `grep -qF '## Section'` existence check in the relevant content directory loop. Update Section 2.3 catalogue. |
+| New conditional frontmatter field depending on a body section | Add a cross-check in Group 13 pattern: read triggering field, grep for body section, assert dependent field present. WARN severity unless dependency is unconditional. |
 
 ---
 

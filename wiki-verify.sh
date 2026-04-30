@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# wiki-verify.sh — Tier 1 configuration and conformance checks
+# Last Updated: 30/04/2026 15:00
+# wiki-verify.sh — Tier 1 configuration, conformance, and content-level checks
 # AI Effectiveness Wiki — see test-harness.md for specification
 #
 # Usage:
@@ -378,6 +379,172 @@ done < <(find . -maxdepth 1 -name "*.md" 2>/dev/null | sed 's|^\./||' | sort)
 
 if [ "$STRAY_FAIL" = "0" ]; then
     pass "No stray .md files at wiki root"
+fi
+
+# ─── 8. Teaching-brief page conformance ─────────────────────────────────────
+printf "\n--- 8. Teaching-brief page conformance ---\n"
+# Every file in teaching/ must be type: teaching-brief with all required
+# frontmatter fields (Section 5.10). teaching_relevance is hardcoded true.
+
+if [ ! -d "teaching" ]; then
+    warn "teaching/ directory not found — no teaching-brief pages to check"
+else
+    TB_COUNT=0
+    while IFS= read -r filepath; do
+        TB_COUNT=$((TB_COUNT + 1))
+        check_yaml_value   "$filepath" "type"               "teaching-brief"
+        check_yaml_value   "$filepath" "teaching_relevance" "true"
+        check_scaffold_fields "$filepath" \
+            title created updated status query_date derived_from \
+            last_reviewed competency_domains professional_contexts
+    done < <(find "teaching" -maxdepth 1 -name "*.md" 2>/dev/null)
+
+    if [ "$TB_COUNT" = "0" ]; then
+        pass "teaching/ directory is empty — no teaching-brief pages to check"
+    fi
+fi
+
+# ─── 9. YAML wikilink quoting ────────────────────────────────────────────────
+printf "\n--- 9. YAML wikilink quoting (FRIC-032 regression) ---\n"
+# All [[wikilinks]] in YAML frontmatter must be quoted as "[[slug]]".
+# Unquoted wikilinks parse as nested YAML flow sequences, breaking Obsidian
+# Properties rendering and Quartz link resolution (CLAUDE.md Section 5 preamble).
+# Uses awk to limit scanning to the frontmatter block (between the first and
+# second --- delimiters), avoiding false positives from prose body bullets.
+# Two patterns:
+#   block-list items:  - [[slug]]      (should be: - "[[slug]]")
+#   single-value fields: field: [[slug]]  (should be: field: "[[slug]]")
+# Known limitation: a file using --- inside a YAML string value may mis-scope
+# the frontmatter boundary. Not a realistic risk given wiki frontmatter structure.
+
+WL_FAIL=0
+for d in topics tools sources comparisons pitfalls teaching; do
+    [ -d "$d" ] || continue
+    while IFS= read -r filepath; do
+        result=$(awk '
+            /^---/ { delim++; next }
+            delim == 1 && /^[[:space:]]*-[[:space:]]+\[\[/ { print NR": "$0 }
+            delim == 1 && /^[a-z_]+:[[:space:]]+\[\[/     { print NR": "$0 }
+        ' "$filepath")
+        if [ -n "$result" ]; then
+            fail "Unquoted wikilink in YAML frontmatter: $filepath"
+            while IFS= read -r wl_line; do
+                printf "         %s\n" "$wl_line"
+            done <<< "$result"
+            WL_FAIL=1
+        fi
+    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+done
+
+if [ "$WL_FAIL" = "0" ]; then
+    pass "No unquoted wikilinks found in YAML frontmatter"
+fi
+
+# ─── 10. Pitfalls <br> conformance ──────────────────────────────────────────
+printf "\n--- 10. Pitfalls <br> conformance (FRIC-030 regression) ---\n"
+# Quartz (CommonMark) does not treat a single newline as a hard line break.
+# Every **Status:** line in a Pitfalls failure mode entry must end with <br>
+# (CLAUDE.md Section 5.6). grep pattern matches the bold body label only —
+# the YAML 'status:' frontmatter field uses no asterisks and is not matched.
+
+if [ ! -d "pitfalls" ]; then
+    pass "pitfalls/ directory not found — no pitfalls pages to check"
+else
+    BR_FAIL=0
+    while IFS= read -r filepath; do
+        result=$(grep -n '\*\*Status:\*\*' "$filepath" 2>/dev/null | grep -v '<br>')
+        if [ -n "$result" ]; then
+            fail "Missing <br> after **Status:** in pitfalls page: $filepath"
+            while IFS= read -r br_line; do
+                printf "         %s\n" "$br_line"
+            done <<< "$result"
+            BR_FAIL=1
+        fi
+    done < <(find "pitfalls" -maxdepth 1 -name "*.md" 2>/dev/null)
+
+    if [ "$BR_FAIL" = "0" ]; then
+        pass "All **Status:** lines in pitfalls pages include <br>"
+    fi
+fi
+
+# ─── 11. Comparison Verdict section ─────────────────────────────────────────
+printf "\n--- 11. Comparison Verdict section (DM-087) ---\n"
+# Every Comparison page must contain a ## Verdict section (CLAUDE.md Section 5.5,
+# DM-087). The Verdict is always producible from Key Claims; its absence signals
+# an incomplete or pre-DM-087 page that was not retroactively fixed.
+
+if [ ! -d "comparisons" ]; then
+    pass "comparisons/ directory not found — no comparison pages to check"
+else
+    VD_FAIL=0
+    while IFS= read -r filepath; do
+        if ! grep -qF '## Verdict' "$filepath" 2>/dev/null; then
+            fail "Comparison page missing required ## Verdict section: $filepath"
+            VD_FAIL=1
+        fi
+    done < <(find "comparisons" -maxdepth 1 -name "*.md" 2>/dev/null)
+
+    if [ "$VD_FAIL" = "0" ]; then
+        pass "All comparison pages contain ## Verdict section"
+    fi
+fi
+
+# ─── 12. Dollar sign escaping ────────────────────────────────────────────────
+printf "\n--- 12. Dollar sign escaping (FRIC-029 regression) ---\n"
+# Quartz renders \$...\$ as LaTeX inline math. All bare dollar signs before
+# digits must be escaped as \$ in wiki content (CLAUDE.md Section 6.2).
+# Step 1: grep for lines containing a literal $ followed by a digit.
+# Step 2: filter out lines that already contain \$ (the correctly escaped form).
+# Severity: WARN — dollar signs in code blocks may produce false positives.
+# Known limitation: a line containing both \$20 (escaped) and $30 (unescaped)
+# may be excluded by the filter on the escaped match. Review all flagged lines.
+
+DS_WARN=0
+for d in topics tools sources comparisons pitfalls teaching; do
+    [ -d "$d" ] || continue
+    while IFS= read -r filepath; do
+        result=$(grep -nE '\$[0-9]' "$filepath" 2>/dev/null | grep -v '\\\$')
+        if [ -n "$result" ]; then
+            warn "Possible unescaped dollar sign (use \\$ per Section 6.2): $filepath"
+            while IFS= read -r ds_line; do
+                printf "         %s\n" "$ds_line"
+            done <<< "$result"
+            DS_WARN=1
+        fi
+    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+done
+
+if [ "$DS_WARN" = "0" ]; then
+    pass "No bare dollar signs before digits found in content pages"
+fi
+
+# ─── 13. teaching_notes_reviewed field presence ──────────────────────────────
+printf "\n--- 13. teaching_notes_reviewed field presence (Section 5.2/5.3) ---\n"
+# Topic and Tool pages with teaching_relevance: true that contain a
+# ## Teaching Notes body section must also have teaching_notes_reviewed in
+# frontmatter (CLAUDE.md Sections 5.2/5.3). Severity: WARN — lint Step L5b
+# is the authoritative backstop; this check provides an earlier warning signal.
+# Note: grep -qF '## Teaching Notes' matches the body section header only;
+# this string does not appear in YAML frontmatter.
+
+TNR_WARN=0
+for d in topics tools; do
+    [ -d "$d" ] || continue
+    while IFS= read -r filepath; do
+        tr_val=$(yaml_value "$filepath" "teaching_relevance")
+        if [ "$tr_val" = "true" ]; then
+            if grep -qF '## Teaching Notes' "$filepath" 2>/dev/null; then
+                if ! yaml_field_present "$filepath" "teaching_notes_reviewed"; then
+                    warn "Teaching-tagged page has ## Teaching Notes but missing 'teaching_notes_reviewed' frontmatter field: $filepath"
+                    TNR_WARN=1
+                fi
+            fi
+        fi
+    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+done
+
+if [ "$TNR_WARN" = "0" ]; then
+    pass "All teaching-tagged pages with ## Teaching Notes have teaching_notes_reviewed field"
 fi
 
 # ─── Summary ─────────────────────────────────────────────────────────────────

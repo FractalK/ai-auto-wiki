@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 29/04/2026 14:30
+**Last Updated:** 30/04/2026 15:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3405,3 +3405,84 @@ shifts may not surface as Key Claim changes — they may appear only in a new So
 page's body. No lint rule currently detects this; defer until operationally observed.
 
 **References:** DM-081, FRIC-030, FRIC-032
+
+---
+
+## DM-088 | TEST HARNESS EXPANDED TO CONTENT-LAYER CONFORMANCE (GROUPS 8–13)
+
+- **Date:** 2026-04-30
+- **Status:** ACTIVE
+
+**Decision:**
+Extend `wiki-verify.sh` from configuration-layer-only checks (Groups 1–7) to include
+six content-layer conformance checks (Groups 8–13):
+
+- **Group 8 — Teaching-brief page conformance:** Every file in `teaching/` must have
+  `type: teaching-brief`, `teaching_relevance: true` (exact value), and all required
+  frontmatter fields per Section 5.10. Severity: FAIL.
+- **Group 9 — YAML wikilink quoting (FRIC-032 regression):** All content-directory
+  `.md` files scanned for unquoted `[[wikilinks]]` in YAML frontmatter, using awk
+  scoped to the frontmatter block. Two patterns: block-list items and single-value
+  fields. Severity: FAIL.
+- **Group 10 — Pitfalls `<br>` conformance (FRIC-030 regression):** Every `**Status:**`
+  line in `pitfalls/` files must end with `<br>`. Severity: FAIL.
+- **Group 11 — Comparison Verdict section (DM-087):** Every `comparisons/` file must
+  contain `## Verdict`. Severity: FAIL.
+- **Group 12 — Dollar sign escaping (FRIC-029 regression):** Content-directory files
+  scanned for bare `$` before digits. Already-escaped `\$` filtered out. Severity: WARN
+  (false-positive risk from code blocks in prose).
+- **Group 13 — `teaching_notes_reviewed` field presence:** Topic and Tool pages with
+  `teaching_relevance: true` and a `## Teaching Notes` body section must also have
+  `teaching_notes_reviewed` in frontmatter. Severity: WARN (lint L5b is the
+  authoritative backstop; this provides earlier detection).
+
+`test-harness.md` Section 2.3 check catalogue updated with all six new rows.
+`test-harness.md` Section 2.5 maintenance table extended with four new trigger rows
+covering: new page types, new FRIC regression checks, new required body sections, and
+new conditional frontmatter fields.
+`test-harness.md` Section 2.4 usage list updated: "before every ingest or lint session"
+added as the first run trigger, formalizing the DM-084 pre-session habit.
+
+**Context:**
+Groups 1–7 operate exclusively at the configuration layer (file existence, singleton
+frontmatter fields, naming conventions, quartz config). All three FRIC entries from
+early 2026 (FRIC-029, FRIC-030, FRIC-032) slipped through because none of them involved
+configuration — they were content-level defects that accumulated silently across multiple
+ingest sessions. The new check groups make recurring defect patterns detectable before
+the next ingest session rather than after visual inspection of the Quartz-published site.
+
+**Rationale:**
+FAIL vs WARN assignment follows two criteria: (1) does the defect cause confirmed
+rendering failure in both Obsidian and Quartz (→ FAIL), or only in Quartz with possible
+false positives in the detection pattern (→ WARN)? (2) is there an authoritative
+downstream backstop that already catches the violation (→ WARN) or is the script the
+primary check (→ FAIL)?
+
+Groups 9 (unquoted wikilinks) and 10 (`<br>`) are FAIL: confirmed rendering defects
+in Quartz. Group 11 (Verdict) is FAIL: a required section with no downstream backstop.
+Group 8 (teaching-brief frontmatter) is FAIL: required fields per schema, same
+treatment as Group 4 scaffold files. Groups 12 (dollar signs) and 13 (teaching notes
+reviewed) are WARN: Group 12 has false-positive risk from code blocks; Group 13 has
+lint L5b as the authoritative backstop.
+
+**Alternatives Considered:**
+- **Separate content-check script:** Ruled out — adds operational complexity with no
+  benefit; same tools, same invocation model. One command is simpler.
+- **FAIL for Group 12:** Ruled out — shell dollar signs in code examples are legitimate
+  content; grep cannot reliably distinguish prose from code block context. WARN is the
+  correct severity given the false-positive risk.
+- **FAIL for Group 13:** Ruled out — lint Step L5b is the authoritative enforcement
+  mechanism; promoting this to FAIL would mean a FAIL condition for a field whose
+  absence the operator may not have noticed yet (the notes may have been written mid-
+  session). WARN is the correct signal level.
+
+**Consequences to Watch:**
+The content-layer checks (Groups 8–13) run on all `.md` files in content directories.
+At the current scale (64 pages), runtime is negligible. At 500+ pages, a single
+pre-session run will remain fast (grep/awk on ~500 files is sub-second). No performance
+concern anticipated at the projected scale of this wiki.
+The Group 9 awk delimiter counter may mis-scope if a file uses `---` inside a YAML
+string value (unusual but valid YAML). Monitor for false positives; if observed, log as
+a new FRIC entry.
+
+**References:** FRIC-029, FRIC-030, FRIC-032, DM-083, DM-084, DM-087
