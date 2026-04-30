@@ -11,7 +11,7 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-22
 related_topics:
-  - [[scalable-oversight]]
+  - "[[scalable-oversight]]"
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection

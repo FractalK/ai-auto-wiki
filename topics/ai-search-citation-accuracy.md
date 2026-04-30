@@ -8,7 +8,7 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-25
 related_tools:
-  - [[openai-chatgpt]]
+  - "[[openai-chatgpt]]"
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment

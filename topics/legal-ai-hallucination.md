@@ -8,11 +8,11 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-25
 related_topics:
-  - [[ai-search-citation-accuracy]]
+  - "[[ai-search-citation-accuracy]]"
 related_tools:
-  - [[lexisnexis-lexis-plus-ai]]
-  - [[thomson-reuters-westlaw-ai]]
-  - [[thomson-reuters-ask-practical-law-ai]]
+  - "[[lexisnexis-lexis-plus-ai]]"
+  - "[[thomson-reuters-westlaw-ai]]"
+  - "[[thomson-reuters-ask-practical-law-ai]]"
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment

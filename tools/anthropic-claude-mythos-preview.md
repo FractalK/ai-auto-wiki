@@ -28,10 +28,10 @@ primary_use_cases:
 source_count: 3
 last_assessed: 2026-04-23
 related_topics:
-  - [[ai-assisted-vulnerability-discovery]]
-  - [[constitutional-ai]]
+  - "[[ai-assisted-vulnerability-discovery]]"
+  - "[[constitutional-ai]]"
 related_tools:
-  - [[anthropic-claude-opus-4-7]]
+  - "[[anthropic-claude-opus-4-7]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness

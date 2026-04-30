@@ -13,10 +13,10 @@ url: https://ruben.substack.com/p/claude-for-dummies
 credibility_tier: practitioner
 extraction_depth: standard
 related_topics:
-  - [[ai-agentic-workflows]]
+  - "[[ai-agentic-workflows]]"
 related_tools:
-  - [[anthropic-claude]]
-  - [[anthropic-claude-opus-4-7]]
+  - "[[anthropic-claude]]"
+  - "[[anthropic-claude-opus-4-7]]"
 ---
 
 Practitioner reference guide covering Claude for non-technical users: product tiers and pricing, operating modes (browser, desktop app, Cowork), prompting practices, capabilities and limitations, and a multi-criteria practitioner comparison with ChatGPT across writing, document handling, agentic tasks, voice, image generation, and search.

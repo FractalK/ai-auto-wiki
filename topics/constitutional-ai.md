@@ -8,10 +8,10 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-22
 related_topics:
-  - [[constitutional-classifiers]]
-  - [[scalable-oversight]]
+  - "[[constitutional-classifiers]]"
+  - "[[scalable-oversight]]"
 related_tools:
-  - [[anthropic-claude-mythos-preview]]
+  - "[[anthropic-claude-mythos-preview]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy

@@ -8,10 +8,10 @@ status: developing
 source_count: 3
 last_assessed: 2026-04-27
 related_topics:
-  - [[ai-companion-risks]]
-  - [[constitutional-ai]]
-  - [[ai-assisted-vulnerability-discovery]]
-  - [[responsible-ai-government-evaluation]]
+  - "[[ai-companion-risks]]"
+  - "[[constitutional-ai]]"
+  - "[[ai-assisted-vulnerability-discovery]]"
+  - "[[responsible-ai-government-evaluation]]"
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows

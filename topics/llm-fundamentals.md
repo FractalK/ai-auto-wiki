@@ -8,9 +8,9 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-26
 related_topics:
-  - [[scalable-oversight]]
-  - [[llm-position-bias]]
-  - [[constitutional-ai]]
+  - "[[scalable-oversight]]"
+  - "[[llm-position-bias]]"
+  - "[[constitutional-ai]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction

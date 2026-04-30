@@ -8,9 +8,9 @@ status: developing
 source_count: 2
 last_assessed: 2026-04-22
 related_topics:
-  - [[ai-assisted-skills-training]]
+  - "[[ai-assisted-skills-training]]"
 related_tools:
-  - [[google-notebooklm]]
+  - "[[google-notebooklm]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction

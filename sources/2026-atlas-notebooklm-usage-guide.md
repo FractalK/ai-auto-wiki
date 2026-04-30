@@ -13,7 +13,7 @@ url: https://www.atlasworkspace.ai/blog/how-to-use-notebooklm
 credibility_tier: practitioner
 extraction_depth: standard
 related_tools:
-  - [[google-notebooklm]]
+  - "[[google-notebooklm]]"
 ---
 
 Practitioner guide covering NotebookLM setup, source management (50-source / 500K-word caps), four question-framing strategies, Audio Overview use cases, note-taking workflows, and three workflow templates (research paper writing, meeting prep, topic learning). Includes limitations (no API, no cross-notebook links, restricted export, internet required, limited collaboration) and advanced tips. Published by Atlas, a competing workspace tool; note that the guide positions Atlas as an upgrade path at the end (practitioner analysis of a third-party tool with vendor context).

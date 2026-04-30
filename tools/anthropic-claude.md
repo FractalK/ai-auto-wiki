@@ -33,11 +33,11 @@ primary_use_cases:
 source_count: 1
 last_assessed: 2026-04-22
 related_tools:
-  - [[anthropic-claude-opus-4-7]]
-  - [[openai-chatgpt]]
-  - [[google-notebooklm]]
+  - "[[anthropic-claude-opus-4-7]]"
+  - "[[openai-chatgpt]]"
+  - "[[google-notebooklm]]"
 related_topics:
-  - [[ai-agentic-workflows]]
+  - "[[ai-agentic-workflows]]"
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection

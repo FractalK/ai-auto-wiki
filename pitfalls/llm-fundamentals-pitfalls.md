@@ -3,7 +3,7 @@ type: pitfalls
 title: LLM Fundamentals Pitfalls
 created: 2026-04-26
 updated: 2026-04-26
-parent_entity: [[topics/llm-fundamentals]]
+parent_entity: "[[topics/llm-fundamentals]]"
 parent_type: topic
 status: current
 failure_mode_count: 7
@@ -16,7 +16,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - professional-and-continuing-education
 contributing_sources:
-  - [[2023-karpathy-intro-large-language-models]]
+  - "[[2023-karpathy-intro-large-language-models]]"
 ---
 
 ## Technical Limitations

@@ -8,8 +8,8 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-22
 related_topics:
-  - [[scalable-oversight]]
-  - [[weak-to-strong-supervision]]
+  - "[[scalable-oversight]]"
+  - "[[weak-to-strong-supervision]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy

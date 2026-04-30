@@ -11,7 +11,7 @@ use_case: Selecting a general-purpose AI assistant for professional writing, doc
 status: stale
 source_count: 1
 related_topics:
-  - [[ai-agentic-workflows]]
+  - "[[ai-agentic-workflows]]"
 ---
 
 > **Source quality note:** This comparison is based on a single practitioner evaluation (Ruben Hassid, "Claude For Dummies," April 2026). No benchmark data or controlled evaluation is cited; all dimension ratings reflect practitioner user experience rather than independent empirical testing. Treat as directional guidance pending corroboration from institutional-tier sources.

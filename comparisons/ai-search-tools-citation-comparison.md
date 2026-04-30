@@ -11,7 +11,7 @@ use_case: Evaluating generative AI search tools for accuracy and attribution rel
 status: current
 source_count: 1
 related_topics:
-  - [[ai-search-citation-accuracy]]
+  - "[[ai-search-citation-accuracy]]"
 ---
 
 *Based on: [[2025-ai-search-citation-problem]] — Tow Center for Digital Journalism, March 2025. Study design: 1,600 queries across 8 platforms, 20 news publishers, 200 articles. Metrics: correct article identification (headline, publisher, date, URL). Note: not all tools in this comparison have dedicated wiki pages; see [[ai-search-citation-accuracy]] for context.*

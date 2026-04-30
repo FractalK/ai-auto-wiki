@@ -24,9 +24,9 @@ limitations:
 source_count: 2
 last_assessed: 2026-04-25
 related_tools:
-  - [[anthropic-claude]]
+  - "[[anthropic-claude]]"
 related_topics:
-  - [[ai-search-citation-accuracy]]
+  - "[[ai-search-citation-accuracy]]"
 ---
 
 ChatGPT is OpenAI's consumer AI assistant and the most widely recognized AI chatbot product. It operates as a prompt-response system accessible through a browser and mobile apps, with an extended thinking mode for research-intensive queries and DALL-E integration for image generation. ChatGPT is the default reference point for practitioners evaluating alternative AI assistants.

@@ -12,7 +12,7 @@ use_case: Evaluating leading legal AI research tools for hallucination rates and
 status: current
 source_count: 1
 related_topics:
-  - [[legal-ai-hallucination]]
+  - "[[legal-ai-hallucination]]"
 ---
 
 *Based on: [[2024-ai-trial-legal-models-hallucinate]] — Stanford RegLab and HAI, May 2024. Study design: preregistered dataset of 200+ open-ended legal queries across four categories. Note: all three tools are practitioner-sourced self-descriptions; error rate data is from independent Stanford benchmarking.*

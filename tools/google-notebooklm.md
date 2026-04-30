@@ -33,8 +33,8 @@ primary_use_cases:
 source_count: 1
 last_assessed: 2026-04-22
 related_topics:
-  - [[ai-in-higher-education]]
-  - [[llm-wiki-pattern]]
+  - "[[ai-in-higher-education]]"
+  - "[[llm-wiki-pattern]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction

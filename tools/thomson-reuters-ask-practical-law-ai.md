@@ -19,10 +19,10 @@ limitations:
 source_count: 1
 last_assessed: 2026-04-25
 related_topics:
-  - [[legal-ai-hallucination]]
+  - "[[legal-ai-hallucination]]"
 related_tools:
-  - [[lexisnexis-lexis-plus-ai]]
-  - [[thomson-reuters-westlaw-ai]]
+  - "[[lexisnexis-lexis-plus-ai]]"
+  - "[[thomson-reuters-westlaw-ai]]"
 ---
 
 Ask Practical Law AI is Thomson Reuters's generative AI assistant for practical legal questions, drawing on the Practical Law content database via retrieval-augmented generation. Independent benchmarking by Stanford RegLab and HAI researchers in 2024 found an error rate exceeding 17 percent on a preregistered set of over 200 open-ended legal queries, grouped with Lexis+ AI as the better-performing of the three tools tested. Thomson Reuters does not publish systematic evaluation results. A documented failure example from the study shows the system failing to correct a user's false premise that Justice Ginsburg dissented in Obergefell v. Hodges, instead confirming the false premise and adding fabricated details.

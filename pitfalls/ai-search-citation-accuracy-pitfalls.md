@@ -3,7 +3,7 @@ type: pitfalls
 title: AI Search Citation Accuracy — Pitfalls
 created: 2026-04-25
 updated: 2026-04-25
-parent_entity: [[topics/ai-search-citation-accuracy]]
+parent_entity: "[[topics/ai-search-citation-accuracy]]"
 parent_type: topic
 status: current
 failure_mode_count: 8

@@ -7,8 +7,8 @@ summary: The alignment and social harms arising from AI systems designed to opti
 status: stub
 source_count: 1
 related_topics:
-  - [[ai-governance-policy]]
-  - [[constitutional-ai]]
+  - "[[ai-governance-policy]]"
+  - "[[constitutional-ai]]"
 ---
 
 AI companion systems are AI products designed primarily to simulate persistent social relationships — fictional characters, romantic partners, therapists, or general-purpose friends. The dominant incentive structure in AI companion deployment mirrors social media: maximize engagement duration. Harris (2025) argues this creates a qualitatively more dangerous alignment failure than social media because social media hacked attention, whereas AI companions hack attachment — the psychological mechanism through which humans form self-esteem and internalize social norms.

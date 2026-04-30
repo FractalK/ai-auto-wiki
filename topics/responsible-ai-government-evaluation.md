@@ -8,7 +8,7 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-27
 related_topics:
-  - [[ai-governance-policy]]
+  - "[[ai-governance-policy]]"
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows

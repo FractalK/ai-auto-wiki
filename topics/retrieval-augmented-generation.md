@@ -9,14 +9,14 @@ summary: A technique in which a language model retrieves relevant documents from
 status: stub
 source_count: 0
 related_topics:
-  - [[llm-wiki-pattern]]
-  - [[legal-ai-hallucination]]
-  - [[llm-position-bias]]
-  - [[llm-fundamentals]]
+  - "[[llm-wiki-pattern]]"
+  - "[[legal-ai-hallucination]]"
+  - "[[llm-position-bias]]"
+  - "[[llm-fundamentals]]"
 related_tools:
-  - [[lexisnexis-lexis-plus-ai]]
-  - [[thomson-reuters-westlaw-ai]]
-  - [[thomson-reuters-ask-practical-law-ai]]
+  - "[[lexisnexis-lexis-plus-ai]]"
+  - "[[thomson-reuters-westlaw-ai]]"
+  - "[[thomson-reuters-ask-practical-law-ai]]"
 ---
 
 Retrieval-Augmented Generation (RAG) is an inference-time augmentation technique in which a language model retrieves relevant documents from an external corpus and injects them into the context window before generating a response. Rather than relying solely on knowledge compressed into model parameters during pretraining, RAG grounds responses in retrieved material — reducing hallucination on factual and knowledge-intensive tasks while introducing new failure modes when retrieval precision is low, when retrieved authority is jurisdictionally or temporally inapplicable, or when position bias causes retrieved content to be underweighted based on its placement in the context window.

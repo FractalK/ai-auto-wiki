@@ -3,7 +3,7 @@ type: pitfalls
 title: LLM Self-Preference Bias Pitfalls
 created: 2026-04-26
 updated: 2026-04-26
-parent_entity: [[topics/llm-self-preference-bias]]
+parent_entity: "[[topics/llm-self-preference-bias]]"
 parent_type: topic
 status: current
 failure_mode_count: 6
@@ -15,7 +15,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - project-and-program-management
 contributing_sources:
-  - [[2026-self-preference-llm-hiring]]
+  - "[[2026-self-preference-llm-hiring]]"
 ---
 
 ## Technical Limitations

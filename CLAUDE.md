@@ -322,8 +322,8 @@ Obsidian resolves wikilinks by shortest unique filename match. Use short-form wi
 in prose: `[[openai-gpt-4o]]`.
 
 **Exception — structural frontmatter fields only:** Use full-path wikilinks in
-`entities_compared` and `parent_entity` frontmatter fields to enable unambiguous
-lint type enforcement: `[[tools/openai-gpt-4o]]` not `[[openai-gpt-4o]]`.
+`entities_compared`, `parent_entity`, and `derived_from` frontmatter fields to enable
+unambiguous lint type enforcement: `"[[tools/openai-gpt-4o]]"` not `"[[openai-gpt-4o]]"`.
 
 Before creating any new page, verify the filename is unique across the entire repo.
 If a collision exists, surface it rather than silently overwriting.
@@ -335,6 +335,12 @@ If a collision exists, surface it rather than silently overwriting.
 YAML frontmatter is mandatory on every page. Fields marked **required** must be present
 on every page of that type. Fields marked **conditional** are required when their
 condition is met. Fields marked **optional** may be omitted if not applicable.
+
+**Wikilinks in YAML frontmatter must be quoted.** The YAML parser treats unquoted
+`[[...]]` as a nested flow sequence, not a string — producing triple-bracket rendering
+errors in Obsidian and broken links in Quartz. Write all wikilinks in frontmatter as
+`"[[slug]]"`, whether short-form or full-path. This applies to every wikilink-valued
+field in every page type.
 
 ### 5.1 Universal Fields (all page types)
 
@@ -561,6 +567,49 @@ date is older than the `updated` date of any page in `entities_compared`.
 sourced from the Key Claims of the pages listed in `entities_compared`. No independent
 Key Claims section is required.
 
+**Body structure:**
+
+One opening sentence: what decision this comparison serves and what the comparison reveals.
+Derive from `use_case`. Do not restate `use_case` verbatim — write it as prose.
+
+Then the comparison table. No section heading. Columns are the compared entities; rows
+are comparison dimensions drawn from the Key Claims of the `entities_compared` pages.
+
+**`## Verdict` (required):** One sentence per entity using the constrained format:
+
+```
+Prefer [[X]] when [condition]. Prefer [[Y]] when [condition].
+```
+
+For three or more entities: one sentence per entity. When the entity count is large
+(five or more), group into tiers instead of enumerating individually:
+
+```
+Acceptable for [use case]: [[X]], [[Y]]. Not recommended for [use case]: [[A]], [[B]], [[C]].
+```
+
+Conditions must be specific and falsifiable — a reader must be able to check each condition
+against the current comparison table. Do not use hedging language ("generally," "often,"
+"in most cases"). Do not write prose that cannot be falsified.
+
+**`## Evidence Notes` (optional):** Include only when there is non-obvious methodological
+context a reader needs to interpret the comparison — study parameters, scope boundaries,
+data currency caveats, significant caveats about comparability. Omit entirely when
+nothing meaningful to add. Do not include a placeholder heading when absent. When present,
+separate each labeled item with `<br>`:
+
+```markdown
+**Label:** value<br>
+**Label:** value
+```
+
+**Verdict update rule:** Governed by the DM-081 substantiality threshold. Below threshold
+(minor Key Claim changes, additional corroborating sources, prose refinements that do
+not alter the stated conditions): auto-apply and note in commit message. At or above
+threshold (a condition in the Verdict no longer holds, an entity is superseded, or a
+Key Claim fundamentally changes the comparison basis): surface as a forced choice in the
+post-ingest summary Section B before writing.
+
 ### 5.6 Pitfalls Page
 
 ```yaml
@@ -570,7 +619,7 @@ created:
 updated:
 aliases:
 parent_entity:    # required | full-path wikilink to the parent Tool or Topic page
-                  #   Example: [[tools/openai-gpt-4o]]
+                  #   Example: "[[tools/openai-gpt-4o]]"
 parent_type:      # required | controlled: tool | topic
 status:           # required | controlled: current | stale
 failure_mode_count: # optional | integer; total count of failure mode entries across
@@ -582,6 +631,7 @@ contributing_sources: # optional | list of short-form wikilinks to Source pages;
                       #   all source pages whose content contributed at least one
                       #   failure mode entry to this page; updated by Step 13a on
                       #   every create or update pass
+                      #   Example: ["[[2024-source-slug]]", "[[2025-source-slug]]"]
 teaching_notes_reviewed: # conditional | same rules as Topic Section 5.2
 ```
 
@@ -657,8 +707,8 @@ status:           # required | controlled: current | stale
 query_date:       # required | ISO 8601; date this brief was generated
 derived_from:     # required | list of full-path wikilinks to constituent pages;
                   #   minimum 1 entry; must resolve to Topic, Tool, or Pitfalls pages
-                  #   Use full-path wikilinks — same convention as entities_compared
-                  #   and parent_entity — for lint type enforcement.
+                  #   Use full-path wikilinks — same convention as entities_compared,
+                  #   parent_entity, and derived_from per the Section 4 exception.
                   #   Example: ["[[topics/retrieval-augmented-generation]]",
                   #             "[[tools/openai-gpt-4o]]"]
 competency_domains:   # required | list; values from Section 7.1 only

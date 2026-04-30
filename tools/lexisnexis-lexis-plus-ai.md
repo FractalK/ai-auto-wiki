@@ -20,10 +20,10 @@ limitations:
 source_count: 1
 last_assessed: 2026-04-25
 related_topics:
-  - [[legal-ai-hallucination]]
+  - "[[legal-ai-hallucination]]"
 related_tools:
-  - [[thomson-reuters-westlaw-ai]]
-  - [[thomson-reuters-ask-practical-law-ai]]
+  - "[[thomson-reuters-westlaw-ai]]"
+  - "[[thomson-reuters-ask-practical-law-ai]]"
 ---
 
 Lexis+ AI is LexisNexis's generative AI legal research assistant, built on retrieval-augmented generation over the LexisNexis legal database. LexisNexis marketed the product as providing "hallucination-free linked legal citations." Independent benchmarking by Stanford RegLab and HAI researchers in 2024 found an error rate exceeding 17 percent on a preregistered set of over 200 open-ended legal queries. The product does not publish systematic evaluation results or provide researchers with access for independent testing.

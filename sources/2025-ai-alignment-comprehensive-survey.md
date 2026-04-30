@@ -39,12 +39,12 @@ url: https://arxiv.org/abs/2310.19852
 credibility_tier: practitioner
 extraction_depth: full
 related_topics:
-  - [[ai-alignment]]
-  - [[scalable-oversight]]
-  - [[weak-to-strong-supervision]]
-  - [[reward-hacking]]
-  - [[goal-misgeneralization]]
-  - [[constitutional-ai]]
+  - "[[ai-alignment]]"
+  - "[[scalable-oversight]]"
+  - "[[weak-to-strong-supervision]]"
+  - "[[reward-hacking]]"
+  - "[[goal-misgeneralization]]"
+  - "[[constitutional-ai]]"
 ---
 
 This survey provides a comprehensive review of AI alignment research across its major subfields, organizing the field around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and an alignment cycle that distinguishes forward alignment (Learning from Feedback and Learning under Distribution Shift) from backward alignment (Assurance and Governance). Covering over 400 papers, it treats RLHF and scalable oversight methods — including Iterated Distillation and Amplification (IDA), Recursive Reward Modeling (RRM), Debate, and Cooperative Inverse Reinforcement Learning (CIRL) — as well as distribution shift challenges including goal misgeneralization and auto-induced distribution shift, interpretability and evaluation techniques, and governance frameworks. The survey is a structured entry point into alignment research across its subfields rather than an empirical paper advancing new methods. Its 2025 publication by authors across eight institutions including Cambridge, Oxford, CMU, and Peking University reflects the growing academic infrastructure around AI alignment as a research discipline.

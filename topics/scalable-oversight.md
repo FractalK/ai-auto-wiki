@@ -8,11 +8,11 @@ status: developing
 source_count: 4
 last_assessed: 2026-04-26
 related_topics:
-  - [[weak-to-strong-supervision]]
-  - [[llm-functional-emotions]]
-  - [[llm-fundamentals]]
-  - [[ai-alignment]]
-  - [[reward-hacking]]
+  - "[[weak-to-strong-supervision]]"
+  - "[[llm-functional-emotions]]"
+  - "[[llm-fundamentals]]"
+  - "[[ai-alignment]]"
+  - "[[reward-hacking]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy

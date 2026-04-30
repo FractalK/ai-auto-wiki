@@ -33,7 +33,7 @@ primary_use_cases:
 source_count: 2
 last_assessed: 2026-04-23
 related_tools:
-  - [[anthropic-claude-mythos-preview]]
+  - "[[anthropic-claude-mythos-preview]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness

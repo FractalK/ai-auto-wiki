@@ -8,8 +8,8 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-26
 related_topics:
-  - [[llm-fundamentals]]
-  - [[ai-in-higher-education]]
+  - "[[llm-fundamentals]]"
+  - "[[ai-in-higher-education]]"
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment

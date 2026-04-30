@@ -3,7 +3,7 @@ type: pitfalls
 title: AI Alignment Pitfalls
 created: 2026-04-26
 updated: 2026-04-26
-parent_entity: [[topics/ai-alignment]]
+parent_entity: "[[topics/ai-alignment]]"
 parent_type: topic
 status: current
 failure_mode_count: 7
@@ -15,7 +15,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - graduate-and-doctoral-education
 contributing_sources:
-  - [[2025-ai-alignment-comprehensive-survey]]
+  - "[[2025-ai-alignment-comprehensive-survey]]"
 ---
 
 ## Technical Limitations

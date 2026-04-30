@@ -8,10 +8,10 @@ status: developing
 source_count: 1
 last_assessed: 2026-04-26
 related_topics:
-  - [[ai-alignment]]
-  - [[goal-misgeneralization]]
-  - [[scalable-oversight]]
-  - [[llm-functional-emotions]]
+  - "[[ai-alignment]]"
+  - "[[goal-misgeneralization]]"
+  - "[[scalable-oversight]]"
+  - "[[llm-functional-emotions]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy

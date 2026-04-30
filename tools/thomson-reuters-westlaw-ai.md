@@ -20,10 +20,10 @@ limitations:
 source_count: 1
 last_assessed: 2026-04-25
 related_topics:
-  - [[legal-ai-hallucination]]
+  - "[[legal-ai-hallucination]]"
 related_tools:
-  - [[lexisnexis-lexis-plus-ai]]
-  - [[thomson-reuters-ask-practical-law-ai]]
+  - "[[lexisnexis-lexis-plus-ai]]"
+  - "[[thomson-reuters-ask-practical-law-ai]]"
 ---
 
 Westlaw AI-Assisted Research is Thomson Reuters's generative AI feature within the Westlaw legal research platform, built on retrieval-augmented generation over the Westlaw database. Independent benchmarking by Stanford RegLab and HAI researchers in 2024 found an error rate exceeding 34 percent on a preregistered set of over 200 open-ended legal queries — the highest error rate of the three legal AI tools tested and more than double the rate for Lexis+ AI and Ask Practical Law AI. Thomson Reuters does not publish systematic evaluation results or provide researchers with access for independent testing. A documented failure example from the study shows the system reciting the overturned "undue burden" standard for abortion law as current law following Dobbs.

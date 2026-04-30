@@ -3,7 +3,7 @@ type: pitfalls
 title: AI Governance and Policy — Pitfalls
 created: 2026-04-27
 updated: 2026-04-27
-parent_entity: [[topics/ai-governance-policy]]
+parent_entity: "[[topics/ai-governance-policy]]"
 parent_type: topic
 status: current
 failure_mode_count: 5
@@ -14,8 +14,8 @@ competency_domains:
 professional_contexts:
   - domestic-civil-service-and-public-administration
 contributing_sources:
-  - [[2025-responsible-ai-public-evaluation]]
-  - [[2025-ibm-government-ai-era]]
+  - "[[2025-responsible-ai-public-evaluation]]"
+  - "[[2025-ibm-government-ai-era]]"
 ---
 
 ## Technical Limitations

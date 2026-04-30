@@ -8,7 +8,7 @@ status: developing
 source_count: 2
 last_assessed: 2026-04-22
 related_topics:
-  - [[llm-wiki-pattern]]
+  - "[[llm-wiki-pattern]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction
