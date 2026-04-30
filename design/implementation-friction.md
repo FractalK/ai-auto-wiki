@@ -1,5 +1,5 @@
 # implementation-friction.md
-Last Updated: 2026-04-22
+**Last Updated:** 29/04/2026 14:30
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -516,7 +516,7 @@ fields.
 ## FRIC-030 | Pitfalls Status/Source Lines Collapse to Single Line on Quartz
 
 - **Date:** 2026-04-27
-- **Status:** open
+- **Status:** closed
 - **Phase:** Post-setup
 - **Document implicated:** CLAUDE.md — Section 5.6 (Pitfalls page spec, failure mode
   entry format); all existing Pitfalls pages
@@ -533,7 +533,7 @@ fields.
   Retroactive fix method: use Claude Code in the next wiki session with a targeted
   bash find/sed pass across all files in `pitfalls/`. Human to confirm approach at
   session start before execution.
-- **Resolved:** —
+- **Resolved:** 2026-04-27
 
 ---
 
@@ -561,3 +561,30 @@ fields.
   displacing the lowest-scoring claim as a forced choice. Human confirms before any
   write. Defer until the pattern recurs operationally.
 - **Resolved:** —
+
+---
+
+## FRIC-032 | UNQUOTED WIKILINKS IN YAML BLOCK LIST FIELDS PRODUCE BROKEN RENDERING
+
+- **Date:** 2026-04-29
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** CLAUDE.md — all frontmatter specs in Section 5 containing
+  wikilink-valued fields; no universal quoting rule existed; inline comment examples used
+  flow-sequence list format (e.g., `["[[slug-a]]", "[[slug-b]]"]`) which implied correct
+  quoting in that form, but block list format (`- [[slug]]`) was never addressed
+- **Symptom:** Unquoted `[[wikilinks]]` in YAML block list frontmatter fields render as
+  triple-nested brackets in Obsidian Properties and fail to resolve as wikilinks in
+  Quartz. Observed in `related_topics` (Comparison and Source pages) and in
+  `contributing_sources` / `parent_entity` (Pitfalls pages). The YAML parser interprets
+  unquoted `[[...]]` as a nested flow sequence, not a string.
+- **Verdict:** Confirmed defect — schema omission caused agents to write unquoted
+  wikilinks in block list format throughout. No explicit quoting requirement existed in
+  CLAUDE.md; inline comment examples were insufficient instruction for the block list case.
+- **Fix plan:** Universal quoting rule added to CLAUDE.md Section 5 preamble: all
+  wikilinks in all frontmatter fields must be written as `"[[slug]]"` — both in block
+  list items (`- "[[slug]]"`) and single-value fields (`field: "[[slug]]"`). All affected
+  example values in Section 5 specs updated to quoted form. Retroactive fix on live pages
+  via targeted Claude Code session (grep + sed across all page directories; see Item 6
+  session plan from design session 2026-04-29).
+- **Resolved:** 2026-04-29

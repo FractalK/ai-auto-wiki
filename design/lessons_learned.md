@@ -1,5 +1,5 @@
 # Lessons Learned
-Last Updated: 4/25/2026
+**Last Updated:** 29/04/2026 14:30
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -947,3 +947,41 @@ The cross-reference check between implementation-handoff.md Section 5 and
 tooling-recommendation.md Section 7 is a named check that fires on every session that
 modifies the template. Treat it as a required gate, not a suggestion. Do not mark the
 ritual complete until both documents have been visually compared on the template content.
+
+## LL-030 | YAML WIKILINK QUOTING REQUIREMENT NOT STATED EXPLICITLY IN SCHEMA
+
+- **Date:** 2026-04-29
+- **Context:** Post-implementation review of live wiki pages revealed unquoted wikilinks
+  in YAML block list frontmatter fields across multiple page types.
+
+**Problem:**
+Unquoted `[[wikilinks]]` in YAML block list frontmatter fields (e.g., `- [[slug]]`) were
+present across Comparison, Source, and Pitfalls pages. The YAML parser treats unquoted
+`[[...]]` as a nested flow sequence, not a string, producing triple-bracket rendering in
+Obsidian Properties and broken link resolution in Quartz. The defect was systematic
+across multiple ingest sessions — not an isolated agent error.
+
+**Root Cause:**
+CLAUDE.md Section 5 never stated an explicit quoting requirement for wikilinks in
+frontmatter fields. Inline comment examples in some field specs used the flow-sequence
+list form (e.g., `["[[slug-a]]", "[[slug-b]]"]`), which implied correct quoting in that
+format. But block list form (`- [[slug]]`) was never addressed, and that is the form
+agents naturally use when writing YAML block lists. The agent used syntactically valid
+YAML that resolved to the wrong type.
+
+**Fix Applied:**
+Universal quoting rule added to CLAUDE.md Section 5 preamble: all wikilinks in all
+frontmatter fields must be written as `"[[slug]]"` — both in block list items
+(`- "[[slug]]"`) and single-value fields (`field: "[[slug]]"`). All affected example
+values in Section 5 specs updated to quoted form. Retroactive fix on live pages planned
+as a targeted Claude Code session (Python script parsing frontmatter blocks; grep + sed
+verification pass).
+
+**Implication Going Forward:**
+Any frontmatter field that accepts wikilink values must show an explicit `"[[slug]]"`
+example — not merely an inline comment in flow-sequence form. When adding a new
+wikilink-valued field to any page type spec, confirm the example value is in quoted form
+before delivery. Comment syntax and implied convention are insufficient instruction for
+the agent on YAML type behavior.
+
+**References:** FRIC-032, DM-087

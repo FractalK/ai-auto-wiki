@@ -1,4 +1,5 @@
 # Decisions Made
+**Last Updated:** 29/04/2026 14:30
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3339,3 +3340,68 @@ must have it deleted and the three new stubs added. The step-6-7 Claude Code pro
 must be updated to regenerate the correct set of seven stubs.
 
 **References:** LL-029
+
+---
+
+## DM-087 | COMPARISON PAGE BODY TEMPLATE: FOUR-PART STRUCTURE WITH CONSTRAINED VERDICT
+
+- **Date:** 2026-04-29
+- **Status:** ACTIVE
+
+**Decision:**
+Comparison pages use a four-part body structure: (1) opening sentence — required, no
+heading, one sentence derived from `use_case`, written as prose (not a verbatim restate);
+(2) comparison table — required, no heading; (3) `## Verdict` — required, constrained
+format: "Prefer [[X]] when [condition]." one sentence per compared entity, conditions
+must be specific and falsifiable against the comparison table, no hedging language; for
+five or more entities, group into tiers; (4) `## Evidence Notes` — optional, labeled
+attributes separated by `<br>`, omitted entirely when nothing meaningful to add, no
+placeholder heading. Verdict updates follow the DM-081 threshold rule: auto-apply below
+threshold; surface as forced choice in post-ingest summary Section B when a Key Claim
+changes which conditions apply.
+
+**Context:**
+CLAUDE.md Section 5.5 specified the frontmatter schema for Comparison pages but left the
+body structure entirely unspecified. Agents improvised — producing inconsistent heading
+hierarchies, unconstrained prose verdicts, and inline evidence blocks that collapsed to
+single lines on Quartz (the CommonMark single-newline rendering problem documented in
+FRIC-030). Three existing comparison pages require retroactive restructuring.
+
+**Rationale:**
+The Verdict section is always producible from the comparison table and Key Claims — it
+requires no information not already on the page, so there is no empty-section risk for
+that heading. Constraining its format to "Prefer [[X]] when [condition]" limits judgment
+drift: conditions must be falsifiable, hedging language is prohibited, and the format
+degrades gracefully to tier groupings for large entity counts. Evidence Notes are optional
+so the agent omits the heading entirely when nothing meaningful is available — the
+empty-heading pollution problem that motivated option B's rejection. The `<br>` separator
+mirrors the FRIC-030 fix for Pitfalls pages: same Quartz/CommonMark rendering constraint,
+same solution.
+
+**Alternatives Considered:**
+- **Option A — Status quo (no body spec):** Ruled out — demonstrated to produce
+  structural inconsistency across existing comparison pages.
+- **Option B — Comparison table only, no Verdict or Evidence Notes:** Ruled out —
+  comparison without a recommendation is incomplete for the wiki's decision-support use
+  case; the table alone answers "how do they differ" but not "which to choose."
+- **Option C — Unconstrained Verdict prose:** Ruled out — without format constraints,
+  agents produce hedged, non-falsifiable prose ("generally better when...") that cannot
+  be meaningfully updated on re-ingest.
+- **Option D — Constrained Verdict, Evidence Notes optional (chosen):** Provides
+  necessary structure without over-specifying; omit-when-empty rule prevents placeholder
+  pollution; `<br>` separator is a proven Quartz fix.
+- **Option E — Forced-choice Verdict on every write:** Ruled out — Verdict is fully
+  derivable from Key Claims; requiring human confirmation on every comparison page write
+  adds overhead without value. DM-081 threshold logic already governs when a forced
+  choice is warranted.
+
+**Consequences to Watch:**
+Verdict updates must respect the DM-081 threshold rule: when a Key Claim changes which
+conditions apply, the update is a forced choice, not auto-apply. Evidence Notes can go
+stale when a new source with substantially different methodology is ingested without
+triggering a comparison staleness flag; the lint staleness check (Comparison page
+`updated` vs. `entities_compared` page `updated`) is the backstop, but methodological
+shifts may not surface as Key Claim changes — they may appear only in a new Source
+page's body. No lint rule currently detects this; defer until operationally observed.
+
+**References:** DM-081, FRIC-030, FRIC-032
