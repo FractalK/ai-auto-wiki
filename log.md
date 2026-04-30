@@ -2,10 +2,13 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-29
-last_entry: 2026-04-29
-entry_count: 39
+updated: 2026-04-30
+last_entry: 2026-04-30
+entry_count: 40
 ---
+
+## [2026-04-30] ops | teaching notes back-population
+Teaching notes written: 29 pages. Fields added: teaching_notes_reviewed. No ingest performed.
 
 ## [2026-04-22] ingest | LLM Wiki
 Added: [[2026-karpathy-llm-wiki-pattern]]. Updated: none. Contradictions flagged: 0.
