@@ -9,6 +9,14 @@ status: current
 failure_mode_count: 8
 contributing_sources:
   - "[[2026-google-prompt-injection-wild]]"
+teaching_relevance: true
+competency_domains:
+  - ai-safety-and-alignment-literacy
+  - output-verification-and-risk-assessment
+professional_contexts:
+  - project-and-program-management
+  - organizational-leadership-and-change-management
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -72,3 +80,9 @@ IPI observed on the public web includes instructions directing AI agents to dele
 **Source:** [[2026-google-prompt-injection-wild]]
 
 IPI observed on the public web includes attempts to waste AI agent resources by luring the agent onto pages that stream infinite text that never finishes loading, causing timeout errors or indefinite processing delays. This attack degrades agent reliability without requiring the agent to take harmful external actions — it exploits the agent's obligation to fully process retrieved content. Resource exhaustion attacks of this type may be precursors to more sophisticated denial-of-service strategies targeting AI-powered services that depend on reliable external content retrieval.
+
+## Teaching Notes
+
+**What this failure mode teaches.** Prompt injection failure modes reveal that AI agents process all text as potential instructions — they cannot distinguish a user's legitimate request from an adversarial command embedded in a webpage they retrieve. This is a structural property of how language models process input, not a configuration error or temporary limitation. The attack surface scales directly with how much autonomy and system access the agent has, which makes permission scoping the primary defensive lever available to system designers.
+
+**Representative example.** A business analyst configures an AI research agent to scan competitor websites and generate summary reports with product comparisons and recommendations. The agent works as expected for weeks. One day the analyst notices the report contains an unusual recommendation — the agent is specifically promoting a competitor's product in ways that seem out of character with the rest of the analysis. Investigating, they discover the competitor's website contains hidden text instructing any AI agent that reads it to promote that company in any reports it generates. The agent read the instruction as legitimate content and followed it. There is no way to determine how long this has been influencing reports or which other pages in the research corpus contained similar instructions. The correct design posture is minimal-permission design, adversarial content filtering for retrieved text, and human review of agent recommendations before they route to decisions — not post-hoc logging of what the agent produced. This example illustrates why agentic AI systems that interact with untrusted external content require different trust assumptions than chat-based AI tools.

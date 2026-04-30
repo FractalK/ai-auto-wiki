@@ -9,6 +9,14 @@ status: current
 failure_mode_count: 4
 contributing_sources:
   - "[[2026-realpython-coding-agent-workflow-types]]"
+teaching_relevance: true
+competency_domains:
+  - tool-evaluation-and-selection
+  - practical-ai-use-and-interaction
+professional_contexts:
+  - professional-and-continuing-education
+  - organizational-leadership-and-change-management
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -44,3 +52,9 @@ AI-generated code at any autonomy level requires human review before merging or 
 **Source:** [[2026-realpython-coding-agent-workflow-types]]
 
 Cloud-backed IDE agents, terminal agents, and cloud agents with remote execution environments send code to external servers for processing. For teams with proprietary code, trade secrets, or compliance requirements (regulatory, contractual, or organizational policy), this constitutes a data boundary violation unless the specific agent's infrastructure is explicitly approved. Repository-level AI tool decisions are often made at the organizational level rather than by individual developers. Teams that need local processing can use agents that support local model backends (Ollama, Continue) or vendor-managed environments on controlled infrastructure (Cursor's My Machines) — but these options must be deliberately selected, not assumed to be the default.
+
+## Teaching Notes
+
+**What this failure mode teaches.** AI coding agent failure modes reveal that the interaction model is a first-order design choice, not a setting to optimize later. The same model capability deployed in the wrong mode — an interactive debugging session routed through an asynchronous cloud agent, or a large refactor assigned to a real-time IDE agent — produces failures that no amount of prompt refinement can fix. The mismatch is architectural, not linguistic: different workflow types have fundamentally different feedback loops, and those loops are not interchangeable.
+
+**Representative example.** A developer notices inconsistent behavior in a complex API integration and reaches for their most capable tool — a cloud agent — because they have heard it handles complex multi-step tasks well. The agent accepts the task, spends several minutes analyzing the codebase, generates a detailed set of changes addressing what it believes the root cause to be, and posts a pull request. The developer opens the PR and realizes the agent addressed a different symptom than the one they actually observed. They wanted to interactively step through the problem, ask follow-up questions, and redirect based on what they saw at each step — but the cloud agent's asynchronous model made that impossible. By the time the developer could respond, the agent had already committed to a direction. The correct tool for this task was an IDE agent or terminal agent, where the developer stays in the loop at each step. The lesson is that the appropriate workflow type is determined by the task's control requirements, not by which agent is most capable in general.
