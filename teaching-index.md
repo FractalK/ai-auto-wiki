@@ -2,10 +2,10 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-04-27
+updated: 2026-04-30
 ---
 
-*Generated 2026-04-27 after ingest pass. 29 pages tagged teaching_relevance: true.*
+*Generated 2026-04-30 after ingest pass. 31 pages tagged teaching_relevance: true.*
 
 ---
 
@@ -14,6 +14,7 @@ updated: 2026-04-27
 ### organizational-leadership-and-change-management
 - [[llm-fundamentals]] | Topic | foundational | The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
+- [[ai-coding-agent-workflow-types]] | Topic | foundational | A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 
 ### project-and-program-management
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
@@ -38,6 +39,7 @@ updated: 2026-04-27
 ### professional-and-continuing-education
 - [[llm-fundamentals]] | Topic | foundational | The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 - [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
+- [[ai-coding-agent-workflow-types]] | Topic | foundational | A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 
 ---
 
@@ -48,6 +50,7 @@ updated: 2026-04-27
 - [[llm-fundamentals-pitfalls]] | Pitfalls | foundational | Failure modes and antipatterns for LLM deployment covering System 1 reasoning ceiling, context window amnesia, jailbreaks, and prompt injection in agentic pipelines.
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[ai-agentic-workflows]] | Topic | practitioner | A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
+- [[ai-coding-agent-workflow-types]] | Topic | foundational | A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 
 ### project-and-program-management
 - [[llm-wiki-pattern]] | Topic | practitioner | A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
@@ -71,6 +74,7 @@ updated: 2026-04-27
 - [[ai-assisted-skills-training]] | Topic | practitioner | A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[ai-in-higher-education]] | Topic | foundational | A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 - [[anthropic-claude]] | Tool | foundational | Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
+- [[ai-coding-agent-workflow-types]] | Topic | foundational | A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 
 ### non-profit-and-ngo-work
 - [[ai-assisted-skills-training]] | Topic | practitioner | A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
@@ -127,6 +131,7 @@ updated: 2026-04-27
 - [[llm-fundamentals-pitfalls]] | Pitfalls | foundational | Failure modes and antipatterns for LLM deployment covering System 1 reasoning ceiling, context window amnesia, jailbreaks, and prompt injection in agentic pipelines.
 - [[llm-self-preference-bias]] | Topic | practitioner | The empirically documented tendency of large language models acting as evaluators to systematically prefer LLM-generated content over human-authored content, with self-recognition identified as the primary mechanism and documented shortlisting advantages of 23–60% in hiring experiments.
 - [[llm-self-preference-bias-pitfalls]] | Pitfalls | practitioner | Failure modes and antipatterns for LLM evaluator workflows where AI-generated and human-authored content compete, including unchecked AI-generates-AI-evaluates pipelines and the risk of compounding bias through training feedback loops.
+- [[prompt-injection]] | Topic | practitioner | An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 
 ### domestic-civil-service-and-public-administration
 - [[constitutional-classifiers]] | Topic | research | A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
@@ -155,6 +160,7 @@ updated: 2026-04-27
 ### project-and-program-management
 - [[llm-self-preference-bias]] | Topic | practitioner | The empirically documented tendency of large language models acting as evaluators to systematically prefer LLM-generated content over human-authored content, with self-recognition identified as the primary mechanism and documented shortlisting advantages of 23–60% in hiring experiments.
 - [[llm-self-preference-bias-pitfalls]] | Pitfalls | practitioner | Failure modes and antipatterns for LLM evaluator workflows where AI-generated and human-authored content compete, including unchecked AI-generates-AI-evaluates pipelines and the risk of compounding bias through training feedback loops.
+- [[prompt-injection]] | Topic | practitioner | An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 
 ### journalism-and-media
 - [[ai-search-citation-accuracy]] | Topic | practitioner | The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
@@ -195,6 +201,7 @@ updated: 2026-04-27
 - [[anthropic-claude-mythos-preview]] | Tool | practitioner | Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 - [[constitutional-ai]] | Topic | practitioner | Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 - [[ai-governance-policy]] | Topic | practitioner | The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
+- [[prompt-injection]] | Topic | practitioner | An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 
 ### domestic-civil-service-and-public-administration
 - [[constitutional-classifiers]] | Topic | research | A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
@@ -203,6 +210,7 @@ updated: 2026-04-27
 
 ### project-and-program-management
 - [[anthropic-claude-mythos-preview]] | Tool | practitioner | Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
+- [[prompt-injection]] | Topic | practitioner | An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 
 ### legal-practice
 - [[legal-ai-hallucination]] | Topic | practitioner | The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.

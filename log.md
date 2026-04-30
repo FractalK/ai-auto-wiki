@@ -4,8 +4,30 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-04-30
 last_entry: 2026-04-30
-entry_count: 40
+entry_count: 44
 ---
+
+## [2026-04-30] ingest | AI Coding Agents Guide: A Map of the Four Workflow Types
+Added: [[2026-realpython-coding-agent-workflow-types]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[ai-coding-agent-workflow-types]], [[ai-coding-agent-workflow-types-pitfalls]], [[2026-realpython-coding-agent-workflow-types]]).
+
+## [2026-04-30] ingest | AI Threats in the Wild: The Current State of Prompt Injections on the Web
+Added: [[2026-google-prompt-injection-wild]]. Updated: [[llm-fundamentals-pitfalls]] (source added, prompt injection entry expanded with empirical findings). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[prompt-injection]], [[prompt-injection-pitfalls]], [[2026-google-prompt-injection-wild]]).
+
+## [2026-04-30] ingest | Introducing GPT-5.5
+Added: [[2026-openai-gpt-5-5-announcement]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[openai-gpt-5-5]], [[openai-gpt-5-5-pro]], [[2026-openai-gpt-5-5-announcement]]).
+
+## [2026-04-30] session-stats | ingest
+Queue size at session start: 2
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: yes (context window exhausted; resumed in second session)
+Time window: off-peak
+Source type mix: practitioner-reference: 1, industry-blog: 1, vendor-content: 1
+Approx tokens (from /cost): not captured (session split across two context windows)
+Notes: session ran out of context after writing all 10 content files; infrastructure updates completed in second session
 
 ## [2026-04-30] ops | teaching notes back-population
 Teaching notes written: 29 pages. Fields added: teaching_notes_reviewed. No ingest performed.

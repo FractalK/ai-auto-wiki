@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*64 pages. Last updated: 2026-04-28.*
+*73 pages. Last updated: 2026-04-30.*
 
 ---
 
@@ -42,6 +42,8 @@ professional roles, see the [[teaching-index]].
 - [[llm-position-bias]] — The structural tendency of transformer language models to overweight information at the beginning and end of input sequences while neglecting the middle, caused by causal masking and amplified by model depth, with implications for information retrieval, long-context reasoning, and RAG systems.
 - [[responsible-ai-government-evaluation]] — A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 - [[retrieval-augmented-generation]] — A technique in which a language model retrieves relevant documents from an external corpus at inference time to augment its response, reducing hallucination on knowledge-intensive tasks while introducing retrieval accuracy and authority selection challenges.
+- [[ai-coding-agent-workflow-types]] — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
+- [[prompt-injection]] — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 
 ## Tools
 
@@ -54,6 +56,8 @@ professional roles, see the [[teaching-index]].
 - [[lexisnexis-lexis-plus-ai]] — LexisNexis's RAG-based legal AI research assistant, marketed as providing hallucination-free linked legal citations, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab.
 - [[thomson-reuters-westlaw-ai]] — Thomson Reuters's AI-assisted legal research product, independently benchmarked at a greater than 34 percent hallucination rate — the highest of the three leading legal AI tools tested by Stanford RegLab in 2024.
 - [[thomson-reuters-ask-practical-law-ai]] — Thomson Reuters's AI assistant for practical law questions, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab in 2024, comparable to Lexis+ AI.
+- [[openai-gpt-5-5]] — OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
+- [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
 
 ## Sources
 
@@ -81,6 +85,9 @@ professional roles, see the [[teaching-index]].
 - [[2025-emergence-position-bias-transformers]] — Wu, Wang, Jegelka, Jadbabaie (MIT / ICML 2025), 2025-07-18, peer-reviewed
 - [[2025-responsible-ai-public-evaluation]] — Daniel F. Fonner (SMU / IBM Center), 2025-12-01, practitioner
 - [[2025-ibm-government-ai-era]] — IBM Institute for Business Value, 2025-12-01, practitioner
+- [[2026-realpython-coding-agent-workflow-types]] — Real Python, 2026-04-29, practitioner
+- [[2026-google-prompt-injection-wild]] — Brunner, Liu, Pande (Google GTIG/GDM), 2026-04-23, institutional
+- [[2026-openai-gpt-5-5-announcement]] — OpenAI, 2026-04-28, practitioner
 
 ## Comparisons
 
@@ -96,3 +103,5 @@ professional roles, see the [[teaching-index]].
 - [[ai-alignment-pitfalls]] — parent: ai-alignment
 - [[llm-self-preference-bias-pitfalls]] — parent: llm-self-preference-bias
 - [[ai-governance-policy-pitfalls]] — parent: ai-governance-policy
+- [[ai-coding-agent-workflow-types-pitfalls]] — parent: ai-coding-agent-workflow-types
+- [[prompt-injection-pitfalls]] — parent: prompt-injection
