@@ -2,7 +2,7 @@
 type: comparison
 title: AI Search Tools Citation Accuracy Comparison
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-04-29
 comparison_type: tool-vs-tool
 entities_compared:
   - "[[tools/openai-chatgpt]]"
@@ -14,9 +14,7 @@ related_topics:
   - "[[ai-search-citation-accuracy]]"
 ---
 
-*Based on: [[2025-ai-search-citation-problem]] — Tow Center for Digital Journalism, March 2025. Study design: 1,600 queries across 8 platforms, 20 news publishers, 200 articles. Metrics: correct article identification (headline, publisher, date, URL). Note: not all tools in this comparison have dedicated wiki pages; see [[ai-search-citation-accuracy]] for context.*
-
-## Performance Overview
+Across eight widely used generative AI search tools, citation accuracy when retrieving news content is systematically unreliable, with no tool fit for unsupervised citation work.
 
 | Tool | Overall Error Rate | Confidence on Wrong Answers | Robots.txt Compliance | URL Fabrication Rate |
 |---|---|---|---|---|
@@ -29,27 +27,16 @@ related_topics:
 | Grok 3 (beta) | 94% incorrect | Very high | Unknown | Very high (154/200 broken) |
 | Google Gemini | High (1 correct response) | High / refused politics | Some violations | Very high |
 
-## Key Findings
+## Verdict
 
-**Overall accuracy** — The tools collectively produced incorrect answers to more than 60 percent of queries. No tool performed reliably across all query types or publisher relationships.
-
-**Premium tier paradox** — Perplexity Pro and Grok 3 each had higher overall error rates than their free counterparts. The premium tiers answered more queries correctly in absolute terms but also produced significantly more confident wrong answers, yielding a worse net error profile for citation-critical tasks.
-
-**Confidence calibration** — ChatGPT was the starkest example: 134/200 articles incorrectly identified, 0 refusals, 15 low-confidence signals. The authoritative conversational tone is independent of accuracy. Copilot was the only tool that declined more than it answered.
-
-**Licensing deals** — Content partnerships between AI companies and publishers (OpenAI-Hearst, Perplexity-Texas Tribune, OpenAI/Perplexity-Time) did not produce measurably better citation accuracy for partner content in February 2025 tests.
-
-**URL reliability** — Grok 3 produced broken or fabricated URLs for 154 of 200 queries. Gemini's URL accuracy was similarly poor. URL citation should not be relied on for verification even when the article identification appears correct.
-
-**Robots.txt compliance** — Perplexity Pro correctly identified content from publishers that had explicitly blocked its crawler at the highest rate. Several tools (DeepSeek, Grok 2, Grok 3) do not publicly identify their crawlers, making targeted opt-out impossible for publishers.
-
-## Selection Guidance
-
-For tasks requiring accurate source citation and attribution, none of the tested tools is reliably fit for purpose without human verification of every citation. If citation accuracy is a workflow requirement:
-
-- Treat all AI search citations as hypotheses to be verified, not facts to be quoted
-- Copilot's higher decline rate makes it less likely to fabricate citations, but also less useful for discovery
-- Perplexity's free tier had the lowest error rate among tools that actively attempted citations
-- Premium pricing does not correlate with citation accuracy; for this use case, free tiers may be preferable
+Lowest error rate for citation retrieval: Perplexity (free) at 37% — lowest of tested tools. Lowest fabrication risk: Microsoft Copilot (high decline rate; unlikely to fabricate citations). Not recommended for unsupervised citation work: all other tested tools — ChatGPT Search (67% error, 0 refusals), Grok 3 (94% error, 154/200 broken URLs), Grok 2, DeepSeek Search, and Google Gemini each combine high error rates with high confidence on wrong answers.
 
 See [[ai-search-citation-accuracy-pitfalls]] for specific failure modes and verification workflow guidance.
+
+## Evidence Notes
+
+**Study design:** 1,600 queries across 8 platforms, 20 news publishers, 200 articles; metrics: correct identification of headline, publisher, date, and URL; conducted February–March 2025 by Tow Center for Digital Journalism.<br>
+**Premium tier paradox:** Perplexity Pro and Grok 3 both had higher overall error rates than their free counterparts — they answered more queries but more confidently and incorrectly; premium pricing is not a proxy for citation reliability.<br>
+**Confidence calibration:** ChatGPT Search signaled low confidence only 15 times across 134 incorrect answers and never declined; authoritative tone carries no predictive value for accuracy.<br>
+**Licensing deals:** Content partnerships (OpenAI-Hearst, Perplexity-Texas Tribune) did not improve citation accuracy for partner content in February 2025 testing.<br>
+**URL reliability:** Grok 3 produced broken or fabricated URLs for 154/200 queries; Gemini similarly poor; URL verification alone cannot confirm citation accuracy.
