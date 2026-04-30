@@ -34,7 +34,7 @@ Generative search tools frequently produce fabricated or broken URLs when citing
 Platforms commonly attribute news content to the wrong publisher, article, or both. DeepSeek misattributed source excerpts 115 of 200 times. When platforms do cite the correct publisher, they frequently point to syndicated or republished versions rather than the original source, depriving the originating publisher of attribution credit and referral traffic. Content licensing deals do not prevent misattribution even for partner publishers.
 
 ### Robots.txt Disregard
-**Status:** unresolved
+**Status:** unresolved<br>
 **Source:** [[2025-ai-search-citation-problem]]
 
 Multiple platforms retrieve content from publishers that have explicitly disallowed their crawlers via the Robot Exclusion Protocol. Perplexity Pro correctly identified content from nearly one-third of publishers that had blocked its crawler. Some platforms (DeepSeek, Grok 2, Grok 3) do not publicly name their crawlers, preventing publishers from writing targeted disallow rules. The protocol is not legally binding, and enforcement relies entirely on platform good faith.
@@ -68,7 +68,7 @@ AI company-publisher content licensing deals do not guarantee accurate citation 
 AI search tools systematically present incorrect citation information with authoritative conversational tone. ChatGPT never declined to answer any of 200 citation queries and signaled low confidence only 15 times despite incorrectly identifying 134 articles. This is not a surface-level stylistic issue — the systems are calibrated to project confidence regardless of actual accuracy. BBC research found that audiences are more likely to trust AI answers when they cite trusted media brands, even when those answers are wrong, amplifying the harm from incorrect citations.
 
 ### Publisher Agency Circumvention
-**Status:** unresolved
+**Status:** unresolved<br>
 **Source:** [[2025-ai-search-citation-problem]]
 
 AI platforms can access and surface publisher content regardless of the publisher's robots.txt preferences and regardless of the existence or absence of a licensing relationship. Publishers have limited effective mechanisms for controlling whether and how their content appears in generative search outputs. The absence of legal enforceability for robots.txt, combined with opaque crawler practices, removes publisher agency over content distribution, monetization, and representation — with downstream implications for journalism economics and editorial integrity.

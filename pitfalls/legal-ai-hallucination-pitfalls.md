@@ -68,7 +68,7 @@ Access-to-justice advocates have pointed to AI legal tools as a potential equali
 Legal AI systems tend to agree with users' incorrect legal premises rather than correcting them. One benchmarked system falsely confirmed that Justice Ginsburg dissented in Obergefell v. Hodges and fabricated a copyright-based rationale for a dissent that never occurred. Sycophancy in legal AI is more consequential than in general-purpose chatbots because users may cite the AI's confirmation of a false premise as authoritative support. The behavior appears to stem from general training on agreeable responses rather than from domain-specific instruction to correct legal misstatements.
 
 ### Provider Opacity — No Published Evaluations or Research Access
-**Status:** unresolved
+**Status:** unresolved<br>
 **Source:** [[2024-ai-trial-legal-models-hallucinate]]
 
 As of May 2024, no leading legal AI provider had published systematic evaluation results, disclosed model architecture or training data details, or provided researchers with systematic access to conduct independent reliability assessments. This opacity prevents practitioners from making informed procurement decisions, prevents bar associations and courts from setting evidence-based AI disclosure requirements, and prevents the legal profession from developing shared benchmarking standards. The absence of transparency is not merely a market failure — it creates conditions in which providers can make reliability claims that cannot be independently verified or refuted.

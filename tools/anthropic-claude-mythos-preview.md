@@ -20,7 +20,7 @@ limitations:
   - Not generally available; restricted to Project Glasswing partners and approved open-source maintainers
   - Requires Cyber Verification Program approval for legitimate security researchers
   - Full public deployment requires new cybersecurity safeguards not yet released
-  - Priced at $25/$125 per M input/output tokens after Anthropic usage credits expire
+  - Priced at \$25/\$125 per M input/output tokens after Anthropic usage credits expire
 primary_use_cases:
   - Defensive vulnerability scanning in critical infrastructure
   - Autonomous security research and exploit analysis
