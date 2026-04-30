@@ -10,8 +10,7 @@ You are maintaining the AI effectiveness wiki. Before doing anything else:
    If OPERATIONS.md is not present, output MISSING-OPERATIONS-FILE and halt.
 
 3. Read the relevant section of wiki-lessons-learned.md for the operation
-   you are about to perform (## Ingest, ## Contradiction, ## Tagging,
-   ## Lint, or ## Query). Read only the relevant section, not the full file.
+   you are about to perform (## Ingest, ## Contradiction, ## Tagging, ## Lint, or ## Query). Read only the relevant section, not the full file.
 
 4. Read EXTRACTION-SKILL.md before any ingest operation.
    Read TAGGING-SKILL.md before any ingest operation that involves teaching
