@@ -2,7 +2,7 @@
 type: pitfalls
 title: LLM Fundamentals Pitfalls
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 parent_entity: "[[topics/llm-fundamentals]]"
 parent_type: topic
 status: current
@@ -17,6 +17,7 @@ professional_contexts:
   - professional-and-continuing-education
 contributing_sources:
   - "[[2023-karpathy-intro-large-language-models]]"
+  - "[[2026-google-prompt-injection-wild]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -64,9 +65,9 @@ Jailbreaks use social engineering, fictional framing, or structural manipulation
 
 ### Prompt Injection via External Content
 **Status:** active<br>
-**Source:** [[2023-karpathy-intro-large-language-models]]
+**Source:** [[2023-karpathy-intro-large-language-models]], [[2026-google-prompt-injection-wild]]
 
-When an LLM agent retrieves and processes external content — web pages, documents, emails — that content may contain adversarial instructions designed to redirect the agent's behavior. Unlike jailbreaks, which require user interaction, prompt injection can occur silently in automated pipelines without the user's knowledge. The attack scales with LLM adoption in agentic workflows and has no architectural mitigation that was production-ready as of late 2023. Cross-cutting: see also [[constitutional-classifiers]] for partial jailbreak mitigations.
+When an LLM agent retrieves and processes external content — web pages, documents, emails — that content may contain adversarial instructions designed to redirect the agent's behavior. Unlike jailbreaks, which require user interaction, prompt injection can occur silently in automated pipelines without the user's knowledge. A 2026 Google Threat Intelligence scan of Common Crawl (2–3 billion web pages) confirmed that indirect prompt injection attempts are actively present on the public web across seven attack categories, with malicious attempts growing 32% between November 2025 and February 2026. The attack surface scales with LLM adoption in agentic workflows and has no comprehensive architectural mitigation. For a dedicated treatment of the attack taxonomy and detection challenges, see [[prompt-injection]]. Cross-cutting: see also [[constitutional-classifiers]] for partial jailbreak mitigations.
 
 ## Teaching Notes
 
