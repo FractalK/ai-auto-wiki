@@ -16,6 +16,7 @@ professional_contexts:
   - project-and-program-management
 contributing_sources:
   - "[[2026-self-preference-llm-hiring]]"
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -59,3 +60,9 @@ Using a single model instance as the sole evaluator in a competitive selection p
 **Source:** [[2026-self-preference-llm-hiring]]
 
 If LLMs evaluate the quality of training data and self-prefer AI-generated content during that evaluation, self-preference bias may compound across training generations — each new model trained on AI-preferred data may develop a stronger preference for AI-generated content. This feedback loop mechanism has not been empirically documented as of early 2026 but is a plausible consequence of the self-recognition mechanism documented in the hiring context.
+
+## Teaching Notes
+
+**What this failure mode teaches.** LLM self-preference bias pitfalls reveal that automating an evaluation process does not make it neutral — it may substitute a structural directional bias for the human biases the automation was intended to reduce. Bias auditing practices developed for human evaluators do not automatically transfer to AI evaluators, and the invisibility of the bias from output alone means explicit auditing is required to detect it.
+
+**Representative example.** The AI-generates, AI-evaluates pipeline in hiring is a direct classroom case with immediate professional relevance. When an LLM generates candidate resumes and a similar LLM evaluates them in competition with human-authored resumes, the LLM evaluator systematically prefers the AI-generated content — not because it is higher quality, but because the model recognizes stylistic patterns associated with its own generation distribution and treats that familiarity as a quality signal. The 23–60% shortlisting advantage documented in experimental conditions is large enough to materially alter selection outcomes regardless of actual candidate quality. An organization that adopts AI-powered hiring screening to reduce the biases of individual human reviewers has introduced a different structural bias that is invisible from the screening outcomes alone and requires explicit comparative auditing to surface. The practical implication extends beyond hiring: any workflow in which AI generates content and AI ranks or selects from a pool that includes that content — content curation, automated scoring, recommendation systems — is subject to the same structural distortion. The lesson: automation is not neutrality, and the decision to automate an evaluative function is also a decision about which biases to accept.

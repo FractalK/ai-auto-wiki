@@ -21,6 +21,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - professional-and-continuing-education
 technical_depth: foundational
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Large language models are produced through a two-stage training process. In pretraining, a model is trained via next-token prediction on a very large corpus of text — on the order of tens to hundreds of terabytes — compressing a broad representation of human-generated knowledge into a set of neural network weights. The resulting base model is a statistical world model capable of high-fidelity continuation and completion, but it is not yet an assistant. Fine-tuning — including supervised instruction following and reinforcement learning from human feedback (RLHF) — reshapes the base model into a helpful, relatively safe assistant by training it on curated interaction data and human preference judgments. The fine-tuned model can be thought of as a thin behavioral layer over the base model's world knowledge.
@@ -46,3 +47,13 @@ As LLMs are given access to external tools — web browsers, code interpreters, 
 | LLMs in their current form operate as System 1 reasoners — generating responses through a single forward pass without deliberate sequential search or verification — which structurally limits reliable performance on tasks requiring multi-step planning, complex mathematics, or extended reasoning chains. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
 | Prompt injection — embedding adversarial instructions in external content an LLM agent processes — can silently redirect model behavior without the user's awareness, making it a class of attack that scales with LLM adoption in automated pipelines. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
 | LLMs trained with RLHF develop a fine-tuned behavioral layer that constrains outputs but can be bypassed through jailbreaks; when jailbreaks succeed, the base model — which contains no safety constraints — becomes the effective agent. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** LLM fundamentals covers how large language models are built — through pretraining on massive text corpora and fine-tuning on human feedback — and how they work: generating text by predicting likely continuations through a single forward pass, without deliberate reasoning or factual verification. Understanding this two-stage pipeline and the System 1 reasoning constraint is the foundation for understanding every AI capability and failure mode practitioners will encounter.
+
+**Why it matters for instruction.** Without a foundational mental model of how LLMs work, practitioners cannot accurately predict when AI tools will perform well or fail. The training pipeline explains why LLMs hallucinate (they predict likely text, not verified truth), why jailbreaks work (the safety layer is a thin behavioral overlay, not a hardcoded constraint), and why prompt injection is a structural attack vector (retrieved content is processed as trusted instruction by the same mechanism as user input).
+
+**Common misconceptions.** Students often assume LLMs "know" the information they output — that generating text about a fact is equivalent to retrieving a stored, verified fact. LLMs predict statistically likely text; they do not store, retrieve, or verify information before stating it. This mental model error leads directly to the most common misuse pattern: treating outputs as verified knowledge without independent review.
+
+**Suggested framing.** Lead with the System 1 analogy: LLMs operate like a fast, confident intuition system rather than a slow, deliberate reasoning system — and that distinction explains both where they excel (pattern recognition, fluent generation, synthesis across information) and where they structurally fail (precise arithmetic, extended reasoning chains, factual verification).

@@ -17,6 +17,7 @@ professional_contexts:
   - domestic-civil-service-and-public-administration
   - project-and-program-management
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Government program evaluation and performance auditing are accountability cornerstones: they assess whether agencies achieve intended outcomes efficiently and equitably. RAI-Ev (Responsible AI for Evaluation) is a post hoc analytical framework developed through research at SMU DataArts at Southern Methodist University, designed to bring AI's pattern-recognition capabilities to bear on these processes without displacing the human judgment that makes evaluation findings trustworthy and legally defensible.
@@ -57,3 +58,13 @@ The RAI-Ev framework was tested on a COVID-relief arts grant program. Researcher
 | RAI-Ev's post hoc design enables its use at agencies that prohibit AI from prospective evaluation; NIH and NSF have banned AI in grant review citing confidentiality, accuracy, and originality of thought concerns, but do not restrict post hoc analysis. | [[2025-responsible-ai-public-evaluation]] | 2025-12-01 | current | 1 | false |
 | A 2024 survey found that 83% of federal evaluation leaders reported the Evidence Act helped achieve missions through better evaluation practices, but insufficient staffing and funding limited evaluations' influence on agency decision-making. | [[2025-responsible-ai-public-evaluation]] | 2025-12-01 | current | 1 | false |
 | An application of RAI-Ev to a COVID-relief arts grant program identified potential areas for program improvement, demonstrating the framework's utility in surfacing goal-alignment and misalignment patterns in past government grantmaking decisions. | [[2025-responsible-ai-public-evaluation]] | 2025-12-01 | current | 1 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** Responsible AI for Government Evaluation (RAI-Ev) is a five-step analytical framework for incorporating AI into government program evaluation while preserving human decision authority. Its defining constraint is post hoc scope — it evaluates past programs rather than making prospective decisions — which makes it deployable at agencies where AI use in forward-looking decisions has been formally prohibited.
+
+**Why it matters for instruction.** RAI-Ev is a worked example of responsible AI deployment under real institutional constraints. Instructors in public administration or organizational leadership can use it to show how AI integration in high-accountability settings requires deliberate design choices — not just selecting a capable model but designing a process that satisfies formal standards for auditability, independence, and transparency as specified in the Foundations for Evidence-Based Policymaking Act.
+
+**Common misconceptions.** Students often assume that using AI in government evaluation means automating evaluation decisions. RAI-Ev explicitly positions AI as a pattern-recognition assistant that surfaces evidence for human consideration — not a decision-maker — which is both an ethical choice and in some contexts a legal requirement. NIH and NSF have formally prohibited AI in prospective grant review; RAI-Ev's post hoc constraint is what allows the framework to operate within those restrictions.
+
+**Suggested framing.** Present RAI-Ev as a case study in responsible AI integration under institutional constraints: how does the design change when the deployment context has formal accountability requirements, legal prohibitions on certain AI uses, and professional standards for evaluator independence — and use the five-step process as a template students can apply to other high-accountability AI deployment contexts.

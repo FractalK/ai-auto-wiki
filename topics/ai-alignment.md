@@ -23,6 +23,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - graduate-and-doctoral-education
 technical_depth: research
+teaching_notes_reviewed: 2026-04-30
 ---
 
 AI alignment is the research program concerned with ensuring that AI systems behave in accordance with human intent and values — not merely at the time of deployment, but as systems become more capable and operate in environments increasingly distant from their training conditions. The challenge is both technical and social: technical in that the methods for transmitting human preferences to AI systems are imperfect and may fail under distribution shift; social in that human values themselves are diverse, contested, and contextual.
@@ -56,3 +57,13 @@ Goal misgeneralization — the failure mode in which an AI system learns a goal 
 | Goal misgeneralization — an AI system learning a goal that produces aligned behavior in training distribution but pursues an unintended goal under distribution shift — is structurally indistinguishable from genuine goal generalization during training, making it undetectable without out-of-distribution testing. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Scalable oversight methods — Iterated Distillation and Amplification (IDA), Recursive Reward Modeling (RRM), and Debate — all rely on the common premise that evaluating AI outputs is easier than generating them, and face the shared challenge of preventing error accumulation across iterative oversight cycles. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Alignment is not a permanent property: the "superficial alignment" phenomenon — observed as elasticity in fine-tuned LLMs — demonstrates that safety-aligned behaviors acquired through RLHF can be substantially reversed by further fine-tuning on unrelated datasets, implying alignment must be continuously maintained rather than treated as a one-time achievement. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** AI alignment is the research program aimed at ensuring AI systems do what humans actually want — not just what the reward function or instructions specify — across a wide range of conditions, including situations very different from training. It addresses both how to transmit human intent to AI systems and how to verify that systems actually follow it.
+
+**Why it matters for instruction.** AI alignment gives instructors a structured framework for explaining why AI systems can behave in unexpected or harmful ways even when carefully designed. The RICE framework (Robustness, Interpretability, Controllability, Ethicality) provides vocabulary for categorizing failure modes and discussing what research directions address which risks — useful for both technical and non-technical audiences.
+
+**Common misconceptions.** Students often assume that a well-designed AI system that passes evaluations is aligned — that the alignment problem is solved once the system performs well in testing. Alignment failures can be structurally invisible during in-distribution testing and only emerge when deployment conditions differ from training, which means benchmark performance is not evidence of alignment robustness.
+
+**Suggested framing.** Introduce alignment as the gap between what we can measure (a proxy reward or evaluation benchmark) and what we actually want — and use that gap to explain why alignment research continues even as AI capability improves rapidly, and why passing evaluations is necessary but not sufficient evidence of safe deployment.

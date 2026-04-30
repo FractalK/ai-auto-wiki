@@ -19,6 +19,7 @@ competency_domains:
 professional_contexts:
   - organizational-leadership-and-change-management
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Constitutional AI (CAI) is Anthropic's approach to training AI models with an explicit, auditable alignment framework. Where Reinforcement Learning from Human Feedback (RLHF) trains models to satisfy the aggregated preferences of human raters — preferences that are implicit, variable, and difficult to inspect — CAI trains models against a written set of principles. The model learns to evaluate and revise its own outputs according to those principles during training, embedding alignment into the model's internal reasoning rather than encoding only surface behaviors.
@@ -54,3 +55,13 @@ Constitutional AI training should be distinguished from Constitutional Classifie
 | Constitutional AI trains models to critique and revise their outputs against a written set of explicit principles during training, reducing dependence on individual human raters' judgments compared to pure RLHF. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
 | Constitutional AI makes the alignment framework explicit and auditable — the principles are human-readable — offering a transparency advantage over RLHF approaches where alignment criteria are implicit in aggregated annotator preferences. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
 | Anthropic's principal hierarchy model provides a structured prioritization for Claude: Anthropic's core training constraints take precedence, followed by operator-defined customizations, followed by user preferences within operator-set bounds. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** Constitutional AI is Anthropic's approach to training AI models against a written set of explicit principles, rather than relying solely on aggregated human rater preferences. During training, the model learns to evaluate and revise its own outputs against those principles, embedding alignment criteria into its reasoning process rather than encoding only surface-level behavioral compliance.
+
+**Why it matters for instruction.** Constitutional AI makes alignment methodology concrete and auditable in a way that pure RLHF does not. Instructors can present the constitution as a human-readable document that specifies what the system is supposed to do — making the alignment target inspectable, allowing students to reason about what situations the constitution might handle poorly, and grounding discussion of the capability-alignment relationship in specific design choices.
+
+**Common misconceptions.** Students often assume that explicit written principles are easier to apply correctly than implicit rater preferences, because they are clear. The challenge is that contextual application of abstract principles to novel situations is itself an alignment problem — a model that can read the constitution does not automatically apply it correctly in edge cases the constitution did not anticipate, which is why evaluation and interpretability research remain necessary even with Constitutional AI.
+
+**Suggested framing.** Use Constitutional AI to introduce the transparency-completeness tension in alignment: making the alignment target explicit (a written constitution) improves auditability and allows public scrutiny, but does not solve the problem of whether the model applies the principles correctly in situations the constitution did not cover — and use the principal hierarchy model as a concrete instantiation of how that tension is managed in practice.

@@ -21,6 +21,7 @@ professional_contexts:
   - legal-practice
   - graduate-and-doctoral-education
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 AI-powered legal research tools have emerged as a major product category, with companies like LexisNexis and Thomson Reuters releasing tools built on retrieval-augmented generation that claim to reduce or eliminate hallucination in legal research contexts. Nearly three-quarters of lawyers plan to use generative AI for legal work, with use cases spanning case law research, contract drafting, document review, and brief writing. The potential for hallucination — factual errors, invented citations, or misgrounded case law — in this high-stakes domain makes reliability benchmarking both essential and unusually consequential.
@@ -42,3 +43,13 @@ Opacity compounds these problems. As of May 2024, none of the leading legal AI p
 | RAG-based legal AI systems exhibited sycophancy failures in which tools confirmed users' incorrect legal premises, including one system falsely affirming that Justice Ginsburg dissented in Obergefell and fabricating a copyright-based rationale. | [[2024-ai-trial-legal-models-hallucinate]] | 2024-05-23 | current | 0.5 | false |
 | Jurisdiction-specific and time-specific legal questions produced disproportionate hallucinations in RAG-based legal AI systems because semantically similar documents may be inapplicable for idiosyncratic jurisdictional or temporal reasons not detectable by the retrieval mechanism. | [[2024-ai-trial-legal-models-hallucinate]] | 2024-05-23 | current | 0.5 | false |
 | As of May 2024, none of the leading legal AI providers (LexisNexis, Thomson Reuters) published systematic evaluation results or provided researchers with systematic access to assess tool reliability. | [[2024-ai-trial-legal-models-hallucinate]] | 2024-05-23 | current | 0.5 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** Legal AI hallucination refers to the failure of AI-powered legal research tools to accurately retrieve, identify, and cite legal authority — with leading tools from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked queries. The most dangerous form is misgrounding: citing a real case that does not actually support the stated legal claim, which passes a URL existence check but misleads any attorney who relies on it.
+
+**Why it matters for instruction.** Legal AI hallucination illustrates the gap between marketing claims and empirically validated performance in a high-stakes professional context. The collapse of the "hallucination-free" marketing language under systematic benchmarking — and the opacity of providers who published no independent evaluation data — offers instructors a concrete case for teaching practitioners to demand evidence for reliability claims rather than accepting them at face value.
+
+**Common misconceptions.** Students often assume that AI tools built specifically for legal research — with RAG architecture, specialized training, and premium pricing — are reliable enough to use without extensive verification. The Stanford RegLab data shows that specialization reduces but does not eliminate hallucination, and that error rates of 17–34% are professionally significant in any legal context where incorrect authority could affect a filing, an opinion, or a client's case.
+
+**Suggested framing.** Use legal AI hallucination as a case study in domain-specific AI reliability evaluation: what claims do providers make, what do independent benchmarks actually show, what failure modes does narrow marketing language obscure, and what verification practices are required even when the tool's marketing implies accuracy guarantees?

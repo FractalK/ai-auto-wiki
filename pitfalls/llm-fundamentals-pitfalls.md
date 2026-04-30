@@ -17,6 +17,7 @@ professional_contexts:
   - professional-and-continuing-education
 contributing_sources:
   - "[[2023-karpathy-intro-large-language-models]]"
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -66,3 +67,9 @@ Jailbreaks use social engineering, fictional framing, or structural manipulation
 **Source:** [[2023-karpathy-intro-large-language-models]]
 
 When an LLM agent retrieves and processes external content — web pages, documents, emails — that content may contain adversarial instructions designed to redirect the agent's behavior. Unlike jailbreaks, which require user interaction, prompt injection can occur silently in automated pipelines without the user's knowledge. The attack scales with LLM adoption in agentic workflows and has no architectural mitigation that was production-ready as of late 2023. Cross-cutting: see also [[constitutional-classifiers]] for partial jailbreak mitigations.
+
+## Teaching Notes
+
+**What this failure mode teaches.** LLM fundamentals pitfalls reveal that statistically plausible text and factually accurate text look identical from the outside — there is no surface signal distinguishing a correct LLM output from a confident hallucination. This is not a temporary limitation to be corrected in a future model version; it is a structural property of how these systems generate text. Recognizing this changes how practitioners should design any workflow that incorporates LLM outputs.
+
+**Representative example.** The "treating outputs as verified facts" antipattern is the most broadly applicable classroom case. LLMs predict statistically likely continuations of text; they do not retrieve and verify ground truth before stating it. A user who asks an LLM for a citation, a calculation, or a historical date receives an output that looks exactly like a correct answer — fluent, specific, confidently phrased — whether or not it is accurate. There is no error indicator, no confidence score, and no internal mechanism that prevents the model from producing a plausible-sounding wrong answer. In a workflow where that output routes directly to a document, a client communication, or an automated downstream system without a human review step, systematic quality errors accumulate invisibly. The appropriate practitioner mental model is to treat every LLM output as a draft that requires domain-appropriate verification before use, not as a retrieved fact. The System 1 analogy reinforces this: LLMs are fast, intuitive, and confident by design — they produce their best guess, not a checked answer. Designing workflows to account for this is not a workaround; it is the correct way to use the technology.

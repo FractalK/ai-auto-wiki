@@ -16,6 +16,7 @@ professional_contexts:
 contributing_sources:
   - "[[2025-responsible-ai-public-evaluation]]"
   - "[[2025-ibm-government-ai-era]]"
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -53,3 +54,9 @@ Deploying AI as a primary or autonomous decision-maker in government settings �
 **Source:** [[2025-responsible-ai-public-evaluation]]
 
 Using closed commercial AI models in government evaluation and decision-making processes without the ability for independent audit, public scrutiny, or reproducibility undermines democratic accountability and the transparency requirements of frameworks such as the Foundations for Evidence-Based Policymaking Act of 2018. Government AI systems must be explainable to stakeholders — including constituents affected by their outputs — and closed models make this difficult or impossible to guarantee. The Blueprint for an AI Bill of Rights principle of "notice and explanation" is structurally unenforceable when the underlying model is a proprietary black box.
+
+## Teaching Notes
+
+**What this failure mode teaches.** Government AI governance pitfalls reveal that AI value realization depends on data readiness and human expertise, not just model capability — and that accountability structures assumed by democratic governance are incompatible with opaque commercial AI systems when those systems are used in consequential public decisions. The gap between AI adoption ambition and the infrastructure required to deploy AI responsibly is not a temporary lag; it is a structural feature of how transformative technology diffuses into institutions.
+
+**Representative example.** The data readiness gap is a concrete classroom case. Despite government leaders estimating that 50–80% of their enterprise data could be valuable to AI systems if properly prepared, only approximately 7% is actively in use — blocked by fragmented legacy systems, inconsistent standards, and siloed databases. An agency that procures a capable AI system without first addressing its data infrastructure will find the system unable to access the information it needs to function. Budget allocated to the model cannot substitute for budget allocated to data governance. The opacity failure compounds this: when the AI system deployed is a closed commercial model, even an agency that wants to explain its outputs to constituents or auditors may find that explanation structurally impossible. The principle of "notice and explanation" — a core accountability norm in the White House Blueprint for an AI Bill of Rights — cannot be operationalized when the model's reasoning is inaccessible. The lesson for public sector practitioners: AI deployment decisions are data governance decisions and transparency decisions simultaneously, not just technology procurement decisions.

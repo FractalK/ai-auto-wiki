@@ -42,6 +42,7 @@ professional_contexts:
   - project-and-program-management
   - entrepreneurship-and-startups
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Claude Opus 4.7 is Anthropic's flagship generally available model as of April 2026, positioned as a substantial advance over Opus 4.6 in software engineering, vision, document reasoning, and agentic workflow execution. It is available through the Claude consumer interface, the Anthropic API, Amazon Bedrock, Google Cloud Vertex AI, and Microsoft Foundry. Pricing is unchanged at \$5/\$25 per million input/output tokens, though a tokenizer update means effective token consumption increases by 1.0–1.35× depending on content type — operators should re-evaluate prompt costs before assuming cost parity with Opus 4.6.
@@ -81,3 +82,13 @@ Claude Mythos Preview remains the top-aligned model in Anthropic's portfolio; Op
 | Opus 4.7 pricing is unchanged at \$5/\$25 per million input/output tokens, but a tokenizer update increases effective token consumption by 1.0–1.35× depending on content type, requiring operators to re-evaluate prompt costs before assuming cost parity with Opus 4.6.                                | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
 | Anthropic's safety evaluation rates Opus 4.7 as "largely well-aligned and trustworthy, though not fully ideal," with low deception, sycophancy, and misuse cooperation rates and improved prompt injection resistance, but modestly weaker harm-reduction for controlled substances compared to Opus 4.6. | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
 | Opus 4.7 introduces task budgets (public beta) and an xhigh effort control level, enabling operators to cap computational spend per agentic task and access maximum reasoning depth without custom infrastructure.                                                                                        | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** Claude Opus 4.7 is Anthropic's production-scale flagship AI model as of April 2026, with major advances in software engineering, visual document processing, and long-horizon agentic task execution over its predecessor, available to consumers and enterprises at unchanged pricing — though a tokenizer change means actual costs are higher than the listed price implies.
+
+**Why it matters for instruction.** Opus 4.7 illustrates recurring tensions in AI tool evaluation: capability improvements that arrive with new behavioral constraints (mandatory adaptive thinking), cost changes that complicate pricing comparisons, and alignment assessments that remain candid about gaps. It is a useful worked example for teaching practitioners to read model release announcements critically rather than accepting overall performance claims at face value.
+
+**Common misconceptions.** Students often equate model recency with uniform superiority. Opus 4.7 underperforms Opus 4.6 on one documented benchmark (BrowseComp), and its mandatory adaptive thinking changes inference behavior in ways that require explicit operator adjustment for heavy reasoning workloads. Newer models are not uniformly better across all use cases or configurations.
+
+**Suggested framing.** Use Opus 4.7 as a worked example in tool evaluation practice: walk through how to assess a new model release against specific use-case requirements — including limitations and behavioral changes, not just headline benchmarks — before deciding whether to upgrade.

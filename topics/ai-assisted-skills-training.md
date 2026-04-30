@@ -16,6 +16,7 @@ professional_contexts:
   - non-profit-and-ngo-work
   - graduate-and-doctoral-education
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Using large language models to help professionals practice social and communication skills represents a distinct application pattern. Unlike productivity use cases where AI replaces or accelerates human work, AI-assisted skills training positions LLMs as practice partners and feedback mentors — tools that expand access to rehearsal opportunities without substituting for the human skills being developed. The core research question is whether LLM-based practice produces measurable improvement in real professional social skills. The early evidence suggests it does, but only when the practice system is carefully designed.
@@ -52,3 +53,13 @@ Current systems are not designed to replace peer practice or human supervision �
 | Out-of-the-box LLMs do not function as adequate social skills practice partners: default behaviors including sycophancy, over-disclosure, and excessive cooperativeness must be overridden through domain-expert-designed constitution rulesets to create pedagogically appropriate practice scenarios. | [[2026-stanford-hai-llms-workplace-skills]] | 2026-04-20 | current | 1 | false |
 | Stanford's AP/AM dual-role architecture has produced three working social skills practice systems (Rehearsal for conflict resolution, a peer-counseling system, and CARE for novice therapy skills), each requiring domain expert co-design and validated against a distinct professional training context. | [[2026-stanford-hai-llms-workplace-skills]] | 2026-04-20 | current | 1 | false |
 | CARE's AI Mentor quality was improved by having the model generate multiple candidate feedback responses, selecting highest-scoring options, and further optimizing on those choices — a self-refinement step required to reduce the rate of low-quality feedback. | [[2026-stanford-hai-llms-workplace-skills]] | 2026-04-20 | current | 1 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** AI-assisted skills training uses large language models as role-playing practice partners and feedback providers for developing professional social skills — such as conflict resolution, therapy, and counseling — in contexts where human practice partners are scarce or expensive. The key design insight is that out-of-the-box LLMs are too cooperative to be useful practice partners and must be deliberately constrained by domain-expert-designed rule sets.
+
+**Why it matters for instruction.** This topic shows that effective AI deployment in professional training requires deliberate expert co-design of the AI's constraints — not just access to a capable model. The Stanford AP/AM research offers instructors a concrete case where prompt engineering and domain expertise combine to produce measurable learning outcomes, and where default AI behavior actively undermines the pedagogical goal.
+
+**Common misconceptions.** Students often assume that a capable AI would naturally make a good coach or training partner. The AP/AM research shows the opposite: default AI cooperativeness — sycophancy, over-disclosure, excessive agreement — actively prevents the kinds of productive friction that professional skills training requires. Effective training demands deliberately making the AI less helpful in specific ways.
+
+**Suggested framing.** Present AI-assisted skills training as a case study in the gap between general AI capability and domain-appropriate AI deployment — where the work of aligning AI behavior to training objectives requires systematic expert involvement, and where the design of the constitution is the primary bottleneck for scaling to new domains.

@@ -44,6 +44,7 @@ professional_contexts:
   - graduate-and-doctoral-education
   - teaching-and-instruction
 technical_depth: foundational
+teaching_notes_reviewed: 2026-04-30
 ---
 
 NotebookLM is a Google product that creates a bounded AI workspace around a user-supplied set of documents. Unlike general-purpose AI assistants, NotebookLM confines its responses to the source material the user provides — it will not draw on general web knowledge unless the user adds web pages as explicit sources. This constraint is its primary value proposition for research and study use cases: answers are traceable to specific documents, and hallucinations from out-of-scope knowledge are structurally reduced.
@@ -78,3 +79,13 @@ Citation verification is required before academic or professional use. NotebookL
 | NotebookLM lacks API access, cross-notebook connections, spreadsheet/database support, and native mind-map visualization, constraining its use to single-project, single-session research contexts. | [[2026-atlas-notebooklm-usage-guide]] | 2026-04-03 | current | 1 | false |
 | Effective NotebookLM use requires front-loading sources before querying, using specific multi-turn question sequences rather than broad single queries, and independently verifying all citations before academic or professional use. | [[2026-atlas-notebooklm-usage-guide]] | 2026-04-03 | current | 1 | false |
 | NotebookLM's Audio Overview feature generates a podcast-style synthesis of source materials appropriate for passive reinforcement but is not suitable for citable academic references. | [[2026-atlas-notebooklm-usage-guide]] | 2026-04-03 | current | 1 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** NotebookLM is a Google tool that creates a bounded AI workspace around documents the user uploads. Unlike general-purpose AI assistants, it confines its responses to those specific source documents — answers are traceable to uploaded materials, and hallucinations from out-of-scope knowledge are structurally reduced — at the cost of being limited to one project at a time.
+
+**Why it matters for instruction.** NotebookLM illustrates a fundamental design tradeoff in AI tool architecture: restricting scope improves reliability and traceability but sacrifices the generality of a full-capability assistant. Instructors can use it to teach the principle that choosing the right tool means understanding what the tool's constraints are designed to protect against, not just what the tool can do.
+
+**Common misconceptions.** Students often assume that source-bounded tools like NotebookLM eliminate hallucination entirely because answers are confined to uploaded documents. The tool can still misattribute quotes, generate subtly inaccurate summaries of specific passages, or cite the wrong section within its source set — independent verification of citations remains required before academic or professional use.
+
+**Suggested framing.** Use NotebookLM as an entry point for discussing the tradeoffs between general-purpose AI assistants and specialized, source-bounded tools, and ask students to identify which professional tasks benefit from each design — using the isolation constraint (no cross-notebook connections, no API access) as the key limiting factor to reason from.

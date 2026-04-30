@@ -21,6 +21,7 @@ professional_contexts:
   - graduate-and-doctoral-education
   - professional-and-continuing-education
 technical_depth: foundational
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Higher education institutions face a fundamental challenge as AI tools become increasingly capable: how to preserve the learning value of academic work while preparing students for professional contexts where AI use is common. The responses being developed at leading institutions like Stanford reveal a structured set of choices, each anchored in pedagogical intent rather than blanket restriction or blanket permission.
@@ -62,3 +63,13 @@ AI tool access is not uniformly distributed. Students with different language ba
 | Stanford's Generative AI Policy Guidance treats any substantial AI use as equivalent to receiving help from another person; students should assume AI use is prohibited unless explicitly permitted in the syllabus or assignment. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
 | AI tools generate outputs through statistical pattern matching rather than factual retrieval, producing hallucinations and citation fabrication at rates that require independent human verification of every AI-generated claim before academic use. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
 | Effective learning requires cognitive engagement by the student; delegating learning tasks to AI removes the cognitive effort that produces durable skill acquisition, and the key question for any AI use is whether it facilitates or replaces deeper engagement with material. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** AI in higher education refers to the choices instructors and institutions must make about how AI tools are incorporated into academic work — whether to assign, limit, or prohibit AI use in courses — and the corresponding decisions students must navigate when using AI for their own learning. The key principle is that policy choice follows from learning objectives, not from AI capability or blanket preference.
+
+**Why it matters for instruction.** This topic is directly actionable for instructors: the Assign / Limit / Prohibit framework gives a structured decision tool for AI policy design, and the student-side considerations explain why blanket policies often fail. Instructors covering this material are simultaneously learning content and modeling the reflective practice it describes.
+
+**Common misconceptions.** Students often assume that permissive AI policies mean AI outputs are acceptable substitutes for their own thinking. The Stanford framework emphasizes that the operative question is whether AI use facilitates or replaces the cognitive engagement that produces durable learning — a distinction that requires active judgment on the student's part and cannot be resolved by policy language alone.
+
+**Suggested framing.** Frame the AI-in-education discussion as a policy design problem with a specific decision framework: given the learning objectives of a course, which approach (Assign, Limit, Prohibit) best serves those objectives, and what does that choice require of both instructor and student? Use the Stanford CTL framework as the scaffold and let students apply it to a course they know.

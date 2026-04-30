@@ -22,6 +22,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - graduate-and-doctoral-education
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 The LLM Wiki pattern is a knowledge management methodology in which a large language model incrementally builds and maintains a persistent, structured collection of markdown files from ingested source documents. Rather than retrieving from raw documents at query time, the LLM processes sources during ingest, writes synthesis pages, and updates interconnected entity and concept pages that persist across sessions. The result is a compounding artifact in which cross-references are pre-built, contradictions are already flagged, and query responses draw from pre-computed synthesis rather than live retrieval.
@@ -62,3 +63,13 @@ Stated use cases include personal research tracking, book-reading companions, te
 ## Alternative Approaches
 
 Several architectural alternatives address specific limitations of the LLM Wiki pattern. Belief-graph systems represent knowledge as nodes and edges with confidence scores per edge; retrieval is deterministic graph traversal and reasoning over retrieved content is probabilistic, separating the two concerns rather than merging them in a single markdown layer. Sparse wiki pointer approaches invert the completeness assumption: wiki pages exist only where a human has deliberately written them, and artifacts reference those pages by an opt-in field rather than automatically generating pages for every ingested entity. Signal comes from sparsity rather than completeness, making manually written pages more authoritative by design. Multi-layer cognitive stacks combine a relational database, vector store, knowledge graph, and semantic stratification layer with autonomous maintenance running on a fixed cadence; this approach handles large corpora but requires substantially more infrastructure than a markdown-file wiki.
+
+## Teaching Notes
+
+**Concept in plain terms.** The LLM Wiki pattern is a knowledge management approach in which a language model incrementally builds and maintains a structured, interlinked collection of documents from source materials. Rather than retrieving from raw documents at query time, synthesis happens during ingest and persists — making query responses draw from pre-computed cross-references rather than live retrieval.
+
+**Why it matters for instruction.** The LLM Wiki pattern illustrates the tradeoffs between different AI-assisted knowledge management architectures in a way that is concrete enough to reason through and generic enough to generalize. Instructors can use it to teach systematic thinking about AI tool design: when to pre-compute synthesis versus retrieve at query time, and what failure modes each approach introduces — including the non-obvious knowledge drift problem that sophisticated architectures do not automatically solve.
+
+**Common misconceptions.** Students often assume that more sophisticated AI knowledge management systems are more accurate by virtue of their complexity. The LLM Wiki pattern introduces the knowledge drift problem — summaries may achieve internal consistency while diverging from original sources — which means architectural sophistication does not automatically improve fidelity. Cross-links and contradiction flags verify internal consistency, not accuracy relative to the underlying sources.
+
+**Suggested framing.** Introduce the LLM Wiki pattern as a design comparison exercise: what does pre-computed synthesis buy you relative to retrieval-augmented generation, and what does it cost? Use the three core limitations (scaling past 150–200 pages, knowledge drift, per-document ingest cost) as the framework for that comparison, and position the alternative architectures as different engineering responses to the same underlying tradeoffs.

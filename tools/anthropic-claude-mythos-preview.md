@@ -40,6 +40,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - project-and-program-management
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Claude Mythos Preview is Anthropic's most capable model as of April 2026, currently available only to Project Glasswing partners and approved open-source security maintainers. It is not generally available and Anthropic has stated no plans to make it so without first developing and testing new cybersecurity safeguards. The model represents a documented capability threshold: it can autonomously find and exploit software vulnerabilities at a level surpassing all but the most skilled human security researchers.
@@ -77,3 +78,13 @@ Project Glasswing partners receive access through the Claude API, Amazon Bedrock
 | Mythos Preview achieved 93.9% on SWE-bench Verified, a 13.1 percentage point improvement over Opus 4.6, with the performance margin holding after excluding problems showing signs of memorization. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
 | Anthropic trained Claude Mythos Preview with direct feedback from mechanistic interpretability findings, using identified circuit-level patterns associated with problematic behaviors to shape the model during training. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
 | Anthropic does not plan to make Mythos Preview generally available; public deployment requires new cybersecurity safeguards that Anthropic plans to test first on an upcoming Claude Opus model. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** Claude Mythos Preview is Anthropic's frontier AI model as of April 2026, available only to a restricted set of security research partners. Its defining capability is autonomous software vulnerability discovery — it can find and chain security flaws in major operating systems and browsers without human guidance at any intermediate step.
+
+**Why it matters for instruction.** Mythos Preview represents a documented capability threshold event that makes the dual-use problem immediate and concrete. Instructors covering AI safety or capability horizons can use it to illustrate that the same AI advances enabling large-scale defensive security work also lower the barrier to sophisticated offensive attacks — the technology itself does not distinguish intended use, and access control and alignment are partial mitigations, not solutions.
+
+**Common misconceptions.** Students often assume that restricting access to dangerous AI capabilities is sufficient to prevent misuse, or that safety training eliminates offensive capability. Mythos Preview illustrates that access control and alignment reduce risk at the margin — the capability threshold crossed is not reversible, and the window between vulnerability discovery and exploitation has compressed for any actor with access to comparable models.
+
+**Suggested framing.** Introduce Mythos Preview as a case study in capability threshold-crossing — a specific, documented moment when AI moved from assisting human security experts to exceeding them in a consequential domain — and use it to ground discussion of dual-use governance challenges.

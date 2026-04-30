@@ -17,6 +17,7 @@ professional_contexts:
   - journalism-and-media
   - legal-practice
 technical_depth: practitioner
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Generative AI search tools — chatbots with integrated live web search — have emerged as a primary alternative to traditional search engines for a substantial portion of internet users. Unlike traditional search engines that direct users to source websites, these tools parse and synthesize content directly, producing conversational answers that ostensibly cite underlying sources. This makes citation accuracy a core reliability question: can these tools accurately identify, retrieve, and attribute the content they draw on?
@@ -44,3 +45,13 @@ For practitioners relying on AI search for research, journalism, or legal citati
 | Content licensing deals between AI companies and news publishers did not reliably improve citation accuracy in tests conducted in February 2025, with ChatGPT correctly identifying only one of ten San Francisco Chronicle excerpts despite Hearst's content partnership with OpenAI. | [[2025-ai-search-citation-problem]] | 2025-03-05 | current | 0.5 | false |
 | More than half of Gemini and Grok 3 responses cited fabricated or broken URLs, with 154 of 200 Grok 3 citations leading to error pages even when the correct article was identified. | [[2025-ai-search-citation-problem]] | 2025-03-05 | current | 0.5 | false |
 | Multiple AI search platforms retrieved publisher content in apparent violation of robots.txt disallow rules, with Perplexity Pro correctly identifying nearly one-third of 90 excerpts from publishers that had explicitly blocked its crawler. | [[2025-ai-search-citation-problem]] | 2025-03-05 | current | 0.5 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** AI search citation accuracy refers to how reliably generative AI search tools — chatbots with integrated web search — correctly identify, attribute, and link the sources they draw on. Systematic evaluation shows collective error rates exceeding 60% across major platforms, with URL fabrication, source misattribution, and robots.txt violations documented at scale, and confident wrong answers as the norm rather than the exception.
+
+**Why it matters for instruction.** This topic has direct professional implications for any practitioner using AI search for research, journalism, or legal work. The counterintuitive finding that premium tiers perform worse by error rate is particularly useful for dismantling the assumption that higher price correlates with higher reliability — a belief that affects real procurement decisions.
+
+**Common misconceptions.** Students often assume that a confident, specific-sounding AI citation — with a named publisher, publication date, and article title — is probably accurate. The Tow Center data shows that specificity of presentation has no predictive value for citation accuracy; the systems are calibrated to be decisive regardless of actual knowledge, and ChatGPT never once declined to answer across 200 citation queries despite being wrong on 134 of them.
+
+**Suggested framing.** Introduce AI search citation accuracy as a case study in confidence miscalibration — systems optimized for user experience in general-purpose search (decisive, confident, specific-sounding answers) rather than for epistemic accuracy in citation-critical professional contexts — and use it to establish the verification practices required before relying on AI search output in any professional setting.

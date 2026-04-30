@@ -47,6 +47,7 @@ professional_contexts:
   - entrepreneurship-and-startups
   - teaching-and-instruction
 technical_depth: foundational
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Claude is Anthropic's general-purpose AI assistant, accessed through a browser interface, a desktop application (Mac and Windows), and an API. It operates through statistical pattern matching over large training datasets — predicting text continuations rather than retrieving facts — which means it produces confident-sounding output that may be incorrect, fabricated, or outdated. Understanding this underlying mechanism is the first step toward using Claude effectively.
@@ -88,3 +89,13 @@ For Cowork, effectiveness increases with structured folder organization: an `abo
 | Claude cannot generate images natively; it can analyze images but image creation requires external tools such as ChatGPT or Gemini.                                                                                                                | [[2026-hassid-claude-beginners-guide]] | 2026-04-17 | current | 1             | false        |
 | Practitioner evaluation identifies Claude's primary advantages over ChatGPT as long document processing (up to 200 pages per session), local file system access via the desktop app, and multi-step autonomous task execution via Cowork.          | [[2026-hassid-claude-beginners-guide]] | 2026-04-17 | current | 1             | false        |
 | Claude's context window fills with conversational history over long sessions, degrading response relevance; starting fresh conversations with pasted context is recommended when quality degrades.                                                 | [[2026-hassid-claude-beginners-guide]] | 2026-04-17 | current | 1             | false        |
+
+## Teaching Notes
+
+**Concept in plain terms.** Claude is Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API across three consumer pricing tiers. Its distinctive feature compared to similar tools is Cowork mode — an agentic operating mode that lets non-developers run multi-step autonomous tasks directly on their local file systems without any technical setup.
+
+**Why it matters for instruction.** Claude is a practical entry point for teaching AI tool evaluation because its feature set maps concretely to professional use cases students can directly test. The contrast between what it does well (long document processing, local file access, autonomous task execution) and what it cannot do (image generation, reliable arithmetic, persistent memory across sessions) models the evaluation discipline practitioners need when assessing any AI tool.
+
+**Common misconceptions.** Students often assume that a more capable AI assistant produces more reliable outputs across all tasks. Claude's limitations — hallucination, context window degradation, unreliable arithmetic — are not bugs being fixed; they are structural properties of the underlying technology that require deliberate workflow design to manage. A capable AI tool and a reliable AI tool are not the same thing.
+
+**Suggested framing.** Introduce Claude through a capabilities-and-limitations evaluation exercise: given a specific professional workflow, what tasks would you delegate to Claude, what outputs would you verify independently, and what tasks would you not delegate at all — and why?

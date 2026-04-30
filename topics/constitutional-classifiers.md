@@ -18,6 +18,7 @@ professional_contexts:
   - organizational-leadership-and-change-management
   - domestic-civil-service-and-public-administration
 technical_depth: research
+teaching_notes_reviewed: 2026-04-30
 ---
 
 Constitutional Classifiers is a jailbreak-defense system developed by Anthropic's Safeguards Research Team. It guards language models against universal jailbreaks — attack strategies designed to bypass safety training and elicit harmful outputs across an entire category of forbidden queries. Where standard safety training bakes refusal behavior into the base model, Constitutional Classifiers operates as an external layer: a pair of input and output classifiers that evaluate every exchange against a defined harm taxonomy and block policy-violating content before it reaches the model or after it is generated.
@@ -52,3 +53,13 @@ Constitutional Classifiers do not eliminate every possible jailbreak. Determined
 | In a structured bug-bounty program, 183 active participants spent over 3,000 hours attempting to jailbreak a prototype Constitutional Classifiers-guarded Claude 3.5 Sonnet (June 2024) without any participant discovering a universal jailbreak across all ten forbidden queries. | [[2025-anthropic-constitutional-classifiers-jailbreaks]] | 2025-02-23 | current | 1 | false |
 | In the February 2025 public live demo, one of 339 participants discovered a qualifying universal jailbreak after approximately 3,700 collective red-teaming hours, with successful strategies including cipher/encoding and keyword substitution. | [[2025-anthropic-constitutional-classifiers-jailbreaks]] | 2025-02-23 | current | 1 | false |
 | The production-ready Constitutional Classifiers system increased refusal rates on harmless queries by 0.38% (not statistically significant at n=5,000 conversations) and compute costs by 23.7% relative to the unguarded model. | [[2025-anthropic-constitutional-classifiers-jailbreaks]] | 2025-02-23 | current | 1 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** Constitutional Classifiers are a defense system that sits on top of an AI model and evaluates incoming requests and outgoing responses against a harm taxonomy, blocking policy-violating content before it reaches or leaves the model. The classifiers are trained on synthetic data generated from a principles document rather than on examples of actual harmful content, allowing them to generalize to novel attack strategies.
+
+**Why it matters for instruction.** Constitutional Classifiers illustrate the layered defense approach to AI safety — rather than relying on a single safety mechanism, effective defense stacks complementary systems. The evaluation methodology (synthetic jailbreaks, structured bug bounties, public live demos) is a template for how safety claims should be empirically validated, which is useful for instructors teaching students to assess security and reliability claims for any technology system.
+
+**Common misconceptions.** Students often assume that a 95%+ reduction in jailbreak success rate means the system is effectively impenetrable. The one successful universal jailbreak found during the public live demo illustrates that determined adversaries with sufficient time can find attack strategies — safety claims are probabilistic bounds, not guarantees, and the relevant question is whether the attacker's cost is prohibitive relative to their motivation.
+
+**Suggested framing.** Present Constitutional Classifiers as a worked example of defense-in-depth: what does empirical validation of a safety claim look like, how do different evaluation methodologies (synthetic, structured adversarial, public red-teaming) reveal different aspects of a system's robustness, and what does the 23.7% compute overhead tell us about the real-world cost of safety measures?

@@ -16,6 +16,7 @@ professional_contexts:
   - graduate-and-doctoral-education
 contributing_sources:
   - "[[2024-ai-trial-legal-models-hallucinate]]"
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -71,3 +72,9 @@ Legal AI systems tend to agree with users' incorrect legal premises rather than 
 **Source:** [[2024-ai-trial-legal-models-hallucinate]]
 
 As of May 2024, no leading legal AI provider had published systematic evaluation results, disclosed model architecture or training data details, or provided researchers with systematic access to conduct independent reliability assessments. This opacity prevents practitioners from making informed procurement decisions, prevents bar associations and courts from setting evidence-based AI disclosure requirements, and prevents the legal profession from developing shared benchmarking standards. The absence of transparency is not merely a market failure — it creates conditions in which providers can make reliability claims that cannot be independently verified or refuted.
+
+## Teaching Notes
+
+**What this failure mode teaches.** Legal AI hallucination pitfalls reveal that "hallucination-free" is not a binary property — it depends entirely on how hallucination is defined, and narrow definitions can mask the most professionally dangerous failure modes. Sycophancy in high-stakes legal contexts is particularly consequential because the AI's apparent confirmation of a false legal premise carries the surface credibility of a citation, potentially amplifying the user's error rather than correcting it.
+
+**Representative example.** The misgrounded citation failure is a classroom-ready case that illustrates precisely why marketing language requires independent verification. Major legal AI providers marketed their tools as "hallucination-free" or guaranteeing "hallucination-free linked legal citations." The Stanford RegLab benchmark showed error rates of 17–34% across these same tools. The marketing claims were technically defensible under a narrow definition of hallucination — one that counted a citation as valid if the URL existed and the case was real — but ignored the misgrounding failure mode entirely. A citation to a real case that does not actually support the stated legal claim passes a URL existence check and looks legitimate on the surface; only a practitioner who reads the cited authority can catch the error. The Avianca case, in which a lawyer submitted ChatGPT-fabricated citations in an actual court filing, became the canonical public consequence of treating AI legal research output as verified. The sycophancy failure adds a second dimension: one benchmarked system confirmed that Justice Ginsburg dissented in Obergefell and fabricated a copyright rationale for a dissent that never occurred. For instructors: the reliability claim you cannot independently verify is not a reliability guarantee.

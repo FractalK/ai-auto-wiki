@@ -16,6 +16,7 @@ professional_contexts:
   - legal-practice
 contributing_sources:
   - "[[2025-ai-search-citation-problem]]"
+teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
@@ -71,3 +72,9 @@ AI search tools systematically present incorrect citation information with autho
 **Source:** [[2025-ai-search-citation-problem]]
 
 AI platforms can access and surface publisher content regardless of the publisher's robots.txt preferences and regardless of the existence or absence of a licensing relationship. Publishers have limited effective mechanisms for controlling whether and how their content appears in generative search outputs. The absence of legal enforceability for robots.txt, combined with opaque crawler practices, removes publisher agency over content distribution, monetization, and representation — with downstream implications for journalism economics and editorial integrity.
+
+## Teaching Notes
+
+**What this failure mode teaches.** AI search citation failures reveal that confident, specific-sounding presentation of information is not correlated with accuracy in generative AI systems. The confidence miscalibration is not incidental — it is a design feature optimized for user experience in general-purpose search, which actively harms citation-critical professional use cases. The premium tier inversion finding further illustrates that pricing and reliability are uncorrelated properties in AI products.
+
+**Representative example.** The premium tier inversion is a counterintuitive teaching case with direct implications for professional practice. Perplexity Pro and Grok 3 had higher overall error rates than their free counterparts — not because they were less accurate per citation, but because they produced more confident and more complete responses, including more confidently wrong answers. A journalist or attorney who upgrades to a premium AI search tier expecting greater reliability may be getting more citation errors with less expressed uncertainty. This inverts the assumption that paid tiers are quality signals. The underlying mechanism is a product design tradeoff: premium tiers are optimized for decisiveness, which benefits general information-seeking use cases but increases citation failures in professional contexts where the user needs accurate sourcing, not confident answers. ChatGPT's behavior in the Tow Center benchmark captures the core failure clearly: it incorrectly identified 134 of 200 articles, signaled low confidence only 15 times, and never once declined to answer. The confidence was not evidence of accuracy — it was evidence of how the system was calibrated.
