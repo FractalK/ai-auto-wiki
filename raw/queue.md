@@ -1,6 +1,7 @@
 ## [queued]
 
 https://security.googleblog.com/2026/04/ai-threats-in-wild-current-state-of.html?m=1
+https://realpython.com/ai-coding-agents-guide/
 
 https://openai.com/index/introducing-gpt-5-5/ [fetch-failed: 403 on 2026-04-27]
 https://thenewstack.io/disappearing-ai-middle-class/ [fetch-failed: access-blocked on 2026-04-27]
