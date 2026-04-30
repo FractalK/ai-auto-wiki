@@ -107,6 +107,7 @@ When the schema changes, update the script in the following cases:
 | New required section in `raw/queue.md` | Add to Section 4 queue section-header check loop |
 | New allowed `.md` file at wiki root | Add to `ALLOWED_ROOT` array in Section 7 |
 | Naming convention change (e.g., new character class) | Update grep pattern in Section 6 |
+| New content directory added (e.g., `teaching/`) | Add to pre-commit hook check string (Section 3), page count loop (Section 5), and naming convention loop (Section 6); also update INIT-PROMPT.md Step 6 directory list and pre-commit hook DIRS string, and the hook template in INIT-PROMPT.md Step 11 |
 
 ---
 

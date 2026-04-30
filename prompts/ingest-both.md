@@ -26,4 +26,4 @@ You are maintaining the AI effectiveness wiki. Before doing anything else:
    and proceed with the originally stated operation. Do not begin any other
    operation until this is resolved.
 
-Today's operation: LINT
+Today's operation: INGEST-BOTH

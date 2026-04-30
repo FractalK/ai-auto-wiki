@@ -3161,3 +3161,181 @@ introduce unwanted paragraph spacing.
 **Consequences:** All future Pitfalls page writes use the updated format. Existing pages
 need retroactive `<br>` insertion — approach is a Claude Code bash/sed pass across
 `pitfalls/` at next wiki session start.
+
+---
+
+## DM-081 | DERIVED-PAGE RIPPLE RULE: THRESHOLD-BASED, NOT AUTO-REWRITE PROHIBITION
+
+- **Date:** 2026-04-27
+- **Status:** ACTIVE
+
+**Decision:**
+The auto-rewrite prohibition for derived pages (Comparison pages and teaching-brief pages) is replaced with a threshold-based rule. Below the Step 12/13 substantiality threshold, the agent auto-applies updates and logs the action in the commit message. At or above the threshold, the agent surfaces a forced choice with an agent-generated draft. The same threshold governs teaching_notes sync and derived-page ripple checks.
+
+**Context:**
+Prior design left the ripple behavior for derived pages undefined. An absolute prohibition on auto-rewrite would prevent any automated maintenance. The threshold-based approach preserves human oversight where it matters (substantive content changes) without creating friction for minor updates.
+
+**Rationale:**
+Threshold-based rules are consistent with the existing Path A/B/C contradiction protocol design philosophy: automate the unambiguous cases, surface the judgment calls. The substantiality threshold (Key Claim superseded/contested, or new fundamentally different claim added) is operationally verifiable.
+
+**Alternatives Considered:**
+- **Auto-rewrite prohibition (always surface):** Ruled out — creates forced choice noise for corroborating updates that do not change the synthesis.
+- **Always auto-apply (no threshold):** Ruled out — derived pages contain curated synthesis; silent overwrites of significant content changes undermine the value of human-reviewed notes.
+
+**Consequences to Watch:**
+If agents systematically misclassify substantive changes as below-threshold, teaching notes and Comparison pages will silently drift from their constituent pages. Monitor teaching_notes_reviewed vs. last_assessed gaps during lint.
+
+**References:** LL-026
+
+---
+
+## DM-082 | TEACHING NOTES: STRUCTURED ANNOTATION ON TEACHING-TAGGED PAGES
+
+- **Date:** 2026-04-28
+- **Status:** ACTIVE
+
+**Decision:**
+Add a conditional `## Teaching Notes` body section to all pages with `teaching_relevance: true`. Two variants: Topic/Tool variant (concept in plain terms, why it matters, common misconceptions, suggested framing; ~150–200 words) and Pitfalls variant (what this failure mode teaches, representative example; ~150–200 words). A new `teaching_notes_reviewed` frontmatter field tracks currency. Sync mechanism: ingest-time substantiality check in Steps 12a, 13b, 13a. Lint backstop: flag pages where `teaching_notes_reviewed` is >90 days older than `last_assessed`.
+
+**Context:**
+The Teaching Index currently surfaces page summaries only. Instructors preparing to teach need richer pedagogical framing — accessible explanations, common misconceptions, and classroom-ready examples — without having to re-derive them from Key Claims on each use.
+
+**Rationale:**
+Embedding structured notes directly in each page keeps the pedagogical context co-located with the content it annotates. The instructor summary query mode can then synthesize from these notes rather than from raw Key Claims, producing significantly better instructor-facing output. The ingest-time substantiality check prevents stale notes from accumulating silently.
+
+**Alternatives Considered:**
+- **Separate teaching notes file per page:** Ruled out — adds file management overhead and breaks co-location.
+- **Freeform prose in summary field:** Ruled out — summary field is a single sentence used for index entries and search snippets; it cannot carry pedagogical depth.
+- **Teaching Index only (no page-level notes):** Ruled out — the Teaching Index is a derived aggregation artifact; it cannot carry page-specific pedagogical context without duplicating it from somewhere.
+
+**Consequences to Watch:**
+Pages ingested before this schema change have no `teaching_notes` section. The lint Step L5b backstop will surface these as "teaching notes missing" — an expected accumulating signal as existing teaching-tagged pages are touched by future ingests. Retroactive population is at operator discretion.
+
+**References:** DM-081
+
+---
+
+## DM-083 | QUERY FILE-BACK PATH: THREE CASES + TEACHING-BRIEF PAGE TYPE + INSTRUCTOR SUMMARY MODE
+
+- **Date:** 2026-04-28
+- **Status:** ACTIVE
+
+**Decision:**
+Add a structured file-back procedure to OPERATIONS.md Section 11.5 covering three cases: (1) new cross-topic synthesis files as a Comparison page with `provenance: query-generated` and `query_date` fields; (2) refinement of an existing page is handled as a normal targeted ingest update with provenance noted in the commit message only; (3) instructor summary outputs file as a new `teaching-brief` page type in `teaching/`. Add a named instructor summary query mode that synthesizes from `teaching_notes` fields first, Key Claims second. Query outputs are not sources — they do not enter the ingest source classification taxonomy. Teaching-brief pages use full-path wikilinks in `derived_from` (same convention as `entities_compared` and `parent_entity`) for lint type enforcement. Teaching-brief pages are excluded from the Teaching Index (they are outputs, not source entries).
+
+**Context:**
+Query results previously disappeared into session history. Cross-topic synthesis valuable enough to persist had no structured filing path. The Teaching Index was useful for finding teaching-relevant content but produced no instructor-facing output format.
+
+**Rationale:**
+Three-case structure reflects the three meaningfully different filing contexts a query result can produce. Case 2 avoids creating a new page when the insight belongs on an existing one — the most common outcome for refinement queries. Case 3 creates a lightweight, human-reviewed format suitable for direct instructor use. Full-path wikilinks in `derived_from` are consistent with all other structural frontmatter fields used for lint enforcement; short-form is reserved for convenience navigation fields.
+
+**Alternatives Considered:**
+- **Single filing path (always Comparison page):** Ruled out — most synthesis queries produce refinements, not stand-alone comparisons.
+- **Short-form wikilinks in derived_from:** Ruled out — without full-path, lint cannot reliably determine the referenced page's type for directory consistency checks.
+- **Teaching-brief pages included in Teaching Index:** Ruled out — creates circular self-reference; the Teaching Index is a source index, not an output index.
+
+**Consequences to Watch:**
+The `teaching/` directory is new. The pre-commit hook, wiki-verify.sh, and INIT-PROMPT.md all needed updates in the same batch to prevent a window where the hook does not cover the new directory. Atomic delivery of these changes is required — do not apply CLAUDE.md changes to a live wiki without also updating wiki-verify.sh and regenerating the pre-commit hook.
+
+**References:** DM-082
+
+---
+
+## DM-084 | LINT CADENCE GUIDELINE: 15–20 PAGES OR TWO WEEKS, MANDATORY TRIGGERS
+
+- **Date:** 2026-04-28
+- **Status:** ACTIVE
+
+**Decision:**
+Replace the informal "recommended: weekly" lint cadence with a concrete guideline: run lint every 15–20 new pages added, or every two weeks of operation, whichever comes first. Mandatory triggers (not overridable): before any schema change applied to the live wiki; after any bulk ingest session of five or more sources. Add a pre-session habit: run `wiki-verify.sh` before every ingest or lint session.
+
+**Context:**
+First lint pass (Pass 1) ran after 63 pages — significantly later than optimal. A concrete cadence guideline prevents unbounded drift. The 7-day Path B contradiction override window creates a natural pressure to run lint at least weekly during active ingest periods, but this was not encoded in the schema.
+
+**Rationale:**
+15–20 pages is calibrated to the current ingest velocity (~8–10 pages per session). At that rate, lint runs approximately every 2–3 sessions — often enough to catch staleness and schema drift before it compounds, not so often that it becomes operational overhead. The two-week ceiling prevents indefinite deferral during low-ingest periods. Mandatory triggers address the two highest-risk moments: schema changes (where pre-change lint confirms baseline state) and bulk ingests (where post-ingest lint validates structural integrity).
+
+**Alternatives Considered:**
+- **Weekly mandatory schedule:** Ruled out — too prescriptive for variable ingest cadences; would create forced lint passes on days with no new content.
+- **No cadence guideline (on-demand only):** Ruled out — operationally demonstrated to produce unbounded drift (63-page gap before first pass).
+
+**Consequences to Watch:**
+The `wiki-verify.sh` pre-session habit is documented in OPERATIONS.md and implementation-handoff.md Section 5 customization notes but is not enforced by the schema. If operators consistently skip it, structural drift will accumulate silently. Monitor FRIC log for structural issues that a pre-session verify would have caught.
+
+---
+
+## DM-085 | OPERATIONS.MD SPLIT EXECUTED: SECTION 11 EXTRACTED FROM CLAUDE.MD
+
+- **Date:** 2026-04-28
+- **Status:** ACTIVE
+
+**Decision:**
+Executed the OPERATIONS.md split per DM-061. All of CLAUDE.md Section 11 (11.1 source classification taxonomy, 11.2 ingest workflow, 11.3 discovery pass, 11.4 lint procedure, 11.5 query workflow) moved verbatim to a new peer file `OPERATIONS.md` at the wiki root. A hard gate instruction added to CLAUDE.md Section 1: if OPERATIONS.md is not present in context, output `MISSING-OPERATIONS-FILE` and halt. CLAUDE.md post-split: ~1,590 lines. OPERATIONS.md: ~1,497 lines. Combined: ~3,087 lines — above the 3,000-line trigger in DM-061.
+
+**Context:**
+DM-061 set the 3,000-line trigger. This session's three confirmed additions (teaching notes, file-back path, lint cadence) plus the OPERATIONS.md split content itself pushed the projected combined total above 3,000. The split was executed in the same session as the schema additions, incorporating all new operational content directly into OPERATIONS.md.
+
+**Rationale:**
+Splitting at the natural Section 11 boundary is clean — all schema definitions (types, frontmatter, vocabularies, contradiction protocol, version handling) stay in CLAUDE.md; all operational procedures stay in OPERATIONS.md. The hard gate prevents silent partial-load failures. Both files must be in the session-start prompt template.
+
+**Execution obligations completed per DM-061:**
+1. Section 11 moved verbatim to OPERATIONS.md — done
+2. Hard gate added to CLAUDE.md Section 1 — done
+3. CLAUDE.md Section 1 references OPERATIONS.md explicitly — done
+4. Session-start prompt template updated (implementation-handoff.md Section 5) — done
+5. INIT-PROMPT.md updated: OPERATIONS.md in prerequisite check, directory creation, scaffold verification, Step 12 summary — done
+6. EXTRACTION-SKILL.md, TAGGING-SKILL.md, CONTRADICTION-SKILL.md: no Section 11.x cross-references found — no update required
+7. portability-review.md: all Section 11.x references updated to OPERATIONS.md Section 11.x — done
+8. DM entry recorded — this entry
+
+**Note for live wiki:** OPERATIONS.md must be created in the wiki root as a schema-change operation. The agent should log a `schema-change` log entry when OPERATIONS.md is added to the live wiki. The session-start prompt stubs in `prompts/` must also be regenerated from the updated template in implementation-handoff.md Section 5 — the old stubs reference only CLAUDE.md and must be replaced.
+
+**Consequences to Watch:**
+Schema-to-operations cross-references (Section 5 frontmatter fields, Section 7 controlled vocabularies, Section 8 contradiction logic) now cross a file boundary. Any change to a referenced section in CLAUDE.md requires auditing OPERATIONS.md for consistency. This is manageable with the existing cross-reference check discipline but is a new ongoing obligation.
+
+**References:** DM-061
+
+## DM-086 | INGEST OPERATION MODE SEPARATION: INGEST-STAGED / INGEST-QUEUE / INGEST-BOTH
+
+- **Date:** 2026-04-29
+- **Status:** ACTIVE
+
+**Decision:**
+Replace the single INGEST operation with three named modes: `INGEST-STAGED` (staged
+files only), `INGEST-QUEUE` (queued URLs only), and `INGEST-BOTH` (both locations,
+explicit opt-in). OPERATIONS.md Step 0 branches on the declared mode before counting
+sources. Step 1 routes based on the same mode. The agent halts and requests
+clarification if the mode is absent or ambiguous.
+
+**Context:**
+OPERATIONS.md Step 0 previously counted staged files + queued URLs together and Step 1
+processed both in every batch ingest. This was designed-in behavior — operator prompt
+phrasing instructing "staged only" was overridden by the spec. The result: sessions
+inadvertently combined both locations, inflating source counts and consuming more
+session budget than expected, with no trimming opportunity before extraction began.
+
+**Rationale:**
+Explicit modes eliminate the combining behavior at zero runtime cost — no added round
+trips, no pre-flight manifest step. The operator declares intent at prompt time via the
+stub file. INGEST-BOTH preserves the prior combined behavior for cases where it is
+genuinely wanted. For density control, INGEST-STAGED is the right default for research
+papers and long PDFs — the operator controls `raw/staged/` contents before starting the
+session.
+
+**Alternatives Considered:**
+- **Pre-ingest source manifest pause (Fix 2):** Add a step where the agent lists all
+  candidate sources before extracting, letting the operator trim. Ruled out — the
+  per-session round-trip cost amortizes poorly for a disciplined operator who already
+  controls the staged directory. Fix 1 solves the stated problem without runtime
+  overhead.
+- **Effort-adjusted source cap (Fix 3):** Count full-extraction sources as 2 toward
+  the N ≤ 5 threshold. Ruled out as redundant given Fix 1 — INGEST-STAGED gives direct
+  density control without requiring source-type classification at Step 0.
+
+**Consequences to Watch:**
+The `prompts/ingest.md` stub is replaced by three stubs (`ingest-staged.md`,
+`ingest-queue.md`, `ingest-both.md`). Any wiki repo with a pre-existing `prompts/ingest.md`
+must have it deleted and the three new stubs added. The step-6-7 Claude Code prompt
+must be updated to regenerate the correct set of seven stubs.
+
+**References:** LL-029

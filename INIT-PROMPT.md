@@ -90,6 +90,7 @@ Verify that the following files are present in the current directory:
 
 ```
 CLAUDE.md
+OPERATIONS.md
 EXTRACTION-SKILL.md
 TAGGING-SKILL.md
 CONTRADICTION-SKILL.md
@@ -99,7 +100,7 @@ These files must have been copied from the design project output before this ses
 started. They are not created by this initialization prompt — they are too large to
 embed here and must come from the authoritative design project source.
 
-If **all four are present**: output a one-line confirmation and continue to Step 4.
+If **all five are present**: output a one-line confirmation and continue to Step 4.
 
 If **any are missing**: output exactly:
 
@@ -234,6 +235,7 @@ tools/
 sources/
 comparisons/
 pitfalls/
+teaching/
 ```
 
 Do not add `.gitkeep` to `raw/` itself — it will contain real files. Do not add
@@ -314,6 +316,8 @@ professional roles, see the [[teaching-index]].
 ## Comparisons
 
 ## Pitfalls
+
+## Teaching
 ```
 
 The intro prose and At a Glance line are part of the scaffold. The At a Glance line
@@ -456,7 +460,7 @@ Before I proceed to git setup and Quartz configuration:
   - Confirm overview.md, index.md, log.md, teaching-index.md, raw/queue.md,
     raw/collection-gaps.md, raw/discovery-sources.md, and wiki-lessons-learned.md
     are all present
-  - Confirm CLAUDE.md, EXTRACTION-SKILL.md, TAGGING-SKILL.md, and
+  - Confirm CLAUDE.md, OPERATIONS.md, EXTRACTION-SKILL.md, TAGGING-SKILL.md, and
     CONTRADICTION-SKILL.md are present (copied from design project output)
 
 Reply YES to continue to git and Quartz configuration, or describe any issues.
@@ -503,6 +507,7 @@ preserving any existing entries:
 
 ```
 "CLAUDE.md"
+"OPERATIONS.md"
 "EXTRACTION-SKILL.md"
 "TAGGING-SKILL.md"
 "CONTRADICTION-SKILL.md"
@@ -517,10 +522,11 @@ preserving any existing entries:
 "public/**"
 "overview.md"
 "log.md"
+"design/**"
 ```
 
 If no `ignorePatterns` field exists anywhere in the file, add one. The resulting
-array must contain at minimum the fifteen paths listed above.
+array must contain at minimum the seventeen paths listed above.
 
 Note: Do NOT add `"index.md"` to ignorePatterns. Quartz requires `index.md` at the
 repo root to generate `index.html` — the site's home page. Excluding it will cause
@@ -655,7 +661,7 @@ Create the file `.git/hooks/pre-commit` with this exact content:
 # macOS filesystems are case-insensitive; a violation that passes here will break
 # the Quartz build on GitHub Actions (Linux, case-sensitive filesystem).
 
-DIRS="topics tools sources comparisons pitfalls raw"
+DIRS="topics tools sources comparisons pitfalls teaching raw"
 
 for dir in $DIRS; do
   if [ -d "$dir" ]; then
@@ -740,6 +746,7 @@ Scaffold files:
 
 Copied from design project (verified present, not created):
   CLAUDE.md
+  OPERATIONS.md
   EXTRACTION-SKILL.md
   TAGGING-SKILL.md
   CONTRADICTION-SKILL.md
@@ -785,7 +792,7 @@ This prompt assumes the following are true before the session starts:
 - Node.js v22+ and npm v10.9.2+ are installed — checked at Step 4
 - Quartz has been cloned and scaffolded per Phase 0 Step 4 of implementation-handoff.md,
   with `quartz.config.ts` present at the wiki root — checked at Step 5
-- CLAUDE.md, EXTRACTION-SKILL.md, TAGGING-SKILL.md, and CONTRADICTION-SKILL.md
+- CLAUDE.md, OPERATIONS.md, EXTRACTION-SKILL.md, TAGGING-SKILL.md, and CONTRADICTION-SKILL.md
   have been copied from design project output to this directory — checked at Step 3
 - The working directory is the intended wiki root — confirmed at Pause Point 1
 

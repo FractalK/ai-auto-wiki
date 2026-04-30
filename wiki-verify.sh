@@ -108,7 +108,7 @@ if [ ! -f "quartz.config.ts" ]; then
 else
     pass "quartz.config.ts exists"
 
-    # All 16 required ignorePatterns entries (CLAUDE.md Section 2 [ENV])
+    # All 17 required ignorePatterns entries (CLAUDE.md Section 2 [ENV])
     REQUIRED_PATTERNS=(
         '"CLAUDE.md"'
         '"EXTRACTION-SKILL.md"'
@@ -126,6 +126,7 @@ else
         '"overview.md"'
         '"log.md"'
         '"design/**"'
+        '"OPERATIONS.md"'
     )
 
     for pat in "${REQUIRED_PATTERNS[@]}"; do
@@ -188,11 +189,11 @@ else
         fail "Pre-commit hook is not executable (fix: chmod +x $HOOK)"
     fi
 
-    # Hook should cover all wiki content directories
-    if grep -qF "topics tools sources comparisons pitfalls" "$HOOK"; then
+    # Hook should cover all wiki content directories including teaching/
+    if grep -qF "topics tools sources comparisons pitfalls teaching" "$HOOK"; then
         pass "Pre-commit hook targets all wiki content directories"
     else
-        warn "Pre-commit hook may not cover all wiki content directories — expected: topics tools sources comparisons pitfalls"
+        warn "Pre-commit hook may not cover all wiki content directories — expected: topics tools sources comparisons pitfalls teaching"
     fi
 
     # Hook should contain the uppercase/space rejection pattern [A-Z ]
@@ -290,7 +291,7 @@ for rawfile in "raw/collection-gaps.md" "raw/discovery-sources.md"; do
 done
 
 # Operational skill files — existence only
-for skillfile in "EXTRACTION-SKILL.md" "TAGGING-SKILL.md" "CONTRADICTION-SKILL.md" "INIT-PROMPT.md"; do
+for skillfile in "EXTRACTION-SKILL.md" "TAGGING-SKILL.md" "CONTRADICTION-SKILL.md" "INIT-PROMPT.md" "OPERATIONS.md"; do
     if [ -f "$skillfile" ]; then
         pass "$skillfile exists"
     else
@@ -302,7 +303,7 @@ done
 printf "\n--- 5. Page count consistency ---\n"
 
 ACTUAL_COUNT=0
-for d in topics tools sources comparisons pitfalls; do
+for d in topics tools sources comparisons pitfalls teaching; do
     if [ -d "$d" ]; then
         count=$(find "$d" -maxdepth 1 -name "*.md" | wc -l | tr -d '[:space:]')
         ACTUAL_COUNT=$((ACTUAL_COUNT + count))
@@ -324,7 +325,7 @@ fi
 printf "\n--- 6. Naming convention (no uppercase or spaces in content dir filenames) ---\n"
 
 NAMING_FAIL=0
-for d in topics tools sources comparisons pitfalls; do
+for d in topics tools sources comparisons pitfalls teaching; do
     if [ -d "$d" ]; then
         # Find .md files in this dir with uppercase letters or spaces in the basename
         while IFS= read -r filepath; do
@@ -347,6 +348,7 @@ printf "\n--- 7. Stray .md files at wiki root ---\n"
 # The complete list of .md files permitted at the wiki root
 ALLOWED_ROOT=(
     "CLAUDE.md"
+    "OPERATIONS.md"
     "EXTRACTION-SKILL.md"
     "TAGGING-SKILL.md"
     "CONTRADICTION-SKILL.md"

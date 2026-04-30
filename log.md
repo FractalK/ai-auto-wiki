@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-28
-last_entry: 2026-04-28
-entry_count: 38
+updated: 2026-04-29
+last_entry: 2026-04-29
+entry_count: 39
 ---
 
 ## [2026-04-22] ingest | LLM Wiki
@@ -227,3 +227,11 @@ Nominations aged to stale: 0 — none
 Stale nominations deleted: 0 — none
 Teaching Index regenerated: no
 Skill enrichment staleness flags: 1 — CONTRADICTION-SKILL.md § 7 (all 5 sub-sections unpopulated after 26 ingests)
+
+## [2026-04-29] schema-change | DM-081–DM-086
+Applied DM-081 through DM-086: teaching notes (DM-081, DM-082), teaching-brief page type and
+instructor summary query mode (DM-083), lint cadence guideline (DM-084), OPERATIONS.md split
+executed (DM-085), ingest operation mode separation INGEST-STAGED/INGEST-QUEUE/INGEST-BOTH (DM-086).
+Added OPERATIONS.md to wiki root. Created teaching/ directory. Updated CLAUDE.md, wiki-verify.sh,
+and pre-commit hook. Regenerated prompts/ stubs (7 stubs; deleted old ingest.md).
+Pages affected: 0 content pages; scaffold and operational files updated. Sources processed: 0.

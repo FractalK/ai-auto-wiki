@@ -36,6 +36,7 @@ const config: QuartzConfig = {
       "prompts/**",
       "overview.md",
       "log.md",
+      "OPERATIONS.md",
       "design/**",
     ],
     defaultDateType: "modified",

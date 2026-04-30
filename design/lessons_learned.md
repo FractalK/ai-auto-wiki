@@ -817,3 +817,133 @@ agent begins reasoning about how a *different agent* would behave, that is preci
 when the accessible-source check must fire — because the simulation framing is where
 scope-narrowing is most likely to occur silently. "What would the pipeline know?" and
 "What can I verify in this session?" are different questions; they must not be conflated.
+
+---
+
+## LL-026 | BSD sed Requires Empty-String Backup Argument for In-Place Editing
+
+- **Date:** 2026-04-27
+- **Context:** Implementation support session — applying the FRIC-030 retroactive fix
+  to insert `<br>` after `**Status:**` lines in all Pitfalls pages.
+
+**Problem:**
+The carry-forward prompt provided a sed command without an empty-string backup argument:
+`find pitfalls/ -name "*.md" -exec sed -i 's/...' {} +`. On macOS (BSD sed), this
+produced: `sed: 1: "pitfalls/...": extra characters at the end of p command`. The
+command works as written on Linux (GNU sed), which allows `-i` without a suffix argument.
+
+**Root Cause:**
+BSD sed (macOS) and GNU sed (Linux) differ in the `-i` (in-place) flag syntax. GNU sed
+accepts `-i` with no argument; BSD sed requires an explicit suffix argument immediately
+after `-i` — even if the suffix is empty (`''`). The carry-forward prompt's sed command
+was written in GNU sed style, which runs without error on Linux but fails on macOS with
+a cryptic message about extra characters.
+
+**Fix Applied:**
+Added `''` immediately after `-i`: `find pitfalls/ -name "*.md" -exec sed -i ''
+'s/\(\*\*Status:\*\*[^\n]*\)$/\1<br>/' {} +`. Command succeeded; fix was committed,
+pushed, and validated on the Quartz site.
+
+**Implication Going Forward:**
+Any time a sed command involving in-place editing (`-i`) is provided in this project,
+use `-i ''` (with empty string) to ensure macOS/BSD sed compatibility. The wiki runs
+on a Mac. GNU sed is not available by default. When providing bash commands that will
+run on the implementer's machine rather than in a Linux container, default to BSD-compatible
+syntax. If portability is uncertain, note both forms.
+
+---
+
+## LL-027 | Asked Unnecessary Clarifying Question Answered by Existing Convention
+
+- **Date:** 2026-04-27
+- **Context:** Designing the `derived_from` frontmatter field for query-derived pages
+  (teaching-brief and Comparison pages with `provenance: query-generated`).
+
+**Problem:**
+Asked whether `derived_from` should use wikilinks or plain slug strings, framing it as
+an open design choice. The existing schema already answers this: all internal slug
+references throughout the wiki use wikilink syntax (`[[slug]]`) — in `open_contradictions`,
+Key Claims citations, and cross-references. There was no reason to treat `derived_from`
+differently.
+
+**Root Cause:**
+The question was raised without first checking whether the same pattern existed elsewhere
+in the schema. Treating a consistency question as a design question introduced false
+uncertainty and consumed a turn unnecessarily.
+
+**Fix Applied:**
+Operator correctly pointed out the inconsistency. Wikilinks confirmed as the convention;
+no design decision required.
+
+**Implication Going Forward:**
+Before raising a design question about a field format or reference syntax, check whether
+the same pattern already exists elsewhere in the schema. If it does, apply it and state
+the rationale — do not surface it as an open question.
+
+---
+
+## LL-028 | Proposed Over-Triggering Sync Mechanism Before Testing Signal Frequency
+
+- **Date:** 2026-04-27
+- **Context:** Designing the `teaching_notes` sync mechanism — how to detect when
+  teaching notes have drifted out of currency with the page they annotate.
+
+**Problem:**
+Initial proposal used `teaching_notes_reviewed` as a lint-triggered date comparison:
+flag any page where the reviewed date is older than `last_assessed`. This fires on every
+ingest pass that updates the page — including minor corroborating additions, small Key
+Claim edits, and formatting changes — none of which compromise the teaching synthesis.
+The operator correctly identified this as a design that would train them to dismiss the
+signal, degrading it to noise.
+
+**Root Cause:**
+The mechanism was designed to catch drift without first asking how frequently the trigger
+would fire under normal operating conditions. A sync flag that fires constantly is
+functionally equivalent to no sync flag — operators learn to skip it. The better
+mechanism (agent assesses substantiality at ingest time, flags only when synthesis is
+genuinely at risk) was available from the start but required reasoning about trigger
+frequency before proposing it.
+
+**Fix Applied:**
+Mechanism redesigned: substantiality check runs at ingest Steps 12/13 when the agent
+has full before/after context; lint serves only as a long-stop backstop (90-day gap
+between `teaching_notes_reviewed` and `last_assessed`). Forced choice fires only on
+substantive change.
+
+**Implication Going Forward:**
+When designing any sync, staleness, or drift-detection mechanism, explicitly estimate
+trigger frequency under normal operating conditions before proposing it. A mechanism
+that fires on every minor change must be rejected or scoped down before it reaches the
+proposal stage. The test: would an operator encountering this flag on three consecutive
+ingest sessions start dismissing it? If yes, the trigger is wrong.
+
+## LL-029 | TOOLING-RECOMMENDATION.MD SECTION 7 NOT UPDATED WHEN SECTION 5 CHANGED
+
+- **Date:** 2026-04-29
+- **Context:** End-of-chat cross-reference check for the DM-085 OPERATIONS.md split
+  session, which rewrote implementation-handoff.md Section 5 to add OPERATIONS.md as
+  Step 2 and renumber the deferred-ingest check to Step 6.
+
+**Problem:**
+tooling-recommendation.md Section 7 contained the old 5-step session-start template
+(no OPERATIONS.md step, deferred-ingest as Step 5) after the DM-085 session batch was
+delivered. The canonical template in implementation-handoff.md Section 5 had been
+updated correctly; Section 7 had not. The two documents were inconsistent.
+
+**Root Cause:**
+The end-of-chat ritual cross-reference check explicitly names this pair: "When
+implementation-handoff.md Section 5 (session-start template) was modified this session,
+verify that tooling-recommendation.md Section 7... has been updated to match." The check
+either was not run against this pair or the Section 7 discrepancy was not caught when it
+was run.
+
+**Fix Applied:**
+tooling-recommendation.md Section 7 updated in this session to match the current
+6-step canonical template (OPERATIONS.md as Step 2, deferred-ingest as Step 6, three
+ingest operation modes in the operation line and customization notes).
+
+**Implication Going Forward:**
+The cross-reference check between implementation-handoff.md Section 5 and
+tooling-recommendation.md Section 7 is a named check that fires on every session that
+modifies the template. Treat it as a required gate, not a suggestion. Do not mark the
+ritual complete until both documents have been visually compared on the template content.

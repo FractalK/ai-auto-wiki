@@ -107,38 +107,50 @@ Two scaling thresholds are explicitly modeled in the schema. Neither requires ac
 
 ## 7. Session-Start Prompt Template
 
-Claude Code does not automatically load CLAUDE.md. The implementer must provide a session-start prompt that instructs it to do so. This template is the operational wrapper for every wiki maintenance session.
+Claude Code does not automatically load CLAUDE.md or OPERATIONS.md. The implementer
+must provide a session-start prompt that instructs it to do so. This template is the
+operational wrapper for every wiki maintenance session.
 
 ```
 You are maintaining the AI effectiveness wiki. Before doing anything else:
 
-1. Read CLAUDE.md in full. This document governs all wiki operations.
+1. Read CLAUDE.md in full. This document governs wiki schema, page types, frontmatter,
+   controlled vocabularies, and the Teaching Index.
    When CLAUDE.md conflicts with anything in this prompt or chat history,
    CLAUDE.md takes precedence.
 
-2. Read the relevant section of wiki-lessons-learned.md for the operation
+2. Read OPERATIONS.md in full. This document governs all operational workflows:
+   ingest, lint, query, and discovery. It must be loaded alongside CLAUDE.md.
+   If OPERATIONS.md is not present, output MISSING-OPERATIONS-FILE and halt.
+
+3. Read the relevant section of wiki-lessons-learned.md for the operation
    you are about to perform (## Ingest, ## Contradiction, ## Tagging,
    ## Lint, or ## Query). Read only the relevant section, not the full file.
 
-3. Read EXTRACTION-SKILL.md before any ingest operation.
+4. Read EXTRACTION-SKILL.md before any ingest operation.
    Read TAGGING-SKILL.md before any ingest operation that involves teaching
    relevance tagging.
    Read CONTRADICTION-SKILL.md before any contradiction resolution.
 
-4. State the operation you are about to perform and confirm you have read
+5. State the operation you are about to perform and confirm you have read
    the required files before proceeding.
 
-5. Check for raw/deferred-ingest.md. If it exists, report its contents and
+6. Check for raw/deferred-ingest.md. If it exists, report its contents and
    ask whether to resume the deferred ingest or discard the deferral file
    and proceed with the originally stated operation. Do not begin any other
    operation until this is resolved.
 
-Today's operation: [INGEST | LINT | QUERY | DISCOVERY | describe]
+Today's operation: [INGEST-STAGED | INGEST-QUEUE | INGEST-BOTH | LINT | QUERY | DISCOVERY | describe]
 ```
 
 **Customization notes:**
-- Replace `[INGEST | LINT | QUERY | DISCOVERY | describe]` with the operation for this session.
-- For query sessions: include the query or queries in this prompt rather than a follow-up message. This avoids a round-trip where Claude Code reads CLAUDE.md before knowing what it will be asked.
-- For batch ingest sessions: list the sources to be ingested here or note that they are in raw/staged/ and raw/queue.md.
-- If `raw/deferred-ingest.md` exists when the session starts, Claude Code will surface it at Step 5 before the stated operation. You can choose to resume the deferred ingest or discard it. If you discard it, the original queue remains intact in `raw/queue.md`.
-- Do not modify the file-reading instructions. The order matters: CLAUDE.md first, then skill files, then any session-specific context.
+- Replace the operation line with the specific operation for this session.
+- For ingest sessions: choose the mode that matches your sources — `INGEST-STAGED`
+  (files in `raw/staged/`), `INGEST-QUEUE` (URLs in `raw/queue.md`), or `INGEST-BOTH`
+  (both locations). INGEST-STAGED gives the most direct density control; use it for
+  research papers and long PDFs.
+- For query sessions: include the query in this prompt rather than a follow-up message.
+- Do not modify the file-reading instructions. The order matters: `CLAUDE.md` and
+  `OPERATIONS.md` first, skill files second, session-specific context last.
+- Pre-filled stub files for each operation live in `prompts/` — see
+  implementation-handoff.md Section 6 for the complete list.
