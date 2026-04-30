@@ -6,7 +6,7 @@ updated: 2026-04-30
 parent_entity: "[[topics/prompt-injection]]"
 parent_type: topic
 status: current
-failure_mode_count: 7
+failure_mode_count: 8
 contributing_sources:
   - "[[2026-google-prompt-injection-wild]]"
 ---
