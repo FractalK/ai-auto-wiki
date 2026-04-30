@@ -1,4 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
+**Last Updated:** 30/04/2026 15:30
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -438,6 +439,11 @@ Step 13a — Create or update Pitfalls page (if confirmed in pre-flight Step 7a)
   failure mode heading format, `**Status:**` field on the line immediately following
   each `### [Failure mode name]` heading, `**Source:**` field on the line immediately
   following `**Status:**`
+- **Self-check before writing any failure mode entry:** Every `**Status:**` line
+  must end with `<br>` — e.g., `**Status:** active<br>`. Quartz (CommonMark) does
+  not treat a single newline as a hard line break; without `<br>`, Status and Source
+  collapse onto one rendered line. Verify this on every entry written, including
+  entries added to existing pages. (CLAUDE.md Section 5.6; FRIC-030)
 - Routing rule applies: cross-cutting antipatterns go to Topic-scoped Pitfalls pages;
   do not create a Tool Pitfalls page for a cross-cutting failure mode
 - New Pitfalls page: populate `parent_entity` with full-path wikilink to parent;

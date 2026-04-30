@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 30/04/2026 15:00
+**Last Updated:** 30/04/2026 15:30
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3486,3 +3486,51 @@ string value (unusual but valid YAML). Monitor for false positives; if observed,
 a new FRIC entry.
 
 **References:** FRIC-029, FRIC-030, FRIC-032, DM-083, DM-084, DM-087
+
+---
+
+## DM-089 | BR-RULE REINFORCED AT OPERATIONS.MD EXECUTION POINT, NOT CLAUDE.MD ONLY
+
+- **Date:** 2026-04-30
+- **Status:** ACTIVE
+
+**Decision:**
+The `<br>` requirement for Pitfalls `**Status:**` lines (CLAUDE.md Section 5.6) is
+reinforced by adding a mandatory self-check bullet to OPERATIONS.md Step 13a, at the
+point where the agent writes failure mode entries. The CLAUDE.md spec text is unchanged.
+
+**Context:**
+FRIC-030 documented the `<br>` rendering defect and triggered a retroactive fix to all
+existing Pitfalls pages. The rule was already present in CLAUDE.md Section 5.6. Despite
+this, wiki-verify.sh Group 10 (added in DM-088) flagged two Pitfalls pages with missing
+`<br>` on newly-written entries — pages created or updated after the rule existed.
+
+**Rationale:**
+The agent reads CLAUDE.md Section 5.6 during schema loading but executes Step 13a
+during ingest. The gap between schema knowledge and execution recall is a known LLM
+failure mode: a rule stated once in a reference document is not reliably applied at the
+moment of writing, particularly for an easy-to-forget formatting detail that has no
+visible effect in the local markdown file. Placing the rule at the execution point
+eliminates the recall gap without duplicating the full spec rationale. The self-check
+format ("verify this on every entry written, including entries added to existing pages")
+is intentionally explicit about the existing-page case — which is the case that failed.
+
+**Alternatives Considered:**
+- **CLAUDE.md Section 5.6 only (status quo):** Demonstrated insufficient — violations
+  occurred after the rule existed. Ruled out.
+- **Duplicate the full spec text in OPERATIONS.md:** Ruled out — creates two sources of
+  truth that can drift. One sentence at the execution point is the minimal effective fix.
+- **Pre-commit hook rejecting missing `<br>`:** Technically possible but fragile — a
+  grep pattern that must distinguish body `**Status:**` lines from frontmatter `status:`
+  fields without a YAML parser is error-prone. The shell script check (Group 10) is the
+  right automated backstop; the OPERATIONS.md self-check is the right point-of-write
+  reminder.
+
+**Consequences to Watch:**
+If the same recall-gap pattern is observed for other Quartz-specific formatting rules
+(e.g., the `\$` escaping requirement, the Evidence Notes `<br>` separator on Comparison
+pages), apply the same fix: a self-check bullet at the relevant execution step in
+OPERATIONS.md. Do not rely on CLAUDE.md spec presence alone for rendering-critical
+formatting rules.
+
+**References:** FRIC-030, DM-088, CLAUDE.md Section 5.6, OPERATIONS.md Step 13a

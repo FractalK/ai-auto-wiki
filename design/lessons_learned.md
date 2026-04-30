@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 29/04/2026 14:30
+**Last Updated:** 30/04/2026 15:30
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -985,3 +985,41 @@ before delivery. Comment syntax and implied convention are insufficient instruct
 the agent on YAML type behavior.
 
 **References:** FRIC-032, DM-087
+
+## LL-031 | SCHEMA RULE PRESENT BUT NOT ENFORCED AT EXECUTION POINT — BR RECURRENCE
+
+- **Date:** 2026-04-30
+- **Context:** wiki-verify.sh Group 10 (added DM-088) flagged two Pitfalls pages with
+  missing `<br>` after `**Status:**` lines — on entries written after FRIC-030 was
+  documented and the rule was in CLAUDE.md Section 5.6.
+
+**Problem:**
+The `<br>` requirement for Pitfalls failure mode `**Status:**` lines was violated on
+newly-written entries despite the rule being present in the schema spec. The retroactive
+fix (FRIC-030) corrected existing pages but did not prevent recurrence on new entries.
+
+**Root Cause:**
+A formatting rule stated in a schema reference document (CLAUDE.md Section 5.6) is not
+reliably recalled at the moment of execution during ingest. The agent reads CLAUDE.md at
+session start but writes failure mode entries during Step 13a, several steps later. The
+`<br>` requirement has no visible effect in the local markdown file — it only manifests
+as a rendering defect on the Quartz-published site — so there is no in-situ signal to
+catch the omission. The combination of recall gap and invisible-until-published defect
+makes this class of rule unusually prone to recurrence.
+
+**Fix Applied:**
+A mandatory self-check bullet added to OPERATIONS.md Step 13a immediately after the
+`**Status:**`/`**Source:**` format spec: "Every `**Status:**` line must end with `<br>`
+— verify this on every entry written, including entries added to existing pages." Places
+the rule at the exact execution point rather than relying on recall from schema load.
+
+**Implication Going Forward:**
+For any rendering-critical formatting rule that (a) only manifests as a defect on the
+published site, not in the local file, and (b) applies at a specific execution step:
+place an explicit self-check at that step in OPERATIONS.md. Spec-document presence alone
+is insufficient for this class of rule. The pattern applies to any future Quartz-specific
+formatting requirements (e.g., `\$` escaping, Evidence Notes `<br>` separators on
+Comparison pages). wiki-verify.sh Group 10 is the automated backstop; the OPERATIONS.md
+self-check is the point-of-write prevention.
+
+**References:** FRIC-030, DM-088, DM-089
