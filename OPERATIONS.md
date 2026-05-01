@@ -352,8 +352,88 @@ Step 9 — decay_exempt proposal
 **Pre-flight report — form generation**
 
 After completing all pre-flight analysis steps (Steps 0 through 9), serialize all
-identified decisions to a choices JSON object conforming to the schema in
-`ingest-ui-implementation-plan.md` Section 4. Then:
+identified decisions to a choices JSON object conforming to the schema
+below.
+
+---
+
+**Choices JSON schema**
+
+Top-level structure:
+
+```json
+{
+  "session_date": "YYYY-MM-DD",
+  "source_title": "Descriptive source title for the form header",
+  "choices": [ ...choice objects... ]
+}
+```
+
+Choice object — single-select (used for Steps 0, 2, 3, 5, 7, 7a, 9):
+
+```json
+{
+  "id": 1,
+  "type": "single-select",
+  "context": "Full prose context as it would appear in the pre-flight report. One to four sentences.",
+  "recommended": "A",
+  "required": true,
+  "options": [
+    { "id": "A", "label": "Option text as it appears in the pre-flight report" },
+    { "id": "B", "label": "..." }
+  ]
+}
+```
+
+`recommended`: the option id the agent would select if not overridden. Set to `null`
+for genuine toss-ups — the form will flag that card as requiring active selection before
+the decision string can be copied.
+
+One option may carry `"reveals_text": true` to trigger a text area when selected
+(used for Step 0 option D):
+
+```json
+{ "id": "D", "label": "I will specify which documents to process",
+  "reveals_text": true,
+  "text_placeholder": "Enter filenames or URLs, one per line",
+  "text_required": true }
+```
+
+Choice object — text-with-default (used for Step 6 slug proposals):
+
+```json
+{
+  "id": 3,
+  "type": "text-with-default",
+  "context": "A new page must be created. Proposed slug:",
+  "recommended": "2026-attention-mechanisms",
+  "required": true
+}
+```
+
+Choice object — composite teaching-relevance (used for Step 8):
+
+```json
+{
+  "id": 7,
+  "type": "teaching-relevance",
+  "context": "[[page-slug]] qualifies for teaching relevance tagging. Proposed domains: ...",
+  "recommended": {
+    "accept": true,
+    "competency_domains": ["tool-evaluation-and-selection", "practical-ai-use-and-interaction"],
+    "professional_contexts": ["teaching-and-instruction", "professional-and-continuing-education"]
+  },
+  "required": true
+}
+```
+
+The template pre-checks whichever values appear in `recommended.competency_domains`
+and `recommended.professional_contexts`. At least one value in each list is required
+when `accept: true`.
+
+---
+
+Then:
 
 1. Read `ingest-ui-template.html` from the wiki root.
 2. Replace the string `%%CHOICES_JSON%%` with the serialized choices JSON.

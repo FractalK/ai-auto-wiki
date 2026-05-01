@@ -38,6 +38,7 @@ const config: QuartzConfig = {
       "log.md",
       "OPERATIONS.md",
       "design/**",
+      "ingest-ui-implementation-plan.md",
     ],
     defaultDateType: "modified",
     theme: {
