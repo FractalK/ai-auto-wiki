@@ -349,18 +349,39 @@ Step 9 — decay_exempt proposal
   contradiction, ≥2 independent peer-reviewed or institutional sources): propose
   `decay_exempt: true` as forced choice in pre-flight report
 
-**Pre-flight report format:**
+**Pre-flight report — form generation**
+
+After completing all pre-flight analysis steps (Steps 0 through 9), serialize all
+identified decisions to a choices JSON object conforming to the schema in
+`ingest-ui-implementation-plan.md` Section 4. Then:
+
+1. Read `ingest-ui-template.html` from the wiki root.
+2. Replace the string `%%CHOICES_JSON%%` with the serialized choices JSON.
+3. Write the result to `ingest-decisions.html` at the wiki root.
+4. Report to the human:
 
 ```
-Pre-flight report — {source title}
-{N} decisions require your input. Respond with: 1:A 2:B ...
+Pre-flight complete. {N} decisions identified for [[{source-title}]].
 
-[1] {decision description}
-    A) {option}
-    B) {option}
-    C) {option if applicable}
-...
+Open ingest-decisions.html in your browser:
+  open ingest-decisions.html
+
+Make your selections. When satisfied, copy the decision string and paste it here.
 ```
+
+Do not proceed to Phase 2 until the human pastes a decision string. Parse the
+decision string by matching each `N:value` token to choice id `N` in the choices
+JSON. For teaching-relevance choices, decode the colon-delimited sub-fields. For
+option-D text, read the DOCUMENTS block below the decision line. Execute Phase 2 with
+all decisions resolved.
+
+---
+
+**Note on the text pre-flight summary:** Claude Code should still produce a brief
+internal working summary of all pre-flight findings (source classification, affected
+pages, proposed decisions) as session output for context and auditability. This is not
+surfaced to the human as a decision prompt — it is background record-keeping. The form
+is the sole human input mechanism for pre-flight decisions.
 
 **Execution pass (Phase 2 — wiki files written):**
 

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingest Decision Form</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background: #f0f2f4;
+}
+
+/* ── Header ── */
+#form-header {
+  background: #1e2d3d;
+  color: #fff;
+  padding: 14px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+#form-title { font-size: 17px; font-weight: 600; margin-bottom: 2px; }
+.meta { font-size: 12px; opacity: .7; }
+
+/* ── Layout ── */
+.layout {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  align-items: flex-start;
+}
+.cards-col { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.panel-col {
+  width: 310px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 68px;
+  max-height: calc(100vh - 84px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Shared box ── */
+.box {
+  background: #fff;
+  border: 1px solid #dde1e6;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* ── Cards ── */
+.card {
+  background: #fff;
+  border: 1px solid #dde1e6;
+  border-left: 4px solid #dde1e6;
+  border-radius: 8px;
+  padding: 18px 20px;
+  transition: border-left-color .15s;
+}
+.card.modified     { border-left-color: #e07b20; }
+.card.req-unsatisfied { border-left-color: #c0392b; }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.card-num {
+  background: #1e2d3d;
+  color: #fff;
+  border-radius: 50%;
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  flex-shrink: 0;
+}
+.card-kind {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: #6b7280;
+}
+.badge {
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 10px; margin-left: auto;
+}
+.badge-mod { background: #fff3e0; color: #b45309; border: 1px solid #fcd9a0; }
+.badge-req { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+.context {
+  font-size: 14px; color: #374151;
+  margin-bottom: 14px; line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+/* ── Option buttons ── */
+.opts { display: flex; flex-direction: column; gap: 7px; }
+.opt-btn {
+  text-align: left;
+  padding: 9px 13px;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: border-color .1s, background .1s;
+}
+.opt-btn:hover    { border-color: #1e2d3d; background: #f9fafb; }
+.opt-btn.selected { border-color: #2563eb; background: #eff6ff; color: #1e3a8a; font-weight: 500; }
+
+/* ── Reveals text area (option D) ── */
+.reveals-wrap { display: none; margin-top: 8px; }
+.reveals-wrap.open { display: block; }
+.reveals-wrap textarea {
+  width: 100%; min-height: 72px;
+  padding: 9px 11px;
+  border: 1px solid #d1d5db; border-radius: 6px;
+  font-family: monospace; font-size: 13px;
+  resize: vertical; line-height: 1.5;
+}
+.reveals-wrap textarea:focus {
+  outline: none; border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,.15);
+}
+
+/* ── Slug input ── */
+.slug-input {
+  width: 100%;
+  padding: 9px 13px;
+  border: 2px solid #d1d5db; border-radius: 6px;
+  font-family: monospace; font-size: 14px;
+  transition: border-color .1s;
+}
+.slug-input:focus {
+  outline: none; border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,.15);
+}
+
+/* ── Teaching-relevance card ── */
+.toggle-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.tog-btn {
+  flex: 1; padding: 9px;
+  border: 2px solid #d1d5db; border-radius: 6px;
+  background: #fff; color: #555;
+  font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all .1s;
+}
+.tog-btn.accept.selected { border-color: #16a34a; background: #f0fdf4; color: #166534; }
+.tog-btn.decline.selected { border-color: #dc2626; background: #fef2f2; color: #991b1b; }
+
+.vocab-block { margin-top: 12px; }
+.vocab-block.off { opacity: .4; pointer-events: none; }
+.vocab-label {
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: #6b7280; margin-bottom: 7px;
+}
+.cb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.cb-item {
+  display: flex; align-items: flex-start;
+  gap: 6px; font-size: 13px; color: #374151;
+  cursor: pointer; padding: 3px 5px; border-radius: 4px;
+}
+.cb-item:hover { background: #f3f4f6; }
+.cb-item input[type="checkbox"] {
+  margin-top: 2px; flex-shrink: 0;
+  cursor: pointer; width: 13px; height: 13px;
+  accent-color: #2563eb;
+}
+
+.val-msg { font-size: 12px; color: #dc2626; margin-top: 8px; display: none; }
+.val-msg.show { display: block; }
+
+/* ── Card footer ── */
+.card-foot { margin-top: 10px; display: flex; justify-content: flex-end; }
+.reset-link {
+  font-size: 12px; color: #2563eb;
+  text-decoration: none; cursor: pointer;
+  display: none;
+}
+.reset-link:hover { text-decoration: underline; }
+.reset-link.show { display: inline; }
+
+/* ── Panel heading ── */
+.panel-heading {
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .06em;
+  color: #6b7280; margin-bottom: 10px;
+  padding-bottom: 8px; border-bottom: 1px solid #e5e7eb;
+}
+
+/* ── Review list ── */
+.review-ok { font-size: 13px; color: #16a34a; font-style: italic; }
+.review-item {
+  font-size: 13px; padding: 5px 0;
+  border-bottom: 1px solid #f3f4f6; color: #4b5563;
+}
+.review-item:last-child { border-bottom: none; }
+.review-ref { font-weight: 600; color: #1e2d3d; }
+.review-val { font-family: monospace; font-size: 12px; color: #d97706; }
+
+/* ── Decision output ── */
+.restore-all-btn {
+  width: 100%; padding: 7px 10px;
+  background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 6px;
+  font-size: 13px; color: #4b5563;
+  cursor: pointer; margin-bottom: 10px;
+  transition: background .1s;
+}
+.restore-all-btn:hover { background: #e5e7eb; }
+
+.restore-confirm {
+  background: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px;
+  padding: 10px 12px; font-size: 13px; color: #4b5563;
+  margin-bottom: 10px;
+}
+.restore-confirm.hidden { display: none; }
+.restore-confirm span { display: block; margin-bottom: 8px; }
+.confirm-row { display: flex; gap: 8px; }
+.confirm-row button {
+  padding: 4px 12px; border-radius: 5px;
+  font-size: 13px; cursor: pointer; border: 1px solid;
+}
+#restore-yes { background: #dc2626; color: #fff; border-color: #b91c1c; }
+#restore-no  { background: #fff; color: #4b5563; border-color: #d1d5db; }
+
+.decision-out {
+  width: 100%; min-height: 80px;
+  font-family: monospace; font-size: 12px; line-height: 1.5;
+  padding: 9px 11px;
+  border: 1px solid #d1d5db; border-radius: 6px;
+  background: #f9fafb; color: #1a1a1a;
+  resize: none; margin-bottom: 8px;
+}
+
+.copy-btn {
+  width: 100%; padding: 10px;
+  background: #2563eb; color: #fff;
+  border: none; border-radius: 6px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background .1s;
+}
+.copy-btn:hover:not(:disabled) { background: #1d4ed8; }
+.copy-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+.copy-btn.copied { background: #16a34a; }
+
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .layout { flex-direction: column; }
+  .panel-col { width: 100%; position: static; max-height: none; }
+}
+</style>
+</head>
+<body>
+
+<header id="form-header">
+  <h1 id="form-title">Ingest Decision Form</h1>
+  <p id="form-meta" class="meta"></p>
+</header>
+
+<div class="layout">
+  <div id="cards-col" class="cards-col"></div>
+  <div class="panel-col">
+    <div class="box" id="review-panel">
+      <div class="panel-heading">Modified Choices</div>
+      <div id="review-list"></div>
+    </div>
+    <div class="box output-box">
+      <div class="panel-heading">Decision String</div>
+      <button id="restore-all-btn" class="restore-all-btn">Restore all recommendations</button>
+      <div id="restore-confirm" class="restore-confirm hidden">
+        <span>This will reset all your changes. Continue?</span>
+        <div class="confirm-row">
+          <button id="restore-yes">Confirm</button>
+          <button id="restore-no">Cancel</button>
+        </div>
+      </div>
+      <textarea id="decision-out" class="decision-out" readonly></textarea>
+      <button id="copy-btn" class="copy-btn">Copy to clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Data ───────────────────────────────────────────────────────────────
+const CHOICES = %%CHOICES_JSON%%;
+
+const COMPETENCY_DOMAINS = [
+  {id:"tool-evaluation-and-selection",          label:"Tool Evaluation and Selection"},
+  {id:"practical-ai-use-and-interaction",       label:"Practical AI Use and Interaction"},
+  {id:"ai-integration-in-organizational-workflows", label:"AI Integration in Organizational Workflows"},
+  {id:"output-verification-and-risk-assessment",label:"Output Verification and Risk Assessment"},
+  {id:"ai-safety-and-alignment-literacy",       label:"AI Safety and Alignment Literacy"},
+  {id:"capability-horizon-awareness",           label:"Capability Horizon Awareness"},
+  {id:"attribution-ip-and-professional-integrity",label:"Attribution, IP, and Professional Integrity"}
+];
+
+const PROFESSIONAL_CONTEXTS = [
+  {id:"activism-and-civic-advocacy",            label:"Activism and Civic Advocacy"},
+  {id:"non-profit-and-ngo-work",               label:"Non-Profit and NGO Work"},
+  {id:"journalism-and-media",                  label:"Journalism and Media"},
+  {id:"legal-practice",                        label:"Legal Practice"},
+  {id:"domestic-civil-service-and-public-administration", label:"Domestic Civil Service and Public Administration"},
+  {id:"foreign-service-and-diplomacy",         label:"Foreign Service and Diplomacy"},
+  {id:"organizational-leadership-and-change-management", label:"Organizational Leadership and Change Management"},
+  {id:"project-and-program-management",        label:"Project and Program Management"},
+  {id:"teaching-and-instruction",              label:"Teaching and Instruction"},
+  {id:"graduate-and-doctoral-education",       label:"Graduate and Doctoral Education"},
+  {id:"professional-and-continuing-education", label:"Professional and Continuing Education"},
+  {id:"entrepreneurship-and-startups",         label:"Entrepreneurship and Startups"},
+  {id:"software-and-ai-development",           label:"Software and AI Development"}
+];
+
+const SOURCE_TYPES = [
+  {id:"research-paper",        label:"Research Paper"},
+  {id:"industry-blog",         label:"Industry Blog"},
+  {id:"white-paper",           label:"White Paper"},
+  {id:"publication-article",   label:"Publication Article"},
+  {id:"youtube-video",         label:"YouTube Video"},
+  {id:"podcast-transcript",    label:"Podcast Transcript"},
+  {id:"practitioner-reference",label:"Practitioner Reference"},
+  {id:"vendor-content",        label:"Vendor Content"},
+  {id:"policy-document",       label:"Policy Document"}
+];
+
+// ── State ───────────────────────────────────────────────────────────────
+// single-select:      { sel: "A" | null, text: "" }
+// text-with-default:  { val: "..." }
+// teaching-relevance: { accept: bool, domains: Set, contexts: Set }
+const S = {};
+
+function initState() {
+  for (const c of CHOICES.choices) {
+    if (c.type === "single-select") {
+      S[c.id] = { sel: c.recommended, text: "" };
+    } else if (c.type === "text-with-default") {
+      S[c.id] = { val: c.recommended || "" };
+    } else if (c.type === "teaching-relevance") {
+      const r = c.recommended || {};
+      S[c.id] = {
+        accept: r.accept !== false,
+        domains: new Set(r.competency_domains || []),
+        contexts: new Set(r.professional_contexts || [])
+      };
+    }
+  }
+}
+
+// ── Helpers ─────────────────────────────────────────────────────────────
+function esc(s) {
+  if (!s) return "";
+  return String(s)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+}
+
+function isModified(c) {
+  const s = S[c.id];
+  if (c.type === "single-select") {
+    return s.sel !== c.recommended;
+  }
+  if (c.type === "text-with-default") {
+    return s.val !== (c.recommended || "");
+  }
+  if (c.type === "teaching-relevance") {
+    const r = c.recommended || {};
+    if (s.accept !== (r.accept !== false)) return true;
+    const rd = new Set(r.competency_domains || []);
+    if (s.domains.size !== rd.size) return true;
+    for (const d of s.domains) if (!rd.has(d)) return true;
+    const rc = new Set(r.professional_contexts || []);
+    if (s.contexts.size !== rc.size) return true;
+    for (const ct of s.contexts) if (!rc.has(ct)) return true;
+    return false;
+  }
+  return false;
+}
+
+function isFormValid() {
+  for (const c of CHOICES.choices) {
+    if (!c.required) continue;
+    const s = S[c.id];
+    if (c.type === "single-select") {
+      if (c.recommended === null && s.sel === null) return false;
+      const opt = c.options && c.options.find(o => o.id === s.sel);
+      if (opt && opt.reveals_text && opt.text_required && !s.text.trim()) return false;
+    } else if (c.type === "text-with-default") {
+      if (!s.val.trim()) return false;
+    } else if (c.type === "teaching-relevance") {
+      if (s.accept && (s.domains.size === 0 || s.contexts.size === 0)) return false;
+    }
+  }
+  return true;
+}
+
+function token(c) {
+  const s = S[c.id];
+  if (c.type === "single-select") {
+    return c.id + ":" + (s.sel || "?");
+  }
+  if (c.type === "text-with-default") {
+    return c.id + ":" + (s.val.trim() || "?");
+  }
+  if (c.type === "teaching-relevance") {
+    if (!s.accept) return c.id + ":false";
+    return c.id + ":true:" + Array.from(s.domains).join(",") + ":" + Array.from(s.contexts).join(",");
+  }
+  return c.id + ":?";
+}
+
+function buildDecisionString() {
+  const line = CHOICES.choices.map(c => token(c)).join(" ");
+  // Append DOCUMENTS block if any single-select has reveals_text selected with content
+  for (const c of CHOICES.choices) {
+    if (c.type !== "single-select") continue;
+    const s = S[c.id];
+    const opt = c.options && c.options.find(o => o.id === s.sel);
+    if (opt && opt.reveals_text && s.text.trim()) {
+      return line + "\n\nDOCUMENTS:\n" + s.text.trim();
+    }
+  }
+  return line;
+}
+
+// ── Rendering ───────────────────────────────────────────────────────────
+function renderSingleSelect(c) {
+  const s = S[c.id];
+  const nullRec = c.recommended === null;
+  const needsSel = nullRec && s.sel === null;
+
+  const optHtml = c.options.map(opt => {
+    const sel = s.sel === opt.id;
+    const revHtml = opt.reveals_text
+      ? `<div class="reveals-wrap${sel ? " open" : ""}" id="rev-${c.id}">` +
+        `<textarea id="rev-ta-${c.id}" placeholder="${esc(opt.text_placeholder || "")}"` +
+        `>${esc(s.text)}</textarea></div>`
+      : "";
+    return `<button class="opt-btn${sel?" selected":""}" data-cid="${c.id}" data-oid="${esc(opt.id)}">${esc(opt.label)}</button>${revHtml}`;
+  }).join("");
+
+  const modFlag = isModified(c);
+  return `<div class="card${modFlag?" modified":""}${needsSel?" req-unsatisfied":""}" id="card-${c.id}">
+  <div class="card-head">
+    <span class="card-num">${c.id}</span>
+    <span class="card-kind">${nullRec?"Required":"Selection"}</span>
+    ${nullRec?`<span class="badge badge-req" id="req-badge-${c.id}" style="${needsSel?"":"display:none"}">Required — please select</span>`:""}
+    <span class="badge badge-mod" id="mod-badge-${c.id}" style="${modFlag?"":"display:none"}">Modified</span>
+  </div>
+  <p class="context">${esc(c.context)}</p>
+  <div class="opts">${optHtml}</div>
+  <div class="card-foot">
+    ${c.recommended!==null?`<a href="#" class="reset-link${modFlag?" show":""}" data-cid="${c.id}">Reset to recommended</a>`:""}
+  </div>
+</div>`;
+}
+
+function renderTextWithDefault(c) {
+  const s = S[c.id];
+  const modFlag = isModified(c);
+  return `<div class="card${modFlag?" modified":""}" id="card-${c.id}">
+  <div class="card-head">
+    <span class="card-num">${c.id}</span>
+    <span class="card-kind">Slug</span>
+    <span class="badge badge-mod" id="mod-badge-${c.id}" style="${modFlag?"":"display:none"}">Modified</span>
+  </div>
+  <p class="context">${esc(c.context)}</p>
+  <input type="text" class="slug-input" id="slug-${c.id}" data-cid="${c.id}" value="${esc(s.val)}">
+  <div class="card-foot">
+    <a href="#" class="reset-link${modFlag?" show":""}" data-cid="${c.id}">Reset to recommended</a>
+  </div>
+</div>`;
+}
+
+function renderTeachingRelevance(c) {
+  const s = S[c.id];
+  const r = c.recommended || {};
+  const modFlag = isModified(c);
+  const off = s.accept ? "" : " off";
+  const valErr = s.accept && (s.domains.size === 0 || s.contexts.size === 0);
+
+  const domHtml = COMPETENCY_DOMAINS.map(d =>
+    `<label class="cb-item"><input type="checkbox" data-cid="${c.id}" data-t="dom" data-v="${d.id}"${s.domains.has(d.id)?" checked":""}> ${esc(d.label)}</label>`
+  ).join("");
+  const ctxHtml = PROFESSIONAL_CONTEXTS.map(ct =>
+    `<label class="cb-item"><input type="checkbox" data-cid="${c.id}" data-t="ctx" data-v="${ct.id}"${s.contexts.has(ct.id)?" checked":""}> ${esc(ct.label)}</label>`
+  ).join("");
+
+  return `<div class="card${modFlag?" modified":""}" id="card-${c.id}">
+  <div class="card-head">
+    <span class="card-num">${c.id}</span>
+    <span class="card-kind">Teaching Relevance</span>
+    <span class="badge badge-mod" id="mod-badge-${c.id}" style="${modFlag?"":"display:none"}">Modified</span>
+  </div>
+  <p class="context">${esc(c.context)}</p>
+  <div class="toggle-row">
+    <button class="tog-btn accept${s.accept?" selected":""}" data-cid="${c.id}" data-tv="accept">Accept</button>
+    <button class="tog-btn decline${!s.accept?" selected":""}" data-cid="${c.id}" data-tv="decline">Decline</button>
+  </div>
+  <div id="vocab-${c.id}">
+    <div class="vocab-block${off}" id="dom-blk-${c.id}">
+      <p class="vocab-label">Competency Domains</p>
+      <div class="cb-grid">${domHtml}</div>
+    </div>
+    <div class="vocab-block${off}" id="ctx-blk-${c.id}" style="margin-top:12px">
+      <p class="vocab-label">Professional Contexts</p>
+      <div class="cb-grid">${ctxHtml}</div>
+    </div>
+  </div>
+  <p class="val-msg${valErr?" show":""}" id="val-msg-${c.id}">At least one domain and one context must be selected.</p>
+  <div class="card-foot">
+    <a href="#" class="reset-link${modFlag?" show":""}" data-cid="${c.id}">Reset to recommended</a>
+  </div>
+</div>`;
+}
+
+function renderAllCards() {
+  document.getElementById("cards-col").innerHTML = CHOICES.choices.map(c => {
+    if (c.type === "single-select")   return renderSingleSelect(c);
+    if (c.type === "text-with-default") return renderTextWithDefault(c);
+    if (c.type === "teaching-relevance") return renderTeachingRelevance(c);
+    return "";
+  }).join("");
+}
+
+// ── Update functions ────────────────────────────────────────────────────
+function syncCard(c) {
+  const card = document.getElementById("card-" + c.id);
+  if (!card) return;
+  const mod = isModified(c);
+  const s = S[c.id];
+
+  card.classList.toggle("modified", mod);
+
+  const mb = document.getElementById("mod-badge-" + c.id);
+  if (mb) mb.style.display = mod ? "" : "none";
+
+  const rl = card.querySelector(".reset-link");
+  if (rl) rl.classList.toggle("show", mod);
+
+  if (c.type === "single-select" && c.recommended === null) {
+    const needsSel = s.sel === null;
+    const rb = document.getElementById("req-badge-" + c.id);
+    if (rb) rb.style.display = needsSel ? "" : "none";
+    card.classList.toggle("req-unsatisfied", needsSel);
+  }
+}
+
+function syncReview() {
+  const mods = CHOICES.choices.filter(c => isModified(c));
+  const el = document.getElementById("review-list");
+  if (mods.length === 0) {
+    el.innerHTML = '<p class="review-ok">All recommended values selected.</p>';
+    return;
+  }
+  el.innerHTML = mods.map(c =>
+    `<div class="review-item"><span class="review-ref">${c.id}:</span> <span class="review-val">${esc(token(c))}</span></div>`
+  ).join("");
+}
+
+function syncDecision() {
+  document.getElementById("decision-out").value = buildDecisionString();
+  document.getElementById("copy-btn").disabled = !isFormValid();
+}
+
+function syncTeachingValidation(cid) {
+  const c = CHOICES.choices.find(x => x.id === cid);
+  if (!c || c.type !== "teaching-relevance") return;
+  const s = S[cid];
+  const err = s.accept && (s.domains.size === 0 || s.contexts.size === 0);
+  const msg = document.getElementById("val-msg-" + cid);
+  if (msg) msg.classList.toggle("show", err);
+}
+
+function syncAll(changedId) {
+  if (changedId !== undefined) {
+    const c = CHOICES.choices.find(x => x.id === changedId);
+    if (c) syncCard(c);
+  } else {
+    for (const c of CHOICES.choices) syncCard(c);
+  }
+  syncReview();
+  syncDecision();
+}
+
+// ── Reset helpers ───────────────────────────────────────────────────────
+function resetOne(cid) {
+  const c = CHOICES.choices.find(x => x.id === cid);
+  if (!c) return;
+  const s = S[cid];
+
+  if (c.type === "single-select") {
+    s.sel = c.recommended;
+    s.text = "";
+    const card = document.getElementById("card-" + cid);
+    card.querySelectorAll(".opt-btn").forEach(b =>
+      b.classList.toggle("selected", b.dataset.oid === c.recommended)
+    );
+    c.options.forEach(opt => {
+      if (!opt.reveals_text) return;
+      const w = document.getElementById("rev-" + cid);
+      const ta = document.getElementById("rev-ta-" + cid);
+      if (w)  w.classList.remove("open");
+      if (ta) ta.value = "";
+    });
+
+  } else if (c.type === "text-with-default") {
+    s.val = c.recommended || "";
+    const inp = document.getElementById("slug-" + cid);
+    if (inp) inp.value = s.val;
+
+  } else if (c.type === "teaching-relevance") {
+    const r = c.recommended || {};
+    s.accept   = r.accept !== false;
+    s.domains  = new Set(r.competency_domains  || []);
+    s.contexts = new Set(r.professional_contexts || []);
+    const card = document.getElementById("card-" + cid);
+    const tv = s.accept ? "accept" : "decline";
+    card.querySelectorAll(".tog-btn").forEach(b => b.classList.toggle("selected", b.dataset.tv === tv));
+    card.querySelectorAll("input[type='checkbox'][data-t='dom']").forEach(cb => {
+      cb.checked = s.domains.has(cb.dataset.v);
+    });
+    card.querySelectorAll("input[type='checkbox'][data-t='ctx']").forEach(cb => {
+      cb.checked = s.contexts.has(cb.dataset.v);
+    });
+    const db = document.getElementById("dom-blk-" + cid);
+    const cb = document.getElementById("ctx-blk-" + cid);
+    if (db) db.classList.toggle("off", !s.accept);
+    if (cb) cb.classList.toggle("off", !s.accept);
+    syncTeachingValidation(cid);
+  }
+  syncAll(cid);
+}
+
+function resetAll() {
+  for (const c of CHOICES.choices) resetOne(c.id);
+  syncAll();
+}
+
+// ── Event listeners ──────────────────────────────────────────────────────
+function attachEvents() {
+  const col = document.getElementById("cards-col");
+
+  // Click: option buttons, toggle buttons, reset links
+  col.addEventListener("click", e => {
+    const ob = e.target.closest(".opt-btn");
+    if (ob) {
+      const cid = +ob.dataset.cid;
+      const oid = ob.dataset.oid;
+      const c   = CHOICES.choices.find(x => x.id === cid);
+      S[cid].sel = oid;
+      document.getElementById("card-"+cid).querySelectorAll(".opt-btn")
+        .forEach(b => b.classList.toggle("selected", b.dataset.oid === oid));
+      // reveals_text handling
+      c.options.forEach(opt => {
+        if (!opt.reveals_text) return;
+        const w  = document.getElementById("rev-" + cid);
+        const ta = document.getElementById("rev-ta-" + cid);
+        const open = opt.id === oid;
+        if (w) w.classList.toggle("open", open);
+        if (!open) { S[cid].text = ""; if (ta) ta.value = ""; }
+      });
+      syncAll(cid);
+      return;
+    }
+
+    const tb = e.target.closest(".tog-btn");
+    if (tb) {
+      const cid = +tb.dataset.cid;
+      const tv  = tb.dataset.tv;
+      S[cid].accept = tv === "accept";
+      document.getElementById("card-"+cid).querySelectorAll(".tog-btn")
+        .forEach(b => b.classList.toggle("selected", b.dataset.tv === tv));
+      const db = document.getElementById("dom-blk-" + cid);
+      const cb = document.getElementById("ctx-blk-" + cid);
+      if (db) db.classList.toggle("off", !S[cid].accept);
+      if (cb) cb.classList.toggle("off", !S[cid].accept);
+      syncTeachingValidation(cid);
+      syncAll(cid);
+      return;
+    }
+
+    const rl = e.target.closest(".reset-link");
+    if (rl) {
+      e.preventDefault();
+      resetOne(+rl.dataset.cid);
+      return;
+    }
+  });
+
+  // Input: slug fields and reveals textarea
+  col.addEventListener("input", e => {
+    const si = e.target.closest(".slug-input");
+    if (si) { S[+si.dataset.cid].val = si.value; syncAll(+si.dataset.cid); return; }
+    if (e.target.id && e.target.id.startsWith("rev-ta-")) {
+      const cid = +e.target.id.replace("rev-ta-", "");
+      S[cid].text = e.target.value;
+      syncAll(cid);
+    }
+  });
+
+  // Change: checkboxes
+  col.addEventListener("change", e => {
+    const cb = e.target;
+    if (cb.type !== "checkbox" || !cb.dataset.cid) return;
+    const cid = +cb.dataset.cid;
+    const set = cb.dataset.t === "dom" ? S[cid].domains : S[cid].contexts;
+    if (cb.checked) set.add(cb.dataset.v);
+    else set.delete(cb.dataset.v);
+    syncTeachingValidation(cid);
+    syncAll(cid);
+  });
+
+  // Copy button
+  document.getElementById("copy-btn").addEventListener("click", () => {
+    const txt = document.getElementById("decision-out").value;
+    const btn = document.getElementById("copy-btn");
+    const done = () => {
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "Copy to clipboard"; btn.classList.remove("copied"); }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(done).catch(() => {
+        document.getElementById("decision-out").select();
+        document.execCommand("copy");
+        done();
+      });
+    } else {
+      document.getElementById("decision-out").select();
+      document.execCommand("copy");
+      done();
+    }
+  });
+
+  // Global restore
+  document.getElementById("restore-all-btn").addEventListener("click", () => {
+    document.getElementById("restore-confirm").classList.remove("hidden");
+  });
+  document.getElementById("restore-yes").addEventListener("click", () => {
+    resetAll();
+    document.getElementById("restore-confirm").classList.add("hidden");
+  });
+  document.getElementById("restore-no").addEventListener("click", () => {
+    document.getElementById("restore-confirm").classList.add("hidden");
+  });
+}
+
+// ── Init ────────────────────────────────────────────────────────────────
+(function init() {
+  document.getElementById("form-title").textContent =
+    "Ingest Decision Form — " + (CHOICES.source_title || "");
+  document.getElementById("form-meta").textContent =
+    "Session: " + (CHOICES.session_date || "—") + "  ·  " +
+    CHOICES.choices.length + " decision" + (CHOICES.choices.length !== 1 ? "s" : "");
+
+  initState();
+  renderAllCards();
+  attachEvents();
+  syncAll();
+})();
+</script>
+</body>
+</html>

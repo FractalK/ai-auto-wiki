@@ -1,0 +1,24 @@
+.DS_Store
+.gitignore
+node_modules
+public/
+prof
+tsconfig.tsbuildinfo
+.obsidian
+.quartz-cache
+private/
+.replit
+replit.nix
+
+# Exclude Obsidian's default save location to reduce friction and mistakes
+Clippings/
+
+# Wiki: exclude source files — potentially large or copyright-restricted
+raw/staged/
+raw/processed/
+
+# Wiki: session-generated ingest decision form (template is committed; session output is not)
+ingest-decisions.html
+
+# Keep .gitkeep files in tracked empty directories
+!**/.gitkeep
