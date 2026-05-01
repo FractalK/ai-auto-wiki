@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 30/04/2026 15:30
+**Last Updated:** 30/04/2026 19:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3534,3 +3534,224 @@ OPERATIONS.md. Do not rely on CLAUDE.md spec presence alone for rendering-critic
 formatting rules.
 
 **References:** FRIC-030, DM-088, CLAUDE.md Section 5.6, OPERATIONS.md Step 13a
+
+---
+
+## DM-090 | PROFESSIONAL_CONTEXTS VOCABULARY EXPANDED: SOFTWARE-AND-AI-DEVELOPMENT ADDED
+
+- **Date:** 2026-04-30
+- **Status:** ACTIVE
+
+**Decision:**
+Added `software-and-ai-development` as the 13th term in the `professional_contexts`
+controlled vocabulary (CLAUDE.md Section 7.2; TAGGING-SKILL.md Section 1.2).
+
+**Context:**
+Operational tagging data showed four terms dominating the professional_contexts field:
+`organizational-leadership-and-change-management`, `professional-and-continuing-education`,
+`graduate-and-doctoral-education`, and `project-and-program-management`. No existing term
+mapped to practitioners whose primary professional context is building or technically
+integrating AI systems — software engineers, ML engineers, data engineers, data scientists,
+AI platform engineers, and developers. A practitioner in any of these roles would scan the
+12-term vocabulary and correctly conclude none of them applied.
+
+**Rationale:**
+The gap is genuine and independent of source-mix composition. Even if current ingested
+sources have targeted leadership and education audiences, the vocabulary gap persists: when
+technical-practitioner-targeted content is ingested, there is no term to receive it. The
+fix is warranted now rather than deferred.
+
+One term was chosen over a split (e.g., `software-engineering-and-architecture` vs.
+`data-science-and-ml-engineering`) because: (a) the existing vocabulary errs toward broad
+role families, not job titles; (b) at the content level this wiki operates, the
+analytical/engineering distinction does not produce cleanly separable content bins; and
+(c) a split should follow observed tagging confusion in practice, not precede it.
+
+`entrepreneurship-and-startups` covers the business context of early-stage company work;
+`software-and-ai-development` covers the technical building context regardless of company
+stage. A technical founder carries both; no overlap problem exists.
+
+Developers who use AI (prompting, orchestration, system integration) are fully covered by
+the existing `practical-ai-use-and-interaction` competency domain. The new professional
+context term is orthogonal: it identifies the audience by role, not the content by subject.
+A page on prompt reliability in production systems correctly carries both — the domain
+describes what the page covers; the context identifies who it primarily serves.
+
+**Alternatives Considered:**
+- **Split into two terms** (`software-engineering-and-architecture` +
+  `data-science-and-ml-engineering`): Ruled out — premature without operational evidence
+  of tagging confusion; adds two sparse bins where one suffices at current wiki scope.
+- **Defer until technical-practitioner content is ingested:** Ruled out — the vocabulary
+  gap is a schema defect regardless of current source mix. Better to fix it proactively.
+
+**Consequences to Watch:**
+- Retroactive pass: the next lint pass should re-evaluate `professional_contexts` on all
+  teaching-tagged pages and surface any that should carry `software-and-ai-development`.
+  Volume expected to be low given current source mix.
+- If tagging practice shows the single term inadequately distinguishes data scientists
+  from software engineers, consider a split at that point (amendment to this decision).
+
+**References:** TAGGING-SKILL.md Section 1.2, CLAUDE.md Section 7.2
+
+---
+
+## DM-091 | COMPETENCY DOMAIN GAP FOR AI SYSTEM DESIGN DEFERRED TO P3 INFO NEED
+
+- **Date:** 2026-04-30
+- **Status:** ACTIVE
+
+**Decision:**
+No new competency domain is added for AI system design, evaluation pipeline architecture,
+API integration, deployment reliability, or MLOps. The gap is logged as IN-017 (P3) with
+a trigger to revisit when content at that technical depth is ingested or queued.
+
+**Context:**
+The competency domain audit conducted alongside DM-090 identified that none of the seven
+current domains in Section 7.1 covers building or architecting AI-integrated systems at
+the system level. `practical-ai-use-and-interaction` is explicitly "task-level use:
+prompting, iteration, output refinement" — it does not reach system design.
+`ai-integration-in-organizational-workflows` is oriented toward multi-actor processes and
+accountability structures, not technical implementation.
+
+**Rationale:**
+The wiki's current content is positioned at the AI effectiveness / use level. No ingested
+content yet requires a system-design or MLOps domain bin. Adding a domain for content that
+does not exist creates a speculative bin — harder to remove than to add, and misleading in
+the Teaching Index if it remains empty. The correct disposition is to log the gap and
+trigger re-evaluation when content warranting the domain arrives.
+
+**Alternatives Considered:**
+- **Add domain now** (e.g., `ai-system-design-and-implementation`): Ruled out — premature;
+  no current content maps to it; speculative vocabulary additions create maintenance debt.
+
+**Consequences to Watch:**
+See IN-017. If sources covering LLM API integration patterns, evaluation pipeline design,
+RAG architecture, or MLOps are queued for ingest, revisit this decision before that ingest
+session.
+
+**References:** IN-017, DM-090, CLAUDE.md Section 7.1
+
+---
+
+## DM-092 | WIKI-VERIFY.SH GROUP 14 ADDED: CONTROLLED VOCABULARY CONFORMANCE CHECK
+
+- **Date:** 2026-04-30
+- **Status:** ACTIVE
+
+**Decision:**
+Added Group 14 to `wiki-verify.sh`: a deterministic check that all values present in
+`competency_domains` and `professional_contexts` frontmatter fields across all content
+pages are drawn from the controlled vocabulary (CLAUDE.md Sections 7.1 and 7.2).
+Any unrecognized value causes a FAIL. `test-harness.md` Sections 2.3 and 2.5 updated
+to document the new check and its maintenance requirement.
+
+**Context:**
+Groups 8 and 13 confirm that these fields exist on the correct pages but do not validate
+that their values are sanctioned. An agent that invents a tag, makes a typo, or uses a
+term that was added to the schema but not yet reflected in the allowlist produces a silent
+violation. The lint pass is LLM-dependent and may miss violations created by the same LLM
+session that introduced them.
+
+**Rationale:**
+The check is asymmetric in the useful direction: absence of any term tells you nothing;
+presence of a non-sanctioned term is unambiguously wrong. FAIL severity is correct —
+there is no false-positive risk analogous to Group 12's dollar-sign check.
+
+The direction of failure when the script is not updated after a vocabulary addition is a
+false positive (new term flagged as invalid) — loud, obvious, and self-diagnosing. This
+is preferable to a false negative (silent miss). The Section 2.5 maintenance row and the
+in-script MAINTENANCE comment both state the update requirement explicitly and call out
+that the script update must be delivered in the same batch as any vocabulary change.
+
+**Scope:** All content directories. Any page using these fields is checked regardless
+of `teaching_relevance` status.
+
+**Implementation note:** awk scoped to frontmatter block (same pattern as Group 9).
+Tracks which field is currently active (`in_cd`, `in_pc`) and validates each block-list
+item against the appropriate allowlist array (`VALID_CD`, `VALID_PC`). Handles quoted
+and unquoted values; strips trailing carriage returns for Windows-origin files.
+Flow-sequence values on the same line as the field key are not detected — noted as a
+known limitation in the script comment.
+
+**Alternatives Considered:**
+- **WARN instead of FAIL:** Ruled out. A non-sanctioned value is always wrong with no
+  plausible false-positive scenario.
+- **Scope only to teaching-tagged pages:** Ruled out. A schema violation in these fields
+  is equally wrong on any page type, including pages where `teaching_relevance` was
+  removed after the fields were written.
+
+**Consequences to Watch:**
+Every vocabulary addition to CLAUDE.md Sections 7.1 or 7.2 now has a mandatory paired
+script update. The Section 2.5 row is the gate: any session delivering a vocabulary
+change must check Section 2.5 before closing the batch.
+
+**References:** CLAUDE.md Sections 7.1–7.2; DM-090; DM-091; test-harness.md Sections
+2.3 and 2.5
+
+---
+
+## DM-093 | COMPACTION RESILIENCE: SESSION-START DETECTION + RECOVERY PROCEDURE ADOPTED
+
+- **Date:** 2026-04-30
+- **Status:** ACTIVE
+
+**Decision:**
+A two-layer compaction resilience mechanism is adopted for the wiki ingest workflow:
+(1) a mandatory pre-session `git status` check added to OPERATIONS.md Section 11.2
+that detects uncommitted wiki file changes from an interrupted prior session and halts
+before any ingest proceeds; and (2) a standardized recovery session prompt template
+added to OPERATIONS.md Section 11.2 (Interrupted Ingest Recovery Procedure) that the
+human pastes into a new Claude Code session to diagnose and resolve the interrupted
+state. No new files are created. No mid-session commits are added. The existing
+per-source commit at Step 22c remains the sole commit point.
+
+**Context:**
+During a live ingest session, Claude Code auto-compacted late in the session (during
+teaching brief writing). No work was lost in that instance, but the near-miss revealed
+that no detection or recovery mechanism existed for the case where compaction fires
+mid-source — between Step 10 (first disk write) and Step 22c (git commit). A design
+session was convened to characterize the risk, survey candidate approaches, and select
+a proportionate solution.
+
+**Rationale:**
+The exposure window for mid-source compaction is bounded: it spans Steps 10–22c for
+each source processed. Compaction within that window is unlikely for conservatively
+scoped sessions (3–5 documents, Step 0 budget check enforced) and plausible for heavy
+sources or aggressive batch sizes. The two-layer approach is proportionate: detection
+cost is near-zero (one bash call at session start; fires only when something is wrong),
+recovery cost is low (paste a template), and no ongoing overhead is added to clean
+sessions.
+
+The staged-file intake pathway is not tracked in queue.md — staged file completion is
+tracked only by git log and raw/processed/. The `git status` detection mechanism covers
+both queue and staged pathways uniformly, making it the correct universal primitive.
+
+**Alternatives Considered:**
+- **Session progress file (Approach 3):** Rejected — write overhead proportional to
+  session length; maintenance cost tightly coupled to workflow evolution rate, which
+  has historically been high; recovery depends on human reading a structured file they
+  may not understand.
+- **Mid-source git commits (Approach 5 strong form):** Rejected — produces dirty git
+  history; commits internally inconsistent wiki states, violating the invariant that
+  every commit is a valid wiki state.
+- **Manual /compact (Approach 4):** Rejected as primary mechanism — requires
+  continuous terminal attention; provides no protection if the human is not watching.
+- **queue.md as sole checkpoint (Approach 2):** Adopted for the narrower case
+  (queue URL sources between sources); inadequate as sole mechanism for staged-file
+  sources and for mid-source interruptions.
+- **Scope control alone (Approach 1):** Retained as complementary measure via the
+  existing Step 0 budget check; not sufficient as sole solution because it depends
+  on consistent human discipline.
+
+**Consequences to Watch:**
+- The "complete forward" recovery path requires re-deriving source classification from
+  the Source page frontmatter (if Step 10 completed). Verify on first use that
+  frontmatter written at Step 10 contains sufficient information to resume cleanly.
+- If ingest workflow step numbering changes materially, review the recovery procedure's
+  step-to-file mapping table for accuracy.
+- The detection mechanism covers all wiki content paths listed in the pre-session
+  check. If new content directories are added to the schema, add them to the git status
+  inspection scope.
+
+**References:** OPERATIONS.md Section 11.2 (pre-session check; Interrupted Ingest
+Recovery Procedure); LL-032

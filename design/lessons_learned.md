@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 30/04/2026 15:30
+**Last Updated:** 30/04/2026 19:00
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1023,3 +1023,48 @@ Comparison pages). wiki-verify.sh Group 10 is the automated backstop; the OPERAT
 self-check is the point-of-write prevention.
 
 **References:** FRIC-030, DM-088, DM-089
+
+## LL-032 | NEAR-MISS AUTO-COMPACTION REVEALS MISSING RECOVERY PROTOCOL
+
+- **Date:** 2026-04-30
+- **Context:** Live ingest session; Claude Code auto-compacted late in the session
+  (during teaching brief writing) with no work lost; the event triggered a design
+  review session for compaction resilience.
+
+**Problem:**
+No detection or recovery procedure existed for mid-source ingest interruptions caused
+by auto-compaction or other session failures. If compaction had fired between Step 10
+(first disk write: Source page) and Step 22c (git commit), the wiki would have been
+left in inconsistent state — a Source page with no downstream Topic updates, or Topic
+and Tool pages updated but index.md not yet reflecting them — with no reliable mechanism
+to detect or recover from this condition in the next session.
+
+**Root Cause:**
+The ingest workflow uses a single commit point per source (Step 22c), which is the
+correct architectural choice for clean git history. This necessarily creates an exposure
+window between first disk write and commit. No compensating detection mechanism was
+added at session start to catch prior-session interruptions within this window. The gap
+was not visible during design because the workflow was developed sequentially, with each
+step's recovery properties considered in isolation rather than as an exposure window
+spanning multiple steps.
+
+**Fix Applied:**
+Two additions to OPERATIONS.md Section 11.2 (see DM-093 for full rationale):
+(1) A mandatory pre-session check (before Step 0) that runs `git status` and halts if
+uncommitted wiki file changes are detected in content paths, presenting the human with
+a rollback/recover forced choice.
+(2) A recovery session prompt template (Interrupted Ingest Recovery Procedure, after
+Step 22c) that walks the agent through diagnosing the filesystem state and either
+completing forward or rolling back cleanly in a fresh session.
+
+**Implication Going Forward:**
+The `git status` check at session start is the class solution for interrupted-state
+detection in any single-commit-per-unit-of-work workflow. If new wiki operation types
+(beyond ingest) are introduced that write files before a commit point, the pre-session
+check covers them automatically — no update to the detection mechanism is needed,
+provided the new content paths are in the inspection scope. If new content directories
+are added to the schema, add them to the git status check explicitly. The step-to-file
+mapping in the recovery procedure should be reviewed whenever step numbering changes
+materially.
+
+**References:** DM-093; OPERATIONS.md Section 11.2

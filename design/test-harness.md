@@ -1,5 +1,5 @@
 # Wiki Test Harness — Specification
-**Last Updated:** 30/04/2026 15:00
+**Last Updated:** 30/04/2026 17:00
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -85,6 +85,7 @@ are nested, quoted, or appear mid-document outside a frontmatter block.
 | 11. Comparison Verdict section | Every file in `comparisons/` contains a `## Verdict` section. Absence indicates an incomplete or pre-DM-087 page not retroactively fixed. | CLAUDE.md Section 5.5; DM-087; DM-088 |
 | 12. Dollar sign escaping (WARN) | No content-directory `.md` file contains a bare `$` immediately before a digit. Quartz renders `$...$` as LaTeX math. Already-escaped `\$` occurrences are filtered. False-positive risk from code blocks — WARN only. | CLAUDE.md Section 6.2; FRIC-029; DM-088 |
 | 13. `teaching_notes_reviewed` field (WARN) | Topic and Tool pages with `teaching_relevance: true` that contain a `## Teaching Notes` body section must also have `teaching_notes_reviewed` in frontmatter. Lint Step L5b is the authoritative backstop; this provides earlier warning. | CLAUDE.md Sections 5.2, 5.3; DM-088 |
+| 14. Controlled vocabulary conformance | Any value in `competency_domains` or `professional_contexts` frontmatter fields across any content-directory page that is not present in the Section 7.1 or 7.2 allowlist. Detects invented tags, typos, and vocabulary updates not propagated to the script. YAML block-list format only; flow-sequence on same line not detected. Severity: FAIL — no false-positive risk. | CLAUDE.md Sections 7.1–7.2; DM-092 |
 
 ### 2.4 Usage
 
@@ -118,6 +119,7 @@ When the schema changes, update the script in the following cases:
 | New content directory added (e.g., `teaching/`) | Add to pre-commit hook check string (Section 3), page count loop (Section 5), and naming convention loop (Section 6); also update INIT-PROMPT.md Step 6 directory list and pre-commit hook DIRS string, and the hook template in INIT-PROMPT.md Step 11 |
 | New page type with required frontmatter fields | Add a check group modelled on Group 8: `check_yaml_value` for `type` and any hardcoded field values; `check_scaffold_fields` for required-presence fields. Update Section 2.3 catalogue. |
 | New FRIC regression check needed (content-level pattern) | Add a check group (Groups 9–12 pattern): awk for frontmatter-scoped checks; grep + filter for body-content checks. Assign FAIL for rendering-breaking violations; WARN for false-positive-risk checks. Update Section 2.3 catalogue. |
+| Vocabulary term added or removed from `competency_domains` or `professional_contexts` (CLAUDE.md Sections 7.1 or 7.2) | Update the `VALID_CD` or `VALID_PC` array in Group 14 of the script. **This is a hard requirement.** Failure to update causes false FAILs on every page using the new term. This update must be delivered in the same batch as the CLAUDE.md vocabulary change — it is not deferrable. Update Section 2.3 catalogue row 14 if the change affects the allowlist description. |
 | New required body section on a page type (e.g., `## Verdict`) | Add a `grep -qF '## Section'` existence check in the relevant content directory loop. Update Section 2.3 catalogue. |
 | New conditional frontmatter field depending on a body section | Add a cross-check in Group 13 pattern: read triggering field, grep for body section, assert dependent field present. WARN severity unless dependency is unconditional. |
 

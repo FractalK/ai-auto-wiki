@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 30/04/2026 15:30
+**Last Updated:** 30/04/2026 19:00
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -107,6 +107,43 @@ decisions are resolved.
   attempt alternative retrieval — no web search, no cached versions, no mirrors.
   Surface all fetch failures in the post-ingest summary Notes field. If the content
   is still needed, the human will obtain it manually and place a file in `raw/staged/`.
+
+**Pre-session check — interrupted-ingest detection**
+
+Before running the pre-flight pass or any other operation, run:
+
+```bash
+git status --short
+```
+
+Inspect output for uncommitted changes in wiki content paths: `topics/`, `tools/`,
+`sources/`, `comparisons/`, `pitfalls/`, `teaching/`, `index.md`, `overview.md`,
+`log.md`, `raw/queue.md`.
+
+**If no uncommitted changes are found in these paths:** proceed to Step 0.
+
+**If uncommitted changes are found:** stop. Do not proceed with ingest. Run
+`git log --oneline -1` to identify the last clean commit. Report to the human:
+
+```
+Interrupted ingest detected.
+Uncommitted changes found in: {list affected files}
+Last clean commit: {hash — message}
+
+An ingest session was interrupted before the final git commit. This session cannot
+proceed until the interrupted ingest is resolved. Options:
+
+A) Recover — paste the recovery prompt from OPERATIONS.md Section 11.2
+   (Interrupted Ingest Recovery Procedure) into a new Claude Code session.
+B) Roll back — I will run `git checkout -- .` to discard all uncommitted changes
+   and return the wiki to the last clean committed state. The source will remain
+   in raw/staged/ or raw/queue.md [queued] for re-ingest in the next session.
+
+Reply A or B to proceed.
+```
+
+Do not attempt to diagnose or repair the interrupted state without using the recovery
+procedure. Do not proceed to Step 0 while uncommitted changes are present.
 
 **Pre-flight pass (Phase 1 — no wiki files written):**
 
@@ -612,6 +649,77 @@ Step 22c — Push to remote
 Run `git push origin main`. Commit all changes directly to main — do not create feature
 branches or pull requests. The gh CLI is not required for any wiki operation and must
 not be used.
+
+### Interrupted Ingest Recovery Procedure
+
+Use when a previous session was interrupted (by auto-compaction or any other cause)
+and the pre-session check has detected uncommitted wiki file changes. Do not use this
+procedure without first triggering the pre-session check.
+
+**How to invoke:** Start a new Claude Code session and paste the following prompt
+verbatim:
+
+---
+
+```
+You are recovering from an interrupted wiki ingest session.
+
+Before taking any action:
+
+1. Read CLAUDE.md and OPERATIONS.md in full as normal.
+2. Run `git status --short` — list every uncommitted file.
+3. Run `git log --oneline -5` — report the last five commits.
+4. For each uncommitted file in wiki content paths, read its frontmatter and report:
+   file path, page type, slug, and which ingest step it likely represents:
+   - File in sources/ → Step 10 completed (Source page written)
+   - File in topics/ or tools/ → Step 12 or 13 completed (at least partially)
+   - index.md modified → Step 16 completed
+   - overview.md modified → Step 17 completed
+   - log.md modified → Step 18 completed (partially or fully)
+
+5. Produce a diagnosis table:
+
+   | File | Step last completed | Notes |
+   |------|---------------------|-------|
+   | ...  | ...                 | ...   |
+
+6. Based on the diagnosis, propose one of:
+
+   A) Complete forward — execute all remaining ingest steps from the first
+      incomplete step through Step 22c. Do not re-execute steps already completed.
+      Do not rewrite files already written.
+
+   B) Roll back — run `git checkout -- .` to discard all uncommitted changes.
+      The source file remains in raw/staged/ or raw/queue.md [queued] for
+      re-ingest in the next session. No data is permanently lost.
+
+7. Stop. Do not take any action until you receive explicit confirmation of A or B.
+```
+
+---
+
+**Rollback command (option B):**
+```bash
+git checkout -- .
+```
+
+**Complete-forward guidance (option A):**
+
+Resume from the first step not yet executed per the diagnosis table. If Step 10
+(Source page) was completed before interruption, the source's type, credibility tier,
+and pre-flight decisions can be re-derived from the Source page frontmatter — read it
+before resuming. If Step 10 was not completed, the pre-flight decisions are not
+recoverable from the filesystem; run the full pre-flight pass again from Step 0.
+
+**Which option to choose:**
+
+- If Step 10 is not committed and pre-flight decisions are not recoverable: roll back
+  and re-ingest. Pre-flight decisions are not persisted to disk; partial completion
+  from an unrecoverable state is not safe.
+- If Step 10 is committed and remaining steps are clearly identifiable from the
+  diagnosis table: complete forward.
+- When uncertain: roll back. Re-ingest is always safe; partial completion from an
+  ambiguous state is not.
 
 ### 11.3 Proactive Discovery Pass
 

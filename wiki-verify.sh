@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Last Updated: 30/04/2026 15:00
+# Last Updated: 30/04/2026 17:00
 # wiki-verify.sh — Tier 1 configuration, conformance, and content-level checks
 # AI Effectiveness Wiki — see test-harness.md for specification
 #
@@ -545,6 +545,97 @@ done
 
 if [ "$TNR_WARN" = "0" ]; then
     pass "All teaching-tagged pages with ## Teaching Notes have teaching_notes_reviewed field"
+fi
+
+# ─── 14. Controlled vocabulary conformance ──────────────────────────────────
+printf "\n--- 14. Controlled vocabulary conformance (Section 7.1/7.2) ---\n"
+# Any value present in competency_domains or professional_contexts frontmatter
+# fields that is not in the sanctioned vocabulary (CLAUDE.md Sections 7.1/7.2)
+# is a schema violation: an invented tag, a typo, or a vocabulary update not
+# propagated to this script.
+# Severity: FAIL. No false-positive risk — a value either matches the allowlist
+# or it does not. Direction of failure when script is not updated after a
+# vocabulary addition is a loud false positive, not a silent miss.
+# Scope: all content directories. Any page using these fields is checked
+# regardless of teaching_relevance status.
+# Limitation: detects YAML block-list format only (  - value per line). A
+# flow-sequence value on the same line as the field key is not detected.
+#
+# MAINTENANCE: when a vocabulary term is added or removed in CLAUDE.md Sections
+# 7.1 or 7.2, update VALID_CD or VALID_PC below before the next session.
+# Failure to update causes false FAILs on every page using the new term.
+# See test-harness.md Section 2.5.
+
+VALID_CD=(
+    "tool-evaluation-and-selection"
+    "practical-ai-use-and-interaction"
+    "ai-integration-in-organizational-workflows"
+    "output-verification-and-risk-assessment"
+    "ai-safety-and-alignment-literacy"
+    "capability-horizon-awareness"
+    "attribution-ip-and-professional-integrity"
+)
+
+VALID_PC=(
+    "activism-and-civic-advocacy"
+    "non-profit-and-ngo-work"
+    "journalism-and-media"
+    "legal-practice"
+    "domestic-civil-service-and-public-administration"
+    "foreign-service-and-diplomacy"
+    "organizational-leadership-and-change-management"
+    "project-and-program-management"
+    "teaching-and-instruction"
+    "graduate-and-doctoral-education"
+    "professional-and-continuing-education"
+    "entrepreneurship-and-startups"
+    "software-and-ai-development"
+)
+
+vc_in_list() {
+    local needle="$1"; shift
+    for item in "$@"; do
+        [ "$needle" = "$item" ] && return 0
+    done
+    return 1
+}
+
+VC_FAIL=0
+for d in topics tools sources comparisons pitfalls teaching; do
+    [ -d "$d" ] || continue
+    while IFS= read -r filepath; do
+        while IFS=: read -r vc_field vc_val; do
+            if [ "$vc_field" = "competency_domains" ]; then
+                if ! vc_in_list "$vc_val" "${VALID_CD[@]}"; then
+                    fail "Invalid competency_domains value '$vc_val' in: $filepath"
+                    VC_FAIL=1
+                fi
+            elif [ "$vc_field" = "professional_contexts" ]; then
+                if ! vc_in_list "$vc_val" "${VALID_PC[@]}"; then
+                    fail "Invalid professional_contexts value '$vc_val' in: $filepath"
+                    VC_FAIL=1
+                fi
+            fi
+        done < <(awk '
+            /^---/               { delim++; if (delim >= 2) exit; next }
+            delim != 1           { next }
+            /^competency_domains:/    { in_cd=1; in_pc=0; next }
+            /^professional_contexts:/ { in_pc=1; in_cd=0; next }
+            /^[a-z_][a-z_-]*:/  { in_cd=0; in_pc=0; next }
+            (in_cd || in_pc) && /^[[:space:]]+-[[:space:]]/ {
+                val = $0
+                gsub(/^[[:space:]]+-[[:space:]]+/, "", val)
+                gsub(/^"/,  "", val)
+                gsub(/"[[:space:]]*$/, "", val)
+                gsub(/\r/, "", val)
+                print (in_cd ? "competency_domains" : "professional_contexts") ":" val
+            }
+        ' "$filepath")
+    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+done
+
+if [ "$VC_FAIL" = "0" ]; then
+    pass "All competency_domains and professional_contexts values match controlled vocabulary"
 fi
 
 # ─── Summary ─────────────────────────────────────────────────────────────────

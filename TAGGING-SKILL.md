@@ -1,4 +1,5 @@
 # TAGGING-SKILL.md — Teaching Relevance Tagging Skill File
+**Last Updated:** 30/04/2026 17:00
 
 **Purpose:** Read this file before any ingest operation that involves teaching relevance
 tagging. It provides tagging rules, controlled vocabulary, decision procedure, and worked
@@ -47,6 +48,7 @@ does not map to any existing term, surface the gap rather than inventing a new t
 | `graduate-and-doctoral-education` |
 | `professional-and-continuing-education` |
 | `entrepreneurship-and-startups` |
+| `software-and-ai-development` |
 
 ---
 

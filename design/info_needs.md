@@ -1,4 +1,5 @@
 # Information Needs
+**Last Updated:** 30/04/2026 17:00
 
 Authoritative repository of open questions, data gaps, and contradictions that must
 be resolved before dependent design or implementation work can proceed.
@@ -544,3 +545,36 @@ well-established pages.
 —
 
 **References:** FRIC-031, DM-072
+
+---
+
+## IN-017 | Competency Domain Gap: AI System Design and Technical Implementation
+
+- **Priority:** P3
+- **Status:** open
+- **Raised:** 2026-04-30
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+No competency domain in Section 7.1 covers AI system design, evaluation pipeline
+architecture, LLM API integration, RAG architecture, deployment reliability, or MLOps.
+`practical-ai-use-and-interaction` is explicitly "task-level use: prompting, iteration,
+output refinement" and does not reach system-level design. `ai-integration-in-organizational-
+workflows` is oriented toward multi-actor processes and accountability structures, not
+technical implementation. A page on prompt reliability in production systems or evaluation
+pipeline design has no domain that cleanly receives it.
+
+**Why This Blocks Progress:**
+Does not block current operation. The wiki's current content is positioned at the AI
+effectiveness / use level; no ingested content yet requires this domain bin. Becomes
+relevant when sources covering LLM API integration patterns, evaluation pipeline design,
+RAG architecture, or MLOps are queued.
+
+**Trigger:** Revisit before ingesting any source whose primary subject is AI system
+architecture, evaluation pipeline design, RAG/retrieval systems, LLM deployment
+reliability, or MLOps.
+
+**Resolution:**
+—
+
+**References:** DM-091, DM-090, CLAUDE.md Section 7.1
