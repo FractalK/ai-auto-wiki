@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 30/04/2026 19:00
+**Last Updated:** 01/05/2026 17:00
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1286,18 +1286,46 @@ Read `wiki-lessons-learned.md` `## Schema Signals` section. For each entry with
 This step is informational only. No forced choice. The human decides whether to bring
 an aged signal to a design session.
 
-**Step L13 — Consolidate pre-flight report**
+**Step L13 — Generate lint decision form**
+
+If no forced choices were identified across Steps L4b, L4c, L5, L5a, L7, L9, L10,
+L11, L12, L12a, and L12b: state "No forced choices this pass — proceeding to Phase 3"
+and proceed immediately without generating a form.
+
+If forced choices exist:
+
+1. Assemble the choices JSON. Use the `single-select` type for all lint choices —
+   `text-with-default`, `conditional-text`, and `composite` types are not used in lint
+   sessions. The top-level schema is the same as Section 11.2:
+
+```json
+{
+  "session_date": "YYYY-MM-DD",
+  "source_title": "Lint pass {N} — {YYYY-MM-DD}",
+  "choices": [ ...choice objects... ]
+}
+```
+
+Populate `choices` with one `single-select` object per forced choice, in this order:
+L4b items (one per open contradiction), L4c if triggered, L5 items (one per stale
+teaching-brief), L5a items (one per upgrade candidate), L7 items (one per concept gap),
+L9 items (one per decay_exempt proposal), L10 if triggered, L11 items (one per drift
+criterion), L12 items (one per collection gap), L12a if triggered, L12b if triggered.
+Steps contributing no items add no objects to the array.
+
+Set `recommended` to the option value the agent assesses as most appropriate. When no
+recommendation can be assessed (e.g., an open contradiction where neither confirm nor
+override is clearly superior): set `"recommended": null` — the form will flag this card
+as requiring active selection before the decision string can be copied.
+
+2. Inject the JSON into `ingest-ui-template.html`: replace `%%CHOICES_JSON%%` with the
+assembled JSON. Write the result to `lint-decisions.html` at the wiki root.
+
+3. Output the informational summary as text (these items require no human input via
+the form):
 
 ```
-Lint pre-flight report — pass {N} | {date}
-{N} decisions require your input. Respond with: 1:A 2:B ...
-
-[Forced choices in order: open contradictions (L4b), concept gaps (L7),
- decay_exempt proposals (L9), teaching completeness (L10), schema drift (L11),
- collection gaps (L12), session stats threshold (L12a if triggered),
- stale deferral (L12b if triggered)]
-
-Informational summary:
+Informational summary — Lint pass {N} | {date}
 - Pages with changed support scores: {N}
 - Expired contradiction flags (will auto-confirm): {list or "none"}
 - Pages downgraded to stale: {list or "none"}
@@ -1320,7 +1348,20 @@ Informational summary:
 - Skill file TO BE ENRICHED sections with no real examples after 5+ ingests: {list or "none"}
 ```
 
-If no forced choices exist: state this explicitly and proceed to Phase 3 immediately.
+4. Report to the human:
+
+```
+Lint assessment complete. {N} decisions require your input.
+
+Open lint-decisions.html in your browser:
+  open lint-decisions.html
+
+Make your selections. When satisfied, copy the decision string and paste it here.
+```
+
+Do not proceed to Phase 3 until the human pastes a decision string. Parse the decision
+string by matching each `N:value` token to choice id `N` in the choices JSON. Execute
+Phase 3 with all decisions resolved.
 
 **Step L14 — Skill file enrichment staleness check**
 

@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 30/04/2026 19:00
+**Last Updated:** 01/05/2026 17:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3755,3 +3755,38 @@ both queue and staged pathways uniformly, making it the correct universal primit
 
 **References:** OPERATIONS.md Section 11.2 (pre-session check; Interrupted Ingest
 Recovery Procedure); LL-032
+
+---
+
+## DM-094 | Reuse `source_title` JSON Field for Lint Session Identification
+
+- **Date:** 2026-05-01
+- **Status:** ACTIVE
+
+**Decision:** The choices JSON top-level field `source_title` (defined in OPERATIONS.md
+Section 11.2 and the ingest-ui-implementation-plan.md design record) is reused as-is
+for lint sessions. For lint, the field is populated with "Lint pass {N} — {YYYY-MM-DD}"
+rather than a source title. `ingest-ui-template.html` is not modified.
+
+**Rationale:** The template renders `source_title` as a generic session header label
+without type checking or semantic interpretation. Repurposing the field eliminates a
+template modification that would otherwise be required for lint support. The JSON schema
+is a runtime artifact read by Claude Code; the field name is implementation detail, not
+a user-visible label whose semantics matter.
+
+**Alternatives Considered:**
+- **Rename to `session_description`:** Makes the schema self-describing and removes the
+  semantic mismatch between field name and lint use. Rejected because it requires a
+  template update (the field name is referenced in the template's JS), a schema update
+  in OPERATIONS.md Section 11.2, and a design record update in ingest-ui-implementation-plan.md
+  — three files touched for zero functional gain. The cost outweighs the naming benefit.
+
+**Consequences to Watch:**
+- If the template is ever extended with logic that branches on `source_title`'s semantic
+  meaning (e.g., using it to derive behavior), this decision becomes a defect. The field
+  must remain a display-only label.
+- Any future schema documentation that describes `source_title` should note that it
+  serves as a generic session identifier for non-ingest session types.
+
+**References:** OPERATIONS.md Section 11.4 Step L13; ingest-ui-implementation-plan.md
+Section 12; DM-093

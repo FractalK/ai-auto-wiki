@@ -1,5 +1,5 @@
 # Ingest Decision Form — Implementation Plan
-**Last Updated:** 01/05/2026 14:00
+**Last Updated:** 01/05/2026 17:00
 
 ---
 
@@ -8,18 +8,23 @@
 ### What gets built
 
 A self-contained HTML decision form that Claude Code generates at the end of every
-pre-flight pass. The human opens it in a browser, clicks through choices, and copies
-a single decision string to paste back into Claude Code. It replaces the current
-text-block + manual-typing model.
+pre-flight pass (ingest) or assessment pass (lint). The human opens it in a browser,
+clicks through choices, and copies a single decision string to paste back into Claude
+Code. It replaces the current text-block + manual-typing model.
+
+The same template (`ingest-ui-template.html`) is used for both ingest and lint sessions.
+Ingest generates `ingest-decisions.html`; lint generates `lint-decisions.html`. Both are
+gitignored. See Section 12 for the lint extension design.
 
 ### Files created or modified
 
 | File | Action | Description |
 |---|---|---|
 | `ingest-ui-template.html` | Create (committed) | Persistent HTML/JS template; contains rendering logic and controlled vocabulary; Claude Code injects choices JSON at runtime |
-| `ingest-decisions.html` | Generated per session (gitignored) | Session-specific form; produced by injecting choices JSON into template |
+| `ingest-decisions.html` | Generated per session (gitignored) | Session-specific form for ingest; produced by injecting choices JSON into template |
+| `lint-decisions.html` | Generated per lint session (gitignored) | Session-specific form for lint; same template, lint-specific choices JSON |
 | `OPERATIONS.md` | Modify | Replace pre-flight report surfacing step with form-generation step; inline choices JSON schema |
-| `.gitignore` | Modify | Add `ingest-decisions.html` |
+| `.gitignore` | Modify | Add `ingest-decisions.html` and `lint-decisions.html` |
 | `quartz.config.ts` | Modify | Add `ingest-ui-implementation-plan.md` to `ignorePatterns` |
 
 ### Scope boundaries
@@ -434,13 +439,14 @@ is the sole human input mechanism for pre-flight decisions.
 
 ## 8. .gitignore Addition
 
-Append the following line to `.gitignore` in the wiki root:
+Append the following lines to `.gitignore` in the wiki root:
 
 ```
 ingest-decisions.html
+lint-decisions.html
 ```
 
-Place it in the same block as other generated/temporary files. No other change to
+Place them in the same block as other generated/temporary files. No other change to
 `.gitignore` is required.
 
 ---
@@ -591,3 +597,61 @@ The template's assembler function must be updated to match any format change.
 `ingest-ui-implementation-plan.md` is excluded from Quartz publishing via
 `ignorePatterns` in `quartz.config.ts`. It is a design artifact, not wiki content.
 Do not remove this exclusion.
+
+---
+
+## 12. Lint Decision Form Extension
+
+### Design
+
+The same `ingest-ui-template.html` template is reused for lint sessions without
+modification. Lint generates `lint-decisions.html` by injecting a lint-specific
+choices JSON into the template.
+
+### Lint Forced Choice Catalog
+
+All lint forced choices use the `single-select` type. The `text-with-default`,
+`conditional-text`, and `composite` types are not used in lint sessions.
+
+| Step | Description | Options | Recommended |
+|---|---|---|---|
+| L4b (per CTRD) | Open contradiction resolution | A=Confirm / B=Override / C=Skip | agent's assessment; null if toss-up |
+| L4c | open_contradictions counter drift ±2+ | A=Correct / B=Investigate | determined by agent |
+| L5 (per brief) | Teaching-brief outdated | A=Regenerate / B=Mark reviewed / C=Dismiss | A |
+| L5a (per page) | Stale → current upgrade candidate | A=Upgrade / B=Skip | A |
+| L7 (per term) | Concept gap detected | A=Stub Topic / B=Stub Tool / C=Dismiss | A or B per agent's best guess |
+| L9 (per claim) | decay_exempt proposal | A=Confirm / B=Decline | A |
+| L10 | Teaching relevance ratio below 20% | A=Acknowledge / B=Dismiss | A |
+| L11 (per criterion) | Schema conformance drift | A=Acknowledge / B=Surface as design gap | A |
+| L12 (per topic) | Collection gap | A=Confirm active / B=Mark addressed / C=Dismiss | determined by agent |
+| L12a | Session stats threshold check | A=Review now / B=Defer | B |
+| L12b | Stale deferral (>14 days) | A=Resume ingest / B=Discard | determined by agent |
+
+### JSON Structure for Lint
+
+The top-level JSON schema is the same as Section 4 (and OPERATIONS.md Section 11.2).
+The `source_title` field is populated with "Lint pass {N} — {YYYY-MM-DD}" to identify
+the session in the form header. This field is a generic session identifier in the
+template; the template renders it as a header label without type checking. See DM-094
+for the rationale for repurposing this field rather than renaming it.
+
+### OPERATIONS.md Change
+
+The lint form-generation step is specified in OPERATIONS.md Section 11.4 Step L13.
+The step replaces the former text-block consolidation format. No change to CLAUDE.md
+is required — the lint extension is entirely operational.
+
+### .gitignore
+
+`lint-decisions.html` must be added to `.gitignore` alongside `ingest-decisions.html`.
+See Section 8 of this plan.
+
+### What does not change
+
+`ingest-ui-template.html` requires no modification for lint support. The template
+renders any choices JSON without awareness of whether the session is ingest or lint.
+Adding lint support to an already-deployed template requires only:
+1. Adding `lint-decisions.html` to `.gitignore`
+2. Updating OPERATIONS.md Section 11.4 Step L13 (done — see DM-094)
+
+No template rebuild, no npm step, no Quartz rebuild.
