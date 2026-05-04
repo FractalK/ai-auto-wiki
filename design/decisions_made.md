@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 01/05/2026 17:00
+**Last Updated:** 04/05/2026 21:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3790,3 +3790,42 @@ a user-visible label whose semantics matter.
 
 **References:** OPERATIONS.md Section 11.4 Step L13; ingest-ui-implementation-plan.md
 Section 12; DM-093
+
+## DM-095 | Vocabulary Expansion Procedure Placed in OPERATIONS.md, Not CLAUDE.md
+
+- **Date:** 2026-05-04
+- **Status:** ACTIVE
+
+**Decision:** The procedure for retroactively applying a new vocabulary term to existing
+tagged pages (vocabulary expansion pass) is placed in OPERATIONS.md as a new Section 11.6,
+not in CLAUDE.md. CLAUDE.md Section 7.2 carries a one-line cross-reference pointing to
+OPERATIONS.md Section 11.6.
+
+**Rationale:** The vocabulary itself (the controlled list of values) is schema content and
+belongs in CLAUDE.md Sections 7.1–7.2 per the established CLAUDE.md/OPERATIONS.md boundary:
+schema definitions and structures belong in CLAUDE.md; procedural steps and workflow logic
+belong in OPERATIONS.md. The expansion procedure is a triggered workflow — a sequence of
+steps to execute — not a definition. It is analogous to the ingest, lint, and discovery
+procedures already in OPERATIONS.md. Placing it in CLAUDE.md would blur the boundary
+and create a precedent for embedding procedural content in the schema document.
+
+The cross-reference in CLAUDE.md Section 7.2 ensures that an operator extending the
+vocabulary encounters the procedure at the natural decision point without having to
+search for it.
+
+**Alternatives Considered:**
+- **Place the procedure inline in CLAUDE.md Section 7.2:** Keeps vocabulary and its
+  maintenance procedure co-located. Rejected because it violates the CLAUDE.md/OPERATIONS.md
+  boundary (DM-085, DM-061): CLAUDE.md governs schema, not workflows.
+- **No cross-reference in CLAUDE.md:** Relies on the operator knowing to check OPERATIONS.md
+  after a vocabulary change. Rejected — a vocabulary change that produces no cross-reference
+  at the point of edit is a known failure mode (FRIC entries have resulted from
+  under-specified cross-dependencies).
+
+**Consequences to Watch:**
+- If OPERATIONS.md is restructured and Section 11.6 is renumbered, the CLAUDE.md Section 7.2
+  cross-reference must be updated. This is a routine cross-reference maintenance item.
+- The same placement logic applies if a Section 7.1 competency domain expansion procedure
+  is ever needed — it would also go in OPERATIONS.md with a cross-reference from Section 7.1.
+
+**References:** OPERATIONS.md Section 11.6; CLAUDE.md Section 7.2; DM-085; DM-061; FRIC-033

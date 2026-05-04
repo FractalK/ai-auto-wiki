@@ -1,5 +1,5 @@
 # Information Needs
-**Last Updated:** 30/04/2026 17:00
+**Last Updated:** 04/05/2026 21:00
 
 Authoritative repository of open questions, data gaps, and contradictions that must
 be resolved before dependent design or implementation work can proceed.
@@ -578,3 +578,38 @@ reliability, or MLOps.
 —
 
 **References:** DM-091, DM-090, CLAUDE.md Section 7.1
+
+## IN-018 | Retroactive Vocabulary Matching in Lint — Design Not Specified
+
+- **Priority:** P3
+- **Status:** open
+- **Raised:** 2026-05-04
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+The vocabulary expansion procedure in OPERATIONS.md Section 11.6 is human-triggered and
+requires the operator to remember to run it after each vocabulary addition. There is no
+lint step that detects the condition "vocabulary term exists but has never been applied to
+any tagged page" and surfaces it as a signal. A term could be added to the controlled
+vocabulary, the expansion pass skipped, and the omission would be invisible until a human
+noticed the term had zero wiki entries in the Teaching Index.
+
+Should lint include a lightweight check — e.g., "any professional context or competency
+domain term in Section 7.1/7.2 with zero occurrences across all tagged pages" — that
+flags the gap informally? Alternatively, should the vocabulary addition DM entry template
+include a mandatory "expansion pass completed: yes/no" field to enforce the two-step
+pattern?
+
+**Why This Blocks Progress:**
+Does not block current operation. The vocabulary expansion procedure exists and is
+documented. The risk is operator forgetting, not missing tooling. Becomes more relevant
+as the vocabulary grows and the number of terms requiring back-population after each
+addition increases.
+
+**Trigger:** Revisit when a second vocabulary term is added and the expansion pass is
+either skipped or produces unexpected results.
+
+**Resolution:**
+—
+
+**References:** DM-091, DM-095, LL-033, OPERATIONS.md Section 11.6

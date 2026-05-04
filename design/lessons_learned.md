@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 30/04/2026 19:00
+**Last Updated:** 04/05/2026 21:00
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1068,3 +1068,47 @@ mapping in the recovery procedure should be reviewed whenever step numbering cha
 materially.
 
 **References:** DM-093; OPERATIONS.md Section 11.2
+
+## LL-033 | VOCABULARY EXPANSION DOES NOT TRIGGER RETROACTIVE LINT RE-EVALUATION
+
+- **Date:** 2026-05-04
+- **Context:** First lint pass after `software-and-ai-development` was added to the
+  Section 7.2 controlled vocabulary (DM-091). No existing tagged pages were prompted
+  to adopt the new term; the lint pass had no mechanism to propose it.
+
+**Problem:**
+When a new professional context or competency domain is added to the controlled vocabulary,
+existing tagged pages retain whatever `professional_contexts` and `competency_domains` values
+they carried at original tagging time. No lint step reads the vocabulary against existing
+tags to identify pages that would now qualify for the new term. The lint procedure's
+teaching-relevance check (Step L10) is a ratio check only — it confirms the tagged/total
+ratio is above 20%, not that individual tag sets are complete relative to the current
+vocabulary. The result is that the `software-and-ai-development` context was available in
+the vocabulary but applied to zero pages after addition, with no lint signal to indicate
+the gap.
+
+**Root Cause:**
+The lint procedure was designed assuming the vocabulary is stable. No retroactive matching
+step was specified because the schema did not anticipate vocabulary growth requiring
+back-population. This is a design gap that becomes more visible as the vocabulary evolves.
+Automating retroactive matching in lint is impractical: it would require reading every
+tagged page against every vocabulary term on each pass, consuming significant context for
+low signal yield, and the agent cannot reliably judge applicability without reading each
+page carefully.
+
+**Fix Applied:**
+Added OPERATIONS.md Section 11.6: a human-triggered vocabulary expansion procedure that,
+when invoked after a vocabulary addition, applies the clean-mapping test from
+TAGGING-SKILL.md Step 3 to all eligible tagged pages and surfaces confirmed matches as a
+consolidated forced choice. A human-direct alternative (manual Obsidian edit) is also
+documented. Added a cross-reference in CLAUDE.md Section 7.2 pointing to the procedure.
+See DM-095 for placement rationale.
+
+**Implication Going Forward:**
+Any addition to CLAUDE.md Sections 7.1 or 7.2 must be followed by a vocabulary expansion
+pass per OPERATIONS.md Section 11.6 before the term can be considered operationally active
+across the wiki. The term addition and the expansion pass are two distinct operations; the
+first without the second leaves the vocabulary partially deployed. Log the expansion pass
+separately from the vocabulary change DM entry.
+
+**References:** DM-091, DM-095, OPERATIONS.md Section 11.6, CLAUDE.md Section 7.2

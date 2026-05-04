@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 01/05/2026 17:00
+**Last Updated:** 04/05/2026 21:00
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -436,7 +436,13 @@ when `accept: true`.
 Then:
 
 1. Read `ingest-ui-template.html` from the wiki root.
-2. Replace the string `%%CHOICES_JSON%%` with the serialized choices JSON.
+2. **Serialization requirement:** The choices JSON must be valid JavaScript-embeddable
+   JSON before injection. All string values must be properly escaped: (a) literal newlines
+   within context strings must be written as `\n` escape sequences, not physical line
+   breaks; (b) double-quote characters within string values must be escaped as `\"`. Build
+   the data structure programmatically and serialize it with
+   `python3 -c "import json; print(json.dumps(data))"`. Malformed JSON causes the form to
+   render blank with no visible error. Replace `%%CHOICES_JSON%%` with the serialized output.
 3. Write the result to `ingest-decisions.html` at the wiki root.
 4. Report to the human:
 
@@ -909,6 +915,15 @@ pass) runs all checks without writing wiki files and consolidates findings into 
 Phase 2 (human response) is skipped if no forced choices are generated. Phase 3 (execution
 pass) applies auto-execute actions and confirmed forced choices.
 
+**Context note for large wikis:** Full lint Phase 1 reads every wiki page to execute Steps
+L3, L5, L6, L7, L8, and L11, plus CLAUDE.md and OPERATIONS.md in full at session start.
+At approximately 60+ pages, this is sufficient to approach the session window limit before
+Phase 1 completes. Manual `/compact` mid-session is a valid mitigation — compacted context
+retains the assessment state and does not invalidate the pass. If compaction fires: verify
+the informational summary output is complete before proceeding to Step L13; if the summary
+was truncated, resume Phase 1 from the last completed step in a continuation session before
+requesting a decision string.
+
 ---
 
 #### Phase 1 — Assessment Pass (no wiki files written)
@@ -1318,8 +1333,23 @@ recommendation can be assessed (e.g., an open contradiction where neither confir
 override is clearly superior): set `"recommended": null` — the form will flag this card
 as requiring active selection before the decision string can be copied.
 
-2. Inject the JSON into `ingest-ui-template.html`: replace `%%CHOICES_JSON%%` with the
-assembled JSON. Write the result to `lint-decisions.html` at the wiki root.
+2. Serialize and inject. **Serialization requirement:** The JSON must be valid
+JavaScript-embeddable JSON before injection. All string values must be properly escaped:
+(a) literal newlines within context strings must be written as `\n` escape sequences,
+not physical line breaks; (b) double-quote characters within string values must be
+escaped as `\"`. Do not construct the JSON string by concatenating raw text. Build
+the data structure programmatically and serialize it:
+
+```bash
+python3 -c "import json; print(json.dumps(data))"
+```
+
+Malformed JSON causes the form to render blank with no visible error — the HTML skeleton
+loads but `renderAllCards()` never executes. Verify the output is valid JSON before
+writing the file.
+
+Replace `%%CHOICES_JSON%%` in `ingest-ui-template.html` with the serialized output.
+Write the result to `lint-decisions.html` at the wiki root.
 
 3. Output the informational summary as text (these items require no human input via
 the form):
@@ -1765,6 +1795,70 @@ Gap nominations surfaced: yes | no
 `Result quality` is set by Claude Code based on the Step Q2a classification.
 `Topic tags` are Claude Code's best effort to tag the query against existing wiki topic
 slugs — imprecise but structured enough for lint aggregation in Step L12.
+
+---
+
+### 11.6 Vocabulary Expansion Procedure
+
+When CLAUDE.md Section 7.1 (competency domains) or Section 7.2 (professional contexts) is
+extended with a new term, existing tagged pages are not automatically re-evaluated. No lint
+step performs retroactive vocabulary matching. A targeted manual pass is required.
+
+**Trigger:** A new vocabulary term has been added to CLAUDE.md Section 7.1 or 7.2 and a DM
+entry confirms the addition.
+
+**Scope:** All pages with `teaching_relevance: true` in frontmatter. Pages with `status: stub`
+are excluded per TAGGING-SKILL.md Step 1.
+
+**Procedure:**
+
+1. Read the new term's definition in CLAUDE.md Section 7.1 or 7.2. If no extended definition
+   exists beyond the controlled value, derive the scope from the term's plain meaning and the
+   DM entry notes.
+
+2. For each eligible tagged page, apply the clean-mapping test from TAGGING-SKILL.md Step 3
+   against the new term: does a professional reading this term's definition and the page's
+   content immediately see the connection, without inferring or bridging?
+
+3. For pages where the clean-mapping test passes:
+   - New term is a competency domain (Section 7.1): verify the page would not exceed three
+     competency domains. If already at three, apply the minimum-sufficient-set rule
+     (TAGGING-SKILL.md Step 5) — confirm whether the new domain is more substantively covered
+     than the weakest current domain before proposing a swap.
+   - New term is a professional context (Section 7.2): no cap applies; propose addition directly.
+
+4. Surface all proposed additions as a consolidated forced choice before writing any page:
+
+```
+Vocabulary expansion pass — new term: {term-slug}
+
+The following {N} pages pass the clean-mapping test for this term:
+  [[page-slug-1]] — {one-sentence rationale}
+  [[page-slug-2]] — {one-sentence rationale}
+  ...
+
+A) Apply to all listed pages
+B) Review individually — I will confirm page by page
+C) Do not apply — I will manage manually
+```
+
+If B selected: surface each page as a separate forced choice using the format from
+TAGGING-SKILL.md Step 6.
+
+5. After writing confirmed additions, regenerate `teaching-index.md`.
+
+6. Append a log entry:
+
+```
+## [YYYY-MM-DD] vocab-expansion | {term-slug}
+Pages assessed: {N}. Additions confirmed: {N}. Pages updated: {wikilinks or "none"}.
+Teaching Index regenerated: yes | no.
+```
+
+**Human-direct alternative:** For small wikis (fewer than 30 tagged pages) or when the
+operator prefers direct control, tags may be applied manually in Obsidian without running
+the automated pass. Append the log entry manually and regenerate the Teaching Index in the
+next wiki session.
 
 ---
 

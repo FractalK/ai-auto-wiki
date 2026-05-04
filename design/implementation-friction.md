@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 29/04/2026 14:30
+**Last Updated:** 04/05/2026 21:00
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -588,3 +588,55 @@ fields.
   via targeted Claude Code session (grep + sed across all page directories; see Item 6
   session plan from design session 2026-04-29).
 - **Resolved:** 2026-04-29
+
+## FRIC-033 | Context Window Exhaustion During Lint Phase 1 at Scale
+
+- **Date:** 2026-05-04
+- **Status:** open
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.4 lint procedure preamble
+- **Symptom:** First lint pass with extended vocabulary (~75 pages) compacted with <1%
+  context remaining before Phase 1 was complete, during the assessment step. Manual
+  `/compact` was applied and the session proceeded without data loss.
+- **Verdict:** Confirmed latent gap. The lint procedure reads every wiki page plus
+  CLAUDE.md and OPERATIONS.md at session start. At ~75 pages, cumulative token
+  consumption across Phase 1 is sufficient to approach the session window limit. No
+  guidance existed on expected context behavior at scale or on the validity of mid-session
+  compaction as a mitigation.
+- **Fix plan:** Add an advisory note to the OPERATIONS.md lint preamble: at 60+ pages,
+  context may approach the session window limit during Phase 1; manual `/compact` is a
+  valid mitigation and does not invalidate the pass; if compaction fires, verify
+  informational summary completeness before proceeding to Step L13. Related to IN-006
+  (scale threshold), which targets 150 pages but context pressure is materializing
+  earlier.
+- **Resolved:** 2026-05-04
+
+---
+
+## FRIC-034 | Lint Decision Form Renders Blank Due to Unescaped JSON
+
+- **Date:** 2026-05-04
+- **Status:** open
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.4 Step L13 (lint form generation);
+  Section 11.2 pre-flight report form generation
+- **Symptom:** `lint-decisions.html` rendered blank — cards column empty, right panel
+  visible but unpopulated. User had to view source to identify available choices.
+  Examining the generated file revealed two defects in the CHOICES JSON: (1) internal
+  double-quote characters within context strings (e.g., `"jailbreaking"`) were not
+  escaped, terminating the JSON string early; (2) multi-line context descriptions
+  contained literal unescaped newlines, which are invalid inside a JavaScript
+  double-quoted string. Either defect alone causes the entire script block to fail
+  silently — `renderAllCards()` is never called.
+- **Verdict:** Confirmed weakness — OPERATIONS.md Step L13 said "inject the assembled
+  JSON" with no serialization requirement. The agent hand-constructed the JSON string
+  from raw text, which predictably fails whenever context values contain quotation marks
+  or newlines, both of which are ubiquitous in concept gap context descriptions.
+- **Fix plan:** Add explicit serialization requirement to OPERATIONS.md Step L13 and
+  to the ingest pre-flight form generation step: build the data structure
+  programmatically; serialize with `python3 -c "import json; print(json.dumps(data))"`;
+  never construct by concatenating raw text. Note that malformed JSON produces a blank
+  form with no visible error.
+- **Resolved:** 2026-05-04
+
+---

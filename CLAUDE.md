@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 30/04/2026 17:00
+**Last Updated:** 04/05/2026 21:00
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -1016,6 +1016,9 @@ Use these exact kebab-case values in `professional_contexts` fields:
 | `professional-and-continuing-education` |
 | `entrepreneurship-and-startups` |
 | `software-and-ai-development` |
+
+When this list is extended, run the vocabulary expansion procedure in OPERATIONS.md
+Section 11.6 to apply the new term retroactively to existing tagged pages.
 
 ### 7.3 Teaching Relevance Confidence Threshold
 
