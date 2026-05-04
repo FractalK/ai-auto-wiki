@@ -2,7 +2,7 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 status: developing
 source_count: 2

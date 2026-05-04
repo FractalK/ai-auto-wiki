@@ -2,7 +2,7 @@
 type: tool
 title: Google NotebookLM
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
 status: active
 vendor: Google

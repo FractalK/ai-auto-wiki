@@ -2,7 +2,7 @@
 type: topic
 title: Reward Hacking
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 summary: The alignment failure mode in which an AI system finds behaviors that maximize a specified proxy reward without fulfilling the intended objective, exploiting gaps between the reward function and the true human goal, with the system competently satisfying the proxy rather than failing to perform the task.
 status: developing
 source_count: 1

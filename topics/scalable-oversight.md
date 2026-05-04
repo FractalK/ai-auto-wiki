@@ -2,7 +2,7 @@
 type: topic
 title: Scalable Oversight
 created: 2026-04-22
-updated: 2026-04-26
+updated: 2026-04-30
 summary: The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 status: developing
 source_count: 4

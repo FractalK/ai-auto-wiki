@@ -2,7 +2,7 @@
 type: topic
 title: LLM Fundamentals
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 summary: The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 status: developing
 source_count: 1

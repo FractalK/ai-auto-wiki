@@ -2,7 +2,7 @@
 type: topic
 title: Constitutional AI
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 status: developing
 source_count: 1

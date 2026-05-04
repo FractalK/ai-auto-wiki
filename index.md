@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*73 pages. Last updated: 2026-04-30.*
+*75 pages. Last updated: 2026-05-03.*
 
 ---
 
@@ -44,6 +44,8 @@ professional roles, see the [[teaching-index]].
 - [[retrieval-augmented-generation]] — A technique in which a language model retrieves relevant documents from an external corpus at inference time to augment its response, reducing hallucination on knowledge-intensive tasks while introducing retrieval accuracy and authority selection challenges.
 - [[ai-coding-agent-workflow-types]] — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 - [[prompt-injection]] — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
+- [[jailbreaking]] — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
+- [[llm-hallucination]] — The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, and confidently stated errors — as a structural consequence of next-token prediction without factual verification.
 
 ## Tools
 

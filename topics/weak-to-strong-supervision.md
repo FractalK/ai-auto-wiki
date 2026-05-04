@@ -2,7 +2,7 @@
 type: topic
 title: Weak-to-Strong Supervision
 created: 2026-04-22
-updated: 2026-04-26
+updated: 2026-04-30
 summary: A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 status: developing
 source_count: 2

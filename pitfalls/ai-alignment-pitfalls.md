@@ -2,7 +2,7 @@
 type: pitfalls
 title: AI Alignment Pitfalls
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 parent_entity: "[[topics/ai-alignment]]"
 parent_type: topic
 status: current

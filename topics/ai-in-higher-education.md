@@ -2,7 +2,7 @@
 type: topic
 title: AI in Higher Education
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 status: developing
 source_count: 2

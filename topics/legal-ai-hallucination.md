@@ -2,7 +2,7 @@
 type: topic
 title: Legal AI Hallucination
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-04-30
 summary: The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 status: developing
 source_count: 1

@@ -2,7 +2,7 @@
 type: topic
 title: AI Alignment
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 summary: The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 status: developing
 source_count: 1

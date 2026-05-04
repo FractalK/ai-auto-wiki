@@ -2,7 +2,7 @@
 type: pitfalls
 title: LLM Self-Preference Bias Pitfalls
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 parent_entity: "[[topics/llm-self-preference-bias]]"
 parent_type: topic
 status: current

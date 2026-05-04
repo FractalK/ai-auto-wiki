@@ -2,7 +2,7 @@
 type: topic
 title: AI-Assisted Skills Training
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 status: developing
 source_count: 1

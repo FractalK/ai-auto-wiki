@@ -2,7 +2,7 @@
 type: topic
 title: AI Search Citation Accuracy
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-04-30
 summary: The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
 status: developing
 source_count: 1

@@ -2,7 +2,7 @@
 type: topic
 title: Responsible AI for Government Program Evaluation
 created: 2026-04-27
-updated: 2026-04-27
+updated: 2026-04-30
 summary: A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 status: developing
 source_count: 1

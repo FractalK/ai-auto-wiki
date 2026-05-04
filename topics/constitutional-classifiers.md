@@ -2,7 +2,7 @@
 type: topic
 title: Constitutional Classifiers
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 status: developing
 source_count: 1

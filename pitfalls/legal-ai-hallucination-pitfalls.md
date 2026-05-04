@@ -2,7 +2,7 @@
 type: pitfalls
 title: Legal AI Hallucination — Pitfalls
 created: 2026-04-25
-updated: 2026-04-25
+updated: 2026-04-30
 parent_entity: "[[topics/legal-ai-hallucination]]"
 parent_type: topic
 status: current

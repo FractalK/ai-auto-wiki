@@ -2,7 +2,7 @@
 type: topic
 title: LLM Functional Emotions
 created: 2026-04-22
-updated: 2026-04-22
+updated: 2026-04-30
 summary: A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
 status: developing
 source_count: 1

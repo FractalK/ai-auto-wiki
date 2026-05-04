@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-04-30
-last_entry: 2026-04-30
-entry_count: 44
+updated: 2026-05-03
+last_entry: 2026-05-03
+entry_count: 45
 ---
 
 ## [2026-04-30] ingest | AI Coding Agents Guide: A Map of the Four Workflow Types
@@ -260,3 +260,16 @@ executed (DM-085), ingest operation mode separation INGEST-STAGED/INGEST-QUEUE/I
 Added OPERATIONS.md to wiki root. Created teaching/ directory. Updated CLAUDE.md, wiki-verify.sh,
 and pre-commit hook. Regenerated prompts/ stubs (7 stubs; deleted old ingest.md).
 Pages affected: 0 content pages; scaffold and operational files updated. Sources processed: 0.
+
+## [2026-05-03] lint | pass 2
+Pages assessed: 46 (24 topics + 11 tools + 8 pitfalls + 3 comparisons). Stale flags: 0 new.
+Contradiction flags: 0. Support scores recalculated: 35 (all topic and tool pages). Teaching Index regenerated.
+Collection gaps confirmed: 0 | addressed: 0 | dismissed: 0.
+CTRD-NNN signals processed: 0 — none.
+Pages downgraded to stale: 0.
+Orphan pages flagged: 0 new (mindstudio remains orphan from lint 1; no ingest has addressed it).
+Concept gaps created: 2 — [[jailbreaking]] (stub), [[llm-hallucination]] (stub).
+Schema corrections auto-applied: 28 pages corrected updated field to 2026-04-30 (teaching notes back-population on 2026-04-30 had not updated frontmatter).
+Teaching Index updated: excerpts added for all 33 teaching-tagged pages (Teaching Notes sections present since 2026-04-30 back-population; excerpts were absent from prior index generation).
+Skill enrichment staleness flags: 3 — CONTRADICTION-SKILL.md § 7 (5 sub-sections still unpopulated); TAGGING-SKILL.md §§ 5.3–5.4 (placeholder); EXTRACTION-SKILL.md §§ 6.2–6.4 (placeholder).
+Note: anthropic-claude-vs-openai-chatgpt remains status: stale — comparison updated 2026-04-29 is now older than anthropic-claude.md corrected to 2026-04-30. Schema has no automated upgrade path for comparison pages; recommend manual review.

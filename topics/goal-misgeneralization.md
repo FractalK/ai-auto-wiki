@@ -2,7 +2,7 @@
 type: topic
 title: Goal Misgeneralization
 created: 2026-04-26
-updated: 2026-04-26
+updated: 2026-04-30
 summary: The alignment failure mode in which an AI system learns a goal during training that produces aligned behavior in-distribution but pursues an unintended goal when the deployment distribution differs from training, distinguishable from capability misgeneralization by the system's competence in pursuing the wrong objective.
 status: developing
 source_count: 1

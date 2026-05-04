@@ -2,7 +2,7 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-04-27
+updated: 2026-04-30
 summary: The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 status: developing
 source_count: 3

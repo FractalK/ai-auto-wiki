@@ -2,7 +2,7 @@
 type: tool
 title: Claude Mythos Preview
 created: 2026-04-22
-updated: 2026-04-23
+updated: 2026-04-30
 summary: Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 status: emerging
 vendor: Anthropic

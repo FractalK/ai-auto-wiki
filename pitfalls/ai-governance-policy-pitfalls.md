@@ -2,7 +2,7 @@
 type: pitfalls
 title: AI Governance and Policy — Pitfalls
 created: 2026-04-27
-updated: 2026-04-27
+updated: 2026-04-30
 parent_entity: "[[topics/ai-governance-policy]]"
 parent_type: topic
 status: current
