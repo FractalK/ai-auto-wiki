@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.7
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-18
 summary: Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 status: active
 vendor: Anthropic
@@ -12,7 +12,7 @@ access_tier:
   - api
   - enterprise
 capabilities:
-  - Advanced software engineering and agentic coding (70% CursorBench, 93.9% SWE-bench Verified at Opus 4.6-scale)
+  - Advanced software engineering and agentic coding (70% CursorBench, 93.9% SWE-bench Verified at Opus 4.6-scale; ranks 1st on SWE-bench at 87.6% per Vellum LLM Leaderboard April 2026, ahead of Claude Sonnet 4.5 at 82% and Claude Opus 4.5 at 80.9%)
   - Vision up to 2,576px long edge (~3.75 megapixels); 98.5% XBOW visual-acuity benchmark
   - Document reasoning with 21% fewer errors than Opus 4.6 on OfficeQA Pro
   - Long-horizon agentic task execution with task budget controls
@@ -30,8 +30,8 @@ primary_use_cases:
   - Document-heavy analysis and legal/financial workflows
   - Long-horizon agentic task execution
   - Vision-intensive document processing
-source_count: 2
-last_assessed: 2026-04-23
+source_count: 3
+last_assessed: 2026-05-18
 related_tools:
   - "[[anthropic-claude-mythos-preview]]"
 teaching_relevance: true

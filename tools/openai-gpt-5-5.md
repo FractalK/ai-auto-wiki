@@ -2,7 +2,7 @@
 type: tool
 title: GPT-5.5
 created: 2026-04-30
-updated: 2026-04-30
+updated: 2026-05-18
 summary: OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 status: active
 vendor: OpenAI
@@ -29,8 +29,8 @@ primary_use_cases:
   - Knowledge work automation across professional domains
   - Scientific data analysis and research assistance
   - Computer use and multi-tool workflow automation
-source_count: 1
-last_assessed: 2026-04-30
+source_count: 2
+last_assessed: 2026-05-18
 related_tools:
   - "[[openai-gpt-5-5-pro]]"
   - "[[anthropic-claude-opus-4-7]]"
@@ -71,5 +71,5 @@ OpenAI states that GPT-5.5 was co-designed and trained with NVIDIA GB200 and GB3
 | GPT-5.5 achieves 82.7% on Terminal-Bench 2.0, a 7.6 percentage point improvement over GPT-5.4 (75.1%), representing a state-of-the-art result on complex agentic coding workflows as of April 2026, per OpenAI's evaluation. *(vendor-sourced — treat comparative claims with caution)* | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
 | GPT-5.5 is priced at \$5 per 1M input tokens and \$30 per 1M output tokens in the API with a 1M token context window; batch processing is available at half the standard rate and priority processing at 2.5x the standard rate. | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
 | OpenAI rates GPT-5.5's cybersecurity and biological/chemical capabilities as "High" under its Preparedness Framework — the highest level before Critical — triggering stricter deployment classifiers and a Trusted Access program for verified defenders. | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
-| GPT-5.5 achieves 85.0% on ARC-AGI-2 (Verified), an 11.7 percentage point improvement over GPT-5.4's 73.3%, and 95.0% on ARC-AGI-1, per OpenAI's April 2026 evaluation. *(vendor-sourced — treat comparative claims with caution)* | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
+| GPT-5.5 achieves 85.0% on ARC-AGI-2 (Verified), an 11.7 percentage point improvement over GPT-5.4's 73.3%, and 95.0% on ARC-AGI-1, per OpenAI's April 2026 evaluation. *(vendor-sourced — treat comparative claims with caution)* | [[2026-openai-gpt-5-5-announcement]], [[2026-vellum-llm-leaderboard]] | 2026-04-28 | current | 2 | false |
 | GPT-5.5 scores 58.6% on SWE-Bench Pro (Public), below Claude Opus 4.7's 64.3% on the same benchmark; OpenAI notes that Anthropic has cited evidence of memorization in Claude's score on this evaluation. *(vendor-sourced — treat comparative claims with caution)* | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
