@@ -1,5 +1,5 @@
 # Information Needs
-**Last Updated:** 04/05/2026 21:00
+**Last Updated:** 18/05/2026 20:00
 
 Authoritative repository of open questions, data gaps, and contradictions that must
 be resolved before dependent design or implementation work can proceed.
@@ -613,3 +613,32 @@ either skipped or produces unexpected results.
 —
 
 **References:** DM-091, DM-095, LL-033, OPERATIONS.md Section 11.6
+
+---
+
+## IN-019 — Lint Detection of Commercial-Entity Sources Misclassified as practitioner-reference
+
+**ID:** IN-019
+**Priority:** P3
+**Status:** open
+**Raised:** 2026-05-18
+
+**The Gap:**
+The new entity-type boundary rule (DM-096) means that commercial entities operating
+aggregator leaderboards or comparison tables are `vendor-content`, not
+`practitioner-reference`. The lint procedure has no explicit check for this condition.
+A source ingested before DM-096 (or ingested by an agent that misjudges the boundary)
+could sit as `practitioner-reference` indefinitely without a lint signal.
+
+**Why This Doesn't Block Current Operation:**
+The wiki has 30 sources. Manual review of `practitioner-reference` sources for
+commercial-entity origin is feasible at current scale. The gap becomes meaningful as
+the source count grows, or as more aggregator/leaderboard sources are ingested.
+
+**Trigger:** Revisit when a second misclassification of this type is detected, or when
+source count exceeds 75 and manual audit becomes impractical.
+
+**Resolution:**
+—
+
+**References:** DM-096, FRIC-035, OPERATIONS.md Section 11.1

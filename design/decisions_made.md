@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 04/05/2026 21:00
+**Last Updated:** 18/05/2026 20:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3829,3 +3829,60 @@ search for it.
   is ever needed — it would also go in OPERATIONS.md with a cross-reference from Section 7.1.
 
 **References:** OPERATIONS.md Section 11.6; CLAUDE.md Section 7.2; DM-085; DM-061; FRIC-033
+
+---
+
+## DM-096 — vendor-content Taxonomy: Entity-Type Boundary Rule and Two-Variant Annotation
+
+**Date:** 2026-05-18
+**Status:** confirmed
+
+**Decision:** The `vendor-content` source type classification test is entity type and
+commercial purpose, not subject matter. A commercial entity producing content that
+serves a traffic, positioning, or marketing purpose is `vendor-content` regardless of
+whether that entity sells the products being discussed. Additionally, the single
+`vendor_bias` annotation string is replaced by two variants: self-promotional (vendor
+discusses own products) and aggregator (vendor curates third-party products).
+
+**Context:** The Vellum LLM Leaderboard was misclassified as `practitioner-reference`
+during ingest because the operator correctly observed that Vellum does not sell any of
+the models it ranks. The previous classification rule was silent on this case. The
+operator corrected the source page manually post-ingest, prompting a formal taxonomy
+clarification.
+
+**Rationale:** The bias in aggregator content is real but operates differently from
+self-promotional bias. Vellum's curatorial decisions — which benchmarks are included,
+which models appear, which evaluation methodology is used, which benchmarks are declared
+"saturated" — are commercially shaped even when the rankings themselves are not tilted
+toward any particular model. A reader deserves a signal about this. The entity-type
+test captures this correctly: a commercial entity running a leaderboard as a marketing
+and traffic asset is `vendor-content`; an academic institution running the same
+leaderboard is `practitioner-reference`. The two annotation variants make the nature of
+the bias explicit rather than applying a generic caution string to both cases.
+
+**Alternatives Considered:**
+- **Keep single annotation string, add boundary rule only:** Captures the classification
+  decision but leaves readers with a misleading annotation implying the vendor has a
+  stake in which model wins. Rejected — annotation precision matters for reader trust.
+- **Create a new source type (e.g., `aggregator-content`):** More expressive but adds
+  schema complexity for a case fully handled by `vendor-content` + annotation variant.
+  Rejected — the simpler fix is sufficient and avoids proliferating source types.
+- **No change; treat misclassification as a one-off error:** Leaves the taxonomy with
+  a known gap that will recur as more leaderboard and comparison-table sources are
+  ingested. Rejected.
+
+**Consequences to Watch:**
+- Any existing wiki source pages classified as `practitioner-reference` that are
+  operated by commercial entities should be reviewed at the next lint pass. The lint
+  procedure does not currently have an explicit check for this; it relies on agent
+  judgment. IN-019 may be appropriate if this recurs.
+- The two annotation variant strings must remain in exact agreement between
+  OPERATIONS.md Section 11.1 and EXTRACTION-SKILL.md Section 4. Any future change
+  to either string must be applied in both files simultaneously.
+- Retroactive application: the Vellum leaderboard source page was manually corrected
+  by the operator. Downstream pages (`comparisons/frontier-llm-benchmark-comparison.md`
+  and `tools/anthropic-claude-opus-4-7.md`) require annotation using the aggregator
+  variant — pending manual correction in the next Claude Code session.
+
+**References:** OPERATIONS.md Section 11.1; EXTRACTION-SKILL.md Section 4; FRIC-035;
+DM-085

@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 04/05/2026 21:00
+**Last Updated:** 18/05/2026 20:00
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -75,8 +75,51 @@ Nine confirmed source types with extraction depth and credibility tier assignmen
 `vendor-content`:
 - `practitioner` always
 - Set internal flag `vendor_bias: true` — apply bias annotation to Key Claims touching
-  competitive landscape, capability comparisons, or limitations:
-  "(vendor-sourced — treat comparative claims with caution)"
+  competitive landscape, capability comparisons, or limitations. Select the annotation
+  variant based on the producer's relationship to the subject matter:
+  - **Self-promotional** (vendor discusses their own products or services):
+    *(vendor-sourced — capability and comparison claims originate from the product's
+    developer; treat with caution)*
+  - **Aggregator** (vendor curates, ranks, or benchmarks third-party products):
+    *(vendor-aggregated — benchmark selection, model inclusion, and methodology reflect
+    commercial context; treat rankings and scores with caution)*
+  See EXTRACTION-SKILL.md Section 4 for full annotation rules and claim scope.
+
+**Boundary test — `vendor-content` vs `practitioner-reference`:** The test is entity
+type and purpose, not subject matter. `vendor-content` applies whenever the producer
+is a commercial entity and the content serves a traffic, positioning, or marketing
+purpose — regardless of whether the vendor sells the products being discussed. A
+commercial aggregator leaderboard (e.g., Vellum, Scale AI, Artificial Analysis) is
+`vendor-content` even though the operator has no stake in which model wins. An
+independent leaderboard operated by a non-commercial institution (e.g., Stanford HELM,
+HuggingFace Open LLM Leaderboard operated under academic governance) is
+`practitioner-reference`.
+
+**High-density structured data sources:** Leaderboard pages, benchmark comparison
+tables, and data dashboards are a subclass of `vendor-content` (or
+`practitioner-reference` if non-vendor-operated) with three distinctive properties
+that require special handling:
+
+1. **Token density:** Content is primarily structured tabular data rather than prose.
+   A typical leaderboard page (40–60 models × 10–15 benchmark columns, often rendered
+   twice as chart and table) consumes 5,000–15,000 tokens — 5–15× a typical blog post.
+   Batching one with other sources will cause session compaction regardless of N.
+2. **Freshness decay:** Claims decay on the model-release cycle (4–8 weeks), not the
+   standard lint cycle. Any comparison page derived from a leaderboard source should be
+   treated as having a 30-day lint interval rather than the standard 90-day interval.
+3. **Claim type:** Extracted claims are rankings and benchmark scores contingent on
+   methodology and measurement date — not durable assertions. Apply `vendor_bias: true`
+   annotations even when the leaderboard operator presents itself as neutral.
+
+**Classification rule:** A leaderboard or benchmark comparison table operated by a
+commercial vendor (e.g., Vellum, Scale AI, Artificial Analysis) is `vendor-content`,
+not `practitioner-reference`. The distinction: `practitioner-reference` is a reference
+document making durable technical assertions; a vendor leaderboard is a marketing and
+traffic asset that secondarily presents data.
+
+**Batching rule:** When a high-density source is present in a session queue, treat it
+as the sole source for that session regardless of N. See Step 0 for detection and
+handling.
 
 **Institutional tier lists are controlled.** Do not extend them unilaterally.
 Extensions require a schema revision and a DM entry.
@@ -161,6 +204,41 @@ of three values. Read the mode before counting sources:
 If the operation mode is absent or cannot be determined from the session prompt, stop
 and report: "Operation mode not specified. Reply with INGEST-STAGED, INGEST-QUEUE, or
 INGEST-BOTH to proceed." Do not guess.
+
+**High-density source scan (run before evaluating N):**
+
+Scan all source URLs in the queue and all staged file names for density-indicator
+keywords: `leaderboard`, `benchmark`, `rankings`, `compare`, `comparison`. Do not
+fetch content at this stage — keyword detection in the URL path or file name is
+sufficient.
+
+If any density indicator is found:
+- Set a `HIGH-DENSITY` flag for this session.
+- Surface the following warning before any forced choice block:
+
+  ```
+  High-density source detected: {URL or filename}
+  This source appears to be a leaderboard, benchmark table, or comparison matrix.
+  Sources of this type consume 5–15× the tokens of a typical document and will
+  cause session compaction if batched with other sources.
+
+  Recommended: process this source alone in a dedicated session (treat as N=1).
+  If you proceed with additional sources in this session, compaction is likely.
+
+  A) Process high-density source only — skip all other sources this session
+  B) Proceed with all {N} sources — compaction risk acknowledged
+  ```
+
+  Wait for selection before proceeding. If A: set N = 1, scope to the high-density
+  source only. If B: proceed with original N.
+
+- Additionally: if the source is fetched during ingest and the rendered content
+  exceeds approximately 5,000 tokens, surface a mid-ingest warning before proceeding
+  with extraction: "Source content is high-density (~{estimated} tokens). Processing
+  this source will consume a significant portion of the session context. Remaining
+  sources in this session may not complete. Continue? Y/N."
+
+If no density indicator is found: proceed to N evaluation below.
 
 If N ≤ 5: proceed to Step 1 without surfacing a forced choice — a session of this size
 is safe on Pro tier at any hour.

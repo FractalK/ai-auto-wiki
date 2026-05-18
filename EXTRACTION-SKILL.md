@@ -1,4 +1,5 @@
 # EXTRACTION-SKILL.md — Key Claims Extraction Skill File
+**Last Updated:** 18/05/2026 20:00
 
 **Purpose:** Read this file before every ingest operation. It provides extraction rules,
 worked examples, and named failure modes for Key Claims extraction from Topic and Tool
@@ -252,15 +253,29 @@ Apply when `source_type: vendor-content`. The `vendor_bias` flag is set on the S
 page. During extraction, annotate every Key Claim that touches competitive landscape,
 comparative capability claims, or product limitations with a prose annotation.
 
-**Annotation format in prose:**
-Append to the sentence in question: *(vendor-sourced — treat comparative claims with caution)*
+**Select the annotation variant based on the producer's relationship to the subject:**
 
-**Claims that require the annotation:**
+*Self-promotional* — producer discusses their own products or services. Append:
+*(vendor-sourced — capability and comparison claims originate from the product's developer; treat with caution)*
+
+*Aggregator* — producer curates, ranks, or benchmarks third-party products. Append:
+*(vendor-aggregated — benchmark selection, model inclusion, and methodology reflect commercial context; treat rankings and scores with caution)*
+
+When uncertain which variant applies: if the producer sells any product that competes
+with the products being discussed, use self-promotional. Otherwise use aggregator.
+
+**Claims that require the annotation — self-promotional:**
 - Any claim comparing the vendor's product to a competitor by name.
 - Any claim about the absence or resolution of limitations in the vendor's product.
 - Any comparative performance claim for which no independent corroboration exists in the wiki.
 
-**Claims that do NOT require the annotation:**
+**Claims that require the annotation — aggregator:**
+- Any benchmark ranking or score for a specific model.
+- Any claim about relative capability ordering between models.
+- Any characterization of a benchmark as measuring a particular capability
+  (reflects the aggregator's editorial framing of what counts as relevant).
+
+**Claims that do NOT require the annotation (either variant):**
 - Factual pricing stated in the source (objectively verifiable).
 - Release dates (objectively verifiable).
 - API specification details (objectively verifiable from published documentation).

@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 04/05/2026 21:00
+**Last Updated:** 18/05/2026 20:00
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1112,3 +1112,35 @@ first without the second leaves the vocabulary partially deployed. Log the expan
 separately from the vocabulary change DM entry.
 
 **References:** DM-091, DM-095, OPERATIONS.md Section 11.6, CLAUDE.md Section 7.2
+
+---
+
+## LL-034 — Friction Log Status Fields Not Updated When Resolved Dates Were Set
+
+**Date:** 2026-05-18
+**Phase:** Implementation support
+
+**What Happened:**
+FRIC-033 and FRIC-034 were identified as `Status: open` in `implementation-friction.md`
+despite both having `Resolved: 2026-05-04` dates set. The prior session's end-of-chat
+ritual wrote the resolved dates but never changed the status fields. The defect was
+caught in the current session during routine friction log review.
+
+**Root Cause:**
+The friction log format has two fields that must both be updated to close an issue:
+`status` (open/closed) and `resolved` (date). The prior session updated only the `resolved`
+date — likely because the DM entry and resolved date were appended in a final batch and
+the status field, located earlier in each entry, was not revisited. The ritual did not
+include an explicit check that both fields were updated for each closed entry.
+
+**Fix Applied:**
+FRIC-033 and FRIC-034 status fields corrected to `closed` in this session.
+
+**Implication Going Forward:**
+When closing friction log entries during the end-of-chat ritual, explicitly verify that
+both `status: closed` AND `resolved: YYYY-MM-DD` are set on each entry being closed.
+Updating the resolved date without changing the status field leaves the entry in a
+contradictory state that will be misread by any future session scanning for open issues.
+The two fields are a compound close operation — neither alone is sufficient.
+
+**References:** FRIC-033, FRIC-034, FRIC-035
