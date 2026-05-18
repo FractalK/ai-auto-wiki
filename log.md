@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-18
 last_entry: 2026-05-18
-entry_count: 49
+entry_count: 51
 ---
 
 ## [2026-04-30] ingest | AI Coding Agents Guide: A Map of the Four Workflow Types
@@ -27,6 +27,20 @@ Session limit hit: yes (context window exhausted; resumed in second session)
 Time window: off-peak
 Source type mix: practitioner-reference: 1, industry-blog: 1, vendor-content: 1
 Approx tokens (from /cost): not captured (session split across two context windows)
+
+## [2026-05-18] ingest | The AI Index 2026 Annual Report (Stanford HAI)
+Added: [[2026-stanford-hai-ai-index]]. Updated: [[llm-hallucination]] (stub→developing; 3 Key Claims added from KaBLE benchmark and RAI reporting gap data), [[ai-workforce-complementarity]] (source_count 1→2; Key Claim 5 added on early-career developer employment decline; labor market prose extended), [[ai-agentic-workflows]] (source_count 2→3; OSWorld benchmark data added to Equation of Agentic Work prose), [[ai-in-higher-education]] (source_count 3→4; student AI adoption statistics and policy gap data added to Institutional and Policy Dimensions prose), [[llm-fundamentals-pitfalls]] (failure_mode_count 8→9; Benchmark Saturation and Gaming added to Technical Limitations), [[ai-alignment-pitfalls]] (failure_mode_count 7→8; Responsible AI Dimension Tradeoffs added to Alignment and Safety Concerns). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[2026-stanford-hai-ai-index]], [[ai-capability-benchmarking]]).
+
+## [2026-05-18 PT] session-stats | ingest
+Queue size at session start: 0 (0 queue URLs; 1 staged file)
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: yes (context window exhausted after pre-flight; Phase 2 executed in resumed session after compaction)
+Time window: off-peak
+Source type mix: white-paper: 1
+Approx tokens (from /cost): not captured (session resumed from prior context summary)
+Notes: PDF extracted via pypdf (425 pages, 24MB). 5 pre-flight decisions; all confirmed. Teaching relevance proposals for llm-hallucination and ai-capability-benchmarking deferred to next lint or ingest — not included in pre-flight.
 
 ## [2026-05-18] ingest | Vellum LLM Leaderboard 2026
 Added: [[2026-vellum-llm-leaderboard]]. Updated: [[anthropic-claude-opus-4-7]] (capabilities list), [[openai-gpt-5-5]] (ARC-AGI-2 Key Claim source field, support score 1→2). Contradictions flagged: 0.

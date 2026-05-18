@@ -6,7 +6,7 @@ updated: 2026-05-18
 parent_entity: "[[topics/llm-fundamentals]]"
 parent_type: topic
 status: current
-failure_mode_count: 8
+failure_mode_count: 9
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -19,10 +19,17 @@ contributing_sources:
   - "[[2023-karpathy-intro-large-language-models]]"
   - "[[2026-google-prompt-injection-wild]]"
   - "[[2025-mit-sloan-ai-complement-workers]]"
+  - "[[2026-stanford-hai-ai-index]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
 ## Technical Limitations
+
+### Benchmark Saturation and Gaming
+**Status:** active<br>
+**Source:** [[2026-stanford-hai-ai-index]]
+
+AI capability claims derived from benchmark scores are structurally unreliable for two compounding reasons. First, benchmark saturation: frontier models routinely reach or exceed ceiling performance on evaluations within months of their release — MMLU, ImageNet, and SWE-bench Verified have each been surpassed or saturated in sequence — meaning that a high score on a widely cited benchmark may indicate the benchmark is obsolete rather than that the model has mastered the underlying capability. Second, gaming: the Stanford HAI AI Index 2026 documents that benchmark validity is further compromised by invalid questions (error rates ranging from 2% to 42% on nine widely used evaluations), suspected training contamination, and platform-specific optimization on leaderboards. Together, these patterns mean that a model achieving state-of-the-art results on a published benchmark provides limited signal about its actual reliability in deployment. Practitioners evaluating AI tools for specific applications should weight real-task evidence and domain-specific testing over headline benchmark scores.
 
 ### System 1 Reasoning Ceiling
 **Status:** active<br>

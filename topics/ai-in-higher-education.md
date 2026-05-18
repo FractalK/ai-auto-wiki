@@ -5,7 +5,7 @@ created: 2026-04-22
 updated: 2026-05-18
 summary: A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 status: developing
-source_count: 3
+source_count: 4
 last_assessed: 2026-05-18
 related_topics:
   - "[[ai-assisted-skills-training]]"
@@ -51,6 +51,8 @@ Stanford's institutional policy treats any substantial AI use as equivalent to r
 ## Institutional and Policy Dimensions
 
 Academic integrity frameworks are still catching up to AI tool adoption. Different institutions, departments, and journals maintain distinct policies — students and researchers working across contexts must actively check the applicable rules rather than assuming consistency. The disclosure norm is particularly important: students should document AI use even when it is permitted.
+
+The Stanford HAI AI Index 2026 documents the scale of the policy gap empirically: over 80% of U.S. high school and college students now use AI for school-related tasks, yet only half of middle and high schools have any AI policies in place, and just 6% of teachers report those policies are clear. This discrepancy — near-universal student adoption combined with sparse and unclear institutional guidance — means students are making their own judgment calls about permissible AI use in the absence of the specificity Stanford CTL recommends as a prerequisite for effective policy.
 
 ## Equity and Assessment Considerations
 
