@@ -2,9 +2,9 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-03
-last_entry: 2026-05-03
-entry_count: 45
+updated: 2026-05-18
+last_entry: 2026-05-18
+entry_count: 49
 ---
 
 ## [2026-04-30] ingest | AI Coding Agents Guide: A Map of the Four Workflow Types
@@ -27,6 +27,27 @@ Session limit hit: yes (context window exhausted; resumed in second session)
 Time window: off-peak
 Source type mix: practitioner-reference: 1, industry-blog: 1, vendor-content: 1
 Approx tokens (from /cost): not captured (session split across two context windows)
+
+## [2026-05-18] ingest | Vellum LLM Leaderboard 2026
+Added: [[2026-vellum-llm-leaderboard]]. Updated: [[anthropic-claude-opus-4-7]] (capabilities list), [[openai-gpt-5-5]] (ARC-AGI-2 Key Claim source field, support score 1→2). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[2026-vellum-llm-leaderboard]], [[frontier-llm-benchmark-comparison]]).
+
+## [2026-05-18] ingest | Critically Evaluating AI — The CRAAP Model (Bristol)
+Added: [[2026-bristol-craap-ai-evaluation]]. Updated: [[ai-in-higher-education]] (CRAAP paragraph added to Student-Side Considerations; KC4 corroborated, support score 1→2). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[2026-bristol-craap-ai-evaluation]], [[ai-in-higher-education-pitfalls]]).
+
+## [2026-05-18] ingest | New MIT Sloan Research Suggests AI Is More Likely to Complement, Not Replace, Human Workers
+Added: [[2025-mit-sloan-ai-complement-workers]]. Updated: [[llm-fundamentals-pitfalls]] (Statistical Boundary Conditions failure mode added; failure_mode_count 7→8). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[2025-mit-sloan-ai-complement-workers]], [[ai-workforce-complementarity]]).
+
+## [2026-05-18 PT] session-stats | ingest
+Queue size at session start: 3
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: yes (context window exhausted after pre-flight; continued in resumed session)
+Time window: off-peak
+Source type mix: practitioner-reference: 2, publication-article: 1
+Approx tokens (from /cost): not captured (session resumed from prior context summary)
 Notes: session ran out of context after writing all 10 content files; infrastructure updates completed in second session
 
 ## [2026-04-30] ops | teaching notes back-population

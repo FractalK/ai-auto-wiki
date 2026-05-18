@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*75 pages. Last updated: 2026-05-03.*
+*81 pages. Last updated: 2026-05-18.*
 
 ---
 
@@ -46,6 +46,7 @@ professional roles, see the [[teaching-index]].
 - [[prompt-injection]] — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 - [[jailbreaking]] — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 - [[llm-hallucination]] — The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, and confidently stated errors — as a structural consequence of next-token prediction without factual verification.
+- [[ai-workforce-complementarity]] — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
 
 ## Tools
 
@@ -90,12 +91,16 @@ professional roles, see the [[teaching-index]].
 - [[2026-realpython-coding-agent-workflow-types]] — Real Python, 2026-04-29, practitioner
 - [[2026-google-prompt-injection-wild]] — Brunner, Liu, Pande (Google GTIG/GDM), 2026-04-23, institutional
 - [[2026-openai-gpt-5-5-announcement]] — OpenAI, 2026-04-28, practitioner
+- [[2026-vellum-llm-leaderboard]] — Vellum AI, 2026-04-23, practitioner
+- [[2026-bristol-craap-ai-evaluation]] — University of Bristol Library, 2026-03-27, practitioner
+- [[2025-mit-sloan-ai-complement-workers]] — Rigobon, Loaiza-Saa (MIT Sloan), 2025-03-17, practitioner
 
 ## Comparisons
 
 - [[anthropic-claude-vs-openai-chatgpt]] — Selecting a general-purpose AI assistant for writing, document work, and multi-step task execution
 - [[ai-search-tools-citation-comparison]] — Evaluating eight generative AI search tools for citation accuracy and attribution reliability when citing news content
 - [[legal-ai-tools-hallucination-comparison]] — Comparing hallucination rates across three leading legal AI research tools (Lexis+ AI, Westlaw AI, Ask Practical Law AI) on the Stanford RegLab 2024 benchmark
+- [[frontier-llm-benchmark-comparison]] — Selecting a frontier AI model for agentic coding, knowledge work, and scientific research as of April–May 2026
 
 ## Pitfalls
 
@@ -107,3 +112,4 @@ professional roles, see the [[teaching-index]].
 - [[ai-governance-policy-pitfalls]] — parent: ai-governance-policy
 - [[ai-coding-agent-workflow-types-pitfalls]] — parent: ai-coding-agent-workflow-types
 - [[prompt-injection-pitfalls]] — parent: prompt-injection
+- [[ai-in-higher-education-pitfalls]] — parent: ai-in-higher-education
