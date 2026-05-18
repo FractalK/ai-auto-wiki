@@ -2,11 +2,11 @@
 type: topic
 title: AI in Higher Education
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-18
 summary: A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 status: developing
-source_count: 2
-last_assessed: 2026-04-22
+source_count: 3
+last_assessed: 2026-05-18
 related_topics:
   - "[[ai-assisted-skills-training]]"
 related_tools:
@@ -42,6 +42,8 @@ Transparency about the reasoning behind the approach also matters. Students who 
 
 From the student perspective, the primary risks of AI tool use are hallucination, citation fabrication, and cognitive delegation. AI tools produce outputs through statistical pattern matching over training data, not factual retrieval. This means a tool may state a plausible-sounding fact that is incorrect, attribute a quotation to the wrong source, or generate a citation for a paper that does not exist — with no internal signal that the output is wrong. A 2025 Columbia Journalism Review evaluation of eight AI search tools found systematic citation problems across all products tested, corroborating the risk of citation fabrication in AI-assisted academic and professional research. Independent verification of every AI-generated factual claim is required before academic or professional use.
 
+The University of Bristol Library has adapted the CRAAP framework — originally developed for general information source evaluation — to guide structured AI output evaluation. The five criteria surface distinct risks: Currency flags that AI tools may produce outdated references even from current training datasets; Relevance notes that AI cannot execute comprehensive, replicable systematic literature review search strategies since scholarly content behind paywalls is excluded; Authority highlights that AI outputs systematically underrepresent non-Western and non-English-language perspectives due to training data distribution; Accuracy addresses hallucination and fabricated citations directly; and Purpose covers academic integrity, data privacy, equity, environmental impact, and commercial opacity of AI providers. Applied as a checklist before academic use, the framework operationalizes the general principle of independent verification into criterion-by-criterion evaluation steps.
+
 The learning risk is more subtle. Deep learning strategies — comparing and contrasting concepts, explaining material in one's own words, self-quizzing — produce stronger retention than passive review. When a student uses AI to produce the output of a learning task rather than to support the cognitive process, the learning opportunity is removed. The operative question is whether a specific AI use facilitates the cognitive engagement required for learning, or replaces it.
 
 Stanford's institutional policy treats any substantial AI use as equivalent to receiving help from another person, with the default assumption that AI is prohibited unless the syllabus explicitly permits it. Students should disclose any AI use, even when the policy is ambiguous, and consult the instructor when uncertain.
@@ -61,7 +63,7 @@ AI tool access is not uniformly distributed. Students with different language ba
 | Stanford CTL identifies three mutually exclusive approaches to AI in higher education courses — Assign (build AI skills and prompting), Limit (navigate AI responsibly with required disclosure), and Prohibit (develop skills without AI assistance) — each defined by distinct learning objectives rather than by AI capability. | [[undated-stanford-ctl-ai-teaching-strategies]] | 2025-09-02 | current | 1 | false |
 | Across all three approaches, Stanford CTL recommends requiring students to document their process — prompt histories, reasoning steps, revision logs — as an assignment component to preserve authentic learning evidence and enable fair assessment. | [[undated-stanford-ctl-ai-teaching-strategies]] | 2025-09-02 | current | 1 | false |
 | Stanford's Generative AI Policy Guidance treats any substantial AI use as equivalent to receiving help from another person; students should assume AI use is prohibited unless explicitly permitted in the syllabus or assignment. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
-| AI tools generate outputs through statistical pattern matching rather than factual retrieval, producing hallucinations and citation fabrication at rates that require independent human verification of every AI-generated claim before academic use. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
+| AI tools generate outputs through statistical pattern matching rather than factual retrieval, producing hallucinations and citation fabrication at rates that require independent human verification of every AI-generated claim before academic use. | [[undated-stanford-ctl-student-ai-guide]], [[2026-bristol-craap-ai-evaluation]] | 2026-03-27 | current | 2 | false |
 | Effective learning requires cognitive engagement by the student; delegating learning tasks to AI removes the cognitive effort that produces durable skill acquisition, and the key question for any AI use is whether it facilitates or replaces deeper engagement with material. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
 
 ## Teaching Notes
