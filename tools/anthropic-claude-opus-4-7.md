@@ -49,7 +49,7 @@ Claude Opus 4.7 is Anthropic's flagship generally available model as of April 20
 
 ## Software Engineering Performance
 
-The most significant advance in Opus 4.7 is in real-world software engineering. On CursorBench, the model achieves 70% compared to 58% for Opus 4.6. On Rakuten's SWE-Bench evaluation against production tasks, Opus 4.7 resolves 3× more tasks than Opus 4.6. On an internal 93-task coding benchmark, Opus 4.7 shows a 13% improvement. These improvements extend to code review: CodeRabbit reports +10% precision improvement, and Notion Agent reports +14% performance improvement with fewer tokens and a 1/3 reduction in tool errors.
+The most significant advance in Opus 4.7 is in real-world software engineering. On CursorBench, the model achieves 70% compared to 58% for Opus 4.6. On Rakuten's SWE-Bench evaluation against production tasks, Opus 4.7 resolves 3× more tasks than Opus 4.6. *(vendor-aggregated — benchmark selection, model inclusion, and methodology reflect commercial context; treat rankings and scores with caution)* On an internal 93-task coding benchmark, Opus 4.7 shows a 13% improvement. These improvements extend to code review: CodeRabbit reports +10% precision improvement, and Notion Agent reports +14% performance improvement with fewer tokens and a 1/3 reduction in tool errors.
 
 Early-access partners including Cursor, Replit, Vercel, Harvey, Databricks, and others provided testimonials at launch, reflecting broad enterprise adoption in software development workflows.
 

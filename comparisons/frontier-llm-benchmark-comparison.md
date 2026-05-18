@@ -22,6 +22,10 @@ professional_contexts:
   - professional-and-continuing-education
   - software-and-ai-development
 ---
+> **Source note:** All benchmark rankings and capability comparisons on this page are
+> derived from the Vellum LLM Leaderboard (2026), a vendor-operated aggregator.
+> *(vendor-aggregated — benchmark selection, model inclusion, and methodology reflect
+> commercial context; treat rankings and scores with caution)*
 
 Selecting among Claude Opus 4.7, GPT-5.5, and GPT-5.5 Pro for agentic coding, knowledge work, and scientific research reveals a clear capability stratification: Claude Opus 4.7 leads on production software engineering at the lowest output cost; GPT-5.5 leads on abstract reasoning and matches Claude's input pricing; and GPT-5.5 Pro extends GPT-5.5 for frontier mathematics and multi-source web research at a 6x price premium.
 
