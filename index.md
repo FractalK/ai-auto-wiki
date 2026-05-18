@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*81 pages. Last updated: 2026-05-18.*
+*83 pages. Last updated: 2026-05-18.*
 
 ---
 
@@ -47,6 +47,7 @@ professional roles, see the [[teaching-index]].
 - [[jailbreaking]] — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 - [[llm-hallucination]] — The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, and confidently stated errors — as a structural consequence of next-token prediction without factual verification.
 - [[ai-workforce-complementarity]] — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
+- [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 
 ## Tools
 
@@ -94,6 +95,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-vellum-llm-leaderboard]] — Vellum AI, 2026-04-23, practitioner
 - [[2026-bristol-craap-ai-evaluation]] — University of Bristol Library, 2026-03-27, practitioner
 - [[2025-mit-sloan-ai-complement-workers]] — Rigobon, Loaiza-Saa (MIT Sloan), 2025-03-17, practitioner
+- [[2026-stanford-hai-ai-index]] — Sajadieh, Fattorini, Perrault, Gil et al. (Stanford HAI), 2026-04-01, institutional
 
 ## Comparisons
 

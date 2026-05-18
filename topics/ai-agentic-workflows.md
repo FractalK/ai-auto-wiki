@@ -2,11 +2,11 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-18
 summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
 status: developing
-source_count: 2
-last_assessed: 2026-04-22
+source_count: 3
+last_assessed: 2026-05-18
 related_topics:
   - "[[llm-wiki-pattern]]"
 teaching_relevance: true
@@ -36,6 +36,8 @@ Three variables determine whether delegating a task to an AI agent is worthwhile
 Delegation is a tradeoff: you substitute "do the whole task" (Human Baseline Time) for "pay the overhead" (AI Process Time), possibly multiple times until you receive an acceptable result. High Probability of Success means fewer evaluation cycles and makes delegation increasingly worthwhile. Low Probability of Success means you may spend more time evaluating failed outputs than you would have spent doing the task yourself. The equation most favors delegation when Human Baseline Time is large, Probability of Success is high, and AI Process Time is small.
 
 Empirical reference: A 2025 OpenAI benchmark (GDPval) pitted expert professionals across finance, medicine, and government against AI models on tasks averaging seven hours of human work. With GPT-5.2, AI outputs matched or exceeded expert quality approximately 72% of the time. Under a draft→review→retry workflow with one-hour evaluation overhead, this yields approximately three hours saved on average per seven-hour task — but with high variance: tasks the AI failed cost extra time, while tasks it succeeded on were dramatically faster.
+
+Benchmark evidence from the Stanford HAI AI Index 2026 provides a complementary reference point for Probability of Success on lower-level computer-use tasks. On OSWorld — which tests agents on real computer tasks across operating systems — performance rose from approximately 12% to 66.3% between 2024 and 2025, reaching within 6 percentage points of human performance. Despite this rapid trajectory, agents still fail roughly one in three attempts on structured benchmarks. This gap between benchmark performance and full reliability illustrates the Equation of Agentic Work's core dependency: workflows requiring near-perfect task success rates cannot yet rely on agentic AI for unsupervised execution.
 
 ## Delegation as a Management Skill
 

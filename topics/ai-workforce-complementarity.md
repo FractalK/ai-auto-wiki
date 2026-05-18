@@ -5,7 +5,7 @@ created: 2026-05-18
 updated: 2026-05-18
 summary: A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
 status: developing
-source_count: 1
+source_count: 2
 last_assessed: 2026-05-18
 related_topics:
   - "[[llm-fundamentals]]"
@@ -41,6 +41,8 @@ These five groups are described as the capabilities most resistant to automation
 
 The framework is grounded in analysis of the O*NET database, one of the largest U.S. labor datasets maintained by the Bureau of Labor Statistics. Rigobon and Loaiza-Saa find that tasks newly added to O*NET between 2016 and 2024 demonstrate measurably higher EPOCH capability levels than tasks existing before 2024 or tasks removed from O*NET in 2024. This pattern suggests that as AI adoption has expanded, the labor market has been selecting toward EPOCH-intensive work — consistent with the complementarity hypothesis rather than the displacement hypothesis.
 
+Corroborating evidence from the Stanford HAI AI Index 2026 shows an asymmetric displacement pattern in software development — a field with relatively low EPOCH intensity. U.S. employment for software developers ages 22–25 fell nearly 20% from 2024, while headcount for older developers continued to grow. This divergence is consistent with the EPOCH hypothesis: early-career software work involves more formalized, pattern-matching tasks susceptible to AI substitution, while senior developer roles increasingly require judgment, architecture decisions, and stakeholder communication that engage higher EPOCH capability groups.
+
 The research proposes three evaluation metrics for analyzing any task in the context of AI adoption: the EPOCH index (a measure of how EPOCH-intensive a task is), a risk-of-substitution score (how susceptible the task is to full automation), and a potential-for-augmentation score (how much AI assistance could enhance output quality without replacing the human). Applied to any occupation, these metrics shift the analysis from job-level generalization to task-level diagnostic.
 
 ## Statistical Boundary Conditions
@@ -68,6 +70,7 @@ High-EPOCH occupations — including emergency management directors, clinical an
 | Analysis of O*NET task data shows that tasks newly added to the dataset in 2024 exhibit higher EPOCH capability levels than tasks existing before 2024 or tasks removed in 2024, indicating that labor market demand is shifting toward EPOCH-intensive work as AI adoption expands. | [[2025-mit-sloan-ai-complement-workers]] | 2025-03-17 | current | 0.5 | false |
 | AI tools perform poorly on four statistical boundary conditions — biased training data, small sample sizes, extrapolation beyond training range, and moral dilemma resolution — defining the task boundaries where human judgment remains structurally essential regardless of model capability. | [[2025-mit-sloan-ai-complement-workers]] | 2025-03-17 | current | 0.5 | false |
 | The EPOCH framework proposes three evaluation metrics — the EPOCH index, a risk-of-substitution score, and a potential-for-augmentation score — enabling task-level analysis of AI adoption impact rather than job-level displacement prediction. | [[2025-mit-sloan-ai-complement-workers]] | 2025-03-17 | current | 0.5 | false |
+| U.S. employment for software developers ages 22–25 fell nearly 20% from 2024, while headcount for older developers continued to grow — a pattern consistent with the EPOCH hypothesis that AI automation targets formalized, lower-judgment early-career work and that displacement risk is concentrated in task profiles with low EPOCH intensity. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 
 ## Teaching Notes
 

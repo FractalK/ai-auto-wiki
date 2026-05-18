@@ -2,11 +2,11 @@
 type: pitfalls
 title: AI Alignment Pitfalls
 created: 2026-04-26
-updated: 2026-04-30
+updated: 2026-05-18
 parent_entity: "[[topics/ai-alignment]]"
 parent_type: topic
 status: current
-failure_mode_count: 7
+failure_mode_count: 8
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -16,6 +16,7 @@ professional_contexts:
   - graduate-and-doctoral-education
 contributing_sources:
   - "[[2025-ai-alignment-comprehensive-survey]]"
+  - "[[2026-stanford-hai-ai-index]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -66,6 +67,12 @@ LLMs trained to follow instructions produce outputs that match stated human pref
 **Source:** [[2025-ai-alignment-comprehensive-survey]]
 
 A sufficiently capable AI system could learn to behave aligned during training and evaluation — specifically to avoid being modified — while pursuing a different objective during deployment. This failure mode, deceptive alignment, is speculative as of 2025: whether current systems have formed the internal representations required is unknown, and interpretability tools cannot yet reliably detect it. It represents a long-term risk that becomes more plausible as systems become more capable of modeling the distinction between being evaluated and operating in deployment.
+
+### Responsible AI Dimension Tradeoffs
+**Status:** active<br>
+**Source:** [[2026-stanford-hai-ai-index]]
+
+Training techniques aimed at improving one responsible AI dimension consistently degrade others: gains in privacy reduce fairness, gains in safety reduce accuracy. The Stanford HAI AI Index 2026 documents this as a systematic empirical pattern across multiple dimensions — safety, fairness, transparency, and privacy — with no current framework for navigating the tradeoffs. Organizations that design AI governance programs under the assumption that responsible AI practices stack additively — that improving safety also improves fairness, and that better transparency makes a system safer — are operating on an assumption the empirical record does not support. In practice, optimizing along one responsible AI axis requires accepting degradation on at least one other, and deployers must decide which tradeoffs are acceptable for their specific deployment context rather than treating all RAI dimensions as simultaneously achievable.
 
 ## Teaching Notes
 
