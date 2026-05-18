@@ -2,11 +2,11 @@
 type: pitfalls
 title: LLM Fundamentals Pitfalls
 created: 2026-04-26
-updated: 2026-04-30
+updated: 2026-05-18
 parent_entity: "[[topics/llm-fundamentals]]"
 parent_type: topic
 status: current
-failure_mode_count: 7
+failure_mode_count: 8
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -18,6 +18,7 @@ professional_contexts:
 contributing_sources:
   - "[[2023-karpathy-intro-large-language-models]]"
   - "[[2026-google-prompt-injection-wild]]"
+  - "[[2025-mit-sloan-ai-complement-workers]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -40,6 +41,12 @@ LLMs have no persistent memory across context windows. Each conversation starts 
 **Source:** [[2023-karpathy-intro-large-language-models]]
 
 Base models (pretrained but not instruction-tuned) are not assistants and have no safety constraints. Deploying base models without fine-tuning safety layers exposes raw pretraining behavior. Separately, users and developers who believe fine-tuned safety behavior is a deep architectural property rather than a behavioral overlay may underestimate the vulnerability surface that jailbreaks exploit.
+
+### Statistical Boundary Conditions
+**Status:** active<br>
+**Source:** [[2025-mit-sloan-ai-complement-workers]]
+
+Statistical learning systems — including all current LLMs — fail predictably at four boundary conditions: (1) biased training data, where historical data misrepresents the target population and the model perpetuates or amplifies the bias; (2) small sample sizes, where insufficient data makes inference unreliable; (3) extrapolation beyond training range, where the model is asked to reason about conditions far outside its training distribution; and (4) moral dilemma resolution, where no statistical best answer exists because outcomes are contested by stakeholders. These are structural properties of the underlying learning paradigm, not bugs to be patched in future releases. Workflows that present AI tools with tasks sitting at these boundaries — rare event prediction, novel domain generalization, or high-stakes ethical adjudication — should not expect reliable outputs without substantial human judgment applied to the result.
 
 ## Usage Antipatterns
 
