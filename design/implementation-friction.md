@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 04/05/2026 21:00
+**Last Updated:** 05/19/2026 22:00
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -592,7 +592,7 @@ fields.
 ## FRIC-033 | Context Window Exhaustion During Lint Phase 1 at Scale
 
 - **Date:** 2026-05-04
-- **Status:** open
+- **Status:** closed
 - **Phase:** Post-setup
 - **Document implicated:** OPERATIONS.md — Section 11.4 lint procedure preamble
 - **Symptom:** First lint pass with extended vocabulary (~75 pages) compacted with <1%
@@ -616,7 +616,7 @@ fields.
 ## FRIC-034 | Lint Decision Form Renders Blank Due to Unescaped JSON
 
 - **Date:** 2026-05-04
-- **Status:** open
+- **Status:** closed
 - **Phase:** Post-setup
 - **Document implicated:** OPERATIONS.md — Section 11.4 Step L13 (lint form generation);
   Section 11.2 pre-flight report form generation
@@ -640,3 +640,171 @@ fields.
 - **Resolved:** 2026-05-04
 
 ---
+## FRIC-035 | Single-Source Density Compaction During Ingest
+
+- **Date:** 2026-05-18
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.1 (`vendor-content` entry);
+  Section 11.2 Step 0 (pre-ingest budget check)
+- **Symptom:** Session compacted during ingest of 3 sources (well within the N≤5 safe
+  threshold). Primary cause: one source was the Vellum LLM Leaderboard — a structured
+  data page with ~40–60 models × 10–15 benchmark columns rendered as both bar charts
+  and tables, estimated 5,000–15,000 tokens. A single high-density source of this type
+  can consume as much context as 5–10 typical documents. Compaction occurred before
+  the second source was processed. Distinct from FRIC-033 (cumulative-load compaction
+  across many wiki pages during lint).
+- **Verdict:** Confirmed gap — the Step 0 budget check used a source-count heuristic
+  (N≤5 is safe) with no mechanism to detect or flag high-density source types.
+  Additionally, the `vendor-content` taxonomy entry had no note distinguishing
+  leaderboard/benchmark-table sources as a high-density subclass requiring dedicated
+  sessions. A second gap: the leaderboard was misclassified as `practitioner-reference`
+  rather than `vendor-content`; operator corrected manually post-ingest.
+- **Fix plan:** (1) Add high-density source note to Section 11.1 `vendor-content`
+  entry covering token density, freshness decay, claim type, classification rule, and
+  batching rule. (2) Add high-density source scan step to Step 0, before the N
+  evaluation, using URL/filename keyword detection to flag leaderboard/benchmark/
+  comparison sources and surface a dedicated forced choice before proceeding.
+- **Resolved:** 2026-05-18
+
+---
+
+## FRIC-036 | Ingest Decision Form Renders Blank (Recurrence of FRIC-034)
+
+- **Date:** 2026-05-18
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.2 (pre-flight form generation,
+  serialization requirement)
+- **Symptom:** `ingest-decisions.html` rendered blank — HTML skeleton loaded, cards
+  column empty, decision string panel unpopulated. The Claude Code transcript shows the
+  agent attempted bash string substitution first ("The bash string substitution
+  failed — using Python for reliable injection instead"), then claimed a Python fallback,
+  but the generated form was still blank. The uploaded file confirms
+  `%%CHOICES_JSON%%` was never replaced — the injection did not occur, producing a
+  JavaScript syntax error that silently prevents `renderAllCards()` from executing.
+- **Verdict:** Confirmed weakness (recurrence of FRIC-034 pattern) — two gaps.
+  (1) Agent non-compliance: OPERATIONS.md Section 11.2 already specifies "Build the
+  data structure programmatically and serialize it with
+  `python3 -c 'import json; print(json.dumps(data))'`" and "Do not construct the JSON
+  string by concatenating raw text." The agent attempted bash string substitution first,
+  violating this requirement. (2) Spec weakness: the serialization requirement says what
+  to do but does not explicitly prohibit bash substitution as a first attempt, leaving
+  room for agents to try a "faster" path that fails silently. Additionally, no
+  post-injection verification step exists to catch the failure before presenting the
+  form to the human.
+- **Fix plan:** (1) Add an explicit prohibition to the OPERATIONS.md serialization
+  requirement: "Do not attempt bash string substitution (sed, awk, or shell variable
+  expansion) for JSON injection — these fail silently on special characters. Python
+  json.dumps is the only permitted serialization method." (2) Add a post-injection
+  verification step: after writing the decisions HTML file, run
+  `grep -c '%%CHOICES_JSON%%' ingest-decisions.html` — if the count is non-zero, the
+  injection failed; halt and report the error rather than directing the human to open a
+  blank form. Apply the same prohibition and verification to the lint form generation
+  step (Step L13).
+- **Resolved:** 2026-05-19
+
+---
+
+## FRIC-037 | Context Exhaustion on Large-Document Ingest (425-Page PDF)
+
+- **Date:** 2026-05-18
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.2 Step 0 (pre-ingest budget
+  check); Step 11 (extraction pass)
+- **Symptom:** Two compaction events during ingest of the Stanford HAI AI Index 2026
+  (425-page PDF, N=1). First compaction occurred during Phase 1 before the user could
+  enter choices, requiring manual `/compact`. Second auto-compaction occurred at or
+  near commit time during Phase 2; Phase 2 completed correctly but the near-miss on
+  the interrupted-ingest risk window (Steps 10–22c) is notable. The agent read the
+  full 425-page PDF into context, which combined with the 81-page wiki state and
+  governance files, exceeded the session window.
+- **Verdict:** Confirmed gap — three distinct weaknesses. (1) The Step 0 high-density
+  scan checks only for keyword indicators (`leaderboard`, `benchmark`, etc.) in
+  filenames and URLs. It has no mechanism for detecting large documents by page count,
+  word count, or file size. A 425-page PDF is inherently session-exhausting regardless
+  of its internal structure, but `ai_index_report_2026.pdf` matches no density keywords.
+  (2) Step 11 (extraction) has no chunking protocol — it reads the full source document
+  in one pass. Documents with chapter or header structure are naturally decomposable,
+  but no instruction exists to exploit that structure. (3) Even with in-session chunking,
+  processing all chunks sequentially within a single session may still exhaust context —
+  especially as the wiki grows. Chunks must be durable artifacts that survive session
+  boundaries, not ephemeral in-memory units.
+- **Fix plan:** Three changes.
+  (1) **Step 0 detection (file-type agnostic):** Extend the high-density scan to
+  estimate token budget by file type. For staged files: PDF — page count via
+  `pdfinfo` or `pdftotext`; DOCX — word count via `python3 -c` with python-docx or
+  docx2txt; HTML/text/markdown — word count via `wc -w`. Threshold: >100 pages (PDF)
+  or >50,000 words (other formats). If exceeded, set the HIGH-DENSITY flag and surface
+  the existing warning, adding the page/word count and a note that chapter-based
+  decomposition will be used. For queue URLs, page count is unknown pre-fetch; add a
+  note that if a URL source exceeds the threshold after fetch, the agent must warn
+  before proceeding.
+  (2) **Large-document decomposition protocol (new step between Phase 1 and Phase 2):**
+  When a source is flagged HIGH-DENSITY due to size:
+  (a) Pre-flight uses only the TOC, executive summary, or equivalent overview
+  (~first 20 pages or ~10,000 words) — sufficient for affected-page identification
+  and form generation.
+  (b) After human decisions received, decompose the document into chapter-level text
+  extracts. Chunking hierarchy (in order of preference): (i) explicit chapter/part
+  divisions from TOC or document structure; (ii) top-level headers — heading styles
+  in DOCX, `<h1>`/`<h2>` in HTML, `#`/`##` in markdown, structural markers in PDF;
+  (iii) last resort: arbitrary segments of ~50 pages or ~25,000 words.
+  (c) Save each chunk as a separate text file in `raw/staged/` using naming convention:
+  `{source-slug}_part-{NN}_{section-slug}.txt` (e.g.,
+  `2026-stanford-hai-ai-index_part-01_technical-performance.txt`).
+  (d) Create a manifest at `raw/staged/{source-slug}_manifest.md` containing: original
+  filename, total part count, source page slug (created in first pass), pre-flight
+  decision string (so subsequent sessions skip Phase 1), and a checklist of parts with
+  completion status.
+  (e) Process chunks sequentially. First chunk: create source page (Step 10) and
+  extract. Subsequent chunks: skip source page creation; proceed directly to extraction
+  against existing wiki pages. Each chunk gets its own commit per existing Step 22
+  rules.
+  (f) If the session approaches context limits between chunks, stop cleanly after the
+  current chunk's commit. Remaining chunk files in `raw/staged/` are picked up by the
+  next session via the manifest. The manifest tells the next session which chunks
+  remain and provides the pre-flight decisions, eliminating re-analysis.
+  (g) Post-ingest housekeeping (moving original file to `raw/processed/`, deleting
+  chunk files and manifest) fires only after all chunks are processed.
+  (3) **Step 0 interaction with decomposed chunks:** When Step 0 detects staged files
+  matching the `_part-NN_` naming pattern, check for a corresponding manifest file.
+  If found, this is a continuation of a multi-part ingest — skip Phase 1 pre-flight
+  (decisions already made), load the decision string from the manifest, and resume
+  processing from the first incomplete chunk.
+- **Resolved:** 2026-05-19
+
+---
+
+## FRIC-038 | Claude Code Worktree Creates Feature Branch; Push to Main Blocked
+
+- **Date:** 2026-05-18
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.2 Step 22c (push to remote)
+- **Symptom:** After completing an ingest, the agent committed changes to a worktree
+  branch (`claude/blissful-shtern-3f19bb`) rather than to main. The commit is in
+  `.claude/worktrees/blissful-shtern-3f19bb/`, not pushed to remote main. The operator
+  must manually merge the branch to deploy. Step 22c instructs "Commit all changes
+  directly to main — do not create feature branches," but Claude Code's worktree
+  system creates a separate branch automatically as a platform-level behavior that
+  cannot be disabled by the agent or the operator.
+- **Verdict:** Confirmed gap — Step 22c assumes the agent operates on the main branch
+  directly. Claude Code's worktree feature overrides this by creating a separate
+  working branch for each session. The agent has no control over worktree creation.
+  The instruction "do not create feature branches" is unenforceable because the branch
+  is created by the platform, not the agent. This is functionally distinct from
+  FRIC-027, where the agent improvised a branch/PR workflow — here the platform
+  imposes the branching model.
+- **Fix plan:** Rewrite Step 22c to accommodate worktree branches. Replace
+  `git push origin main` with `git push origin HEAD:main`, which pushes the current
+  branch (whatever the worktree named it) directly to the remote main branch.
+  The refspec `HEAD:main` bypasses the local branch name entirely. Add a fallback:
+  if the push is rejected (remote main has diverged due to a manual commit or parallel
+  session), the agent must stop and report the conflict to the human rather than
+  force-pushing. Retain the prohibition on `gh pr create` — the push must go directly
+  to main, not via a pull request. Remove the instruction "do not create feature
+  branches" (unenforceable) and replace with "the agent may operate on any local branch;
+  the push target is always `origin main`."
+- **Resolved:** 2026-05-19

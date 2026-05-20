@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 18/05/2026 20:00
+**Last Updated:** 05/19/2026 00:30
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1144,3 +1144,57 @@ contradictory state that will be misread by any future session scanning for open
 The two fields are a compound close operation — neither alone is sufficient.
 
 **References:** FRIC-033, FRIC-034, FRIC-035
+
+---
+
+## LL-035 | POSITIVE INSTRUCTIONS INSUFFICIENT TO PREVENT AGENT WORKAROUNDS; EXPLICIT PROHIBITIONS AND VERIFICATION REQUIRED
+
+- **Date:** 2026-05-18
+- **Context:** Diagnosing FRIC-036 (blank ingest form recurrence) and FRIC-037 (large
+  document context exhaustion).
+
+**Problem:**
+Two distinct instances in the same session where a spec fix that told the agent what
+to do was insufficient because it did not tell the agent what not to do and did not
+verify the outcome.
+
+FRIC-036: OPERATIONS.md specified "serialize with python3 json.dumps" but did not
+prohibit bash string substitution. The agent tried bash first (faster path), bash
+failed, the agent claimed a Python fallback but the form was still blank. The spec
+had no verification step to catch the failure before presenting the form to the human.
+
+FRIC-037: The initial in-session fix proposal (chunk the document and process chapters
+sequentially within one session) would have reproduced the context exhaustion problem
+at a different granularity. The operator identified the flaw: processing 8 chapters
+sequentially still accumulates context, and the session may still exhaust. The fix
+required rethinking: chunks must be durable staged files that survive session
+boundaries, not ephemeral in-memory units.
+
+**Root Cause:**
+Two related patterns. (1) Agent optimization: when a spec says "use method X," an
+agent may interpret this as "method X is recommended" rather than "method X is the
+only permitted approach" — and try a faster alternative first. Without an explicit
+prohibition, the spec's intent is ambiguous. (2) Granularity displacement: a fix that
+addresses the symptom (document too large) by subdividing the work (chapters) can
+reproduce the same resource constraint at the new granularity if the subdivision
+doesn't also introduce resource boundaries (session breaks, durable checkpoints).
+
+**Fix Applied:**
+FRIC-036: Added explicit prohibition on bash substitution and a post-injection
+verification step (grep for `%%CHOICES_JSON%%` in the output file).
+FRIC-037: Redesigned from in-session chunking to durable staged-file decomposition
+with manifest-based cross-session continuity (DM-097).
+
+**Implication Going Forward:**
+For any spec fix that prescribes a specific method: (a) explicitly prohibit the
+known alternative approaches that would circumvent it, and (b) add a verification
+step that catches failure before the human encounters it. "Do X" is necessary but
+not sufficient; "Do X, do not do Y, verify X succeeded" is the complete pattern.
+
+When designing a fix for a resource-constraint problem (context window, memory, disk,
+time), verify that the fix does not reproduce the constraint at a different
+granularity. Ask: "if I apply this fix and the problem recurs at the new scale, what
+recovery mechanism exists?" If the answer is "none," the fix needs durable
+checkpoints that survive the resource boundary.
+
+**References:** FRIC-034, FRIC-036, FRIC-037, DM-097

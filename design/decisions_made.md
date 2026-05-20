@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 18/05/2026 20:00
+**Last Updated:** 05/19/2026 22:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -3886,3 +3886,205 @@ the bias explicit rather than applying a generic caution string to both cases.
 
 **References:** OPERATIONS.md Section 11.1; EXTRACTION-SKILL.md Section 4; FRIC-035;
 DM-085
+
+---
+
+## DM-097 | LARGE-DOCUMENT DECOMPOSITION PROTOCOL WITH MANIFEST FILES
+
+- **Date:** 2026-05-18
+- **Status:** ACTIVE
+
+**Decision:**
+Documents exceeding a size threshold (>100 pages for PDF, >50,000 words for other
+formats) are decomposed into chapter-level text chunks saved as durable staged files
+with a manifest tracking completion state. The protocol introduces three new mechanisms:
+(1) file-type-agnostic size detection at Step 0, (2) a decomposition step between
+Phase 1 and Phase 2 that produces staged chunk files and a manifest, and (3) a
+manifest-aware continuation path at Step 0 that allows subsequent sessions to resume
+multi-part ingests without re-running pre-flight analysis. The source model is
+unchanged: one source page, one pre-flight form, one final commit per chunk. Only the
+extraction granularity changes.
+
+**Context:**
+The Stanford HAI AI Index 2026 (425-page PDF, N=1) caused two compaction events during
+a single-source ingest session. The existing Step 0 high-density scan (added for
+FRIC-035) checks only for keyword indicators in filenames and did not flag the document.
+An initial proposal to chunk within a single session was identified as reproducing the
+session-exhaustion problem at a different granularity — processing 8 chapters
+sequentially within one session may still exceed context, especially as the wiki grows.
+
+**Rationale:**
+Saving chunks as durable staged files reuses the existing `raw/staged/` infrastructure,
+the existing per-document commit model, and the existing interrupted-ingest recovery
+procedure. The manifest file enables cross-session continuity without re-running
+Phase 1 (pre-flight decisions are recorded in the manifest and reused). Per-chapter
+context budget is well-bounded: governance files + ~50 pages of source text + ~3-5
+target wiki pages per chapter. This remains within session capacity even at 150+ wiki
+pages.
+
+The chunking hierarchy (chapter divisions > top-level headers > arbitrary segments)
+prioritizes semantic coherence over mechanical splitting. Most long documents have at
+least H1-level structure even without a formal TOC. Arbitrary page chunks are the last
+fallback, used only when the document is genuinely unstructured.
+
+The detection threshold is file-type agnostic: page count for PDFs, word count for
+DOCX/HTML/text/markdown. The same underlying problem (document too large for one
+session) applies regardless of format.
+
+**Alternatives Considered:**
+- **In-session sequential chunking (no durable artifacts):** The original proposal.
+  Rejected because it reproduces session exhaustion at a different granularity — 8
+  chapters processed sequentially may still exceed context. No recovery mechanism if
+  the session is interrupted between chapters.
+- **Key Claims with mandatory metadata fields appended (no chunking):** Simpler but
+  does not address the context exhaustion problem — the agent still reads the full
+  document. Rejected.
+- **Dedicated large-document source type with its own workflow branch:** Over-engineered
+  for current ingest frequency (a few times per year). The decomposition protocol is a
+  conditional branch within the existing ingest workflow, not a separate workflow.
+  Rejected.
+- **Manual human pre-processing (split PDF before staging):** Viable but shifts work
+  to the human. The agent can do this automatically with higher consistency. Rejected.
+
+**Consequences to Watch:**
+- The manifest file is a new artifact type in `raw/staged/`. It is gitignored (staged
+  files are not committed). The interrupted-ingest recovery procedure and Step 0 must
+  recognize the `_manifest.md` naming convention. Verify on first use.
+- The `_part-NN_` naming convention for chunk files must not collide with other staged
+  file naming patterns. The underscore-delimited format is distinct from the existing
+  slug convention (kebab-case with no underscores in wiki page names).
+- If a large document lacks any structural markers (no TOC, no headers, no heading
+  styles), the arbitrary 50-page fallback may split mid-argument. This is acceptable:
+  claims extracted from adjacent chunks may overlap, and the agent handles duplicates
+  via the existing Key Claims deduplication logic.
+- Queue URL sources cannot be size-checked pre-fetch. The post-fetch warning is a
+  weaker safeguard — the agent has already consumed tokens fetching the document. If
+  large URL sources become common, consider a pre-fetch HEAD request to check
+  Content-Length where available.
+
+**References:** FRIC-037, DM-093 (compaction resilience), OPERATIONS.md Section 11.2
+
+---
+
+## DM-098 | WORKTREE-AWARE PUSH COMMAND REPLACES DIRECT-TO-MAIN ASSUMPTION
+
+- **Date:** 2026-05-18
+- **Status:** ACTIVE
+
+**Decision:**
+Step 22c is rewritten to use `git push origin HEAD:main` instead of
+`git push origin main`. The refspec `HEAD:main` pushes the current branch (whatever
+the worktree named it) directly to the remote main branch, bypassing the local branch
+name entirely. The instruction "do not create feature branches" is removed as
+unenforceable (Claude Code's worktree system creates branches automatically as a
+platform behavior). Replaced with: "the agent may operate on any local branch; the
+push target is always `origin main`." The prohibition on `gh pr create` is retained.
+A fallback is added: if the push is rejected (remote main has diverged), the agent
+stops and reports the conflict to the human rather than force-pushing.
+
+**Context:**
+Claude Code's worktree feature creates a separate working branch for each session as
+platform-level behavior. The agent has no control over worktree creation, and the
+operator cannot disable it. Step 22c's prior instruction ("Commit all changes directly
+to main — do not create feature branches") was unenforceable. The resulting worktree
+branch required manual merging by the operator to deploy via GitHub Actions (which
+triggers on push to main). This is functionally distinct from FRIC-027 (where the
+agent improvised a branch/PR workflow) — here the platform imposes the branching model.
+
+**Rationale:**
+`HEAD:main` is the standard git mechanism for pushing any local branch to a specific
+remote branch. It is idempotent (works whether the local branch is `main`,
+`claude/blissful-shtern-3f19bb`, or any other name), requires no branch-name detection
+logic, and produces the same GitHub Actions deployment trigger as a direct push to
+main. The fallback (stop on rejection) is necessary because parallel worktree sessions
+or manual commits could advance the remote main, making a non-fast-forward push fail.
+Force-pushing is never appropriate for a shared deployment branch.
+
+**Alternatives Considered:**
+- **Merge worktree branch to main before pushing:** Requires the agent to check out
+  main, merge, and push — more complex with the same result. Ruled out.
+- **Require operator to manually merge after every session:** Viable but adds friction
+  to every ingest, lint, and query session. Defeats the automation intent. Ruled out.
+- **Disable worktree behavior:** Not configurable by the operator or the agent as of
+  2026-05-18. Ruled out.
+
+**Consequences to Watch:**
+- If Claude Code changes its worktree behavior (e.g., makes it configurable, or stops
+  using worktrees), Step 22c remains correct — `HEAD:main` works from any branch
+  including main itself.
+- Parallel Claude Code sessions operating on the same repo: the second session's push
+  will be rejected if the first session already advanced main. The fallback (stop and
+  report) handles this correctly. If parallel sessions are used routinely, a more
+  sophisticated merge strategy may be needed — but for single-operator serial sessions,
+  this is a non-issue.
+- The same `HEAD:main` pattern should be applied to any other step that pushes to
+  remote (currently only Step 22c does).
+
+**References:** FRIC-038, FRIC-027, OPERATIONS.md Section 11.2 Step 22c
+---
+
+## DM-099 | DATA-RECORD CLAIM TYPE: OPTIONAL ## DATA RECORDS SECTION ON WIKI PAGES
+
+- **Date:** 2026-05-19
+- **Status:** ACTIVE
+
+**Decision:**
+A new optional `## Data Records` section is added to Topic, Tool/Product, and Comparison
+pages (CLAUDE.md Section 6.6). It holds quantitative measurement data contingent on
+methodology, conditions, and date — distinct from the Key Claims table, which holds
+assertive, contestable, evidence-anchored claims. Data Records use a six-column table
+(Metric, Value, Conditions, Measurement Date, Source, Status), append-only accumulation
+semantics with no row cap, and are explicitly excluded from the contradiction protocol
+(Section 8.1). Lint Step L5c provides a 90-day informational freshness check. The
+extraction pass (Step 11) produces a `data_records` list alongside Key Claims candidates;
+Steps 12/13 write data records to the new section; Step 14 skips data-record rows.
+EXTRACTION-SKILL.md Section 7 provides discrimination criteria and worked examples.
+
+**Context:**
+The Key Claims extraction model forces measurement data into assertion form, producing
+three specific failures: (1) fidelity loss — conversion strips mandatory measurement
+metadata; (2) contradiction protocol mismatch — a new leaderboard superseding an old one
+is not a contradiction but a time series; (3) freshness semantics mismatch — a stale data
+record is prior state, not stale evidence. These failures were diagnosed during the Vellum
+LLM Leaderboard ingest (FRIC-035). The operator confirmed that both time series and latest
+value query patterns are required, constraining the design to append-only semantics.
+
+**Rationale:**
+Alternative D (new section on existing page types) is the correct trade-off between
+schema cost and capability. It is lighter than a new source type with its own workflow
+branch (Alternative A — over-engineered for a few-times-per-year ingest frequency), fixes
+all three failures that Key Claims with appended metadata (Alternative B) cannot fix, and
+preserves machine-readability that a prose convention (Alternative C) sacrifices. The
+section lives alongside Key Claims — each serves a distinct epistemic function. Key Claims
+are assertions that can be true or false; data records are measurements that are correct
+for their conditions and date.
+
+**Alternatives Considered:**
+- **A) Full `structured-data` source type with its own workflow branch:** Creates a
+  parallel track (extraction, contradiction, lint) for a low-frequency use case. Governance
+  overhead far exceeds value at current ingest cadence. Ruled out.
+- **B) Key Claims with mandatory metadata fields appended:** Fixes fidelity loss but not
+  the contradiction protocol or freshness mismatch. Would require per-row `claim_type`
+  discriminator, turning Key Claims into a polymorphic structure that every consumer must
+  branch on. Ruled out.
+- **C) Prose convention (dated markdown table in body):** Lowest schema cost but sacrifices
+  machine-readability. The query workflow cannot reliably extract time-series data from
+  unstructured prose tables. Permanently forecloses the "latest value" and "time series"
+  query patterns. Ruled out.
+
+**Consequences to Watch:**
+- Data Records sections may grow large on pages tracking many benchmarks over time. The
+  ~20-row readability signal is soft; monitor whether pages hit it and whether the split
+  heuristic (dedicated Comparison page for benchmark history) is adequate.
+- The extraction discrimination criteria (EXTRACTION-SKILL.md Section 7) are new and
+  untested. If the agent consistently misroutes data records as Key Claims or vice versa,
+  add worked correction examples to Section 7 from operational experience.
+- IN-016 (Key Claims eviction at cap) is partially mitigated: measurement data that
+  previously competed for Key Claims slots now routes to Data Records. The eviction gap
+  for genuinely novel assertive claims at the 5-claim cap remains open.
+- CLAUDE.md line count: adding Section 6.6 adds approximately 70 lines. Combined with
+  the Section 8.1 addition (~5 lines), CLAUDE.md grows to approximately ~1,720 lines.
+  Still well within the 3,000-line headroom.
+
+**References:** FRIC-035, IN-016, CLAUDE.md Section 6.6, Section 8.1, OPERATIONS.md
+Steps 11-14, Step L5c, EXTRACTION-SKILL.md Section 7
