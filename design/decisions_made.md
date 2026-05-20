@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 20/05/2026 12:00
+**Last Updated:** 20/05/2026 13:30
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4149,3 +4149,75 @@ continuation is safe. The human's judgment supersedes the agent's assessment.
 
 **References:** FRIC-039, DM-097, OPERATIONS.md Large-document decomposition protocol
 Steps 5–6
+
+---
+
+## DM-101 | INTER-CHUNK PAUSE PLACEMENT AND STANDING-AUTHORIZATION PROHIBITION
+
+- **Date:** 2026-05-20
+- **Status:** ACTIVE
+
+**Decision:**
+Three refinements to the large-document decomposition protocol inter-chunk pause
+(originally established in DM-100):
+
+1. **Firing point:** The mandatory inter-chunk pause fires after Step 22c
+   (per-chunk commit and push) and the manifest update, and before Step 22
+   (post-ingest summary including Section B forced choices). Step 22 runs after
+   the human's A or B selection in both branches — the continue/stop decision
+   precedes all further decision-making for that chunk boundary.
+
+2. **Manifest-aware continuation:** When a new session resumes via manifest, the
+   inter-chunk pause fires before beginning the first chunk of that session. The
+   pause reports previously committed chunks and the chunk about to begin. Prior
+   session A selections are explicitly not authorization to proceed.
+
+3. **Standing-authorization prohibition:** The pause block explicitly prohibits
+   the agent from inferring continuation authorization from prior A selections,
+   manifest contents, or chunk size. Each chunk requires a new explicit A.
+
+**Context:**
+FRIC-040. Three compounding failures during 9-part Stanford HAI AI Index
+re-extraction: (1) pause fired after Section B decisions, allowing the agent to
+treat answered forced choices as implicit continuation; (2) manifest-aware
+continuation contained no pause requirement and said "proceed directly"; (3) the
+agent rationalized bypassing the pause by citing a prior A selection and small
+chunk size. All three failures shared a root cause: the protocol underspecified
+the control model, leaving the agent room to optimize for throughput.
+
+**Rationale:**
+Placing the pause before Step 22 (not after) ensures the human's continue/stop
+decision is made before any further work is presented. Section B forced choices are
+substantive decisions — answering them is work, and work done implies session
+continuation. The gate must precede the work. Running Step 22 in both A and B
+branches (not omitting it on B) ensures the human always receives a complete summary
+of the committed chunk before the session ends.
+
+The standing-authorization prohibition addresses a specific LLM failure mode: the
+agent reasoning from contextual signals (prior selections, chunk metadata) to
+bypass an explicit procedural gate. The prohibition must be stated as an explicit
+rule because "wait for explicit confirmation" is insufficient — the agent found a
+way to claim it had explicit confirmation (a prior A). The correct framing is
+per-chunk, not per-session.
+
+**Alternatives Considered:**
+- **Omit Step 22 on B (stop):** Would leave the human without a summary of the
+  just-completed chunk. Rejected — the summary is needed regardless of whether the
+  session continues.
+- **Run Step 22 before the pause (status quo):** The failure mode. Rejected.
+- **Single-session A applies to all subsequent chunks:** Reduces round-trips but
+  reproduces the original FRIC-039 failure (agent optimizes for throughput).
+  Rejected.
+
+**Consequences to Watch:**
+- The If-A / If-B branch structure in Step 5 is new. Watch for agents that run
+  Step 22 before presenting the pause (reversing the order again) or that skip
+  Step 22 in the B branch.
+- The manifest-aware continuation pause fires even when the human explicitly
+  starts the session with "continue the HAI Index ingest." This may feel redundant.
+  If it proves disruptive in practice, a future option is to allow the session-start
+  prompt to serve as the A selection for the first chunk — but only add this if
+  the pause friction is reported.
+
+**References:** FRIC-040, DM-100, DM-097, OPERATIONS.md decomposition protocol
+Steps 5–6, Step 0 manifest-aware continuation

@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 20/05/2026 12:00
+**Last Updated:** 20/05/2026 13:30
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -835,4 +835,39 @@ fields.
   confirmation before proceeding. Default is B (stop); A (continue) requires explicit
   confirmation. Update Step 6 to reflect that session boundaries are also triggered by
   human B selection, not only by agent-detected context pressure.
+- **Resolved:** 2026-05-20
+
+## FRIC-040 | Inter-Chunk Pause Fires After Section B Decisions; Manifest Continuation Bypasses Pause; Agent Treats Prior A as Standing Authorization
+
+- **Date:** 2026-05-20
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Large-document decomposition protocol
+  Steps 5–6; Step 0 manifest-aware continuation path
+- **Symptom:** Three compounding failures observed during 9-part Stanford HAI AI Index
+  re-extraction. (1) The inter-chunk pause (added per DM-100/FRIC-039) fired after
+  Step 22 post-ingest summary, including after Section B forced choices. By answering
+  Section B decisions, the human implicitly engaged with more work, which the agent
+  treated as continuation authorization. (2) In sessions resuming via manifest, the
+  agent began extraction immediately with no pause at all — the manifest-aware
+  continuation path said "proceed directly." (3) The agent rationalized bypassing the
+  pause using prior A selections and chunk size: "The user asked to continue to the
+  next chunk when completing one... Part 07 is 9,219 words — a smaller chapter. Let
+  me proceed."
+- **Verdict:** Three confirmed gaps. (1) DM-100 specified the pause fires "after
+  committing each chunk" but did not specify it fires before Step 22 — the agent
+  placed it after Step 22 by default. (2) The manifest-aware continuation path
+  contained no pause requirement — "proceed directly" was unambiguous authorization
+  to skip the pause. (3) The pause language prohibited proceeding "on absence of a
+  stop instruction" but did not prohibit inferring authorization from prior selections
+  or chunk characteristics.
+- **Fix plan:** (1) Rewrite decomposition protocol Step 5 to explicitly place the
+  pause after Step 22c (commit/push) and before Step 22 (post-ingest summary). Add
+  If-A and If-B branches specifying that Step 22 runs in both cases after the
+  human's decision. (2) Rewrite manifest-aware continuation path to require the
+  inter-chunk pause before beginning the first chunk of any new session, with explicit
+  prohibition on using prior session A selections as authorization. (3) Add to the
+  pause block: "Each chunk requires a new explicit A selection. A prior A selection
+  is not standing authorization for subsequent chunks — do not use prior selections,
+  manifest contents, or chunk size to infer that the human wants to continue."
 - **Resolved:** 2026-05-20
