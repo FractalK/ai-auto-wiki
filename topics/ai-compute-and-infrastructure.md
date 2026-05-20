@@ -3,7 +3,7 @@ type: topic
 title: AI Compute and Infrastructure
 created: 2026-05-20
 updated: 2026-05-20
-summary: The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
+summary: The hardware, data center, energy systems, and capital flows underlying large-scale AI development — characterized by 3.3x annual compute capacity growth, a single-foundry supply chain dependency on TSMC, \$581 billion in global corporate AI investment in 2025, and a more than 99% decline in GPU computation cost since 2006 that enables continued scaling despite rising per-run energy requirements.
 status: developing
 source_count: 1
 last_assessed: 2026-05-20
@@ -36,6 +36,14 @@ Inference energy varies widely across frontier models. DeepSeek V3.2 consumed 23
 
 GPU computation cost has fallen by more than 99% since 2006, enabling the infrastructure scaling trajectory despite growing per-training-run energy requirements. What would have been cost-prohibitive a decade ago is now within reach of a significant and expanding number of commercial actors. The declining cost curve is the primary reason sustained compute capacity growth has remained economically viable, and it continues to expand the population of actors who can train and deploy capable models.
 
+## Investment and Capital Flows
+
+The compute capacity expansion described above is financed primarily by corporate investment at unprecedented scale. In 2025, global corporate AI investment reached \$581.69 billion — a 129.9% increase from the prior year — driven by private investment (\$344.66 billion, +127.5%) and, within that, generative AI (\$170.87 billion, +200%). While the number of newly funded AI companies rose 71%, capital concentration increased: 28 investment events exceeded \$1 billion in 2025, up from 15 in 2024.
+
+Geographic distribution is highly asymmetric. The United States led with \$285.88 billion in private AI investment — 23.1 times China's \$12.41 billion and more than \$163 billion of which was generative AI alone. Private investment figures likely understate China's actual AI spending: Chinese government guidance funds are estimated to have deployed \$184 billion into AI companies between 2000 and 2023. Since 2024, U.S. private AI investment grew 160%, compared to 32% for China and 7% for Europe.
+
+Leading hyperscalers have more than doubled their capital expenditures since ChatGPT's launch. In 2025, Google reported more than \$150 billion in annual capex. The Stargate Project — announced by OpenAI, SoftBank, Oracle, and others — plans to invest \$100–500 billion in U.S. AI data centers through 2029. Frontier AI company revenues have grown rapidly alongside these investments: OpenAI reached an annualized revenue of \$25 billion and Anthropic \$19 billion by late 2025. Compute spend has risen in proportion: OpenAI's reported annual compute spend grew from \$6.8 billion in 2024 to \$16.3 billion in 2025; Anthropic's from \$1.8 billion to \$8.3 billion.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -59,3 +67,12 @@ GPU computation cost has fallen by more than 99% since 2006, enabling the infras
 | Claude 4 Opus inference energy (medium prompt) | 5.1 Wh | Same methodology | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | GPT-5 (high) inference energy (medium prompt) | 21.9 Wh | Same methodology | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | GPU computation cost index | 0.002 (2006=1) | IEA data; cost per FLOP | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| Global corporate AI investment | \$581.69B | All investment types (M&A, private, minority stake, public offering); Quid data | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Global private AI investment | \$344.66B | VC/PE; companies with >\$1.5M funding since 2013; Quid data | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Generative AI private investment | \$170.87B | Subset of global private AI investment | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| US private AI investment | \$285.88B | 23.1x China (\$12.41B); Quid data | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Google annual capital expenditure | >\$150B | AI data center buildout; company disclosure | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| OpenAI annualized revenue | \$25B | Company disclosure or established media; directional estimate | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Anthropic annualized revenue | \$19B | Company disclosure or established media; directional estimate | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| OpenAI annual compute spend | \$16.3B | Rented cloud capacity; Epoch AI tracking | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Anthropic annual compute spend | \$8.3B | Rented cloud capacity; Epoch AI tracking | 2025 | [[2026-stanford-hai-ai-index]] | current |

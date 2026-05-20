@@ -4,8 +4,11 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 56
+entry_count: 57
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 05: Economy (enrichment pass)
+Updated: [[ai-workforce-complementarity]] (summary updated; added workforce exposure gap and occupational churn paragraph in Evidence section; expanded Adoption/Productivity section with additional studies — METR −19%, accountants +55%, authors +200%, learning penalties, macro J-curve, OECD G7 projections, executive survey; updated Key Claim 5 precision fix "from 2022 peak"; added Key Claim 6 on macro J-curve; 7 new Data Records), [[ai-compute-and-infrastructure]] (summary updated; added Investment and Capital Flows prose section; 9 new Data Records). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 04: Responsible AI (enrichment pass)
 Enriched: [[2026-stanford-hai-ai-index]] (related_topics: added [[ai-companion-risks]], [[jailbreaking]], [[ai-alignment]]). Updated: [[ai-companion-risks]] (status stub→developing; source_count 1→2; added Companion System Design and Safety Tradeoffs prose section; 4th and 5th KC on INTIMA benchmark and Replika/Zhang et al. relational harm findings), [[jailbreaking]] (status stub→developing; source_count 0→1; full prose written; 3 KC on HELM Safety ceiling, AILuminate jailbreak degradation, Grok July 2025 incident), [[ai-alignment]] (source_count 1→2; added RAI Dimension Tradeoffs prose section; 6th KC on safety/fairness/accuracy tradeoffs from Kemmerzell/Cecchini/Wasif studies), [[ai-governance-policy]] (expanded International Coordination: Paris AI Action Summit 2025 + AI Safety Institutes; expanded AI Incident Trends: organizational RAI maturity 2.3/4, governance role growth 17%, ISO/IEC 42001 and NIST AI RMF adoption), [[ai-research-ecosystem]] (Publications: added RAI paper geographic shift — China 812 vs US 394 in 2025, reversing 2024 US lead). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
