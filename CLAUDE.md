@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 04/05/2026 21:00
+**Last Updated:** 05/19/2026 22:00
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -972,6 +972,71 @@ Spot-check — [[source-slug]]:
 This allows the human to verify extraction fidelity without reading the full source.
 Do not omit this step for authoritative sources.
 
+### 6.6 Data Records Section
+
+The `## Data Records` section is an optional body section on Topic, Tool/Product, and
+Comparison pages. It holds quantitative measurement data that is contingent on
+methodology, conditions, and date — data whose value is expected to change with future
+measurements. Benchmark scores, latency measurements, pricing tiers, and ranking
+positions are data records. Architectural claims, capability claims, and empirical
+findings from controlled studies are Key Claims (Section 6.1), not data records.
+
+**Placement:** Immediately after the Key Claims table, before the first prose section.
+The section appears on a page only when at least one source contributes measurement
+data meeting the data-record criteria. Do not add an empty `## Data Records` section
+as a placeholder.
+
+**Table format:**
+
+```markdown
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| MMLU accuracy | 87.5% | zero-shot, standard prompt | 2024-05 | [[source-slug]] | current |
+```
+
+**Column definitions:**
+
+- **Metric:** Named measurement (benchmark name, performance dimension). Must match
+  across rows to form a time series for the same measurement.
+- **Value:** The measured quantity, with unit where applicable.
+- **Conditions:** Methodology, prompt style, evaluation parameters — whatever is needed
+  to interpret the value. Brief; not a prose description.
+- **Measurement Date:** When the measurement was taken or published. YYYY-MM format.
+- **Source:** Short-form wikilink to the Source page. Same format as Key Claims.
+- **Status:** `current` | `superseded`. No `contested` status — data records do not
+  enter the contradiction protocol (Section 8).
+
+**Accumulation semantics:**
+
+- Append-only. New measurements add rows. Old rows are never deleted.
+- A row is marked `superseded` only when a newer measurement from the same metric AND
+  the same methodology source exists. "Same methodology source" means the same benchmark
+  operator using the same evaluation setup — not merely the same metric name from a
+  different evaluator.
+- No row cap. The page length ceiling (Section 6.2 — 1,200 words for prose) does not
+  count Data Records table rows, but if the Data Records section grows large enough to
+  impair readability (more than approximately 20 rows), that is a signal the page needs
+  splitting — e.g., a dedicated Comparison page for that entity's benchmark history.
+
+**Contradiction protocol exclusion:** Section 8 does not apply to rows in the
+`## Data Records` table. A new measurement of the same metric from a newer source is
+an append, not a contradiction. If a data record and a Key Claim on the same page are
+in tension (e.g., a Key Claim asserts "Model X leads on MMLU" but a newer data record
+shows it no longer does), the Key Claim is handled through the normal contradiction
+protocol — the data record is the evidence; the Key Claim is the assertion that may
+now be contested.
+
+**Lint handling:**
+
+- Freshness check: flag Data Records sections where the most recent `measurement_date`
+  across all `current` rows is older than 90 days. Informational only — not a forced
+  choice. See OPERATIONS.md Step L5c.
+- No support score calculation for data-record rows.
+- Conformance check: if `## Data Records` exists, verify all six required columns are
+  present. Missing columns are a schema conformance violation surfaced in Step L11.
+
 ---
 
 ## 7. Controlled Vocabularies
@@ -1047,6 +1112,11 @@ If neither criterion is met, do not propose the tag. The human can still set it 
 A contradiction exists when a new source makes a claim that is directionally incompatible
 with an existing Key Claim — not merely adds nuance or detail. Detect contradictions
 during Steps 9 and 10 of the ingest workflow.
+
+**Scope exclusion:** The contradiction protocol applies only to Key Claims (Section 6.1).
+It does not apply to rows in a `## Data Records` table (Section 6.6). A new measurement
+of the same metric is an append operation, not a contradiction. See Section 6.6 for the
+interaction between data records and Key Claims when they are in tension.
 
 ### 8.2 Three-Path Resolution
 

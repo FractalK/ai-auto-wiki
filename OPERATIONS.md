@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 18/05/2026 20:00
+**Last Updated:** 05/19/2026 22:00
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -212,7 +212,28 @@ keywords: `leaderboard`, `benchmark`, `rankings`, `compare`, `comparison`. Do no
 fetch content at this stage — keyword detection in the URL path or file name is
 sufficient.
 
-If any density indicator is found:
+**File-size density check (staged files only):** For each staged file, check document
+size using a file-type-appropriate method:
+- PDF: page count via `pdfinfo` or `pdftotext`. Threshold: >100 pages.
+- DOCX: word count via `python3 -c` with python-docx or docx2txt. Threshold: >50,000 words.
+- HTML/text/markdown: word count via `wc -w`. Threshold: >50,000 words.
+
+If any staged file exceeds the threshold: set the `HIGH-DENSITY` flag for this session.
+Include the page/word count in the warning and note that chapter-based decomposition
+(see Large-Document Decomposition Protocol below) will be used. For queue URLs,
+page count is unknown pre-fetch; if a URL source exceeds the threshold after fetch,
+warn before proceeding with extraction.
+
+**Manifest-aware continuation (check before keyword and size scans):** When Step 0
+detects staged files matching the `_part-NN_` naming pattern (e.g.,
+`2026-stanford-hai-ai-index_part-03_economic-impact.txt`), check for a corresponding
+manifest file (`{source-slug}_manifest.md`) in `raw/staged/`. If a manifest is found:
+this is a continuation of a multi-part ingest. Skip Phase 1 pre-flight entirely — load
+the decision string from the manifest and resume processing from the first incomplete
+chunk per the manifest's checklist. Do not re-run Steps 0-9. Proceed directly to the
+extraction pass for the next incomplete chunk.
+
+If any density indicator is found (keyword or size):
 - Set a `HIGH-DENSITY` flag for this session.
 - Surface the following warning before any forced choice block:
 
@@ -519,10 +540,16 @@ Then:
    within context strings must be written as `\n` escape sequences, not physical line
    breaks; (b) double-quote characters within string values must be escaped as `\"`. Build
    the data structure programmatically and serialize it with
-   `python3 -c "import json; print(json.dumps(data))"`. Malformed JSON causes the form to
-   render blank with no visible error. Replace `%%CHOICES_JSON%%` with the serialized output.
-3. Write the result to `ingest-decisions.html` at the wiki root.
-4. Report to the human:
+   `python3 -c "import json; print(json.dumps(data))"`. Do not attempt bash string
+   substitution (sed, awk, or shell variable expansion) for JSON injection — these fail
+   silently on special characters. Python json.dumps is the only permitted serialization
+   method. Malformed JSON causes the form to render blank with no visible error.
+   Replace `%%CHOICES_JSON%%` with the serialized output.
+3. **Post-injection verification:** Run `grep -c '%%CHOICES_JSON%%' ingest-decisions.html`.
+   If the count is non-zero, injection failed — the placeholder was not replaced. Halt and
+   report the error. Do not direct the human to open the file.
+4. Write the result to `ingest-decisions.html` at the wiki root.
+5. Report to the human:
 
 ```
 Pre-flight complete. {N} decisions identified for [[{source-title}]].
@@ -546,6 +573,58 @@ internal working summary of all pre-flight findings (source classification, affe
 pages, proposed decisions) as session output for context and auditability. This is not
 surfaced to the human as a decision prompt — it is background record-keeping. The form
 is the sole human input mechanism for pre-flight decisions.
+
+**Large-document decomposition protocol (conditional — after decisions received,
+before Phase 2):**
+
+When a source was flagged HIGH-DENSITY due to file size (>100 pages PDF, >50,000 words
+other formats) at Step 0:
+
+1. **Pre-flight scope limitation:** The pre-flight pass (Steps 0-9) uses only the
+   table of contents, executive summary, or equivalent overview (~first 20 pages or
+   ~10,000 words) — sufficient for affected-page identification and form generation.
+   Do not attempt full extraction during pre-flight on oversized documents.
+
+2. **Decomposition:** After the human returns the decision string, decompose the
+   document into chapter-level text extracts. Chunking hierarchy (in order of
+   preference):
+   - (i) Explicit chapter/part divisions from TOC or document structure.
+   - (ii) Top-level headers — heading styles in DOCX, `<h1>`/`<h2>` in HTML,
+     `#`/`##` in markdown, structural markers in PDF.
+   - (iii) Last resort: arbitrary segments of ~50 pages or ~25,000 words. This
+     fallback may split mid-argument; claims extracted from adjacent chunks may
+     overlap, and the agent handles duplicates via the existing Key Claims
+     deduplication logic.
+
+3. **Chunk file creation:** Save each chunk as a separate text file in `raw/staged/`
+   using naming convention:
+   `{source-slug}_part-{NN}_{section-slug}.txt`
+   (e.g., `2026-stanford-hai-ai-index_part-01_technical-performance.txt`).
+
+4. **Manifest creation:** Create a manifest at
+   `raw/staged/{source-slug}_manifest.md` containing:
+   - Original filename
+   - Total part count
+   - Source page slug (created in first chunk's Step 10)
+   - Pre-flight decision string (so subsequent sessions skip Phase 1)
+   - Checklist of parts with completion status (`[ ]` incomplete, `[x]` complete)
+
+5. **Sequential processing:** Process chunks in order. First chunk: execute Step 10
+   (create source page) and proceed through extraction and page writing. Subsequent
+   chunks: skip Step 10 (source page already exists); proceed directly to extraction
+   (Step 11) against existing wiki pages. Each chunk gets its own commit per existing
+   Step 22 rules. Update the manifest checklist after each chunk completes.
+
+6. **Session boundary handling:** If the session approaches context limits between
+   chunks, stop cleanly after the current chunk's commit. Remaining chunk files in
+   `raw/staged/` are picked up by the next session via the manifest (see
+   manifest-aware continuation path in Step 0). The manifest provides the pre-flight
+   decisions, eliminating re-analysis.
+
+7. **Post-ingest housekeeping:** Move the original source file to `raw/processed/`,
+   delete all chunk files and the manifest from `raw/staged/` — but only after all
+   chunks are processed. Partial completion leaves chunks and manifest in place for
+   the next session.
 
 **Execution pass (Phase 2 — wiki files written):**
 
@@ -573,6 +652,13 @@ Step 11 — Extraction pass
   the point where the source references it. Do not store image files locally. Skip this
   step for standard-depth sources entirely.
 - Extraction output is internal working list — not filed as wiki artifact
+- **Data records extraction:** When the source contains quantitative measurement data
+  contingent on methodology, conditions, and date (benchmark scores, latency
+  measurements, pricing tiers, ranking positions), extract these as a separate
+  `data_records` list alongside the Key Claims candidate list. Each data record entry
+  must include: metric name, value, conditions, measurement date, and source wikilink.
+  The 3–5 Key Claims cap does not apply to data records. See CLAUDE.md Section 6.6 for
+  the discrimination criteria between Key Claims and data records.
 
 Step 11a — Citation harvesting
 - Scan the extracted source for outbound links and bibliographic citations to sources
@@ -595,6 +681,11 @@ Step 11a — Citation harvesting
 Step 12 — Update or create Topic pages
 - Prose: rolling overwrite, present tense, 600–800 word target, 1,200 word ceiling
 - Key Claims: maintain 3–5; contradictions trigger three-path protocol (Section 8)
+- Data Records: if the extraction pass produced data records for this page, write them
+  to the `## Data Records` section per CLAUDE.md Section 6.6. Create the section if it
+  does not exist. Append new rows; mark existing rows as `superseded` only when a newer
+  measurement from the same metric and same methodology source exists. Do not run the
+  contradiction protocol on data-record rows.
 - Frontmatter: increment source_count, set updated and last_assessed to today,
   upgrade stub→developing if applicable, never upgrade to current during ingest;
   assign technical_depth if not already set
@@ -645,7 +736,7 @@ surfaced once regardless of how many constituent pages were updated.
 - New stub pages: 1–3 Key Claims, 2–4 sentence prose opening, status: stub
 
 Step 13 — Update or create Tool/Product pages
-- Same prose, Key Claims, and frontmatter logic as Step 12
+- Same prose, Key Claims, Data Records, and frontmatter logic as Step 12
 - Additional: update capabilities and limitations lists (one clause per item, no
   duplicates, remove superseded items)
 - Version handling per Section 9
@@ -689,6 +780,8 @@ Step 12a using the post-ingest summary Section B.
 
 Step 14 — Handle contradictions
 - Apply three-path protocol (Section 8) for all contradictions detected in Steps 12–13
+- **Scope:** Key Claims only. Skip data-record rows entirely — data records are excluded
+  from the contradiction protocol per CLAUDE.md Section 6.6 and Section 8.1.
 - Path B flags and Path A auto-resolutions on current pages: surface in post-ingest summary
 
 Step 15 — Create Comparison page (if confirmed in pre-flight)
@@ -831,9 +924,17 @@ sources remain in `raw/staged/` or `## [queued]` for the next session.
 
 Step 22c — Push to remote
 
-Run `git push origin main`. Commit all changes directly to main — do not create feature
-branches or pull requests. The gh CLI is not required for any wiki operation and must
+Run `git push origin HEAD:main`. The refspec `HEAD:main` pushes the current branch
+(whatever the worktree or platform named it) directly to the remote main branch. The
+agent may operate on any local branch — Claude Code's worktree system creates branches
+automatically as a platform behavior — but the push target is always `origin main`.
+Do not use `gh pr create`. The gh CLI is not required for any wiki operation and must
 not be used.
+
+**Rejection fallback:** If the push is rejected (remote main has diverged), stop and
+report the conflict to the human. Do not force-push. A rejected push typically means
+a parallel worktree session or manual commit has advanced the remote; the human must
+resolve the divergence before proceeding.
 
 ### Interrupted Ingest Recovery Procedure
 
@@ -1161,6 +1262,19 @@ If `teaching_notes_reviewed` is absent on a page with `teaching_relevance: true`
 `last_assessed` present: add to informational summary as "teaching_notes section missing —
 page is teaching-tagged but no notes have been written."
 
+**Step L5c — Data Records freshness check (informational)**
+
+For each Topic, Tool, or Comparison page that contains a `## Data Records` section:
+read all rows with `Status: current`. Find the most recent `Measurement Date` value
+among those rows.
+
+If the most recent measurement date is more than 90 days before today: add to the
+informational summary. Message: "Data records may be stale on [[page-slug]]: last
+measurement YYYY-MM."
+
+No forced choice. Informational only. The human decides whether to seek updated
+measurements.
+
 **Step L6 — Orphan page detection**
 
 For each wiki page excluding singletons and Source pages: check whether any other
@@ -1422,12 +1536,20 @@ the data structure programmatically and serialize it:
 python3 -c "import json; print(json.dumps(data))"
 ```
 
+Do not attempt bash string substitution (sed, awk, or shell variable expansion) for
+JSON injection — these fail silently on special characters. Python json.dumps is the
+only permitted serialization method.
+
 Malformed JSON causes the form to render blank with no visible error — the HTML skeleton
 loads but `renderAllCards()` never executes. Verify the output is valid JSON before
 writing the file.
 
 Replace `%%CHOICES_JSON%%` in `ingest-ui-template.html` with the serialized output.
 Write the result to `lint-decisions.html` at the wiki root.
+
+**Post-injection verification:** Run `grep -c '%%CHOICES_JSON%%' lint-decisions.html`.
+If the count is non-zero, injection failed — the placeholder was not replaced. Halt and
+report the error. Do not direct the human to open the file.
 
 3. Output the informational summary as text (these items require no human input via
 the form):
@@ -1444,6 +1566,7 @@ Informational summary — Lint pass {N} | {date}
 - Pitfalls failure_mode_count updates: {N}
 - Teaching notes currency flags (>90-day drift between teaching_notes_reviewed and last_assessed): {N} — {wikilinks or "none"}
 - Teaching notes missing on teaching-tagged pages: {N} — {wikilinks or "none"}
+- Data records stale (>90 days since last measurement): {N} — {wikilinks or "none"}
 - CTRD-NNN signals found in queue.md: {list or "none"}
 - Individual schema deviations (below drift threshold): {list or "none"}
 - Potentially-addressed gaps: {list or "none"}

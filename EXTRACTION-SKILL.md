@@ -1,5 +1,5 @@
 # EXTRACTION-SKILL.md — Key Claims Extraction Skill File
-**Last Updated:** 18/05/2026 20:00
+**Last Updated:** 05/19/2026 22:00
 
 **Purpose:** Read this file before every ingest operation. It provides extraction rules,
 worked examples, and named failure modes for Key Claims extraction from Topic and Tool
@@ -357,3 +357,63 @@ cases, but the extraction should note the potential bias.
 Some sources are highly focused (e.g., a benchmark paper reporting a single finding
 for a single model). For these, 3 claims may be the right count even if the source
 is full-depth. Populate this section with calibration examples from early operation.
+
+---
+
+## 7. Data Record vs. Key Claim Discrimination
+
+When a source yields quantitative data, determine whether each datum is a Key Claim
+(Section 6.1 of CLAUDE.md) or a data record (Section 6.6 of CLAUDE.md). Extract both
+types, but route them to different sections. The 3–5 Key Claims cap applies only to
+Key Claims; data records have no row cap.
+
+### 7.1 Decision Criteria
+
+A datum is a **data record** when all three conditions hold:
+
+1. **Measurement-contingent:** The value depends on a specific methodology, evaluation
+   setup, or measurement conditions. Change the conditions and the value changes.
+2. **Time-variant:** The value is expected to change with future measurements of the
+   same metric. A 2024 MMLU score will differ from a 2025 MMLU score.
+3. **Non-assertive:** The datum states what was measured, not what is claimed. It does
+   not take a position — it reports a number.
+
+A datum is a **Key Claim** when any of these hold:
+
+1. **Assertive:** It makes a durable claim about a capability, property, or finding
+   that is expected to remain true independent of future re-measurement.
+2. **Contextual finding:** It draws a conclusion from data ("Method A outperforms
+   Method B by 23% on benchmark Z") rather than stating a single measurement.
+3. **Architectural or definitional:** It describes what something is or how it works,
+   not what it scored.
+
+### 7.2 Worked Examples
+
+**Data records (route to `## Data Records`):**
+- "GPT-4o scores 87.5% on MMLU (zero-shot, standard prompt, May 2024)"
+- "Claude Opus 4 achieves 72.5% on SWE-bench Verified (May 2025)"
+- "Latency: 1.2s median time-to-first-token on 1K prompt, us-east-1 (April 2025)"
+- "Pricing: \$15 per 1M input tokens (as of March 2025)"
+
+**Key Claims (route to Key Claims table):**
+- "GPT-4o processes vision, audio, and text natively in a single model"
+  → Architectural; not measurement-contingent.
+- "RAG with cross-encoder re-ranking reduces hallucination rate by 23% on RAGAS
+  compared to naive top-k retrieval"
+  → Contextual finding from a controlled study; makes an assertive comparative claim.
+- "Constitutional AI training reduces harmful outputs by approximately 40% relative
+  to RLHF-only training"
+  → Empirical finding, but asserts a durable methodological comparison, not a
+  point-in-time measurement of a moving target.
+
+### 7.3 Mixed Sources
+
+When a single source yields both Key Claims and data records, extract both. They go
+into different sections on the target page. A leaderboard source will typically
+produce mostly data records and zero or few Key Claims. A research paper will
+typically produce mostly Key Claims and zero or few data records. A blog post
+announcing benchmark results may produce both.
+
+When uncertain: if the value would be invalidated by a future re-run of the same
+evaluation, it is a data record. If the value states a finding that would require a
+new study to contest, it is a Key Claim.
