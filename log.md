@@ -4,8 +4,11 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 58
+entry_count: 59
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 07: Medicine (enrichment pass)
+Updated: [[ai-in-medicine]] (status stub→developing; full prose body written; 2 existing KCs updated, 3 new KCs added — MAI-DxO 85.5% vs 20% physicians, FDA 1,357 devices with only 2.4% RCT-supported, molecular scale paradox GPN-Star 200M > Evo 2 40B; added Molecular and Genomic AI section, Clinical Applications and Deployment section, Patient Engagement and Ethics section; related_topics expanded to include ai-in-science, ai-agentic-workflows). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 06: Science (enrichment pass)
 Updated: [[ai-in-science]] (status stub→developing; full prose body written; 3 existing KCs updated; 2 new KCs added — end-to-end science agents + AI publication growth; added Performance on Scientific Tasks and Autonomous Science Agents sections; PaperArena 38.8% vs. 83.5% PhD baseline, PHYBench 36.9% vs. 61.9%, Google AI Co-Scientist, Sakana AI Scientist-v2, Aardvark Weather). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
