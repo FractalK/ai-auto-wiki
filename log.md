@@ -4,8 +4,12 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 54
+entry_count: 55
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 03: Technical Performance (enrichment pass)
+Enriched: [[2026-stanford-hai-ai-index]] (related_topics: added [[retrieval-augmented-generation]]). Updated: [[ai-capability-benchmarking]] (source_count 1→2; added Performance Convergence prose section; 5th KC on frontier convergence + US-China parity; 13 new Data Records including Arena Elo, GPQA Diamond, HLE, SWE-bench Verified, OSWorld, MMLU-Pro, ClockBench), [[ai-agentic-workflows]] (source_count 3→4; Data Records section added: OSWorld, GAIA, WebArena, MLE-bench, τ-bench, Cybench, Terminal-Bench), [[retrieval-augmented-generation]] (status stub→developing; source_count 0→1; full prose written; 2 new source KCs added; Data Records added: context window growth, LongBench v2, MTEB), [[llm-hallucination]] (source_count 1→2; Context Grounding Failure section added; 4th KC on document grounding failure in legal benchmarks). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
+  Citation harvesting: Corrêa et al. 2025 (PlanBench) at https://arxiv.org/pdf/2511.09378 — peer-reviewed; nominated to queue.md.
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 02: Research and Development (enrichment pass)
 Enriched: [[2026-stanford-hai-ai-index]] (related_topics updated). Updated: [[ai-capability-benchmarking]] (Data Records section added: AIME 2025 benchmark data for 5 models; Transparency prose enriched with Chapter 1 parameter/training-code disclosure data). New pages created: 2 — [[ai-compute-and-infrastructure]] (developing, 5 KC, Data Records), [[ai-research-ecosystem]] (developing, 5 KC). Contradictions flagged: 0. Auto-resolved: 0.

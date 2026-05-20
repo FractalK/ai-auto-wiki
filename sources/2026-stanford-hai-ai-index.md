@@ -25,6 +25,7 @@ related_topics:
   - "[[ai-capability-benchmarking]]"
   - "[[ai-workforce-complementarity]]"
   - "[[ai-agentic-workflows]]"
+  - "[[retrieval-augmented-generation]]"
   - "[[ai-in-higher-education]]"
   - "[[ai-in-science]]"
   - "[[ai-in-medicine]]"

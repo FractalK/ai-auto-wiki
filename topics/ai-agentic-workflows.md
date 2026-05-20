@@ -2,11 +2,11 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-05-18
-summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI.
+updated: 2026-05-20
+summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, with 2025 benchmark data showing rapid agent capability gains that still fall short of full reliability for unsupervised workflows.
 status: developing
-source_count: 3
-last_assessed: 2026-05-18
+source_count: 4
+last_assessed: 2026-05-20
 related_topics:
   - "[[llm-wiki-pattern]]"
 teaching_relevance: true
@@ -50,6 +50,19 @@ Subject-matter expertise amplifies delegation effectiveness. Experts write bette
 ## Organizational Implications
 
 As AI agents handle hour-scale tasks autonomously, the scarce resource in an AI-enabled organization is not execution capacity but direction quality: knowing what to ask for and being able to tell when the answer is right. This inverts the traditional scarcity model in which delegation was constrained by the cost of human labor. With abundant, inexpensive AI agent capacity, the bottleneck becomes clear specification and competent evaluation. Organizations whose members have strong domain expertise and communication skills are positioned to multiply their effective output; those with weak specification and evaluation skills will find AI tools amplify their confusion rather than their capability.
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| OSWorld accuracy (top model) | 66.3% | Claude Opus 4.5; real computer tasks across OS; human baseline 72.35%; up from ~12% in 2024 | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| GAIA accuracy (top model) | 74.5% | Multistep real-world assistant tasks; human baseline 92%; up from ~20% in January 2025 | 2025-09 | [[2026-stanford-hai-ai-index]] | current |
+| WebArena success rate (top model) | 74.3% | Realistic web navigation tasks; human baseline 78.2%; up from ~15% in 2023 | 2026 | [[2026-stanford-hai-ai-index]] | current |
+| MLE-bench success rate | 64.4% | 75 Kaggle ML competition tasks; up from ~17% in 2024 | 2026 | [[2026-stanford-hai-ai-index]] | current |
+| τ-bench pass@1 (top model) | 70.2% | Claude Opus 4.5; retail/airline domains with multiturn conversations and tool use | 2026 | [[2026-stanford-hai-ai-index]] | current |
+| τ-bench pass@1 (top 7 range) | 62.9–70.2% | Top 7 models; no model exceeds 71%; spread of 7.3 percentage points | 2026 | [[2026-stanford-hai-ai-index]] | current |
+| Cybench unguided solve rate | 93% | 40 professional CTF tasks; 6 categories; up from 15% in 2024 | 2026 | [[2026-stanford-hai-ai-index]] | current |
+| Terminal-Bench 2.0 accuracy | 77.3% | Real terminal tasks (compilation, model training, server setup); up from 20% in February 2025 | 2026-01 | [[2026-stanford-hai-ai-index]] | current |
 
 ## Key Claims
 
