@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-04-30
+updated: 2026-05-20
 summary: The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
 status: developing
-source_count: 3
-last_assessed: 2026-04-27
+source_count: 4
+last_assessed: 2026-05-20
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -42,6 +42,24 @@ Following the federal rollback, many state and local government bodies have cont
 Despite regulatory uncertainty, government AI adoption is accelerating. A 2025 IBM IBV survey of 100 senior government technology executives found that 69% acknowledge the potential productivity gains from AI automation are so large they must accept significant risk to keep pace, with nearly 90% planning to accelerate transformation despite uncertainty. Governments currently allocate an average of approximately 8% of IT budgets to AI — projected to exceed 13% by 2030 — with spending expected to shift from data infrastructure and traditional AI toward generative and agentic applications.
 
 The data and workforce constraints behind this ambition are significant. Only approximately 7% of government enterprise data is currently being used by AI systems, despite leaders estimating 50–80% of their data could be valuable if properly prepared. The primary barriers to AI maturity are talent and governance, not technology: 62% of government technology leaders identify workforce and talent development as their most critical need, followed by 55% citing ethical, legal, and regulatory frameworks.
+
+## AI Incident Trends and Responsible AI Gap
+
+Documented AI incidents rose sharply in 2025, reaching 362 globally — up 55% from 233 in 2024. Responsible AI benchmark reporting by frontier model developers remains inconsistent: nearly all leading developers report results on capability benchmarks, but reporting on responsible AI benchmarks is substantially spottier. Compounding the challenge, recent research documented that improving one responsible AI dimension — such as safety — can degrade another, such as accuracy, creating systematic optimization tradeoffs that make comprehensive responsible AI compliance harder to achieve simultaneously.
+
+## AI Sovereignty and Public Trust
+
+AI sovereignty emerged as a central organizing principle in national AI policy in 2025. More than half of newly adopted national AI strategies came from developing countries entering the policy landscape for the first time, with state-backed investments in AI supercomputing rising in parallel — a sign of growing ambitions for domestic control over AI ecosystems. Open-source AI development is beginning to redistribute global participation, with GitHub contributions from outside the U.S. and Europe now outpacing the EU and approaching the United States, fueling more linguistically diverse models and benchmarks.
+
+Public trust in AI governance institutions is fragmented and asymmetric. Globally, the EU is trusted more than the United States or China to regulate AI effectively. Among surveyed countries, the United States reported the lowest level of trust in its own government to regulate AI, at 31%. A pronounced expert-public divide also characterizes governance attitudes: 73% of AI experts expect a positive impact from AI on how people do their jobs, compared with just 23% of the public — a 50-point gap that shapes the political feasibility of AI governance interventions.
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| Documented AI incidents globally | 362 | Annual count per AI Index methodology | 2025-12 | [[2026-stanford-hai-ai-index]] | current |
+| Documented AI incidents globally | 233 | Annual count per AI Index methodology | 2024-12 | [[2026-stanford-hai-ai-index]] | superseded |
+| Trust in government to regulate AI — United States | 31% | Public survey; lowest among surveyed countries | 2025 | [[2026-stanford-hai-ai-index]] | current |
 
 ## Key Claims
 

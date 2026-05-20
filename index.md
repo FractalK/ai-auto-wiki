@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*83 pages. Last updated: 2026-05-18.*
+*85 pages. Last updated: 2026-05-20.*
 
 ---
 
@@ -48,6 +48,8 @@ professional roles, see the [[teaching-index]].
 - [[llm-hallucination]] — The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, and confidently stated errors — as a structural consequence of next-token prediction without factual verification.
 - [[ai-workforce-complementarity]] — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
 - [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
+- [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while exhibiting large capability gaps across disciplines, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
+- [[ai-in-medicine]] — The application of AI systems to clinical and medical settings, characterized by widespread adoption of ambient documentation tools showing measurable workflow improvements alongside a thin evidence base — the majority of published clinical AI studies use simulated exam-style questions rather than real patient data.
 
 ## Tools
 

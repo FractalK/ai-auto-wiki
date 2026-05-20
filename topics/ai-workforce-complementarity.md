@@ -2,11 +2,11 @@
 type: topic
 title: AI Workforce Complementarity
 created: 2026-05-18
-updated: 2026-05-18
+updated: 2026-05-20
 summary: A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
 status: developing
 source_count: 2
-last_assessed: 2026-05-18
+last_assessed: 2026-05-20
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-in-higher-education]]"
@@ -61,6 +61,22 @@ These are not model-specific limitations — they are properties of statistical 
 The complementarity frame has direct implications for how organizations design AI-augmented workflows. The goal is not simply to identify tasks AI can perform and remove humans from them, but to identify which tasks are optimal candidates for augmentation (AI enhances human output quality or speed) versus substitution (AI replaces human input entirely). Tasks scoring high on the EPOCH index and high on augmentation potential are the primary candidates for human-AI collaboration — the human provides judgment, empathy, or creative direction while AI handles data retrieval, synthesis, or pattern matching.
 
 High-EPOCH occupations — including emergency management directors, clinical and counseling psychologists, public relations specialists, and creative directors — show strong augmentation potential because AI can offload data-intensive and pattern-matching components without touching the EPOCH-intensive core of their roles.
+
+## Adoption, Consumer Value, and Measured Productivity
+
+The scale of generative AI adoption provides important context for understanding workforce dynamics. Generative AI reached approximately 53% population adoption within three years of becoming mainstream — a faster trajectory than either the personal computer or the internet, though the pace varies strongly by GDP per capita. The United States, despite being home to most leading AI developers, ranks 24th globally in adoption at 28.3%, while Singapore (61%) and the United Arab Emirates (54%) show higher-than-expected adoption rates.
+
+Consumer value from generative AI tools is growing substantially. Estimated value to U.S. consumers reached \$172 billion annually by early 2026, with the median value per user tripling between 2025 and 2026. Much of this value comes from tools users access at no or low cost, suggesting that economic returns from generative AI are distributed broadly in consumer welfare even when concentrated at the producer level.
+
+Productivity gains in professional contexts are measurable but uneven. Studies document gains of 14% to 26% in customer support and software development — occupations with relatively formalized, structured task profiles consistent with low EPOCH intensity. Effects are weaker or negative in tasks requiring more judgment. This aligns with the EPOCH framework's core prediction: productivity gains are concentrated where AI automation fits most cleanly, while tasks involving empathy, ethical discretion, and contextual judgment show less improvement. AI agent deployment remains in single digits across nearly all business functions as of 2025, indicating that organizational adoption is concentrated in assistive and co-pilot modes rather than autonomous agentic operation.
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| Generative AI global population adoption | ~53% | 3-year window from mainstream availability; varies by GDP per capita | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Estimated annual consumer value of GenAI tools — U.S. | \$172 billion | U.S. consumers; consumer welfare estimation method | 2026-01 | [[2026-stanford-hai-ai-index]] | current |
+| AI agent deployment across business functions | <10% | Across nearly all business functions surveyed | 2025 | [[2026-stanford-hai-ai-index]] | current |
 
 ## Key Claims
 

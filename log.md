@@ -2,10 +2,13 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-18
-last_entry: 2026-05-18
-entry_count: 51
+updated: 2026-05-20
+last_entry: 2026-05-20
+entry_count: 52
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 01: Introduction and Top Takeaways (enrichment pass)
+Enriched: [[2026-stanford-hai-ai-index]] (updated, enriched: 2026-05-20). Updated: [[ai-governance-policy]] (source added, new prose: AI Incident Trends and Responsible AI Gap, AI Sovereignty and Public Trust, Data Records), [[ai-workforce-complementarity]] (new prose: adoption/consumer value/productivity, Data Records). New pages created: 2 — [[ai-in-science]] (stub, 3 KC), [[ai-in-medicine]] (stub, 2 KC). Contradictions flagged: 0. Auto-resolved: 0.
 
 ## [2026-04-30] ingest | AI Coding Agents Guide: A Map of the Four Workflow Types
 Added: [[2026-realpython-coding-agent-workflow-types]]. Updated: none. Contradictions flagged: 0.
