@@ -12,6 +12,16 @@ related_topics:
   - "[[ai-alignment]]"
   - "[[ai-agentic-workflows]]"
 technical_depth: practitioner
+teaching_relevance: true
+competency_domains:
+  - tool-evaluation-and-selection
+  - capability-horizon-awareness
+professional_contexts:
+  - teaching-and-instruction
+  - organizational-leadership-and-change-management
+  - software-and-ai-development
+  - professional-and-continuing-education
+teaching_notes_reviewed: 2026-05-20
 ---
 
 The practice of measuring AI capabilities through standardized benchmarks faces a fundamental tension: the rate at which frontier AI models saturate evaluation ceilings consistently outpaces the rate at which new benchmarks are developed to replace them. The Stanford HAI AI Index 2026 documents this as a structural pattern, not an anomaly — benchmarks designed to be challenging for years have routinely become obsolete within months as frontier models reach or exceed their performance ceilings.
@@ -78,3 +88,13 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 | Foundation model transparency declined in 2025: after improving from 37 to 58 on the Foundation Model Transparency Index between 2023 and 2024, the average score dropped to 40 in 2025, with the most capable frontier model developers now disclosing the least about their training data, compute, and parameter counts. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Arena Leaderboard analysis suggests that platform standing may partly reflect adaptation to the platform rather than general capability: additional Arena-style interaction data improves performance on Arena-derived evaluations, and providers' ability to swap model variants outside the public record introduces selection effects that make model-to-model comparisons less reliable. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | As of March 2026, the top four AI model providers cluster within 25 Elo points on the Arena Leaderboard (Anthropic 1,503; xAI 1,495; Google 1,494; OpenAI 1,481), down from a 97-point spread a year earlier; simultaneously, the US-China performance gap has narrowed to 2.7%, with models from both countries having traded the top position multiple times since early 2025 — shifting competitive differentiation away from raw benchmark scores toward cost, reliability, and domain specialization. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+
+## Teaching Notes
+
+**Concept in plain terms.** AI capability benchmarks are standardized tests used to measure and compare model performance across tasks. The central problem is that frontier AI systems improve so fast that any given benchmark often becomes obsolete within months — and the scores that do get published can be inflated by gaming, contamination, or platform adaptation, making them unreliable guides to what a model actually does in practice.
+
+**Why it matters for instruction.** AI capability claims circulate constantly in media, vendor materials, and policy discussions. Instructors need to read them critically — recognizing when a benchmark has saturated, when transparency is absent, or when performance convergence has made published scores practically indistinguishable between competing models. Teaching benchmark literacy is prerequisite to any meaningful comparison of AI tools for professional use.
+
+**Common misconceptions.** Students often treat published benchmark scores as authoritative measures of real-world capability. In practice, the most capable models are also the least transparent, contamination in test sets is documented, and benchmark gains in one domain do not predict gains in others — Gemini Deep Think won the 2025 IMO gold medal but the top model reads analog clocks correctly only 50.6% of the time, versus 90.1% for humans.
+
+**Suggested framing.** Introduce benchmarks as measurement instruments with their own reliability problems — ask students to apply source-evaluation skills to AI performance claims the same way they would to any empirical claim, asking who ran the test, under what conditions, and what it cannot measure.

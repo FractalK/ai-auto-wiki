@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*87 pages. Last updated: 2026-05-20.*
+*88 pages. Last updated: 2026-05-20.*
 
 ---
 
@@ -119,3 +119,4 @@ professional roles, see the [[teaching-index]].
 - [[ai-coding-agent-workflow-types-pitfalls]] — parent: ai-coding-agent-workflow-types
 - [[prompt-injection-pitfalls]] — parent: prompt-injection
 - [[ai-in-higher-education-pitfalls]] — parent: ai-in-higher-education
+- [[ai-capability-benchmarking-pitfalls]] — parent: ai-capability-benchmarking
