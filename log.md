@@ -4,8 +4,17 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 52
+entry_count: 53
 ---
+
+## [2026-05-20 20:00 PT] session-stats | ingest
+Queue size at session start: 0 queued URLs
+Documents attempted: 1 (ai_index_report_2026.pdf — enrichment pass, Part 01 of 11)
+Documents completed: 1
+Session limit hit: no
+Time window: off-peak
+Source type mix: white-paper: 1
+Notes: Large-document decomposition. 11 chunk files + manifest created in raw/staged/ (gitignored). Part 01 (intro-top-takeaways, 3,311 words) processed this session. Parts 02-11 queued for subsequent sessions via manifest.
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 01: Introduction and Top Takeaways (enrichment pass)
 Enriched: [[2026-stanford-hai-ai-index]] (updated, enriched: 2026-05-20). Updated: [[ai-governance-policy]] (source added, new prose: AI Incident Trends and Responsible AI Gap, AI Sovereignty and Public Trust, Data Records), [[ai-workforce-complementarity]] (new prose: adoption/consumer value/productivity, Data Records). New pages created: 2 — [[ai-in-science]] (stub, 3 KC), [[ai-in-medicine]] (stub, 2 KC). Contradictions flagged: 0. Auto-resolved: 0.
