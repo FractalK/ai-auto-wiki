@@ -2,13 +2,14 @@
 type: topic
 title: AI in Higher Education
 created: 2026-04-22
-updated: 2026-05-18
-summary: A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
+updated: 2026-05-20
+summary: AI in education spans instructor frameworks for AI integration (Assign, Limit, Prohibit), documented adoption scale, K–12 curriculum and policy developments, and informal skill acquisition pathways. Globally, 80% of university students use generative AI for schoolwork while fewer than half of institutions have clear policies governing that use.
 status: developing
-source_count: 4
-last_assessed: 2026-05-18
+source_count: 5
+last_assessed: 2026-05-20
 related_topics:
   - "[[ai-assisted-skills-training]]"
+  - "[[ai-research-ecosystem]]"
 related_tools:
   - "[[google-notebooklm]]"
 teaching_relevance: true
@@ -34,9 +35,7 @@ No single approach is universally correct. The choice follows from course learni
 
 ## Cross-Cutting Policy Guidance
 
-Regardless of the approach chosen, several practices are consistently recommended. First, course policies must be written with sufficient specificity for students to apply them to concrete situations, not just as general principles. Second, policies must be revisited throughout the course, especially when students encounter a new assignment type for the first time. Third, requiring students to show their process — whether that means submitting prompt histories, problem-solving logs, or reasoning documentation — preserves authentic evidence of student learning and makes assessment more defensible.
-
-Transparency about the reasoning behind the approach also matters. Students who understand why AI is assigned, limited, or prohibited in a course are more likely to follow the policy and to develop the metacognitive capacity to make their own informed decisions about AI use in future contexts.
+Regardless of approach, several practices are consistently recommended: write policies with sufficient specificity for students to apply to concrete situations; revisit them when students encounter new assignment types; require students to document their process — prompt histories, reasoning logs, revision documentation — as authentic evidence of learning. Students who understand the pedagogical rationale behind an approach develop the metacognitive capacity to make informed decisions about AI use in future contexts.
 
 ## Student-Side Considerations
 
@@ -48,11 +47,13 @@ The learning risk is more subtle. Deep learning strategies — comparing and con
 
 Stanford's institutional policy treats any substantial AI use as equivalent to receiving help from another person, with the default assumption that AI is prohibited unless the syllabus explicitly permits it. Students should disclose any AI use, even when the policy is ambiguous, and consult the instructor when uncertain.
 
-## Institutional and Policy Dimensions
+## Scale, Policy Gap, and K–12 Context
 
-Academic integrity frameworks are still catching up to AI tool adoption. Different institutions, departments, and journals maintain distinct policies — students and researchers working across contexts must actively check the applicable rules rather than assuming consistency. The disclosure norm is particularly important: students should document AI use even when it is permitted.
+The scale of AI tool adoption has outpaced institutional response. In 2025, 80% of university students globally reported using generative AI for schoolwork — double the 2023 rate — with 67% in the U.S. and U.K. and 95% in Indonesia. Students most commonly use AI for concept understanding (56%), researching assignments (52%), and generating initial ideas or drafts (46%). Anthropic's analysis of student Claude usage found that 70% of interactions involved higher-order cognitive tasks — creating (39.8%) and analyzing (30.2%) — raising the question of whether students are delegating development of higher-order skills to AI rather than building them independently. Fifty-five percent of U.S. college students report a mixed effect on their critical thinking from AI use, while 64% of California State University students found AI had a positive effect on their learning experience.
 
-The Stanford HAI AI Index 2026 documents the scale of the policy gap empirically: over 80% of U.S. high school and college students now use AI for school-related tasks, yet only half of middle and high schools have any AI policies in place, and just 6% of teachers report those policies are clear. This discrepancy — near-universal student adoption combined with sparse and unclear institutional guidance — means students are making their own judgment calls about permissible AI use in the absence of the specificity Stanford CTL recommends as a prerequisite for effective policy.
+Policy response has lagged adoption. Only 48% of higher education institutions had AI use policies in 2026 (up 9 percentage points from 2025), though 80% of U.K. students reported their institution had a clear assessment policy. At the K–12 level, only half of middle and high schools have any AI policy, and just 6% of teachers describe those policies as clear — the gap that makes specificity in policy guidance essential rather than aspirational. Different institutions, departments, and journals maintain distinct policies; students working across contexts must actively check applicable rules and should document AI use even when permitted.
+
+AI-specific K–12 curriculum standards remain limited even as AI tool use spreads. In the United States, 60% of high schools offered foundational CS in 2024–25, but only six states have CS standards with significant AI content; an April 2025 Executive Order established a national strategy for K–12 through postsecondary AI education. China and the UAE mandated AI education for all grade levels starting in the 2025–26 school year; South Korea launched AI primary school textbooks then reversed course due to teacher and parent opposition. Globally, 93% of countries offer CS education but formal AI instruction remains uncommon at the primary level.
 
 ## Equity and Assessment Considerations
 
@@ -66,7 +67,18 @@ AI tool access is not uniformly distributed. Students with different language ba
 | Across all three approaches, Stanford CTL recommends requiring students to document their process — prompt histories, reasoning steps, revision logs — as an assignment component to preserve authentic learning evidence and enable fair assessment. | [[undated-stanford-ctl-ai-teaching-strategies]] | 2025-09-02 | current | 1 | false |
 | Stanford's Generative AI Policy Guidance treats any substantial AI use as equivalent to receiving help from another person; students should assume AI use is prohibited unless explicitly permitted in the syllabus or assignment. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
 | AI tools generate outputs through statistical pattern matching rather than factual retrieval, producing hallucinations and citation fabrication at rates that require independent human verification of every AI-generated claim before academic use. | [[undated-stanford-ctl-student-ai-guide]], [[2026-bristol-craap-ai-evaluation]] | 2026-03-27 | current | 2 | false |
-| Effective learning requires cognitive engagement by the student; delegating learning tasks to AI removes the cognitive effort that produces durable skill acquisition, and the key question for any AI use is whether it facilitates or replaces deeper engagement with material. | [[undated-stanford-ctl-student-ai-guide]] | 2025-09-02 | current | 1 | false |
+| Effective learning requires cognitive engagement by the student; delegating learning tasks to AI removes the cognitive effort that produces durable skill acquisition, and the key question for any AI use is whether it facilitates or replaces deeper engagement with material. | [[undated-stanford-ctl-student-ai-guide]], [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 3 | false |
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| University students using GenAI for schoolwork | 80% globally | Chegg Global Student Survey, 15 countries | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| University students using GenAI for schoolwork | 67% | U.S. and U.K.; Chegg Global Student Survey | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| University students using GenAI for schoolwork (baseline) | 40% globally | Chegg Global Student Survey, 15 countries | 2023 | [[2026-stanford-hai-ai-index]] | superseded |
+| U.S. four-year university CS undergraduate enrollment | −11% year-over-year | NCES, CS major only (not broader CIS category) | 2024–2025 | [[2026-stanford-hai-ai-index]] | current |
+| AI software–related master's graduates (U.S.) | +17% year-over-year | NCES, AI White House Talent Report major categories | 2023–2024 | [[2026-stanford-hai-ai-index]] | current |
+| Higher education institutions with AI use policies | 48% | Faculty survey | 2026 | [[2026-stanford-hai-ai-index]] | current |
 
 ## Teaching Notes
 

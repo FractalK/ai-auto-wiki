@@ -5,7 +5,7 @@ created: 2026-05-20
 updated: 2026-05-20
 summary: The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 status: developing
-source_count: 1
+source_count: 2
 last_assessed: 2026-05-20
 related_topics:
   - "[[ai-compute-and-infrastructure]]"
@@ -42,6 +42,8 @@ Open-source AI activity has scaled rapidly. GitHub AI projects grew to 5.6 milli
 
 Switzerland and Singapore lead in AI authors and inventors per capita (110.5 and 109.5 per 100,000 inhabitants). The United States hosts the largest absolute count (220,520 identified), but its attractiveness to incoming talent has dropped sharply: inflows declined 89% since 2017, including an 80% decline in the most recent year alone, reducing net positive flow from a peak of 324.6 in 2022 to 26.0 in 2025. India had the largest net outflows in 2025 (-16.9). Gender representation has not meaningfully improved in any tracked country since 2010. In Brazil, South Korea, and Japan, more than 80% of identified AI talent is male. Female representation is highest in Saudi Arabia (32.3%), Australia (30.1%), and Canada (29.6%), but no country approaches gender parity. The male-female ratio has remained essentially flat across all tracked countries from 2010 to 2025.
 
+Domestic AI PhD production tells a different story. New AI PhDs in the United States and Canada grew 22% from 2022 to 2024, reaching 442 in 2024. The destination of new graduates has shifted: the industry share of placements fell from 77% in 2022 to 65% in 2024, while the academic share nearly doubled over the same period — reversing a decade-long trend of AI PhDs flowing primarily into industry. Government placements reached 1.96% by 2024, up from a low of 0.7% in 2021. This reversal does not signal weakened industry demand but reflects faster growth in academic hiring relative to the overall PhD supply increase, challenging the narrative of a sustained brain drain from academia to industry.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -51,3 +53,20 @@ Switzerland and Singapore lead in AI authors and inventors per capita (110.5 and
 | The United States is losing AI talent attractiveness: net inflows of top AI researchers peaked at 324.6 in 2022 and declined to 26.0 by 2025, with overall talent inflows down 89% since 2017 and declining 80% in the most recent year alone. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | The gender gap among AI authors and inventors has not meaningfully improved in any country since 2010: men constitute over 80% of identified AI talent in Brazil, South Korea, and Japan, and no country approaches gender parity even as the total AI talent pool has grown substantially. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Open-source AI development has scaled dramatically: 5.6 million GitHub AI projects in 2025 (23.7% year-over-year growth) and Hugging Face model uploads tripled since 2023, with text generation now accounting for 42% of downloads — but the most-engaged projects remain disproportionately U.S.-based at 30 million cumulative GitHub stars versus 15.3M for the rest of the world. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| Industry share of notable AI models | 91.2% | AI Index notable model definition | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Notable AI models released (U.S. origin) | 59 | AI Index notable model definition | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Granted AI patents globally | 131,121 | USPTO and international databases | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| China share of granted AI patents | 74.2% | USPTO and international databases | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| U.S. share of AI patent forward citations | 51.9% | Forward citation proxy for influence | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| GitHub AI projects | 5.6 million | GitHub repository count | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| U.S. AI talent net inflows | 26.0 | AI Index migration tracking methodology | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| U.S. AI talent net inflows — peak | 324.6 | AI Index migration tracking methodology | 2022 | [[2026-stanford-hai-ai-index]] | superseded |
+| New AI PhD graduates (U.S. and Canada) | 442 | CRA Taulbee Survey | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| Industry share of new AI PhD placements (U.S. and Canada) | 65% | CRA Taulbee Survey | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| Industry share of new AI PhD placements — peak | 77% | CRA Taulbee Survey | 2022 | [[2026-stanford-hai-ai-index]] | superseded |
+| Academic share of new AI PhD placements (U.S. and Canada) | 31.59% | CRA Taulbee Survey | 2024 | [[2026-stanford-hai-ai-index]] | current |
