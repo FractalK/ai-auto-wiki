@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*85 pages. Last updated: 2026-05-20.*
+*87 pages. Last updated: 2026-05-20.*
 
 ---
 
@@ -50,6 +50,8 @@ professional roles, see the [[teaching-index]].
 - [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while exhibiting large capability gaps across disciplines, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
 - [[ai-in-medicine]] — The application of AI systems to clinical and medical settings, characterized by widespread adoption of ambient documentation tools showing measurable workflow improvements alongside a thin evidence base — the majority of published clinical AI studies use simulated exam-style questions rather than real patient data.
+- [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
+- [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 
 ## Tools
 

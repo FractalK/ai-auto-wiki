@@ -31,11 +31,23 @@ A separate concern involves the Arena Leaderboard, the most visible public bench
 
 As frontier model performance has converged, the most capable model developers have also become the least transparent. Foundation model transparency — as measured by the Foundation Model Transparency Index — declined from an average score of 58 to 40 between 2024 and 2025. The most capable modern models disclose the least about their training data, dataset sizes, parameter counts, and training duration, making independent benchmark verification structurally difficult.
 
+The AI Index 2026 documents the practical scope of this shift. OpenAI, Anthropic, and Google — the three organizations producing the most resource-intensive frontier models — no longer publicly report parameter counts, training dataset sizes, or training duration. Of 102 notable models released in 2025, 81 were made available without their training code, compared to just 4 with open-source code. Since training compute can be estimated independently even when not directly reported, compute trends are still partially visible — but parameter and dataset opacity forecloses the verification pathways that external researchers and auditors have historically used to validate capability claims.
+
 In 2025, Meta faced credible criticism that its Llama 4 model was optimized using specialized variants to improve leaderboard rankings and may have trained on benchmark test data. These concerns compound the saturation problem: when benchmark scores are technically valid but reflect training contamination or platform adaptation, they are not reliable evidence of real-world capability.
 
 ## Emerging Evaluation Approaches
 
 The convergence of saturation, invalid questions, gaming, and declining transparency has prompted proposals for new evaluation paradigms. Centaur evaluations — assessments in which humans and AI jointly solve tasks — are proposed as better reflections of actual deployment contexts, where people supervise and integrate AI outputs rather than AI acting in isolation. Certificate-grade community-governed benchmark frameworks, with continuously refreshed test items, proctored environments, and delayed result disclosure, are proposed as a structural alternative to the current model-managed benchmark ecosystem. Neither approach has been widely adopted as of early 2026.
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| AIME 2025 — OLMo 3.1 Think 32B | 78.1% | Standard evaluation; ~32B parameters; Allen Institute | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| AIME 2025 — Claude Opus 4.5 | 91.3% | Standard evaluation | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| AIME 2025 — Gemini 1.5 Pro | 92.7% | Standard evaluation | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| AIME 2025 — Grok 4 | 94.3% | Standard evaluation; ~3T parameters | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| AIME 2025 — GPT-5 (high) | 95.7% | High effort tier | 2025 | [[2026-stanford-hai-ai-index]] | current |
 
 ## Key Claims
 

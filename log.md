@@ -4,8 +4,11 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 53
+entry_count: 54
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 02: Research and Development (enrichment pass)
+Enriched: [[2026-stanford-hai-ai-index]] (related_topics updated). Updated: [[ai-capability-benchmarking]] (Data Records section added: AIME 2025 benchmark data for 5 models; Transparency prose enriched with Chapter 1 parameter/training-code disclosure data). New pages created: 2 — [[ai-compute-and-infrastructure]] (developing, 5 KC, Data Records), [[ai-research-ecosystem]] (developing, 5 KC). Contradictions flagged: 0. Auto-resolved: 0.
 
 ## [2026-05-20 20:00 PT] session-stats | ingest
 Queue size at session start: 0 queued URLs
