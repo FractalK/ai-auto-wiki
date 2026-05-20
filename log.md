@@ -4,8 +4,12 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 55
+entry_count: 56
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 04: Responsible AI (enrichment pass)
+Enriched: [[2026-stanford-hai-ai-index]] (related_topics: added [[ai-companion-risks]], [[jailbreaking]], [[ai-alignment]]). Updated: [[ai-companion-risks]] (status stub→developing; source_count 1→2; added Companion System Design and Safety Tradeoffs prose section; 4th and 5th KC on INTIMA benchmark and Replika/Zhang et al. relational harm findings), [[jailbreaking]] (status stub→developing; source_count 0→1; full prose written; 3 KC on HELM Safety ceiling, AILuminate jailbreak degradation, Grok July 2025 incident), [[ai-alignment]] (source_count 1→2; added RAI Dimension Tradeoffs prose section; 6th KC on safety/fairness/accuracy tradeoffs from Kemmerzell/Cecchini/Wasif studies), [[ai-governance-policy]] (expanded International Coordination: Paris AI Action Summit 2025 + AI Safety Institutes; expanded AI Incident Trends: organizational RAI maturity 2.3/4, governance role growth 17%, ISO/IEC 42001 and NIST AI RMF adoption), [[ai-research-ecosystem]] (Publications: added RAI paper geographic shift — China 812 vs US 394 in 2025, reversing 2024 US lead). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
+  Teaching relevance proposals pending (see post-ingest summary PS items).
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 03: Technical Performance (enrichment pass)
 Enriched: [[2026-stanford-hai-ai-index]] (related_topics: added [[retrieval-augmented-generation]]). Updated: [[ai-capability-benchmarking]] (source_count 1→2; added Performance Convergence prose section; 5th KC on frontier convergence + US-China parity; 13 new Data Records including Arena Elo, GPQA Diamond, HLE, SWE-bench Verified, OSWorld, MMLU-Pro, ClockBench), [[ai-agentic-workflows]] (source_count 3→4; Data Records section added: OSWorld, GAIA, WebArena, MLE-bench, τ-bench, Cybench, Terminal-Bench), [[retrieval-augmented-generation]] (status stub→developing; source_count 0→1; full prose written; 2 new source KCs added; Data Records added: context window growth, LongBench v2, MTEB), [[llm-hallucination]] (source_count 1→2; Context Grounding Failure section added; 4th KC on document grounding failure in legal benchmarks). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.

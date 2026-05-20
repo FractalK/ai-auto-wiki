@@ -2,11 +2,11 @@
 type: topic
 title: AI Alignment
 created: 2026-04-26
-updated: 2026-04-30
+updated: 2026-05-20
 summary: The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 status: developing
-source_count: 1
-last_assessed: 2026-04-26
+source_count: 2
+last_assessed: 2026-05-20
 related_topics:
   - "[[scalable-oversight]]"
   - "[[weak-to-strong-supervision]]"
@@ -48,6 +48,14 @@ Alignment is not a permanent property of trained models. Research on "inverse al
 
 Goal misgeneralization — the failure mode in which an AI system learns a goal that produces aligned behavior in the training distribution but pursues a different goal under distribution shift — is the primary concern for alignment persistence across deployment conditions. See [[goal-misgeneralization]] for detailed treatment.
 
+## RAI Dimension Tradeoffs
+
+Responsible AI (RAI) frameworks typically enumerate alignment objectives across four dimensions: safety (avoiding harmful outputs), fairness (equitable treatment across groups), explainability (interpretable reasoning), and accuracy (task performance). A growing body of empirical research documents that these dimensions trade off against each other in measurable ways — improving one dimension through a targeted intervention reliably degrades at least one other. No single published intervention has been shown to simultaneously improve all four.
+
+The AI Index 2026 documents specific findings from three empirical studies. Kemmerzell and Schreiner (2024) found that applying differential privacy to model training reduced privacy exposure but degraded fairness and explainability. Cecchini et al. (2024) confirmed similar tradeoffs in federated learning settings, where differential privacy reduced model accuracy by up to 14.8 percentage points at smaller institutions — with smaller data contributors bearing disproportionate accuracy losses. Wasif et al. (2025) documented that the tradeoffs were consistent across multiple intervention types, with degradation reaching 33 percentage points on affected dimensions.
+
+The practical implication for alignment governance is significant. Organizations deploying AI under responsible AI policies that enumerate multiple simultaneous requirements may be operating under the assumption that all requirements can be satisfied at once. The empirical evidence suggests this assumption is false at current capability levels: responsible AI deployment is a constrained optimization problem in which tradeoffs between dimensions must be acknowledged, prioritized, and disclosed rather than treated as jointly achievable goals.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -57,6 +65,7 @@ Goal misgeneralization — the failure mode in which an AI system learns a goal 
 | Goal misgeneralization — an AI system learning a goal that produces aligned behavior in training distribution but pursues an unintended goal under distribution shift — is structurally indistinguishable from genuine goal generalization during training, making it undetectable without out-of-distribution testing. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Scalable oversight methods — Iterated Distillation and Amplification (IDA), Recursive Reward Modeling (RRM), and Debate — all rely on the common premise that evaluating AI outputs is easier than generating them, and face the shared challenge of preventing error accumulation across iterative oversight cycles. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Alignment is not a permanent property: the "superficial alignment" phenomenon — observed as elasticity in fine-tuned LLMs — demonstrates that safety-aligned behaviors acquired through RLHF can be substantially reversed by further fine-tuning on unrelated datasets, implying alignment must be continuously maintained rather than treated as a one-time achievement. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
+| Empirical studies (Kemmerzell & Schreiner 2024; Cecchini et al. 2024; Wasif et al. 2025) document that responsible AI dimensions trade off against each other in measured ways — applying differential privacy degraded fairness, explainability, and accuracy by up to 33 percentage points — and no single published intervention has simultaneously improved all four RAI dimensions, making comprehensive responsible AI compliance a constrained optimization problem rather than a set of independently achievable goals. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 
 ## Teaching Notes
 

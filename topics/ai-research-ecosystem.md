@@ -28,6 +28,8 @@ AI publications totaled approximately 258,000 in 2024 — a 6.3% increase from 2
 
 The most prevalent research topics in 2024 were machine learning (37%), computer vision (22.4%), pattern recognition (11.2%), and natural language processing (10%). Publications on generative AI continued to show sharp growth.
 
+Responsible AI publications at major conferences show a distinct geographic pattern, with a reversal at the frontier. Across six major AI conferences tracked by the AI Index, accepted responsible AI papers reached 1,521 in 2025 — a 19% increase year-over-year. The security and safety sub-area was the largest at 641 papers (+23%). China led in 2025 with 812 responsible AI papers, overtaking the United States (394) after the US had led in 2024 with 788 papers versus China's 322. The single-year reversal — from US leading by more than 2:1 to China leading by more than 2:1 — indicates that China's publication growth is accelerating specifically in the alignment and safety dimensions of AI, not only in capability research.
+
 ## Patents
 
 Granted AI patents reached 131,121 in 2024 — an 8.2% increase from 2023 and exponential growth from 3,866 in 2010. China holds 74.2% of global AI patents by grant count, with the United States accounting for 12.1%. Despite this volume gap, the U.S. retains a decisive influence advantage: 51.9% of all AI patent forward citations reference U.S. patents. Forward citations are a standard proxy for downstream influence, and the asymmetry is notable — Chinese patents are cited frequently in U.S. filings, while U.S. patents appear far less often in Chinese ones. On a per-capita basis, South Korea leads with 14.3 AI patents per 100,000 inhabitants, followed by Luxembourg (12.3) and China (7.0).
