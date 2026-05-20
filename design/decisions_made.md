@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 05/19/2026 22:00
+**Last Updated:** 20/05/2026 12:00
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4088,3 +4088,64 @@ for their conditions and date.
 
 **References:** FRIC-035, IN-016, CLAUDE.md Section 6.6, Section 8.1, OPERATIONS.md
 Steps 11-14, Step L5c, EXTRACTION-SKILL.md Section 7
+
+---
+
+## DM-100 | MANDATORY INTER-CHUNK PAUSE IN LARGE-DOCUMENT DECOMPOSITION PROTOCOL
+
+- **Date:** 2026-05-20
+- **Status:** ACTIVE
+
+**Decision:**
+Add a mandatory human checkpoint after each chunk commit in the large-document
+decomposition protocol (OPERATIONS.md, decomposition protocol Step 5). After committing
+a chunk and updating the manifest, the agent stops, reports completion status and
+remaining parts, provides a subjective context assessment (low/medium/high), and waits
+for explicit human confirmation before proceeding to the next chunk. Default is B (stop
+here); A (continue) requires explicit confirmation. The context assessment is
+informational only — the human decides whether to continue regardless of the agent's
+assessment.
+
+**Context:**
+FRIC-039. During re-extraction of the Stanford HAI AI Index (9-part decomposed ingest),
+the agent committed Part 02 and immediately began reading Part 03 without any human
+checkpoint. The original DM-097 protocol relied on reactive context-pressure detection
+(Step 6: "stop if session approaches context limits") as the sole session boundary
+mechanism. This produces an agent that optimizes for throughput until context pressure
+is detectable — at which point the agent may be mid-chunk with no clean stopping point.
+
+**Rationale:**
+The human should control session boundaries, not the agent. Reactive detection is
+unreliable: context pressure may not be clearly detectable until the agent is already
+partway through the next chunk, at which point stopping creates an incomplete extraction
+state. A mandatory pause after each commit costs one round-trip per chunk (low) and
+gives the human full control over session scope (high value). Making B (stop) the
+default reverses the agent's natural optimization pressure toward throughput, which is
+the failure mode observed.
+
+The context assessment is included as informational signal — the human may want to know
+whether the session is near capacity before deciding. It is explicitly not a gate: a
+"high" assessment does not force a stop, and a "low" assessment does not imply
+continuation is safe. The human's judgment supersedes the agent's assessment.
+
+**Alternatives Considered:**
+- **Reactive-only (status quo, DM-097 Step 6):** Agent stops when context pressure
+  detected. Fails: no clean stopping point if pressure detected mid-chunk; agent
+  optimizes for throughput in the absence of pressure. Rejected.
+- **Context-threshold gate (mandatory stop at "high"):** Requires defining "high"
+  precisely enough that the agent doesn't game it; adds spec complexity without
+  meaningful benefit over human judgment. Rejected.
+- **Time-based checkpoint (every N minutes):** No natural alignment with chunk
+  boundaries; mid-chunk stops complicate manifest state. Rejected.
+
+**Consequences to Watch:**
+- A 9-part document now requires 8 human round-trips between chunks. This is acceptable
+  given the context-management benefit, but may feel burdensome for very large documents
+  (>15 parts). If this becomes a friction point, a future option is a "continue until
+  medium/high" mode that allows the agent to auto-proceed through low-context chunks —
+  but only add this if the round-trip cost proves materially disruptive in practice.
+- The "default is B" framing must be preserved in any future protocol revision.
+  Reversing it (default continue) reproduces the original failure mode.
+
+**References:** FRIC-039, DM-097, OPERATIONS.md Large-document decomposition protocol
+Steps 5–6

@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 05/19/2026 22:00
+**Last Updated:** 20/05/2026 12:00
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -808,3 +808,31 @@ fields.
   branches" (unenforceable) and replace with "the agent may operate on any local branch;
   the push target is always `origin main`."
 - **Resolved:** 2026-05-19
+
+## FRIC-039 | No Human Checkpoint Between Decomposed Chunks; Agent Proceeds Automatically
+
+- **Date:** 2026-05-20
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Large-document decomposition protocol,
+  Steps 5 and 6
+- **Symptom:** After completing and committing Part 02 of the Stanford HAI AI Index
+  re-extraction (9-part decomposed ingest), the agent immediately began reading Part 03
+  without pausing for human confirmation. The human had no opportunity to decide whether
+  to continue the session or defer to the next session. The agent proceeded autonomously
+  until context pressure would have forced a reactive stop.
+- **Verdict:** Confirmed gap — the decomposition protocol (DM-097) designed session
+  boundary handling reactively: Step 6 directed the agent to stop "if the session
+  approaches context limits." No mandatory human checkpoint existed between chunks.
+  This inverts the correct control model: the agent optimizes for throughput in the
+  absence of detectable context pressure, and the human has no control point until a
+  context ceiling is approached. The correct model is proactive: the human decides
+  whether to continue at each chunk boundary; the agent's context assessment is
+  informational only.
+- **Fix plan:** Add a mandatory inter-chunk pause to Step 5. After each chunk commit
+  and manifest update, the agent reports completion status, remaining parts, and a
+  subjective context assessment (low/medium/high), then waits for explicit human
+  confirmation before proceeding. Default is B (stop); A (continue) requires explicit
+  confirmation. Update Step 6 to reflect that session boundaries are also triggered by
+  human B selection, not only by agent-detected context pressure.
+- **Resolved:** 2026-05-20

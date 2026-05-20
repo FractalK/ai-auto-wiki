@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 05/19/2026 22:00
+**Last Updated:** 20/05/2026 12:00
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -615,11 +615,30 @@ other formats) at Step 0:
    (Step 11) against existing wiki pages. Each chunk gets its own commit per existing
    Step 22 rules. Update the manifest checklist after each chunk completes.
 
-6. **Session boundary handling:** If the session approaches context limits between
-   chunks, stop cleanly after the current chunk's commit. Remaining chunk files in
-   `raw/staged/` are picked up by the next session via the manifest (see
-   manifest-aware continuation path in Step 0). The manifest provides the pre-flight
-   decisions, eliminating re-analysis.
+   **Mandatory inter-chunk pause:** After committing each chunk and updating the
+   manifest, stop and report to the human before beginning the next chunk:
+
+   ```
+   Part {NN} ({section-slug}) complete and committed.
+   Remaining: {N} parts — {list of incomplete part slugs from manifest}.
+   Context assessment: {low | medium | high} — {one sentence, e.g. "approximately
+   half the session window has been used" or "context is near capacity"}.
+
+   Continue to Part {NN+1}?
+     A) Yes — begin Part {NN+1} now
+     B) No — end session here; next session resumes from Part {NN+1} via manifest
+   ```
+
+   Wait for explicit human response before proceeding. Do not proceed on absence of
+   a stop instruction. Default is B (stop here); A requires explicit confirmation.
+   The context assessment is informational only — the human decides whether to
+   continue regardless of the agent's assessment.
+
+6. **Session boundary handling:** When the human selects B at the inter-chunk pause,
+   or when the session approaches context limits mid-chunk, stop cleanly after the
+   current chunk's commit. Remaining chunk files in `raw/staged/` are picked up by
+   the next session via the manifest (see manifest-aware continuation path in Step 0).
+   The manifest provides the pre-flight decisions, eliminating re-analysis.
 
 7. **Post-ingest housekeeping:** Move the original source file to `raw/processed/`,
    delete all chunk files and the manifest from `raw/staged/` — but only after all
