@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 05/19/2026 22:00
+**Last Updated:** 20/05/2026 20:43 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -922,7 +922,7 @@ than rewriting the full page. Full-page rewrites are reserved for passes where t
 source materially changes the overall synthesis.
 
 **Currency and special character escaping:** Quartz renders `$...$` as LaTeX inline
-math. Escape all bare dollar signs in prose as `\$` (e.g., `\$20/month`, `\$100–200/month`).
+math. Escape all bare dollar signs in prose as `\$` (e.g., `\$20/month`, `\$100–200/month`). Do not write `\\$` — the double-backslash form escapes the backslash itself, leaving a bare `$` that triggers LaTeX math mode in Quartz.
 This applies to every prose section, Key Claims table cells, and frontmatter string
 fields. Do not use bare `$` anywhere in wiki page content.
 

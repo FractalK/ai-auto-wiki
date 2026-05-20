@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 20/05/2026 13:30
+**Last Updated:** 20/05/2026 20:43 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -229,12 +229,9 @@ detects staged files matching the `_part-NN_` naming pattern (e.g.,
 `2026-stanford-hai-ai-index_part-03_economic-impact.txt`), check for a corresponding
 manifest file (`{source-slug}_manifest.md`) in `raw/staged/`. If a manifest is found:
 this is a continuation of a multi-part ingest. Skip Phase 1 pre-flight entirely — load
-the decision string from the manifest and identify the first incomplete chunk per the
-manifest's checklist. Do not re-run Steps 0-9. Before beginning extraction, surface
-the inter-chunk pause block (see decomposition protocol Step 5) reporting the
-previously completed chunks and the chunk about to begin. Wait for explicit A
-confirmation before starting extraction. A prior session's A selections are not
-authorization to proceed — each session's first chunk requires a new explicit A.
+the decision string from the manifest and resume processing from the first incomplete
+chunk per the manifest's checklist. Do not re-run Steps 0-9. Proceed directly to the
+extraction pass for the next incomplete chunk.
 
 If any density indicator is found (keyword or size):
 - Set a `HIGH-DENSITY` flag for this session.
@@ -615,45 +612,14 @@ other formats) at Step 0:
 5. **Sequential processing:** Process chunks in order. First chunk: execute Step 10
    (create source page) and proceed through extraction and page writing. Subsequent
    chunks: skip Step 10 (source page already exists); proceed directly to extraction
-   (Step 11) against existing wiki pages. Each chunk gets its own commit and push per
-   existing Step 22c rules. Update the manifest checklist after each chunk's commit.
+   (Step 11) against existing wiki pages. Each chunk gets its own commit per existing
+   Step 22 rules. Update the manifest checklist after each chunk completes.
 
-   **Mandatory inter-chunk pause:** Immediately after the per-chunk commit and push
-   (Step 22c) and manifest update — and **before Step 22 (post-ingest summary)** —
-   stop and report to the human:
-
-   ```
-   Part {NN} ({section-slug}) committed and pushed.
-   Remaining: {N} parts — {list of incomplete part slugs from manifest}.
-   Context assessment: {low | medium | high} — {one sentence, e.g. "approximately
-   half the session window has been used" or "context is near capacity"}.
-
-   Continue to Part {NN+1}?
-     A) Yes — begin Part {NN+1} now
-     B) No — end session here; next session resumes from Part {NN+1} via manifest
-   ```
-
-   Wait for explicit human response before proceeding. Do not proceed on absence of
-   a stop instruction. Default is B (stop here); A requires explicit confirmation.
-   The context assessment is informational only — the human decides whether to
-   continue regardless of the agent's assessment. Each chunk requires a new explicit
-   A selection. A prior A selection is not standing authorization for subsequent
-   chunks — do not use prior selections, manifest contents, or chunk size to infer
-   that the human wants to continue.
-
-   **If A (continue):** Run Step 22 (post-ingest summary, including Section B forced
-   choices) for the completed chunk, then proceed to extraction for the next chunk.
-
-   **If B (stop):** Run Step 22 (post-ingest summary, including Section B forced
-   choices) for the completed chunk, then run Steps 22a and 22b (session stats and
-   housekeeping for completed chunks only — do not move chunk files or the manifest,
-   which are still needed for the next session). End session.
-
-6. **Session boundary handling:** When the human selects B at the inter-chunk pause,
-   or when the session approaches context limits mid-chunk, stop cleanly after the
-   current chunk's commit. Remaining chunk files in `raw/staged/` are picked up by
-   the next session via the manifest (see manifest-aware continuation path in Step 0).
-   The manifest provides the pre-flight decisions, eliminating re-analysis.
+6. **Session boundary handling:** If the session approaches context limits between
+   chunks, stop cleanly after the current chunk's commit. Remaining chunk files in
+   `raw/staged/` are picked up by the next session via the manifest (see
+   manifest-aware continuation path in Step 0). The manifest provides the pre-flight
+   decisions, eliminating re-analysis.
 
 7. **Post-ingest housekeeping:** Move the original source file to `raw/processed/`,
    delete all chunk files and the manifest from `raw/staged/` — but only after all
@@ -725,6 +691,10 @@ Step 12 — Update or create Topic pages
   assign technical_depth if not already set
 - Self-check before writing (Section 6.1)
 - New stub pages: 1–3 Key Claims, 2–4 sentence prose opening, status: stub
+- **Post-write dollar-sign check (FRIC-041):** After writing any page containing
+  currency amounts, verify no double-backslash-escaped dollar (`\\$`) appears.
+  Run: `python3 -c "c=open('PATH').read(); n=c.count(chr(92)*2+'$'); assert n==0, str(n)+' double-escaped dollar(s) — correct to single backslash before committing'"` with PATH set to the file.
+  Non-zero assertion = wrong escaping. Applies to Step 13 as well. (CLAUDE.md Section 6.2)
 
 Step 12a — Teaching notes assessment (Topic pages with teaching_relevance: true)
 

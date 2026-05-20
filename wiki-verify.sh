@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Last Updated: 30/04/2026 17:00
+# Last Updated: 20/05/2026 21:19 EST
 # wiki-verify.sh — Tier 1 configuration, conformance, and content-level checks
 # AI Effectiveness Wiki — see test-harness.md for specification
 #
@@ -490,32 +490,48 @@ else
 fi
 
 # ─── 12. Dollar sign escaping ────────────────────────────────────────────────
-printf "\n--- 12. Dollar sign escaping (FRIC-029 regression) ---\n"
-# Quartz renders \$...\$ as LaTeX inline math. All bare dollar signs before
-# digits must be escaped as \$ in wiki content (CLAUDE.md Section 6.2).
-# Step 1: grep for lines containing a literal $ followed by a digit.
-# Step 2: filter out lines that already contain \$ (the correctly escaped form).
-# Severity: WARN — dollar signs in code blocks may produce false positives.
-# Known limitation: a line containing both \$20 (escaped) and $30 (unescaped)
-# may be excluded by the filter on the escaped match. Review all flagged lines.
+printf "\n--- 12. Dollar sign escaping (FRIC-029/FRIC-041 regression) ---\n"
+# Quartz renders $...$ as LaTeX inline math. CLAUDE.md Section 6.2 requires
+# all bare dollar signs before digits to be escaped as \$ in wiki content.
+#
+# Sub-check A (FAIL): double-escaped form \\$ — the double-backslash escapes
+# the backslash itself, leaving a bare $ that triggers LaTeX math mode.
+# No legitimate use in wiki prose. Pattern matches two literal backslashes
+# followed by $ followed by a digit. (FRIC-041)
+#
+# Sub-check B (WARN): bare $ form — $ followed by a digit with no preceding
+# backslash. Severity WARN because dollar signs in code blocks may produce
+# false positives. Lines already containing \$ are filtered; a line with
+# both \$20 and $30 may be missed — review all flagged lines. (FRIC-029)
 
+DS_FAIL=0
 DS_WARN=0
 for d in topics tools sources comparisons pitfalls teaching; do
     [ -d "$d" ] || continue
     while IFS= read -r filepath; do
-        result=$(grep -nE '\$[0-9]' "$filepath" 2>/dev/null | grep -v '\\\$')
-        if [ -n "$result" ]; then
+        # Sub-check A: double-escaped form (FAIL)
+        result_fail=$(grep -nE '\\\\\$[0-9]' "$filepath" 2>/dev/null)
+        if [ -n "$result_fail" ]; then
+            fail "Double-escaped dollar sign (\\\\$ breaks Quartz -- use \\$ per Section 6.2): $filepath"
+            while IFS= read -r ds_line; do
+                printf "         %s\n" "$ds_line"
+            done <<< "$result_fail"
+            DS_FAIL=1
+        fi
+        # Sub-check B: bare dollar form (WARN)
+        result_warn=$(grep -nE '\$[0-9]' "$filepath" 2>/dev/null | grep -v '\\\$')
+        if [ -n "$result_warn" ]; then
             warn "Possible unescaped dollar sign (use \\$ per Section 6.2): $filepath"
             while IFS= read -r ds_line; do
                 printf "         %s\n" "$ds_line"
-            done <<< "$result"
+            done <<< "$result_warn"
             DS_WARN=1
         fi
     done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
 done
 
-if [ "$DS_WARN" = "0" ]; then
-    pass "No bare dollar signs before digits found in content pages"
+if [ "$DS_FAIL" = "0" ] && [ "$DS_WARN" = "0" ]; then
+    pass "No dollar sign escaping issues found in content pages"
 fi
 
 # ─── 13. teaching_notes_reviewed field presence ──────────────────────────────

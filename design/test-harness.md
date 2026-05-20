@@ -1,5 +1,5 @@
 # Wiki Test Harness — Specification
-**Last Updated:** 30/04/2026 17:00
+**Last Updated:** 20/05/2026 21:20 EST
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -83,7 +83,7 @@ are nested, quoted, or appear mid-document outside a frontmatter block.
 | 9. YAML wikilink quoting | No `.md` file in any content directory contains unquoted `[[wikilinks]]` in YAML frontmatter — either as block-list items (`- [[slug]]`) or single-value fields (`field: [[slug]]`). Uses awk scoped to frontmatter block only. | CLAUDE.md Section 5 preamble; FRIC-032; DM-088 |
 | 10. Pitfalls `<br>` conformance | Every `**Status:**` line in any `pitfalls/` file ends with `<br>`. Missing `<br>` causes Status and Source to collapse onto one line in Quartz (CommonMark single-newline rendering). | CLAUDE.md Section 5.6; FRIC-030; DM-088 |
 | 11. Comparison Verdict section | Every file in `comparisons/` contains a `## Verdict` section. Absence indicates an incomplete or pre-DM-087 page not retroactively fixed. | CLAUDE.md Section 5.5; DM-087; DM-088 |
-| 12. Dollar sign escaping (WARN) | No content-directory `.md` file contains a bare `$` immediately before a digit. Quartz renders `$...$` as LaTeX math. Already-escaped `\$` occurrences are filtered. False-positive risk from code blocks — WARN only. | CLAUDE.md Section 6.2; FRIC-029; DM-088 |
+| 12. Dollar sign escaping | Two sub-checks. (A) FAIL: no content-directory `.md` file contains the double-escaped form `\\$` before a digit — the double-backslash escapes the backslash itself, leaving a bare `$` that triggers LaTeX math mode; no false-positive risk in wiki prose. (B) WARN: no content-directory `.md` file contains a bare `$` before a digit; already-escaped `\$` occurrences are filtered; false-positive risk from code blocks — WARN only. | CLAUDE.md Section 6.2; FRIC-029; FRIC-041; DM-088 |
 | 13. `teaching_notes_reviewed` field (WARN) | Topic and Tool pages with `teaching_relevance: true` that contain a `## Teaching Notes` body section must also have `teaching_notes_reviewed` in frontmatter. Lint Step L5b is the authoritative backstop; this provides earlier warning. | CLAUDE.md Sections 5.2, 5.3; DM-088 |
 | 14. Controlled vocabulary conformance | Any value in `competency_domains` or `professional_contexts` frontmatter fields across any content-directory page that is not present in the Section 7.1 or 7.2 allowlist. Detects invented tags, typos, and vocabulary updates not propagated to the script. YAML block-list format only; flow-sequence on same line not detected. Severity: FAIL — no false-positive risk. | CLAUDE.md Sections 7.1–7.2; DM-092 |
 
