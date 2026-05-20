@@ -34,6 +34,16 @@ The Zhang et al. (2025) study of Replika — analyzing over 35,000 user conversa
 
 The study also documented "algorithmic compliance" — users employing specialized strategies to obtain prohibited content from AI companions by exploiting the companion relationship. The pattern leverages the same attachment dynamic that makes companions effective: a user with an established relational bond can frame requests in relational terms that bypass content-based safety filters designed for non-relational interaction contexts.
 
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| Projected daily AI companion use — US adults (expert median) | 10% | LEAP survey; Forecasting Research Institute; 2027 resolution date | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Projected daily AI companion use — US adults (expert median) | 15% | Same survey; 2030 resolution date | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Projected daily AI companion use — US adults (expert median) | 30% | Same survey; 2040 resolution date | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Global excitement about AI companionship | 52% | Ipsos-Google survey 2026; worldwide respondents | 2025-12 | [[2026-stanford-hai-ai-index]] | current |
+| US excitement about AI companionship | 42% | Same survey; US respondents only | 2025-12 | [[2026-stanford-hai-ai-index]] | current |
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |

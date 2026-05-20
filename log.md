@@ -4,8 +4,17 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 60
+entry_count: 63
 ---
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 11: Appendix (enrichment pass)
+Appendix contains supplementary methodology and data tables only; no substantive claims extractable for wiki pages. No pages updated. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 10: Public Opinion (enrichment pass)
+Added: [[ai-public-opinion]] (new Topic page — global survey evidence on expert-public optimism gap, regional variation, workplace adoption, trust in AI governance institutions; teaching_relevance proposed; 5 Key Claims, 15 Data Records). Updated: [[ai-companion-risks]] (Data Records section created — 5 rows on expert-forecast AI companion adoption: 10%/15%/30% daily use by 2027/2030/2040; global and US Ipsos-Google excitement). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1.
+
+## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 09: Policy and Governance (enrichment pass)
+Updated: [[ai-governance-policy]] (summary updated; prose fully restructured with rolling overwrite — AI Sovereignty section added (5-dimension framework; European supercomputing 3→44 clusters 2018–2025; data localization East Asia Pacific 77 vs North America 3 laws); US Legislative Activity section added (state bills <10 in 2020 → 150 in 2025; Congressional witnesses 5→102; California 62 total bills); Public Investment section added (US \$20.5B public 2013–2024 vs \$285.9B private in 2025; EU country-level investments); Data Records section expanded from 3→16 rows; related_topics updated to add [[ai-public-opinion]] and [[ai-compute-and-infrastructure]]). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 08: Education (enrichment pass)
 Updated: [[ai-in-higher-education]] (source_count 4→5; summary updated; Section 2 compressed; "Institutional and Policy Dimensions" section replaced with "Scale, Policy Gap, and K–12 Context" — 80% global student adoption, policy gap data, K–12 CS/AI curriculum landscape, China/UAE AI mandates; Key Claim 5 gained [[2026-stanford-hai-ai-index]] as additional source, support score 1→3; Data Records section created with 6 rows on adoption rates, CS enrollment, master's graduate trends, policy coverage; related_topics added [[ai-research-ecosystem]]), [[ai-research-ecosystem]] (source_count 1→2; Talent section updated with AI PhD placement reversal — industry share 77%→65%, academic share nearly doubled 2022–2024; Data Records section created with 12 rows covering model landscape, patent data, talent flows, and PhD placement). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.

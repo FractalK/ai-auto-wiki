@@ -3,7 +3,7 @@ type: topic
 title: AI Governance and Policy
 created: 2026-04-23
 updated: 2026-05-20
-summary: The emerging regulatory and policy landscape for AI, encompassing liability frameworks, age-gating proposals, international coordination mechanisms, and analogies to prior technology governance efforts including nuclear arms control and environmental treaties.
+summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
 source_count: 4
 last_assessed: 2026-05-20
@@ -12,6 +12,8 @@ related_topics:
   - "[[constitutional-ai]]"
   - "[[ai-assisted-vulnerability-discovery]]"
   - "[[responsible-ai-government-evaluation]]"
+  - "[[ai-public-opinion]]"
+  - "[[ai-compute-and-infrastructure]]"
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows
@@ -23,41 +25,45 @@ technical_depth: practitioner
 teaching_notes_reviewed: 2026-04-30
 ---
 
-AI governance encompasses the institutional, legal, and international mechanisms through which AI development and deployment are regulated, made accountable, and bounded. As of 2026, no comprehensive national or international AI governance framework is in force. The US federal policy landscape has undergone sharp reversals between administrations; international coordination remains aspirational on most questions; and government AI adoption is accelerating faster than the regulatory structures intended to shape it.
+AI governance encompasses the institutional, legal, and international mechanisms through which AI development and deployment are regulated, made accountable, and bounded. As of 2026, the governance landscape is defined by acceleration on both sides: frontier capabilities advancing at documented historical pace while regulatory infrastructure struggles to keep up. Across G20 countries, AI-related legislation rose from 0 bills in 2016 to peak annual volumes in 2025; US state-level AI bills surged from fewer than 10 in 2020 to 150 in 2025; and US federal AI regulations grew from 1 in 2016 to 58 in 2025, yet the dominant federal policy shift was a deregulatory turn that delegated governance leadership to state actors.
 
 ## International Coordination
 
-The most developed framework for international AI governance comes from advocates of preemptive limits on systems capable of causing civilizational harm. Analyst Tristan Harris proposes four regulatory red lines: mass labor displacement without transition infrastructure, AI-enabled surveillance states that permanently erode privacy, engagement-maximizing AI companions for minors, and deployment of uncontrollable superintelligent systems. These are proposed as the minimum scope for international coordination, analogous to the nuclear Non-Proliferation Treaty and the Montreal Protocol on ozone-depleting chemicals — precedents where adversarial countries nonetheless coordinated on shared existential risks.
+The most developed framework for international AI governance comes from advocates of preemptive limits on systems capable of causing civilizational harm. Analyst Tristan Harris proposes four regulatory red lines: mass labor displacement without transition infrastructure, AI-enabled surveillance states that permanently erode privacy, engagement-maximizing AI companions for minors, and deployment of uncontrollable superintelligent systems. These are proposed as the minimum scope for international coordination, analogous to the nuclear Non-Proliferation Treaty and the Montreal Protocol — precedents where adversarial countries coordinated on shared existential risks.
 
-Enforcing AI governance agreements faces a fundamental monitoring challenge: unlike nuclear detonations, AI training runs are not externally observable by default. Researchers cited as the "AI-27 authors" argue that monitoring approximately 95% of global compute — through satellite heat-emission monitoring, electrical signal tracking, and shared data center mapping — would be sufficient for treaties to be enforceable, because only actors with substantial compute fractions can build the most dangerous systems. A precedent exists: at China's request, the 2023–2024 Biden-Xi meetings produced an initial agreement preventing AI use in nuclear command and control systems, establishing that adversarial powers can coordinate on AI safety when mutual existential stakes are mutually recognized.
+A precedent for adversarial AI coordination exists: at China's request, the 2023–2024 Biden-Xi meetings produced an agreement preventing AI use in nuclear command and control systems, establishing that adversarial powers can coordinate when mutual existential stakes are recognized. The 2025 Paris AI Action Summit was the most significant multilateral AI governance event to date by signatory count. More than 100 countries participated; 64 — including the EU and the African Union — signed the Statement on Inclusive and Sustainable AI. The United States and United Kingdom declined to sign, signaling divergence between historically close governance partners. As of 2025, AI Safety Institutes are operational in the United Kingdom (established 2023), the United States (housed within NIST), Japan, Singapore, and Israel; India and France launched new institutes in 2025.
 
-The 2025 Paris AI Action Summit represented the most significant multilateral AI governance event to date by signatory count. More than 100 countries participated; 64 — including the EU and the African Union — signed the Statement on Inclusive and Sustainable AI, which committed signatories to responsible AI development principles. The United States and United Kingdom declined to sign, signaling divergence between the two historically closest AI governance partners. The Paris summit built on the 2023 Bletchley Park AI Safety Summit and Japan's 2024 Hiroshima AI Process, constituting a series of multilateral forums that have so far produced statements and process commitments rather than binding treaties.
+## AI Sovereignty
 
-National AI Safety Institutes have emerged as a parallel institutional mechanism for governance without treaty. As of 2025, AI Safety Institutes are operational in the United Kingdom (the founding institution, established 2023), the United States (housed within NIST), Japan, Singapore, and Israel. India and France launched new institutes in 2025; a second wave is under development in Canada, South Korea, Germany, and Brazil. These institutions focus primarily on capability evaluation, safety research, and inter-governmental coordination rather than regulatory enforcement.
+AI sovereignty — a state's capacity to act deliberately and independently over the development, deployment, and governance of AI systems — emerged as the central organizing principle of national AI policy in 2025. The AI Index 2026 documents five sovereignty dimensions: infrastructure (state-backed supercomputing capacity), data (localization measures), model (domestic model development), application (public sector deployment), and talent (workforce development and retention).
+
+Infrastructure sovereignty is most visible: between 2018 and 2025, Europe and Central Asia expanded state-backed AI supercomputing clusters from 3 to 44; North America grew to 41; China leads globally at 85. South Asia, Latin America, and the Middle East and North Africa reached only 2, 8, and 3 clusters respectively. Data sovereignty efforts diverge sharply: East Asia and Pacific adopted 77 data localization measures through 2024 while North America recorded only 3, reflecting a longstanding flow-first policy orientation. Model sovereignty is expanding: cumulative US model releases grew from 237 to 1,618 between 2018 and 2025; China grew from 151 to 849; Europe and Central Asia reached 666. More than half of newly adopted national AI strategies in 2024–2025 came from emerging economies entering AI policy for the first time.
+
+## US Legislative Activity
+
+The United States passed the most AI-related laws of any G20 country between 2016 and 2025 (25 total). At the state level, California leads with 62 bills enacted over the same period; Maryland (28) and Virginia (25) follow. Total US state AI bills rose from fewer than 10 in 2020 to 150 in 2025. Among notable 2025 measures: Texas's Responsible Artificial Intelligence Governance Act set rules against behavioral manipulation and child exploitation; Utah's HB 452 regulated mental health chatbots requiring AI disclosure and banning data sharing; California's SB 243 mandated AI companion safety protocols for minors. A December 2025 executive order directed the DOJ to challenge state AI laws considered overly burdensome, creating significant uncertainty about the durability of state frameworks.
+
+Congressional attention to AI grew nearly twentyfold since 2017, with AI-related witnesses rising from 5 in 2017 to 102 in 2025. Industry's share of witnesses tripled from 13% to 37%, becoming the largest witness group; government's share fell from 35% to 10%.
 
 ## US Federal Policy Evolution
 
-At the federal level, AI governance has been marked by sharp reversals. The Biden administration built a substantial executive framework including Executive Order 13960 (Promoting the Use of Trustworthy Artificial Intelligence in the Federal Government) and the White House Blueprint for an AI Bill of Rights (2022), which articulated five principles: safe and effective systems, algorithmic discrimination protections, data privacy, notice and explanation, and human alternatives and fallback. In January 2025, the Trump Administration revoked many of these orders, directing agencies to revise or rescind all AI policies from the prior administration on the grounds that they imposed "onerous and unnecessary government control over the development of AI." The White House's America's AI Action Plan (July 2025) signaled a shift toward promoting AI workforce development through public-private collaboration rather than protective regulation.
+At the federal level, the Biden administration built a substantial executive framework including the White House Blueprint for an AI Bill of Rights (2022) and Executive Order 14110 on safe, secure, and trustworthy AI. In January 2025, the Trump Administration revoked many of these orders, directing agencies to revise or rescind all AI policies from the prior administration. The White House's America's AI Action Plan (July 2025) reoriented federal policy toward promoting AI workforce development and reducing regulatory constraints. Multiple 2025 executive orders addressed AI infrastructure buildout on federal lands, export controls, and export promotion. Following the federal rollback, many state and local governments have continued promoting responsible AI practices independently.
 
-Following the federal rollback, many state and local government bodies have continued promoting responsible AI practices independently, maintaining transparency and privacy requirements even where federal mandates were withdrawn.
+## Public Investment
+
+US public AI investment totaled approximately \$20.5 billion between 2013 and 2024 — comprising \$15.9 billion in grants, \$3.9 billion in contracts, and \$650 million in Other Transaction Agreements — compared to \$285.9 billion in US private investment in 2025 alone. The Department of Defense accounted for 73% of AI-related contracts and OTAs. In Europe, the UK led AI public contracts at \$1.6 billion (2013–2024), followed by Germany (\$505 million) and France (\$320 million); recent spending is accelerating, with the UK committing \$454 million in 2024 alone.
 
 ## Government AI Acceleration
 
-Despite regulatory uncertainty, government AI adoption is accelerating. A 2025 IBM IBV survey of 100 senior government technology executives found that 69% acknowledge the potential productivity gains from AI automation are so large they must accept significant risk to keep pace, with nearly 90% planning to accelerate transformation despite uncertainty. Governments currently allocate an average of approximately 8% of IT budgets to AI — projected to exceed 13% by 2030 — with spending expected to shift from data infrastructure and traditional AI toward generative and agentic applications.
+Despite regulatory uncertainty, government AI adoption is accelerating. A 2025 IBM IBV survey of 100 senior government technology executives found that 69% acknowledge the potential productivity gains from AI automation are so large they must accept significant risk to keep pace, with nearly 90% planning to accelerate transformation despite uncertainty. Governments currently allocate approximately 8% of IT budgets to AI — projected to exceed 13% by 2030. Only approximately 7% of government enterprise data is currently being used by AI systems, despite leaders estimating 50–80% could be valuable. The primary barriers to AI maturity are talent and governance, not technology: 62% of government technology leaders identify workforce and talent development as their most critical need.
 
-The data and workforce constraints behind this ambition are significant. Only approximately 7% of government enterprise data is currently being used by AI systems, despite leaders estimating 50–80% of their data could be valuable if properly prepared. The primary barriers to AI maturity are talent and governance, not technology: 62% of government technology leaders identify workforce and talent development as their most critical need, followed by 55% citing ethical, legal, and regulatory frameworks.
+## Responsible AI Gap
 
-## AI Incident Trends and Responsible AI Gap
+Documented AI incidents rose 55% in 2025 to 362 globally, with the OECD AIM dashboard recording a peak of 435 in a single month (January 2026). Responsible AI benchmark reporting by frontier model developers remains inconsistent: nearly all leading developers report on capability benchmarks, but RAI benchmark reporting is substantially spottier. Empirical research also documented that improving one responsible AI dimension — such as safety — can degrade another, such as accuracy. The 2026 AI Index documents a global average RAI maturity score of 2.3 out of 4. The primary barriers to RAI adoption are knowledge gaps (59% of organizations), budget constraints (48%), and regulatory uncertainty (41%).
 
-Documented AI incidents rose sharply in 2025, reaching 362 globally — up 55% from 233 in 2024, with the OECD AIM dashboard recording a peak of 435 incidents in a single month (January 2026). Responsible AI benchmark reporting by frontier model developers remains inconsistent: nearly all leading developers report results on capability benchmarks, but reporting on responsible AI benchmarks is substantially spottier. Compounding the challenge, empirical research documented that improving one responsible AI dimension — such as safety — can degrade another, such as accuracy, creating systematic optimization tradeoffs that make comprehensive responsible AI compliance harder to achieve simultaneously.
+## Public Trust
 
-Organizational RAI maturity lags the incident growth rate. The 2026 AI Index documents a global average RAI maturity score of 2.3 out of 4 across surveyed organizations. Governance role creation is accelerating — AI-specific governance positions grew 17% in 2025 — and the share of organizations with no RAI policies fell from 24% to 11% over the past year. The primary barriers to RAI adoption are knowledge gaps (cited by 59% of organizations), budget constraints (48%), and regulatory uncertainty (41%). Among organizations deploying agentic AI specifically, security and risk concerns were cited by 62% as the top barrier. Regulatory standards adoption is uneven: ISO/IEC 42001 (the AI management system standard) was adopted by 36% of surveyed organizations, and the NIST AI Risk Management Framework by 33%.
-
-## AI Sovereignty and Public Trust
-
-AI sovereignty emerged as a central organizing principle in national AI policy in 2025. More than half of newly adopted national AI strategies came from developing countries entering the policy landscape for the first time, with state-backed investments in AI supercomputing rising in parallel — a sign of growing ambitions for domestic control over AI ecosystems. Open-source AI development is beginning to redistribute global participation, with GitHub contributions from outside the U.S. and Europe now outpacing the EU and approaching the United States, fueling more linguistically diverse models and benchmarks.
-
-Public trust in AI governance institutions is fragmented and asymmetric. Globally, the EU is trusted more than the United States or China to regulate AI effectively. Among surveyed countries, the United States reported the lowest level of trust in its own government to regulate AI, at 31%. A pronounced expert-public divide also characterizes governance attitudes: 73% of AI experts expect a positive impact from AI on how people do their jobs, compared with just 23% of the public — a 50-point gap that shapes the political feasibility of AI governance interventions.
+Public trust in AI governance institutions is fragmented. The United States reported the lowest trust in its own government to regulate AI of any surveyed country at 31%, compared to a global average of 54%. The EU is trusted more than the United States or China to regulate AI across Pew's 25-country survey (53% vs 37% vs 27%). A pronounced expert-public divide shapes governance attitudes: 73% of AI experts expect a positive impact from AI on employment, compared to 23% of the public. Across all 50 US states, concern about too little AI regulation outweighs concern about too much (41% vs 27%). For detailed survey data see [[ai-public-opinion]].
 
 ## Data Records
 
@@ -65,7 +71,20 @@ Public trust in AI governance institutions is fragmented and asymmetric. Globall
 |---|---|---|---|---|---|
 | Documented AI incidents globally | 362 | Annual count per AI Index methodology | 2025-12 | [[2026-stanford-hai-ai-index]] | current |
 | Documented AI incidents globally | 233 | Annual count per AI Index methodology | 2024-12 | [[2026-stanford-hai-ai-index]] | superseded |
-| Trust in government to regulate AI — United States | 31% | Public survey; lowest among surveyed countries | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Trust in government to regulate AI — United States | 31% | Ipsos AI Monitor; 30 countries | 2025-03 | [[2026-stanford-hai-ai-index]] | current |
+| State-backed AI supercomputers — China | 85 clusters | Epoch AI; public or public-private GPU clusters for frontier AI training | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| State-backed AI supercomputers — Europe & Central Asia | 44 clusters | Epoch AI; same methodology | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| State-backed AI supercomputers — North America | 41 clusters | Epoch AI; same methodology | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Data localization measures — East Asia & Pacific | 77 | Ferracane et al. 2026; cumulative through 2024 | 2024-12 | [[2026-stanford-hai-ai-index]] | current |
+| Data localization measures — North America | 3 | Same methodology; cumulative through 2024 | 2024-12 | [[2026-stanford-hai-ai-index]] | current |
+| Cumulative US AI model releases | 1,618 | Epoch AI public model dataset; 2018–2025 | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Cumulative China AI model releases | 849 | Epoch AI public model dataset; 2018–2025 | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| US Congressional AI witnesses | 102 | AI-related congressional hearings; AI Index methodology | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| US Congressional AI witnesses | 5 | Same methodology | 2017 | [[2026-stanford-hai-ai-index]] | superseded |
+| US state AI bills enacted | 150 | All states; enacted bills including phrase "artificial intelligence" | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| US federal AI regulations | 58 | All AI-related regulatory actions | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| US public AI investment — total | \$20.5 billion | Grants (\$15.9B) + contracts (\$3.9B) + OTAs (\$0.7B); 2013–2024 | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| European public AI investment — contracts | \$3.7 billion | Contracts only; 2013–2024; TED procurement data | 2024 | [[2026-stanford-hai-ai-index]] | current |
 
 ## Key Claims
 
