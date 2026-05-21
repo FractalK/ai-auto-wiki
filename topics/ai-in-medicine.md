@@ -5,7 +5,7 @@ created: 2026-05-20
 updated: 2026-05-20
 summary: The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
 status: developing
-source_count: 1
+source_count: 2
 last_assessed: 2026-05-20
 related_topics:
   - "[[ai-capability-benchmarking]]"
@@ -22,6 +22,7 @@ professional_contexts:
   - professional-and-continuing-education
   - graduate-and-doctoral-education
   - organizational-leadership-and-change-management
+  - legal-practice
 teaching_notes_reviewed: 2026-05-20
 ---
 
@@ -62,6 +63,7 @@ Ethics discussion in medical AI publications grew from 37.1% in 2024 to 43.4% in
 | Microsoft's AI Diagnostic Orchestrator paired with OpenAI's o3 achieved 85.5% accuracy on diagnostically challenging NEJM cases versus approximately 20% among 21 practicing physicians, and OpenAI's o1-preview scored 86% on management reasoning compared with 34% for physicians using conventional resources — demonstrating that AI systems have surpassed most existing clinical reasoning benchmarks, though these results reflect isolated cognitive evaluations rather than real-world clinical integration. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | By December 2025, the FDA had authorized 1,357 AI/ML medical devices from 693 companies across 17 clinical specialties — with 258 authorizations in 2025 alone — but a peer-reviewed analysis of all 1,016 authorizations through December 2024 found only 2.4% of devices with clinical studies were supported by randomized controlled trial data, nearly all entering via the 510(k) substantial-equivalence pathway, indicating a substantial gap between regulatory authorization and clinical evidence quality. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | In molecular AI, GPN-Star (200 million parameters) outperformed Evo 2 (40 billion parameters) on variant effect prediction tasks, and AlphaFold 3's FoldBench accuracy (63.10%) has not been surpassed by any of the larger cofolding models released since — replicating the pattern from general scientific AI benchmarks that specialized smaller models frequently exceed larger general-purpose models and that data quality rather than scale is the primary bottleneck for molecular AI performance. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+| Liability for AI-caused patient harm is legally unclear because no independent regulatory testing standard for medical AI exists and courts lack established frameworks for AI causation, creating compound exposure for hospitals from jury hostility to AI, developer liability disclaimers shifting risk to users, and the risk that patients can add informed consent claims to malpractice suits when AI involvement was not disclosed — with a counterintuitive dynamic in which transparent, high-performing models are more legally exposed than opaque, poorly performing ones because causation is easier to prove when a model's reasoning is interpretable. | [[2024-stanford-hai-healthcare-ai-liability]] | 2024-03-14 | current | 0.5 | false |
 
 ## Teaching Notes
 

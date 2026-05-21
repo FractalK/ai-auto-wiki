@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*89 pages. Last updated: 2026-05-20.*
+*94 pages. Last updated: 2026-05-20.*
 
 ---
 
@@ -51,6 +51,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while exhibiting large capability gaps across disciplines, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
 - [[ai-in-medicine]] — The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
+- [[ai-efficiency-trap]] — The paradox in which AI productivity tools compress task time and produce higher performance expectations rather than reduced workload, creating a four-stage organizational cycle — initial gains, managerial recalibration, dependency acceleration, and expectation lock-in — that erodes worker agency and generates collectively unsustainable productivity standards across industries.
 - [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
 - [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 
@@ -101,6 +102,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-bristol-craap-ai-evaluation]] — University of Bristol Library, 2026-03-27, practitioner
 - [[2025-mit-sloan-ai-complement-workers]] — Rigobon, Loaiza-Saa (MIT Sloan), 2025-03-17, practitioner
 - [[2026-stanford-hai-ai-index]] — Sajadieh, Fattorini, Perrault, Gil et al. (Stanford HAI), 2026-04-01, institutional
+- [[2025-walther-ai-efficiency-trap]] — Cornelia C. Walther (Knowledge at Wharton), 2025-06-24, practitioner
+- [[2024-stanford-hai-healthcare-ai-liability]] — Mello & Guha via Stanford HAI News, 2024-03-14, practitioner
 
 ## Comparisons
 
@@ -121,3 +124,5 @@ professional roles, see the [[teaching-index]].
 - [[prompt-injection-pitfalls]] — parent: prompt-injection
 - [[ai-in-higher-education-pitfalls]] — parent: ai-in-higher-education
 - [[ai-capability-benchmarking-pitfalls]] — parent: ai-capability-benchmarking
+- [[ai-efficiency-trap-pitfalls]] — parent: ai-efficiency-trap
+- [[ai-in-medicine-pitfalls]] — parent: ai-in-medicine

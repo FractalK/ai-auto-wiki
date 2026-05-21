@@ -4,8 +4,25 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-20
 last_entry: 2026-05-20
-entry_count: 63
+entry_count: 66
 ---
+
+## [2026-05-20 PT] session-stats | ingest
+Queue size at session start: 0 queued URLs; 3 staged files
+Documents attempted: 3
+Documents completed: 2 (Source 1 aborted — exact URL duplicate, user choice 1:A)
+Session limit hit: yes (context window compaction occurred between Phase 1 and Phase 2)
+Time window: off-peak
+Source type mix: publication-article: 2, duplicate-aborted: 1
+Notes: Phase 1 pre-flight completed in prior context window; Phase 2 executed in resumed session after compaction.
+
+## [2026-05-20] ingest | Who's at Fault when AI Fails in Health Care?
+Added: [[2024-stanford-hai-healthcare-ai-liability]]. Updated: [[ai-in-medicine]] (source_count 1→2; Key Claim 5 on healthcare AI liability added; legal-practice added to professional_contexts). Created: [[ai-in-medicine-pitfalls]] (8 failure modes, teaching_relevance: true — auto-applied, criterion A: 2 competency domains). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2.
+  Citation nominated: 1 — Mello & Guha, NEJM 2024 (https://www.nejm.org/doi/full/10.1056/NEJMhle2308901).
+
+## [2026-05-20] ingest | The AI Efficiency Trap: When Productivity Tools Create Perpetual Pressure
+Added: [[2025-walther-ai-efficiency-trap]]. Created: [[ai-efficiency-trap]], [[ai-efficiency-trap-pitfalls]] (5 failure modes, teaching_relevance: true). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 3.
+  Citation nominated: 1 — Perceived personal agency and AI reliance, Humanities and Social Sciences Communications (https://www.nature.com/articles/s41599-024-04044-8).
 
 ## [2026-05-20] ingest | The AI Index 2026 Annual Report — Part 11: Appendix (enrichment pass)
 Appendix contains supplementary methodology and data tables only; no substantive claims extractable for wiki pages. No pages updated. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 0.
