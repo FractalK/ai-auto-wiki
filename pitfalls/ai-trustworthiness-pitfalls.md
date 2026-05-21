@@ -9,6 +9,17 @@ status: current
 failure_mode_count: 7
 contributing_sources:
   - "[[2024-afroogh-trust-ai-review]]"
+teaching_relevance: true
+competency_domains:
+  - output-verification-and-risk-assessment
+  - ai-safety-and-alignment-literacy
+  - ai-integration-in-organizational-workflows
+professional_contexts:
+  - organizational-leadership-and-change-management
+  - domestic-civil-service-and-public-administration
+  - teaching-and-instruction
+technical_depth: practitioner
+teaching_notes_reviewed: 2026-05-21
 ---
 
 ## Technical Limitations
@@ -58,3 +69,9 @@ Evaluating AI trust and adoption as aggregate population averages without disagg
 **Source:** [[2024-afroogh-trust-ai-review]]
 
 Failing to develop direct accountability structures for AI systems on the grounds that AI lacks legal personhood and cannot be held responsible in the way human agents can. Without a clear theory of how accountability distributes among creators, deployers, and users, no party accepts full responsibility for outcomes. This creates a perverse incentive for each actor to point to the others when AI-driven decisions cause harm. The development of a robust framework that aligns explanation requirements, accountability obligations, and enforcement mechanisms at the level of human and organizational agents is an open governance challenge that current legal systems have not resolved.
+
+## Teaching Notes
+
+**What this failure mode teaches.** AI trustworthiness failures reveal that the psychological experience of trusting a system and the engineering task of making a system reliable operate through entirely different mechanisms. Users form trust based on observable cues — interface quality, institutional endorsement, output confidence displays — not on verified performance. Developers achieve trustworthiness through accuracy, robustness, and safety improvements. Investing in one does not produce gains in the other, and treating them as the same objective leads to systematically misallocated effort that benefits neither actual reliability nor user adoption.
+
+**Representative example.** A government health agency deploys a diagnostic AI tool that achieves 87% accuracy on validation benchmarks — genuinely strong performance — but provides no transparency mechanism connecting the system's displayed confidence to its actual per-case error rates. Within months, clinicians begin over-relying on the system for case types it reliably fails on, because the system displays uniform high confidence across all outputs. A separate agency, operating a less accurate tool (78% benchmark accuracy), deploys it with explicit uncertainty flagging: outputs in low-confidence categories display a clear warning. Clinicians in the second agency reduce their reliance on flagged outputs and catch AI errors at a higher rate than clinicians in the first agency, despite using the less accurate system. The failure in the first agency was not insufficient accuracy — it was the absence of a trust calibration mechanism. Improving accuracy and calibrating user trust are independent interventions; a highly accurate system without calibrated transparency can produce worse practical outcomes than a less accurate system with it.

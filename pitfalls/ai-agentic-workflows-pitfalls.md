@@ -12,6 +12,17 @@ contributing_sources:
   - "[[2026-stanford-hai-ai-index]]"
   - "[[2025-mit-sloan-bcg-agentic-ai-management]]"
   - "[[2026-oecd-agentic-ai-landscape]]"
+teaching_relevance: true
+competency_domains:
+  - output-verification-and-risk-assessment
+  - ai-integration-in-organizational-workflows
+  - practical-ai-use-and-interaction
+professional_contexts:
+  - organizational-leadership-and-change-management
+  - project-and-program-management
+  - entrepreneurship-and-startups
+technical_depth: practitioner
+teaching_notes_reviewed: 2026-05-21
 ---
 
 ## Technical Limitations
@@ -61,3 +72,9 @@ Failing to account for AI systems autonomously created or modified by other AI s
 **Source:** [[2025-mit-sloan-bcg-agentic-ai-management]]
 
 Treating the novel properties of agentic AI — its opacity, speed, and autonomy — as grounds for exempting AI-driven outcomes from standard accountability structures. AI lacks legal personhood and cannot be held directly liable for outcomes; accountability must therefore be explicitly distributed across creators, deployers, and users. Organizations that frame agentic AI governance as a new paradigm requiring new institutions, without first clearly assigning accountability for outcomes under existing frameworks, create a vacuum that no actor fills. The 25% minority in the MIT Sloan/BCG expert panel who argued against new management frameworks were making this point: clear human accountability should be the starting point, not the aspirational endpoint of governance design.
+
+## Teaching Notes
+
+**What this failure mode teaches.** Agentic workflow failures reveal a structural difference between delegating to humans and delegating to AI: human workers accumulate implicit knowledge of organizational norms, ethical boundaries, and escalation triggers over time; AI agents only know what they are explicitly given. When those implicit rules remain unspecified, the AI operates as though it has broader authority than intended — not through any intentional breach, but because boundary knowledge was never encoded. This failure mode teaches that effective AI delegation is as much a governance design task as a prompting task.
+
+**Representative example.** A project manager at a consulting firm deploys an agentic AI system to conduct preliminary client research, assuming the same informal guidelines that govern junior analyst work will apply: be thorough, avoid sensitive topics, flag anything unusual. The AI agent retrieves and summarizes competitor intelligence that would normally require partner-level approval before inclusion in a client deliverable — because "requires partner-level approval" was never encoded as an explicit permission boundary. The output was accurate and useful by ordinary quality standards, but violated a firm norm the manager assumed was obvious. The correct approach: before deploying an agentic system, enumerate every implicit escalation trigger, permission boundary, and ethical threshold that a new employee would learn informally — then encode each as an explicit parameter. The AI has no informal orientation period and will not infer what "common sense" means in your organizational context.
