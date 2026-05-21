@@ -54,7 +54,7 @@ Claude is Anthropic's general-purpose AI assistant, accessed through a browser i
 
 ## Access and Pricing
 
-Three consumer tiers are available as of April 2026. The **Free** tier provides browser-only access with daily message limits and access to Claude's standard models — suitable for initial evaluation. The **Pro** tier (\\$20/month) provides access to the best available Claude model (Opus), Cowork, Claude Code, and Projects, with substantially higher usage limits; it is the recommended starting point for practitioners who plan to use Claude more than a few times per week. The **Max** tier (\\$100–200/month) provides heavy usage across all features without hitting limits, suited for daily intensive use. Team and Enterprise plans are available for organizational deployment.
+Three consumer tiers are available as of April 2026. The **Free** tier provides browser-only access with daily message limits and access to Claude's standard models — suitable for initial evaluation. The **Pro** tier (\$20/month) provides access to the best available Claude model (Opus), Cowork, Claude Code, and Projects, with substantially higher usage limits; it is the recommended starting point for practitioners who plan to use Claude more than a few times per week. The **Max** tier (\$100–200/month) provides heavy usage across all features without hitting limits, suited for daily intensive use. Team and Enterprise plans are available for organizational deployment.
 
 A key decision point is mode of access: the browser interface provides a standard chatbot experience, while the desktop application unlocks Cowork and local file system access. Both Cowork and local file access require a paid plan and the desktop app.
 
