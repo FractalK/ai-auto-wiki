@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 20/05/2026 20:43 EST
+**Last Updated:** 21/05/2026 19:45 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -812,6 +812,15 @@ Auto-resolved: {N}. New pages created: {N}.
 ```
 
 Step 19 — Regenerate Teaching Index (if any tagged page touched)
+- Run: `python3 generate-teaching-index.py`
+- If the script exits non-zero or prints an ABORT line to stderr: halt, report the error
+  to the human, and do not proceed to Step 20.
+- If the script emits WARNING lines to stderr (missing tagging fields on one or more
+  pages): record the warnings in the post-ingest summary Notes field. Do not halt — the
+  index is valid for all pages that were successfully included.
+- After successful execution: `git add teaching-index.md`
+- The agent must not write to `teaching-index.md` directly at any point in the workflow.
+  Direct writes are a schema violation (CLAUDE.md Section 10).
 
 Step 20 — Spot-check output (peer-reviewed and policy-document sources only)
 - Output spot-check block in post-ingest summary (Section 6.5)
@@ -1497,10 +1506,37 @@ Read `wiki-lessons-learned.md` `## Schema Signals` section. For each entry with
 This step is informational only. No forced choice. The human decides whether to bring
 an aged signal to a design session.
 
+**Step L15 — Teaching-tagged pages missing required tagging fields**
+
+Scan all content directories (topics/, tools/, comparisons/, pitfalls/) for pages with
+`teaching_relevance: true` that are missing `competency_domains`, `professional_contexts`,
+or both. Exclude `status: stub`, `status: deprecated`, and `teaching-brief` pages
+(which are already checked in wiki-verify.sh Check 8).
+
+For each qualifying page with a missing field: surface as a forced choice in the lint
+pre-flight form.
+
+```
+[N] Teaching-tagged page missing required tagging field(s): [[page-slug]]
+    Missing: competency_domains | professional_contexts | both
+    Page type: {type} | Status: {status}
+    A) Tag now — agent proposes domains/contexts using TAGGING-SKILL.md evaluation; human confirms before writing
+    B) Defer — page excluded from Teaching Index until manually tagged
+```
+
+If A confirmed: agent evaluates the page content against TAGGING-SKILL.md Step 3
+(clean-mapping test) for both competency domains and professional contexts, proposes
+values, and waits for human confirmation before writing. Treat as a targeted frontmatter
+update: no other page fields are touched. Re-run `python3 generate-teaching-index.py`
+after writing.
+
+If B confirmed: no action. Page remains excluded from the Teaching Index. The warning
+will re-surface at the next lint pass.
+
 **Step L13 — Generate lint decision form**
 
 If no forced choices were identified across Steps L4b, L4c, L5, L5a, L7, L9, L10,
-L11, L12, L12a, and L12b: state "No forced choices this pass — proceeding to Phase 3"
+L11, L12, L12a, L12b, and L15: state "No forced choices this pass — proceeding to Phase 3"
 and proceed immediately without generating a form.
 
 If forced choices exist:
@@ -1521,7 +1557,8 @@ Populate `choices` with one `single-select` object per forced choice, in this or
 L4b items (one per open contradiction), L4c if triggered, L5 items (one per stale
 teaching-brief), L5a items (one per upgrade candidate), L7 items (one per concept gap),
 L9 items (one per decay_exempt proposal), L10 if triggered, L11 items (one per drift
-criterion), L12 items (one per collection gap), L12a if triggered, L12b if triggered.
+criterion), L12 items (one per collection gap), L12a if triggered, L12b if triggered,
+L15 items (one per under-tagged page).
 Steps contributing no items add no objects to the array.
 
 Set `recommended` to the option value the agent assesses as most appropriate. When no
@@ -1650,7 +1687,9 @@ Last updated: YYYY-MM-DD (lint pass {N})
 - **{topic-tag}** — marked addressed YYYY-MM-DD
 ```
 
-10. Regenerate `teaching-index.md` from current tags.
+10. Regenerate Teaching Index: run `python3 generate-teaching-index.py && git add teaching-index.md`.
+    If the script exits non-zero: halt and report. WARNING lines (missing tagging fields)
+    are recorded in the lint log entry under Notes; they do not halt execution.
 11. Update `overview.md`: set `last_lint` to today; update `total_pages`,
     `open_contradictions`, `last_contradiction_id` if changed. If Step L4c flagged a
     ±1 auto-correction or the human confirmed a ±2+ correction: set `open_contradictions`
@@ -1700,9 +1739,12 @@ which occurs after the response is delivered.
 notes on [topic]":
 
 - **Pattern (Q1):** Treated as a synthesis/evolution query but with Teaching Index scope.
-- **Scope (Q2–Q3):** Read `teaching-index.md` first to identify all teaching-tagged pages
-  matching the topic. Then read those pages in full, prioritizing their `## Teaching Notes`
-  sections. If no Teaching Index entry matches, fall back to full index.md search.
+- **Scope (Q2–Q3):** Before reading `teaching-index.md`, verify it is current: compare
+  its `updated` frontmatter date against `overview.md`'s `updated` date. If
+  `teaching-index.md` is older, run `python3 generate-teaching-index.py` first. Then
+  read `teaching-index.md` to identify all teaching-tagged pages matching the topic.
+  Then read those pages in full, prioritizing their `## Teaching Notes` sections. If no
+  Teaching Index entry matches, fall back to full index.md search.
 - **Response format (Q4):** Structured output in four parts:
   1. **Concept overview** — 2–3 sentences from the Key Claims layer.
   2. **Teachable angle** — what this topic reveals about AI effectiveness that is
@@ -2050,7 +2092,7 @@ C) Do not apply — I will manage manually
 If B selected: surface each page as a separate forced choice using the format from
 TAGGING-SKILL.md Step 6.
 
-5. After writing confirmed additions, regenerate `teaching-index.md`.
+5. After writing confirmed additions, run `python3 generate-teaching-index.py && git add teaching-index.md` to regenerate the Teaching Index.
 
 6. Append a log entry:
 

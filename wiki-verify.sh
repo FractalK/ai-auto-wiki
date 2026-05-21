@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Last Updated: 20/05/2026 21:19 EST
+# Last Updated: 21/05/2026 19:45 EST
 # wiki-verify.sh — Tier 1 configuration, conformance, and content-level checks
 # AI Effectiveness Wiki — see test-harness.md for specification
 #
@@ -652,6 +652,45 @@ done
 
 if [ "$VC_FAIL" = "0" ]; then
     pass "All competency_domains and professional_contexts values match controlled vocabulary"
+fi
+
+# ─── 15. Teaching-tagged pages missing required tagging fields ───────────────
+printf "\n--- 15. Teaching-tagged pages missing required tagging fields (DM-103) ---\n"
+# Pages with teaching_relevance: true must have competency_domains and
+# professional_contexts to be included in the Teaching Index. A missing field
+# causes generate-teaching-index.py to warn and skip the page silently. This
+# check surfaces those gaps at verify time so they appear in the lint form as
+# Step L15 forced choices. Scope: topics/, tools/, comparisons/, pitfalls/ only;
+# teaching/ pages are teaching-briefs and already checked in Group 8.
+# Severity: WARN — the page is structurally valid; tagging is a remediable gap.
+
+MTF_WARN=0
+for d in topics tools comparisons pitfalls; do
+    [ -d "$d" ] || continue
+    while IFS= read -r filepath; do
+        tr_val=$(yaml_value "$filepath" "teaching_relevance")
+        if [ "$tr_val" = "true" ]; then
+            missing_fields=""
+            if ! yaml_field_present "$filepath" "competency_domains"; then
+                missing_fields="competency_domains"
+            fi
+            if ! yaml_field_present "$filepath" "professional_contexts"; then
+                if [ -n "$missing_fields" ]; then
+                    missing_fields="$missing_fields, professional_contexts"
+                else
+                    missing_fields="professional_contexts"
+                fi
+            fi
+            if [ -n "$missing_fields" ]; then
+                warn "Teaching-tagged page missing ($missing_fields) — excluded from Teaching Index by generate-teaching-index.py: $filepath"
+                MTF_WARN=1
+            fi
+        fi
+    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+done
+
+if [ "$MTF_WARN" = "0" ]; then
+    pass "All teaching-tagged pages have required competency_domains and professional_contexts fields"
 fi
 
 # ─── Summary ─────────────────────────────────────────────────────────────────

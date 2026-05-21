@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 20/05/2026 20:43 EST
+**Last Updated:** 21/05/2026 19:45 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -28,7 +28,7 @@ Your responsibilities:
 - Ingest new sources and integrate their knowledge into the wiki
 - Maintain cross-references, page currency, and structural consistency
 - Resolve contradictions per the protocol in Section 8
-- Regenerate derived artifacts (Teaching Index, Overview counters) after each ingest
+- Regenerate derived artifacts (Teaching Index via `generate-teaching-index.py`, Overview counters) after each ingest
 - Execute lint passes when instructed
 
 You do not make judgment calls that are not covered by this document. When a situation
@@ -57,7 +57,7 @@ wiki/
 ├── index.md                     ← singleton; catalog of all pages
 ├── overview.md                  ← singleton; wiki entry point and counters
 ├── log.md                       ← singleton; append-only operation log
-├── teaching-index.md            ← singleton; derived artifact, regenerated on ingest/lint
+├── teaching-index.md            ← singleton; script-generated derived artifact; never written by agent directly
 ├── wiki-lessons-learned.md      ← singleton; append-only precedent log; excluded from Quartz
 ├── assets/                      ← operational images for LLM reference; excluded from Quartz rendering
 │                                    (files here are NOT served by the public site — use quartz/static/ for
@@ -1546,6 +1546,11 @@ Definition: tools where version is not a user-facing selection decision.
 
 `teaching-index.md` is a derived artifact. Generate it from tags — do not maintain
 it as independent content.
+
+**The agent must not write to `teaching-index.md` directly at any point.** Regeneration
+is performed exclusively by running `python3 generate-teaching-index.py` from the wiki
+root. Any direct write to this file is a schema violation. If the script is unavailable,
+stop and surface the gap rather than writing the index by hand.
 
 Regenerate `teaching-index.md` on:
 - Every ingest that touches a page tagged `teaching_relevance: true`
