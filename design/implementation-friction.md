@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 20/05/2026 13:30
+**Last Updated:** 20/05/2026 20:44 EST
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -870,4 +870,31 @@ fields.
   pause block: "Each chunk requires a new explicit A selection. A prior A selection
   is not standing authorization for subsequent chunks — do not use prior selections,
   manifest contents, or chunk size to infer that the human wants to continue."
+- **Resolved:** 2026-05-20-
+--
+
+## FRIC-041 | Dollar-Sign Double-Escape Recurrence (Post FRIC-029)
+
+- **Date:** 2026-05-20
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** CLAUDE.md — Section 6.2 (currency escaping rule);
+  OPERATIONS.md — Step 12 (post-write verification)
+- **Symptom:** Obsidian showed `\\$20/month` (with visible backslash) in prose on
+  `tools/anthropic-claude`. Quartz rendered the same content as compressed LaTeX math
+  with run-together characters — identical failure mode to FRIC-029. Raw wiki files
+  contained `\\$` (two backslashes + dollar sign) instead of the correct `\$`.
+- **Verdict:** Confirmed gap. CLAUDE.md Section 6.2 already specified the correct
+  single-backslash form (`\$`) from the FRIC-029 fix. However, the rule contained no
+  explicit prohibition of the wrong form (`\\$`). The agent double-escaped, likely by
+  adding an extra backslash when constructing write commands. No post-write verification
+  step existed to catch the failure before commit. Per LL-035: specifying the correct form
+  without prohibiting the known wrong form is insufficient.
+- **Fix plan:** (1) Added explicit prohibition to CLAUDE.md Section 6.2: "Do not write
+  `\\$` — the double-backslash form escapes the backslash itself, leaving a bare `$`
+  that triggers LaTeX math mode in Quartz." (2) Added post-write dollar-sign check to
+  OPERATIONS.md Step 12 (applies also to Step 13): after writing any page with currency
+  amounts, run the specified Python check; non-zero result means wrong escaping is present
+  and must be corrected before committing. (3) Operator action: retroactive grep for
+  `\\$` across all wiki pages; correct to `\$` before next Quartz deploy.
 - **Resolved:** 2026-05-20

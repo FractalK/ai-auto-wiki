@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 20/05/2026 13:30
+**Last Updated:** 20/05/2026 20:44 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4089,6 +4089,7 @@ for their conditions and date.
 **References:** FRIC-035, IN-016, CLAUDE.md Section 6.6, Section 8.1, OPERATIONS.md
 Steps 11-14, Step L5c, EXTRACTION-SKILL.md Section 7
 
+
 ---
 
 ## DM-100 | MANDATORY INTER-CHUNK PAUSE IN LARGE-DOCUMENT DECOMPOSITION PROTOCOL
@@ -4221,3 +4222,31 @@ per-chunk, not per-session.
 
 **References:** FRIC-040, DM-100, DM-097, OPERATIONS.md decomposition protocol
 Steps 5–6, Step 0 manifest-aware continuation
+
+## DM-102 | FRIC-041: Dollar-Sign Double-Escape — Prohibition Added to Spec
+
+**Date:** 2026-05-20
+**Status:** Closed
+
+**Decision:**
+Add an explicit prohibition of the double-backslash form (`\\$`) to CLAUDE.md Section 6.2
+and a post-write verification step to OPERATIONS.md Step 12 (applying also to Step 13).
+
+**Rationale:**
+CLAUDE.md Section 6.2 already specified the correct single-backslash escape (`\$`) as of
+FRIC-029. Despite the correct rule, the wiki agent was writing `\\$` (two backslashes +
+dollar) in page content. The raw Quartz/remark pipeline treats this as an escaped backslash
+followed by a bare `$`, which triggers LaTeX inline math mode — identical rendering failure
+to FRIC-029. The spec contained the right form but did not explicitly prohibit the wrong
+form. Per LL-035 ("Do X; do not do Y; verify X succeeded"), the prohibition of `\\$` and
+a post-write check are required to close the gap.
+
+**Alternatives Considered:**
+None; the LL-035 pattern mandates prohibition + verification when a known wrong form exists.
+
+**Consequences to Watch:**
+- Existing pages written with `\\$` require retroactive correction (human action).
+- The post-write verification in Step 12/13 may surface additional pre-existing violations
+  during future ingest passes.
+
+**References:** FRIC-029, FRIC-041, LL-035, CLAUDE.md Section 6.2, OPERATIONS.md Step 12

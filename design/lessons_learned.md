@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 05/19/2026 00:30
+**Last Updated:** 20/05/2026 20:44 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1198,3 +1198,35 @@ recovery mechanism exists?" If the answer is "none," the fix needs durable
 checkpoints that survive the resource boundary.
 
 **References:** FRIC-034, FRIC-036, FRIC-037, DM-097
+
+
+---
+
+## LL-036 | Dollar-Sign Double-Escaping Recurred Despite Correct Spec
+
+**Date:** 2026-05-20
+
+**Problem Encountered:**
+Wiki pages contained `\\$` (two backslashes + dollar sign) in prose, causing LaTeX math
+mode to trigger on the Quartz site — the same rendering failure as FRIC-029. CLAUDE.md
+Section 6.2 already specified the correct `\$` form (one backslash), so the spec was not
+wrong. The agent was double-escaping anyway.
+
+**Root Cause:**
+The spec said "do X" (write `\$`) but did not say "do not do Y" (do not write `\\$`).
+Absent an explicit prohibition, the agent constructed the wrong form — likely by treating
+the backslash as requiring an additional level of escaping when building Python strings or
+file-write commands. The absence of a post-write verification step meant the failure was
+not caught before commit.
+
+**Fix Applied:**
+Per LL-035 pattern: (1) added explicit prohibition of `\\$` to CLAUDE.md Section 6.2;
+(2) added post-write dollar-sign check to OPERATIONS.md Step 12 (applies also to Step 13).
+
+**Implication Going Forward:**
+"Correct form specified" is not sufficient when a plausible wrong form exists. For any
+escaping rule in CLAUDE.md, if there is a known wrong form that an agent might reasonably
+produce (e.g., by over-escaping), explicitly prohibit it in the same rule block. The LL-035
+pattern applies here: "Do X, do not do Y, verify X succeeded."
+
+**References:** FRIC-029, FRIC-041, DM-102, CLAUDE.md Section 6.2, OPERATIONS.md Step 12
