@@ -2,7 +2,6 @@
 
 ## [nominated]
 Understanding Liability Risk from Health Care Artificial Intelligence Tools | https://www.nejm.org/doi/full/10.1056/NEJMhle2308901 | research-paper | peer-reviewed | nominated: 2026-05-20 [nominated — cited by [[2024-stanford-hai-healthcare-ai-liability]]]
-Perceived personal agency and AI reliance | https://www.nature.com/articles/s41599-024-04044-8 | research-paper | peer-reviewed | nominated: 2026-05-20 [nominated — cited by [[2025-walther-ai-efficiency-trap]]]
 PlanBench: Evaluating LLMs on Planning and Reasoning about Change (Corrêa et al., 2025) | https://arxiv.org/pdf/2511.09378 | research-paper | peer-reviewed | nominated: 2026-05-20 [nominated — cited by [[2026-stanford-hai-ai-index]]]
 The agentic AI landscape and its conceptual foundations | https://www.oecd.org/content/dam/oecd/en/publications/reports/2026/02/the-agentic-ai-landscape-and-its-conceptual-foundations_a9d4b451/396cf758-en.pdf | policy-document | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-oecd-agentic-ai-landscape]]]
 Building AI Cyber Defenders | https://www.anthropic.com/research/building-ai-cyber-defenders | industry-blog | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-anthropic-project-glasswing]]]

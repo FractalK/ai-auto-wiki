@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*94 pages. Last updated: 2026-05-20.*
+*99 pages. Last updated: 2026-05-21.*
 
 ---
 
@@ -30,7 +30,7 @@ professional roles, see the [[teaching-index]].
 - [[weak-to-strong-supervision]] — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 - [[constitutional-classifiers]] — A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 - [[llm-functional-emotions]] — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
-- [[ai-agentic-workflows]] — A practical framework for directing AI agents that models the delegation decision as a tradeoff between human task time, AI success probability, and evaluation overhead, and identifies professional management skills as the primary determinant of AI agent output quality.
+- [[ai-agentic-workflows]] — A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, and the governance requirements — explicit rules, accountability structures, and AI offspring oversight — that distinguish agentic AI management from traditional human delegation.
 - [[ai-assisted-skills-training]] — A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[ai-in-higher-education]] — A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
 - [[ai-assisted-vulnerability-discovery]] — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
@@ -54,6 +54,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-efficiency-trap]] — The paradox in which AI productivity tools compress task time and produce higher performance expectations rather than reduced workload, creating a four-stage organizational cycle — initial gains, managerial recalibration, dependency acceleration, and expectation lock-in — that erodes worker agency and generates collectively unsustainable productivity standards across industries.
 - [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
 - [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
+- [[ai-trustworthiness]] — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
 
 ## Tools
 
@@ -104,6 +105,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-stanford-hai-ai-index]] — Sajadieh, Fattorini, Perrault, Gil et al. (Stanford HAI), 2026-04-01, institutional
 - [[2025-walther-ai-efficiency-trap]] — Cornelia C. Walther (Knowledge at Wharton), 2025-06-24, practitioner
 - [[2024-stanford-hai-healthcare-ai-liability]] — Mello & Guha via Stanford HAI News, 2024-03-14, practitioner
+- [[2025-mit-sloan-bcg-agentic-ai-management]] — MIT Sloan Management Review / Boston Consulting Group, 2025-09-16, practitioner
+- [[2024-afroogh-trust-ai-review]] — Afroogh, Akbari, Malone et al. (Humanities and Social Sciences Communications), 2024-11-17, peer-reviewed
 
 ## Comparisons
 
@@ -126,3 +129,5 @@ professional roles, see the [[teaching-index]].
 - [[ai-capability-benchmarking-pitfalls]] — parent: ai-capability-benchmarking
 - [[ai-efficiency-trap-pitfalls]] — parent: ai-efficiency-trap
 - [[ai-in-medicine-pitfalls]] — parent: ai-in-medicine
+- [[ai-agentic-workflows-pitfalls]] — parent: ai-agentic-workflows
+- [[ai-trustworthiness-pitfalls]] — parent: ai-trustworthiness

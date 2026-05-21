@@ -2,10 +2,26 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-20
-last_entry: 2026-05-20
-entry_count: 66
+updated: 2026-05-21
+last_entry: 2026-05-21
+entry_count: 69
 ---
+
+## [2026-05-21 PT] session-stats | ingest
+Queue size at session start: 0 queued URLs; 2 staged files
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: yes (context compaction occurred mid-session; Phase 2 writes completed in resumed session)
+Time window: off-peak
+Source type mix: publication-article: 1, research-paper: 1
+Notes: Resumed from compacted context. All wiki writes, index updates, and teaching-index regeneration completed in resumed session.
+
+## [2026-05-21] ingest | Trust in AI: Progress, Challenges, and Future Directions
+Added: [[2024-afroogh-trust-ai-review]]. Created: [[ai-trustworthiness]] (teaching_relevance: true, 5 Key Claims, Support Score 1.5 — decay applied: source published 2024-11-17, ~18 months old), [[ai-trustworthiness-pitfalls]] (7 failure modes). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 3.
+  Nominated entry removed from queue.md: "Perceived personal agency and AI reliance" (same URL as Afroogh et al.; now ingested as [[2024-afroogh-trust-ai-review]]).
+
+## [2026-05-21] ingest | Agentic AI at Scale: Redefining Management for a Superhuman Workforce
+Added: [[2025-mit-sloan-bcg-agentic-ai-management]]. Updated: [[ai-agentic-workflows]] (source_count 4→5; Key Claims 1 and 3 replaced with governance/accountability claims from MIT Sloan/BCG; Organizational Implications expanded; Teaching Notes updated — teaching_notes_reviewed reset to 2026-05-21). Created: [[ai-agentic-workflows-pitfalls]] (7 failure modes). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2.
 
 ## [2026-05-20 PT] session-stats | ingest
 Queue size at session start: 0 queued URLs; 3 staged files
