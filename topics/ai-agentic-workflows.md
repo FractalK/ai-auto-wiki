@@ -2,11 +2,11 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-05-20
-summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, and the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, with 2025 benchmark data showing rapid agent capability gains that still fall short of full reliability for unsupervised workflows.
+updated: 2026-05-21
+summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, and the governance requirements — explicit rules, accountability structures, and AI offspring oversight — that distinguish agentic AI management from traditional human delegation.
 status: developing
-source_count: 4
-last_assessed: 2026-05-20
+source_count: 5
+last_assessed: 2026-05-21
 related_topics:
   - "[[llm-wiki-pattern]]"
 teaching_relevance: true
@@ -18,7 +18,7 @@ professional_contexts:
   - entrepreneurship-and-startups
   - project-and-program-management
 technical_depth: practitioner
-teaching_notes_reviewed: 2026-04-30
+teaching_notes_reviewed: 2026-05-21
 ---
 
 The terms *AI agent* and *agentic AI* are related but not interchangeable. The OECD Expert Group on Agentic AI defines an **AI agent** as a system that perceives and acts on its environment with a degree of autonomy, using tools to achieve specific goals and adapt to changing inputs — a single-agent, bounded-scope system. **Agentic AI** refers to systems composed of multiple coordinated AI agents that decompose complex tasks, delegate to specialized sub-agents, and sustain autonomous operation over extended periods with minimal human supervision. Agentic AI systems are characterized by their more open-ended operational environments, longer time horizons, and reliance on coordination and communication between agents rather than solo execution. The OECD frames agentic AI as a socio-technical paradigm whose value derives from interaction with other AI agents, humans, and institutional processes — not from isolated autonomous action alone.
@@ -51,6 +51,8 @@ Subject-matter expertise amplifies delegation effectiveness. Experts write bette
 
 As AI agents handle hour-scale tasks autonomously, the scarce resource in an AI-enabled organization is not execution capacity but direction quality: knowing what to ask for and being able to tell when the answer is right. This inverts the traditional scarcity model in which delegation was constrained by the cost of human labor. With abundant, inexpensive AI agent capacity, the bottleneck becomes clear specification and competent evaluation. Organizations whose members have strong domain expertise and communication skills are positioned to multiply their effective output; those with weak specification and evaluation skills will find AI tools amplify their confusion rather than their capability.
 
+Managing agentic AI systems introduces a governance dimension that has no direct precedent in managing human workers. Human employees navigate implicit rules, organizational norms, and ethical boundaries through judgment accumulated over time; AI agents require these same constraints to be explicitly defined — as threshold values, decision scopes, permissible actions, and escalation triggers. A 2025 MIT Sloan/BCG expert panel found 69% agreement that traditional management frameworks are insufficient for this reason. A particularly underappreciated risk is what the panel calls "AI offspring" — AI systems that autonomously create or modify other AI systems, potentially operating with inherited permissions entirely outside any existing governance scope. Organizations deploying agentic AI without lifecycle-based governance frameworks, clear human accountability structures, and explicit scope definitions will face accountability gaps that grow with each additional layer of AI autonomy.
+
 ## Data Records
 
 | Metric | Value | Conditions | Measurement Date | Source | Status |
@@ -68,18 +70,18 @@ As AI agents handle hour-scale tasks autonomously, the scarce resource in an AI-
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
-| Executive MBA students with management but no coding expertise built functional startup prototypes in four days using AI tools, producing work Mollick estimates at an order of magnitude further along than comparable semester-length non-AI cohorts. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
+| A 2025 MIT Sloan/BCG expert panel found 69% agreement that agentic AI requires fundamentally new management approaches, because AI agents require explicit definition of rules, decision scopes, and escalation triggers that human workers navigate through tacit judgment, with accountability for AI-driven outcomes distributed across creators, deployers, and users rather than residing with the AI. | [[2025-mit-sloan-bcg-agentic-ai-management]] | 2025-09-16 | current | 1 | false |
 | The Equation of Agentic Work frames AI delegation as a tradeoff between Human Baseline Time, Probability of Success, and AI Process Time, with delegation yielding net time savings only when Probability of Success is high relative to evaluation overhead per attempt. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
-| Under a draft→review→retry workflow with one-hour evaluation overhead and approximately 72% AI success rate (from GDPval), the net time saving on a seven-hour expert task is approximately three hours on average. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
+| Agentic AI systems require explicitly defined rules, threshold values, permissible decision scopes, data usage guardrails, ethical boundaries, and escalation confidence thresholds that human workers navigate through implicit judgment — creating governance requirements outside traditional management models, including accounting for "AI offspring" (AI systems autonomously created or modified by other AI systems that fall outside existing governance scope). | [[2025-mit-sloan-bcg-agentic-ai-management]] | 2025-09-16 | current | 1 | false |
 | Professional management skills — scoping problems, defining deliverables, and recognizing quality in one's domain — are the primary determinant of AI agent output quality in agentic workflows, functioning directly as the prompt specification. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
 | Agentic AI, per the OECD Expert Group's 2026 report, refers to systems composed of multiple coordinated AI agents that decompose and delegate complex tasks and sustain autonomous operation over extended periods with minimal human supervision — distinct from simpler single-agent AI systems. | [[2026-oecd-agentic-ai-landscape]] | 2026-03-03 | current | 2 | false |
 
 ## Teaching Notes
 
-**Concept in plain terms.** Agentic workflows are processes in which AI systems autonomously plan and execute multi-step tasks, with human involvement reduced to specifying the goal and evaluating the outcome. The core insight is that AI delegation follows the same logic as human delegation: it works when you specify clearly what you want and can reliably evaluate whether you got it.
+**Concept in plain terms.** Agentic workflows are processes in which AI systems autonomously plan and execute multi-step tasks, with human involvement reduced to specifying the goal and evaluating the outcome. The core insight is that AI delegation follows the same logic as human delegation: it works when you specify clearly what you want and can reliably evaluate whether you got it — and breaks down when rules, boundaries, and accountability remain implicit.
 
-**Why it matters for instruction.** AI agentic workflows shift the critical professional skill from task execution to task direction — specifying goals clearly and evaluating outputs reliably. Professionals who have invested in management skills and domain expertise are better positioned to leverage agentic AI than those without that background, which inverts the common assumption that technical skills are the primary prerequisite for AI fluency.
+**Why it matters for instruction.** AI agentic workflows shift the critical professional skill from task execution to task direction — specifying goals clearly, evaluating outputs reliably, and defining the explicit governance constraints AI agents require. Professionals who have invested in management skills and domain expertise are better positioned to leverage agentic AI than those without that background, but this advantage extends only to those who understand that AI cannot infer unstated norms and boundaries the way human employees can.
 
-**Common misconceptions.** Students often assume that agentic AI tools reduce the importance of domain expertise, since the AI does the work. The opposite holds: domain expertise determines the quality of the specification and the ability to catch errors in the output — both of which directly determine agentic workflow quality. The Equation of Agentic Work makes this structural: low Probability of Success (which domain ignorance produces) means more evaluation cycles than the task was worth.
+**Common misconceptions.** Students often assume that agentic AI tools reduce the importance of domain expertise, since the AI does the work. The opposite holds: domain expertise determines the quality of the specification and the ability to catch errors in the output — both of which directly determine agentic workflow quality. A second misconception is that management frameworks developed for human employees transfer directly to AI agents; in practice, the implicit rules, ethical thresholds, and escalation triggers that human workers navigate through tacit judgment must be explicitly defined for AI agents or they create undetected governance gaps.
 
-**Suggested framing.** Frame agentic workflows as a management challenge, not a technical one — introduce the Equation of Agentic Work (Human Baseline Time × Probability of Success versus AI Process Time) as a decision tool for when delegation makes sense, and present the structured delegation documentation that works with human subordinates as the same format that works with AI agents.
+**Suggested framing.** Frame agentic workflows as a management challenge with a governance dimension — introduce the Equation of Agentic Work (Human Baseline Time × Probability of Success versus AI Process Time) as a decision tool for when delegation makes sense, present structured delegation documentation as the interface between human intent and AI execution, and introduce the question of explicit governance requirements (who is accountable when things go wrong, what decisions can the agent make autonomously, what happens when it creates other agents) as the strategic challenge organizations must address before deploying agentic AI at scale.
