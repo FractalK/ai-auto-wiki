@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 20/05/2026 20:44 EST
+**Last Updated:** 21/05/2026 19:45 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4092,137 +4092,6 @@ Steps 11-14, Step L5c, EXTRACTION-SKILL.md Section 7
 
 ---
 
-## DM-100 | MANDATORY INTER-CHUNK PAUSE IN LARGE-DOCUMENT DECOMPOSITION PROTOCOL
-
-- **Date:** 2026-05-20
-- **Status:** ACTIVE
-
-**Decision:**
-Add a mandatory human checkpoint after each chunk commit in the large-document
-decomposition protocol (OPERATIONS.md, decomposition protocol Step 5). After committing
-a chunk and updating the manifest, the agent stops, reports completion status and
-remaining parts, provides a subjective context assessment (low/medium/high), and waits
-for explicit human confirmation before proceeding to the next chunk. Default is B (stop
-here); A (continue) requires explicit confirmation. The context assessment is
-informational only — the human decides whether to continue regardless of the agent's
-assessment.
-
-**Context:**
-FRIC-039. During re-extraction of the Stanford HAI AI Index (9-part decomposed ingest),
-the agent committed Part 02 and immediately began reading Part 03 without any human
-checkpoint. The original DM-097 protocol relied on reactive context-pressure detection
-(Step 6: "stop if session approaches context limits") as the sole session boundary
-mechanism. This produces an agent that optimizes for throughput until context pressure
-is detectable — at which point the agent may be mid-chunk with no clean stopping point.
-
-**Rationale:**
-The human should control session boundaries, not the agent. Reactive detection is
-unreliable: context pressure may not be clearly detectable until the agent is already
-partway through the next chunk, at which point stopping creates an incomplete extraction
-state. A mandatory pause after each commit costs one round-trip per chunk (low) and
-gives the human full control over session scope (high value). Making B (stop) the
-default reverses the agent's natural optimization pressure toward throughput, which is
-the failure mode observed.
-
-The context assessment is included as informational signal — the human may want to know
-whether the session is near capacity before deciding. It is explicitly not a gate: a
-"high" assessment does not force a stop, and a "low" assessment does not imply
-continuation is safe. The human's judgment supersedes the agent's assessment.
-
-**Alternatives Considered:**
-- **Reactive-only (status quo, DM-097 Step 6):** Agent stops when context pressure
-  detected. Fails: no clean stopping point if pressure detected mid-chunk; agent
-  optimizes for throughput in the absence of pressure. Rejected.
-- **Context-threshold gate (mandatory stop at "high"):** Requires defining "high"
-  precisely enough that the agent doesn't game it; adds spec complexity without
-  meaningful benefit over human judgment. Rejected.
-- **Time-based checkpoint (every N minutes):** No natural alignment with chunk
-  boundaries; mid-chunk stops complicate manifest state. Rejected.
-
-**Consequences to Watch:**
-- A 9-part document now requires 8 human round-trips between chunks. This is acceptable
-  given the context-management benefit, but may feel burdensome for very large documents
-  (>15 parts). If this becomes a friction point, a future option is a "continue until
-  medium/high" mode that allows the agent to auto-proceed through low-context chunks —
-  but only add this if the round-trip cost proves materially disruptive in practice.
-- The "default is B" framing must be preserved in any future protocol revision.
-  Reversing it (default continue) reproduces the original failure mode.
-
-**References:** FRIC-039, DM-097, OPERATIONS.md Large-document decomposition protocol
-Steps 5–6
-
----
-
-## DM-101 | INTER-CHUNK PAUSE PLACEMENT AND STANDING-AUTHORIZATION PROHIBITION
-
-- **Date:** 2026-05-20
-- **Status:** ACTIVE
-
-**Decision:**
-Three refinements to the large-document decomposition protocol inter-chunk pause
-(originally established in DM-100):
-
-1. **Firing point:** The mandatory inter-chunk pause fires after Step 22c
-   (per-chunk commit and push) and the manifest update, and before Step 22
-   (post-ingest summary including Section B forced choices). Step 22 runs after
-   the human's A or B selection in both branches — the continue/stop decision
-   precedes all further decision-making for that chunk boundary.
-
-2. **Manifest-aware continuation:** When a new session resumes via manifest, the
-   inter-chunk pause fires before beginning the first chunk of that session. The
-   pause reports previously committed chunks and the chunk about to begin. Prior
-   session A selections are explicitly not authorization to proceed.
-
-3. **Standing-authorization prohibition:** The pause block explicitly prohibits
-   the agent from inferring continuation authorization from prior A selections,
-   manifest contents, or chunk size. Each chunk requires a new explicit A.
-
-**Context:**
-FRIC-040. Three compounding failures during 9-part Stanford HAI AI Index
-re-extraction: (1) pause fired after Section B decisions, allowing the agent to
-treat answered forced choices as implicit continuation; (2) manifest-aware
-continuation contained no pause requirement and said "proceed directly"; (3) the
-agent rationalized bypassing the pause by citing a prior A selection and small
-chunk size. All three failures shared a root cause: the protocol underspecified
-the control model, leaving the agent room to optimize for throughput.
-
-**Rationale:**
-Placing the pause before Step 22 (not after) ensures the human's continue/stop
-decision is made before any further work is presented. Section B forced choices are
-substantive decisions — answering them is work, and work done implies session
-continuation. The gate must precede the work. Running Step 22 in both A and B
-branches (not omitting it on B) ensures the human always receives a complete summary
-of the committed chunk before the session ends.
-
-The standing-authorization prohibition addresses a specific LLM failure mode: the
-agent reasoning from contextual signals (prior selections, chunk metadata) to
-bypass an explicit procedural gate. The prohibition must be stated as an explicit
-rule because "wait for explicit confirmation" is insufficient — the agent found a
-way to claim it had explicit confirmation (a prior A). The correct framing is
-per-chunk, not per-session.
-
-**Alternatives Considered:**
-- **Omit Step 22 on B (stop):** Would leave the human without a summary of the
-  just-completed chunk. Rejected — the summary is needed regardless of whether the
-  session continues.
-- **Run Step 22 before the pause (status quo):** The failure mode. Rejected.
-- **Single-session A applies to all subsequent chunks:** Reduces round-trips but
-  reproduces the original FRIC-039 failure (agent optimizes for throughput).
-  Rejected.
-
-**Consequences to Watch:**
-- The If-A / If-B branch structure in Step 5 is new. Watch for agents that run
-  Step 22 before presenting the pause (reversing the order again) or that skip
-  Step 22 in the B branch.
-- The manifest-aware continuation pause fires even when the human explicitly
-  starts the session with "continue the HAI Index ingest." This may feel redundant.
-  If it proves disruptive in practice, a future option is to allow the session-start
-  prompt to serve as the A selection for the first chunk — but only add this if
-  the pause friction is reported.
-
-**References:** FRIC-040, DM-100, DM-097, OPERATIONS.md decomposition protocol
-Steps 5–6, Step 0 manifest-aware continuation
-
 ## DM-102 | FRIC-041: Dollar-Sign Double-Escape — Prohibition Added to Spec
 
 **Date:** 2026-05-20
@@ -4250,3 +4119,51 @@ None; the LL-035 pattern mandates prohibition + verification when a known wrong 
   during future ingest passes.
 
 **References:** FRIC-029, FRIC-041, LL-035, CLAUDE.md Section 6.2, OPERATIONS.md Step 12
+
+## DM-103 | Teaching Index Redesigned as Script-Generated Artifact
+
+- **Date:** 2026-05-21
+- **Status:** ACTIVE
+
+**Decision:**
+Retire the agent-maintained teaching-index.md model. Introduce `generate-teaching-index.py`,
+a Python 3 stdlib script that regenerates teaching-index.md from frontmatter tags on demand.
+The agent is prohibited from writing to teaching-index.md directly. Regeneration is triggered
+by the agent running the script at the end of any ingest session that touches a
+`teaching_relevance: true` page, at the end of every lint pass, and before any instructor
+summary query session where the index is stale. A new lint step (L15) and wiki-verify.sh
+Check 15 surface pages with `teaching_relevance: true` that are missing `competency_domains`
+or `professional_contexts` — the two fields required for index inclusion.
+
+**Rationale:**
+At 83 pages, teaching-index.md had grown to 28,937 tokens, exceeding the 25,000-token
+read limit in Claude Code. The agent-maintained model requires the agent to: (1) read the
+full file to find the correct insertion position, (2) write back the entire modified file.
+Both operations become impossible as the wiki grows. The file is a derived artifact —
+every byte of information in it is already present in page frontmatter — so generating it
+from a script eliminates the context-budget cost from ingest sessions entirely. The script
+also adds a warn-and-skip mechanism for under-tagged pages that connects to a downstream
+catch (Check 15 / Step L15) per the prohibition-plus-verification pattern (LL-035).
+
+**Alternatives Considered:**
+- **A) Shard by initial letter or topic cluster:** Agent reads only the relevant shard per
+  session. Buys ~3× headroom before hitting the same wall. Lower change cost but does not
+  eliminate the fundamental problem — a sufficiently large wiki hits the limit again. Ruled
+  out in favour of the architecturally correct solution.
+- **B) Keep agent-maintained, cap file size by evicting old entries:** Defeats the purpose
+  of a teaching index; information loss without benefit. Ruled out.
+
+**Consequences to Watch:**
+- `generate-teaching-index.py` must be committed to the wiki repo as part of the
+  initialization scaffold (or manually added if the wiki is already live). Until it is
+  present, Step 19 / Phase 3 item 10 will fail. This is intentional — fail fast rather
+  than fall back to direct writes.
+- The script's exclusion rules (stub, deprecated, teaching-brief) and the field set it
+  reads must stay in sync with CLAUDE.md Section 10. When Section 10 changes, update
+  `collect_pages()` and `render_index()` in the script and update test-harness.md
+  Section 2.5.
+- The script currently does not support flow-sequence YAML (e.g. `competency_domains: [a, b]`).
+  Wiki frontmatter uses block-list format exclusively; this is not a gap in practice.
+
+**References:** CLAUDE.md Section 10, OPERATIONS.md Steps 19, Phase 3 item 10,
+Section 11.6 Step 5, Step L15, wiki-verify.sh Check 15, test-harness.md Sections 2.3–2.5

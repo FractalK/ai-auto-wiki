@@ -1,5 +1,5 @@
 # Wiki Test Harness — Specification
-**Last Updated:** 20/05/2026 21:20 EST
+**Last Updated:** 21/05/2026 19:45 EST
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -86,6 +86,7 @@ are nested, quoted, or appear mid-document outside a frontmatter block.
 | 12. Dollar sign escaping | Two sub-checks. (A) FAIL: no content-directory `.md` file contains the double-escaped form `\\$` before a digit — the double-backslash escapes the backslash itself, leaving a bare `$` that triggers LaTeX math mode; no false-positive risk in wiki prose. (B) WARN: no content-directory `.md` file contains a bare `$` before a digit; already-escaped `\$` occurrences are filtered; false-positive risk from code blocks — WARN only. | CLAUDE.md Section 6.2; FRIC-029; FRIC-041; DM-088 |
 | 13. `teaching_notes_reviewed` field (WARN) | Topic and Tool pages with `teaching_relevance: true` that contain a `## Teaching Notes` body section must also have `teaching_notes_reviewed` in frontmatter. Lint Step L5b is the authoritative backstop; this provides earlier warning. | CLAUDE.md Sections 5.2, 5.3; DM-088 |
 | 14. Controlled vocabulary conformance | Any value in `competency_domains` or `professional_contexts` frontmatter fields across any content-directory page that is not present in the Section 7.1 or 7.2 allowlist. Detects invented tags, typos, and vocabulary updates not propagated to the script. YAML block-list format only; flow-sequence on same line not detected. Severity: FAIL — no false-positive risk. | CLAUDE.md Sections 7.1–7.2; DM-092 |
+| 15. Teaching-tagged pages missing required tagging fields (WARN) | Pages in topics/, tools/, comparisons/, pitfalls/ with `teaching_relevance: true` that are missing `competency_domains`, `professional_contexts`, or both. Missing either field causes `generate-teaching-index.py` to warn and skip the page, silently excluding it from the Teaching Index. Lint Step L15 is the authoritative forcing function; this check provides earlier detection at verify time. Severity: WARN — the page is otherwise structurally valid; tagging is remediable. | CLAUDE.md Section 10; OPERATIONS.md Step L15; DM-103 |
 
 ### 2.4 Usage
 
@@ -122,6 +123,7 @@ When the schema changes, update the script in the following cases:
 | Vocabulary term added or removed from `competency_domains` or `professional_contexts` (CLAUDE.md Sections 7.1 or 7.2) | Update the `VALID_CD` or `VALID_PC` array in Group 14 of the script. **This is a hard requirement.** Failure to update causes false FAILs on every page using the new term. This update must be delivered in the same batch as the CLAUDE.md vocabulary change — it is not deferrable. Update Section 2.3 catalogue row 14 if the change affects the allowlist description. |
 | New required body section on a page type (e.g., `## Verdict`) | Add a `grep -qF '## Section'` existence check in the relevant content directory loop. Update Section 2.3 catalogue. |
 | New conditional frontmatter field depending on a body section | Add a cross-check in Group 13 pattern: read triggering field, grep for body section, assert dependent field present. WARN severity unless dependency is unconditional. |
+| Teaching Index generation logic changes (exclusion rules, field set, output format) | Update `generate-teaching-index.py` to match the new spec. Exclusion rules are in `collect_pages()`; output format is in `render_index()`. No wiki-verify.sh change required unless the frontmatter fields being read change — if a new required tagging field is introduced, update Check 15 accordingly and update Section 2.3 catalogue row 15. |
 
 ---
 
