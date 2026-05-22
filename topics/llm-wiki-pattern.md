@@ -2,7 +2,7 @@
 type: topic
 title: LLM Wiki Pattern
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-21
 aliases:
   - LLM Wiki
   - LLM-maintained wiki
@@ -21,6 +21,7 @@ professional_contexts:
   - project-and-program-management
   - organizational-leadership-and-change-management
   - graduate-and-doctoral-education
+  - software-and-ai-development
 technical_depth: practitioner
 teaching_notes_reviewed: 2026-04-30
 ---

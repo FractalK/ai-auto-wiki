@@ -2,7 +2,7 @@
 type: pitfalls
 title: AI Coding Agent Workflow Types Pitfalls
 created: 2026-04-30
-updated: 2026-04-30
+updated: 2026-05-21
 parent_entity: "[[topics/ai-coding-agent-workflow-types]]"
 parent_type: topic
 status: current
@@ -16,6 +16,7 @@ competency_domains:
 professional_contexts:
   - professional-and-continuing-education
   - organizational-leadership-and-change-management
+  - software-and-ai-development
 teaching_notes_reviewed: 2026-04-30
 ---
 

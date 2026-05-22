@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-21
 last_entry: 2026-05-21
-entry_count: 69
+entry_count: 70
 ---
 
 ## [2026-05-21 PT] session-stats | ingest
@@ -385,3 +385,7 @@ Schema corrections auto-applied: 28 pages corrected updated field to 2026-04-30 
 Teaching Index updated: excerpts added for all 33 teaching-tagged pages (Teaching Notes sections present since 2026-04-30 back-population; excerpts were absent from prior index generation).
 Skill enrichment staleness flags: 3 — CONTRADICTION-SKILL.md § 7 (5 sub-sections still unpopulated); TAGGING-SKILL.md §§ 5.3–5.4 (placeholder); EXTRACTION-SKILL.md §§ 6.2–6.4 (placeholder).
 Note: anthropic-claude-vs-openai-chatgpt remains status: stale — comparison updated 2026-04-29 is now older than anthropic-claude.md corrected to 2026-04-30. Schema has no automated upgrade path for comparison pages; recommend manual review.
+
+## [2026-05-21] vocab-expansion | software-and-ai-development
+Pages assessed: 45. Additions confirmed: 8. Pages updated: [[topics/ai-coding-agent-workflow-types]], [[topics/prompt-injection]], [[topics/ai-assisted-vulnerability-discovery]], [[topics/llm-wiki-pattern]], [[pitfalls/ai-coding-agent-workflow-types-pitfalls]], [[pitfalls/prompt-injection-pitfalls]], [[tools/anthropic-claude-opus-4-7]], [[tools/anthropic-claude-mythos-preview]].
+Teaching Index regenerated: yes.
