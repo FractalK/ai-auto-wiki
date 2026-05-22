@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 21/05/2026 19:45 EST
+**Last Updated:** 22/05/2026 16:00 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1223,9 +1223,13 @@ is more than 90 days before today and `status` is not already `stale`: mark for
 downgrade to `stale` in Phase 3. Auto-execute. Pages already `stale` noted
 informational only.
 
-*Comparison pages:* For each Comparison page: read `entities_compared`. If the
-Comparison page's `updated` date is older than any entity page's `updated` date: mark
-`status` for downgrade to `stale`. Auto-execute.
+*Comparison pages:* For each Comparison page: read `entities_compared`. For each entity
+page, identify the comparison-staleness signal: use `last_assessed` if present; fall back
+to `updated` if `last_assessed` is absent. If the Comparison page's `updated` date is
+older than any entity page's comparison-staleness signal date: mark `status` for downgrade
+to `stale`. Auto-execute. Do not use the entity page's `updated` date directly when
+`last_assessed` is present — `updated` advances on any write (Teaching Notes, alias
+corrections, frontmatter cleanup) and produces false-positive staleness flags.
 
 *Teaching-brief pages:* For each teaching-brief page: read `derived_from`. If any
 constituent page's `last_assessed` date is newer than the teaching-brief's `last_reviewed`

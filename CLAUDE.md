@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 21/05/2026 19:45 EST
+**Last Updated:** 22/05/2026 16:00 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -560,9 +560,14 @@ query_date:        # conditional | ISO 8601; required when provenance: query-gen
                    #   date the query was run that produced this page
 ```
 
-**Staleness dependency:** When any page in `entities_compared` is updated, this Comparison
-page becomes potentially stale. The lint procedure flags any Comparison page whose `updated`
-date is older than the `updated` date of any page in `entities_compared`.
+**Staleness dependency:** When any page in `entities_compared` has new claims assessed,
+this Comparison page becomes potentially stale. The lint procedure flags any Comparison
+page whose `updated` date is older than the `last_assessed` date (or `updated` if
+`last_assessed` is absent) of any page in `entities_compared`. Use `last_assessed` as
+the trigger — not `updated` — because `updated` advances on any write (Teaching Notes,
+alias corrections, frontmatter cleanup) regardless of whether comparison-relevant content
+changed. When `last_assessed` is absent on an entity page, fall back to `updated` as a
+conservative default.
 
 **Comparison pages are derived artifacts.** Factual claims in Comparison page prose are
 sourced from the Key Claims of the pages listed in `entities_compared`. No independent
