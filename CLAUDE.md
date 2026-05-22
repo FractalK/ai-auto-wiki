@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 22/05/2026 16:00 EST
+**Last Updated:** 22/05/2026 21:00 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -69,9 +69,12 @@ wiki/
 │   ├── queue.md                 ← URL queue and override signals, synced across machines via git
 │   ├── discovery-sources.md     ← feed list for proactive discovery pass
 │   ├── collection-gaps.md      ← persistent collection gap recommendations; updated by lint
-│   └── deferred-ingest.md      ← ephemeral; created when ingest is aborted at Step 0;
-│                                   deleted when the deferred items are processed;
-│                                   committed to git on creation
+│   ├── deferred-ingest.md      ← ephemeral; created when ingest is aborted at Step 0;
+│   │                               deleted when the deferred items are processed;
+│   │                               committed to git on creation
+│   └── lint-state.md           ← ephemeral; created at lint start, deleted after Phase 3
+│                                   completes; committed to git for cross-machine continuity;
+│                                   accumulates Phase 1 findings across multi-session lint passes
 ├── topics/                      ← Topic pages
 ├── tools/                       ← Tool/Product pages
 ├── sources/                     ← Source pages

@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 22/05/2026 16:00 EST
+**Last Updated:** 22/05/2026 21:00 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1107,14 +1107,134 @@ pass) runs all checks without writing wiki files and consolidates findings into 
 Phase 2 (human response) is skipped if no forced choices are generated. Phase 3 (execution
 pass) applies auto-execute actions and confirmed forced choices.
 
-**Context note for large wikis:** Full lint Phase 1 reads every wiki page to execute Steps
-L3, L5, L6, L7, L8, and L11, plus CLAUDE.md and OPERATIONS.md in full at session start.
-At approximately 60+ pages, this is sufficient to approach the session window limit before
-Phase 1 completes. Manual `/compact` mid-session is a valid mitigation — compacted context
-retains the assessment state and does not invalidate the pass. If compaction fires: verify
-the informational summary output is complete before proceeding to Step L13; if the summary
-was truncated, resume Phase 1 from the last completed step in a continuation session before
-requesting a decision string.
+**Chunked-session lint protocol:** At approximately 60+ pages, Phase 1 cannot complete
+in a single session. Phase 1 findings are persisted in `raw/lint-state.md` — a state
+file committed to git that accumulates findings across multiple sessions. The human's
+interaction model is unchanged: when all Phase 1 work is complete, L13 generates the
+decision form from the state file exactly as it would from in-memory findings. The
+human never needs to know how many sessions Phase 1 required.
+
+Phase 1 steps are organized into three groups:
+
+- **Group A (singleton reads):** L1, L1a, L2. Read queue.md and index.md. Always
+  completes in session 1.
+- **Group B (per-page assessment — batchable):** L3, L4a, L4b, L5, L5a, L5b, L5c,
+  L8, L9, L11, L15. For each page read, run ALL applicable per-page checks
+  simultaneously — each page is read exactly once across the entire multi-session pass.
+  Pages are processed in directory order: topics/, tools/, comparisons/, pitfalls/,
+  sources/, teaching/. Within each directory, alphabetical order.
+- **Group C (cross-page analysis and non-page reads):** L4c, L6, L7, L10, L12, L12a,
+  L12b, L12c, L12d, L14. These steps operate on aggregated metadata already in the
+  state file or on specific non-page files — they do not re-read wiki pages (L6 and
+  L7 use targeted grep/scan, not full page reads).
+
+**Session boundary rule (hard ceiling with directory-aware batching):** Process at most
+30 pages per session. Within that ceiling, prefer completing a full directory before
+stopping. If a directory has more pages than the remaining ceiling allowance, stop at
+the directory boundary rather than starting a directory the agent cannot finish. If a
+single directory exceeds 30 pages, process the first 30 alphabetically and stop — the
+next session resumes from the last-assessed slug. Do not attempt to process more than
+30 pages in a session under any circumstances. Do not rely on self-assessment of
+context pressure — the ceiling is the rule.
+
+**State file location and lifecycle:** `raw/lint-state.md`. Committed to git after each
+session (`chore: lint state — session {N}`). Created at the start of a fresh lint pass.
+Deleted after Phase 3 completes successfully. The file is excluded from Quartz
+rendering by the existing `"raw/**"` ignorePattern.
+
+**State file format:**
+
+```yaml
+---
+lint_pass: {N}
+initiated: YYYY-MM-DD
+status: in-progress | ready-for-form | complete
+sessions_used: {N}
+group_a_complete: false
+group_b_complete: false
+group_c_complete: false
+directories:
+  topics: complete | partial | pending
+  tools: complete | partial | pending
+  comparisons: complete | partial | pending
+  pitfalls: complete | partial | pending
+  sources: complete | partial | pending
+  teaching: complete | partial | pending
+last_partial_slug: ""
+open_contradictions_count: 0
+teaching_tagged_count: 0
+topic_tool_count: 0
+topic_tool_deprecated_count: 0
+---
+
+## Forced Choices
+
+{structured markdown blocks — one per forced choice finding, preserving step ID,
+page slug, claim text, options, and recommended value; see format below}
+
+## Auto-Execute
+
+{structured markdown blocks — one per auto-execute finding}
+
+## Informational
+
+{structured markdown blocks — one per informational finding}
+```
+
+**Forced choice finding format in state file:**
+
+```markdown
+### FC-NNN | {step} | {short label}
+- **Page:** [[page-slug]]
+- **Detail:** {claim text, CTRD-ID, or other identifying detail}
+- **Context:** {contesting source, support score, dates, or other context}
+- **Options:** A) {label} | B) {label} | C) {label if applicable}
+- **Recommended:** {A|B|C|null}
+```
+
+Auto-execute and informational entries use analogous formats with step ID and page slug.
+
+**State file detection (Step L0 — executes before any other lint step):**
+
+At session start, check for `raw/lint-state.md`:
+
+- **File does not exist → fresh lint pass.** Create the state file with
+  `status: in-progress`, `sessions_used: 1`, all groups and directories set to
+  `false`/`pending`. Proceed to Group A (Step L1).
+
+- **File exists, `status: in-progress` → continuation session.** Read the state file.
+  Increment `sessions_used`. Check the staleness guard (see below). If Group A is
+  complete and Group B is incomplete: resume Group B from the first pending or partial
+  directory. If Group B is complete and Group C is incomplete: execute Group C. Do not
+  re-execute completed groups.
+
+- **File exists, `status: ready-for-form` → form generation session.** All Phase 1
+  data is collected. Skip directly to Step L13 to generate the decision form from the
+  state file findings. Then proceed to Phase 2 and Phase 3.
+
+- **File exists, `status: complete` → stale state file from a prior pass.** This
+  should not occur (the file is deleted after Phase 3). Warn the human: "Stale
+  lint-state.md found with status: complete — this file should have been deleted after
+  the prior Phase 3. Delete and start fresh?" If confirmed: delete and proceed as a
+  fresh pass.
+
+**Staleness guard:** When a state file exists with `status: in-progress`:
+- If `initiated` is more than 7 days before today: warn the human.
+
+```
+Lint state file is {N} days old (initiated {date}).
+Wiki content may have changed since assessment began — findings may be stale.
+A) Continue — accept staleness risk
+B) Restart — delete state file and begin fresh lint pass
+```
+
+- If `initiated` is more than 14 days before today: recommend B (restart). The
+  recommendation is advisory, not a hard gate.
+
+**State file corruption guard:** If `raw/lint-state.md` exists but has unparseable
+YAML frontmatter or is missing required fields (`lint_pass`, `initiated`, `status`):
+warn the human, offer to delete and restart. Do not attempt to recover from a
+malformed state file.
 
 ---
 
@@ -1151,6 +1271,39 @@ Read `index.md` to build the full page inventory. Record total counts by type. D
 scan the filesystem directly — index.md is the authoritative catalog. Pages present on
 disk but absent from index.md are invisible to lint; this is a schema conformance finding
 surfaced in Step L11.
+
+**--- Group A complete ---**
+
+After Steps L1, L1a, and L2: write findings (CTRD signals, nomination aging items, page
+inventory counts) to the state file. Set `group_a_complete: true`. Set `topic_tool_count`
+and `topic_tool_deprecated_count` from the L2 inventory. Commit the state file if this
+is a continuation session and Group B will not begin in the same session. If Group B will
+begin immediately (the typical case for session 1): skip the mid-group commit and write
+the state file after the Group B batch completes.
+
+**--- Group B: Per-page assessment (batchable) ---**
+
+For each page, run ALL applicable per-page checks simultaneously. Steps L3, L4a, L4b,
+L5, L5a, L5b, L5c, L8, L9, L11, and L15 are evaluated during a single read of each
+page. This means the agent reads the page's frontmatter and body, then applies every
+check that is relevant to that page's type before moving to the next page. Pages are
+processed in directory order (topics/, tools/, comparisons/, pitfalls/, sources/,
+teaching/) and alphabetically within each directory.
+
+During Group B, also accumulate the following metadata in the state file for use by
+Group C:
+- `open_contradictions_count`: sum of individual entries in `open_contradictions`
+  frontmatter lists across all assessed pages (for L4c).
+- `teaching_tagged_count`: count of pages with `teaching_relevance: true` (for L10).
+
+After each batch (when the 30-page ceiling is reached, or a directory boundary is
+reached and the next directory would exceed the remaining ceiling): write all findings
+from this batch to the state file body sections (Forced Choices, Auto-Execute,
+Informational). Update the `directories` progress map and `last_partial_slug` if the
+current directory is partially complete. Update `sessions_used`. Commit:
+`chore: lint state — session {N}`.
+
+When all six directories show `complete`: set `group_b_complete: true`.
 
 **Step L3 — Support score recalculation**
 
@@ -1198,6 +1351,8 @@ until the window expires and L4a auto-confirms it. Repeated C selections are a v
 conscious deferral, not a system error.
 
 **Step L4c — open_contradictions counter reconciliation**
+*(Group C — executes after all Group B page reads are complete. Uses
+`open_contradictions_count` accumulated during Group B.)*
 
 Count the total number of individual entries in `open_contradictions` frontmatter lists
 across all wiki pages. Compare this actual count against the `open_contradictions` field
@@ -1293,6 +1448,9 @@ No forced choice. Informational only. The human decides whether to seek updated
 measurements.
 
 **Step L6 — Orphan page detection**
+*(Group C — executes after all Group B page reads are complete. Uses a targeted
+wikilink grep scan: `grep -roh '\[\[.*\]\]' topics/ tools/ comparisons/ pitfalls/
+teaching/` — does not re-read full pages.)*
 
 For each wiki page excluding singletons and Source pages: check whether any other
 non-source page contains a wikilink to this page. Pages with no inbound wikilinks
@@ -1300,6 +1458,9 @@ from non-source pages are flagged as orphans. Informational only — no auto-act
 no forced choice. Listed in lint report for human review.
 
 **Step L7 — Concept gap detection**
+*(Group C — executes after all Group B page reads are complete. Scans prose sections
+of Topic and Tool pages for term frequency. This is a targeted read — excludes
+frontmatter and Key Claims tables.)*
 
 Scan prose sections (excluding frontmatter, Key Claims tables, and section headers) of
 all Topic and Tool pages. Identify terms appearing in three or more distinct pages with
@@ -1347,6 +1508,9 @@ If all three met, add to pre-flight report as forced choice:
 Claude Code does not set `decay_exempt: true` autonomously.
 
 **Step L10 — Teaching Index completeness ratio**
+*(Group C — executes after all Group B page reads are complete. Uses
+`teaching_tagged_count`, `topic_tool_count`, and `topic_tool_deprecated_count`
+accumulated during Group B.)*
 
 Count Topic and Tool pages where `teaching_relevance: true`. Divide by total Topic and
 Tool pages (excluding deprecated Tool pages). If ratio is below 0.20:
@@ -1391,6 +1555,7 @@ three or more sampled pages: flag as systemic drift — forced choice:
 Individual deviations below the three-page threshold: logged informational only.
 
 **Step L12 — Collection gap analysis**
+*(Group C — reads log.md, not wiki pages.)*
 
 Read `log.md` and aggregate all query log entries. For each entry, read `result_quality`
 and `topic_tags`. Identify topic tags where three or more distinct query log entries
@@ -1418,6 +1583,7 @@ forced choice:
 ```
 
 **Step L12a — Session stats threshold check**
+*(Group C — reads log.md, not wiki pages.)*
 
 Count `session-stats` entries in `log.md`. If count < 50: skip this step.
 
@@ -1460,6 +1626,7 @@ The human confirms any threshold changes. If confirmed: the human updates the ba
 numbers in Step 0 of this document and appends a `schema-change` log entry to `log.md`.
 
 **Step L12b — Deferred ingest staleness check**
+*(Group C — reads raw/deferred-ingest.md, not wiki pages.)*
 
 Check whether `raw/deferred-ingest.md` exists. If it does not: skip this step.
 
@@ -1478,6 +1645,7 @@ If the file is 14 days old or fewer: add to the informational summary only —
 "Pending deferral: raw/deferred-ingest.md exists ({N} days old)." No forced choice.
 
 **Step L12c — Override pattern detection**
+*(Group C — reads wiki-lessons-learned.md, not wiki pages.)*
 
 Read `wiki-lessons-learned.md` `## Ingest` and `## Lint` sections. For each entry,
 read the entry date (from the `### [YYYY-MM-DD]` heading) and the `**Operation:**` field.
@@ -1500,6 +1668,7 @@ informational only. The human decides, outside the wiki, whether to bring the si
 to a design session as a friction report.
 
 **Step L12d — Schema Signals age check**
+*(Group C — reads wiki-lessons-learned.md, not wiki pages.)*
 
 Read `wiki-lessons-learned.md` `## Schema Signals` section. For each entry with
 `**Status:** open`:
@@ -1537,11 +1706,37 @@ after writing.
 If B confirmed: no action. Page remains excluded from the Teaching Index. The warning
 will re-surface at the next lint pass.
 
+**--- Group B complete ---**
+
+When all six directories show `complete` in the state file: set `group_b_complete: true`.
+Write final Group B findings to state file and commit.
+
+**--- Group C: Cross-page analysis and non-page reads ---**
+
+Group C executes only after `group_b_complete: true`. It runs Steps L4c, L6, L7, L10,
+L12, L12a, L12b, L12c, L12d, and L14 — all described above with their Group C
+annotations. These steps use aggregated metadata from the state file (for L4c, L10) or
+targeted lightweight reads (for L6, L7) or specific non-page files (for L12 group, L14).
+
+After all Group C steps complete: write findings to state file. Set
+`group_c_complete: true` and `status: ready-for-form`. Commit:
+`chore: lint state — session {N}`.
+
+If Group C and L13 form generation can both fit in the same session (typical — Group C
+is lightweight): proceed directly to L13 without ending the session. If context is
+constrained (e.g., an unusually large number of findings): set `status: ready-for-form`,
+commit, and stop. The next session reads the state file and proceeds to L13.
+
 **Step L13 — Generate lint decision form**
 
-If no forced choices were identified across Steps L4b, L4c, L5, L5a, L7, L9, L10,
-L11, L12, L12a, L12b, and L15: state "No forced choices this pass — proceeding to Phase 3"
-and proceed immediately without generating a form.
+Read all findings from `raw/lint-state.md`. The state file's `## Forced Choices`,
+`## Auto-Execute`, and `## Informational` sections contain every finding accumulated
+across all Phase 1 sessions. L13 operates on these persisted findings exactly as it
+would on in-memory findings from a single-session pass.
+
+If no forced choices exist in the state file (the `## Forced Choices` section is empty):
+state "No forced choices this pass — proceeding to Phase 3" and proceed immediately
+without generating a form.
 
 If forced choices exist:
 
@@ -1600,7 +1795,7 @@ report the error. Do not direct the human to open the file.
 the form):
 
 ```
-Informational summary — Lint pass {N} | {date}
+Informational summary — Lint pass {N} | {date} | Sessions: {N}
 - Pages with changed support scores: {N}
 - Expired contradiction flags (will auto-confirm): {list or "none"}
 - Pages downgraded to stale: {list or "none"}
@@ -1703,6 +1898,11 @@ Last updated: YYYY-MM-DD (lint pass {N})
       Preserve the full line content including `nominated_date`; do not update the date.
     - Delete all Stage 2 items from `[stale-nominated]` in queue.md.
 13. Append lint log entry.
+14. Delete `raw/lint-state.md` and commit the deletion. Do not delete mid-pass. Do not
+    delete before Phase 3 completes. Do not carry forward a state file from a prior
+    completed lint pass into a new one. If `raw/lint-state.md` does not exist at this
+    point (e.g., a small wiki that completed Phase 1 in a single session without
+    creating a state file): skip this step.
 
 ---
 
@@ -1711,6 +1911,7 @@ Last updated: YYYY-MM-DD (lint pass {N})
 ```
 ## [YYYY-MM-DD] lint | pass {N}
 Pages assessed: {N}. Sources in wiki: {N}.
+Sessions used: {N}.
 Support scores recalculated: {N} pages ({N} claims updated).
 Expired contradictions auto-confirmed: {N} — {CTRD-IDs or "none"}
 CTRD-NNN signals processed: {N} — {CTRD-IDs and outcomes or "none"}

@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 22/05/2026 16:30 EST
+**Last Updated:** 22/05/2026 21:00 EST
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -842,7 +842,7 @@ fields.
 ## FRIC-042 | Lint Phase 1 Auto-Compacts Before Completion at 100 Pages
 
 - **Date:** 2026-05-22
-- **Status:** open
+- **Status:** closed
 - **Phase:** Post-setup
 - **Document implicated:** OPERATIONS.md — lint procedure context note (above Step L1)
 - **Symptom:** Full lint Phase 1 auto-compacted mid-batch during topic page reads at 100
@@ -860,12 +860,9 @@ fields.
   no recovery path when compaction fires before the informational summary is output.
   The lint procedure has no persistent state mechanism — all Phase 1 findings exist only
   in the session context window and are lost or degraded on compaction.
-- **Fix plan:** Requires a design session. Short-term workaround: restart Phase 1 from
-  scratch in a fresh session; instruct Claude Code explicitly not to carry forward findings
-  from the previous session. Long-term fix: design a chunked-session lint model with a
-  persistent state file (e.g., `lint-state.md` at wiki root) that accumulates Phase 1
-  findings across multiple sessions before generating the decision form at L13. The state
-  file must record: completed steps, findings per step (forced choices and informational
-  items), and the last page assessed within each step. This design task is the next
-  scheduled agenda item.
-- **Resolved:** —
+- **Fix plan:** Chunked-session lint protocol with persistent state file
+  (`raw/lint-state.md`). Phase 1 steps organized into Groups A/B/C. Group B (per-page
+  assessment) batched across sessions with a 30-page ceiling and directory-aware
+  boundaries. State file accumulates findings; L13 reads from state file for form
+  generation. See DM-105.
+- **Resolved:** 2026-05-22

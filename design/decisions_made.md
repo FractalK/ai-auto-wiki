@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 21/05/2026 19:45 EST
+**Last Updated:** 22/05/2026 21:00 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4167,3 +4167,154 @@ catch (Check 15 / Step L15) per the prohibition-plus-verification pattern (LL-03
 
 **References:** CLAUDE.md Section 10, OPERATIONS.md Steps 19, Phase 3 item 10,
 Section 11.6 Step 5, Step L15, wiki-verify.sh Check 15, test-harness.md Sections 2.3–2.5
+
+---
+
+## DM-104 | COMPARISON STALENESS TRIGGER: USE LAST_ASSESSED, NOT UPDATED
+
+- **Date:** 2026-05-22
+- **Status:** ACTIVE
+
+**Decision:**
+Change the Comparison page staleness trigger from entity page `updated` to entity page
+`last_assessed` (falling back to `updated` when `last_assessed` is absent). Applies to
+both the spec in CLAUDE.md Section 5.5 and the lint implementation in OPERATIONS.md
+Step L5.
+
+**Context:**
+Observed during live wiki operation: `comparisons/anthropic-claude-vs-openai-chatgpt.md`
+was marked `stale` by the Step L5 check because `tools/anthropic-claude.md` had
+`updated: 2026-04-30` and the comparison had `updated: 2026-04-29`. The triggering write
+on the tool page was a Teaching Notes addition (`teaching_notes_reviewed: 2026-04-30`) —
+no Key Claim or capability changes. The flag was a false positive: the comparison had
+no stale comparison dimensions. Root cause: `updated` advances on every write to a page
+regardless of whether comparison-relevant content changed. As the wiki accumulates
+teaching-tagged pages and Teaching Notes updates, false-positive rate on this check
+will increase monotonically.
+
+**Rationale:**
+`last_assessed` is already defined in the schema as "set when claims are actively
+evaluated against current sources — not on every write" (CLAUDE.md Sections 5.2, 5.3).
+That is precisely the signal comparison staleness should depend on: has the factual basis
+of the entity page changed in a way that may affect the comparison? A Teaching Notes write
+does not change the factual basis. A lint pass that evaluates Key Claims and updates
+`last_assessed` does.
+
+The fallback to `updated` when `last_assessed` is absent preserves conservative behavior
+for entity pages that have never been through a lint evaluation pass.
+
+**Alternatives Considered:**
+- **Keep `updated` as trigger, accept false positives:** Rejected. The false-positive rate
+  increases with wiki activity (every Teaching Notes write, every alias correction, every
+  frontmatter cleanup). A lint check that fires frequently on non-stale pages erodes
+  trust in the lint output and generates unnecessary human review burden.
+- **Add a separate `claims_updated` field:** Rejected. `last_assessed` already carries
+  this semantic; adding a second field with overlapping meaning introduces divergence risk
+  without benefit.
+- **Scope `updated` advances by write type:** Rejected. Requires the agent to make
+  judgment calls about which writes advance `updated` — introduces agent discretion where
+  a deterministic rule is preferable. `last_assessed` already encodes the correct
+  semantics without any additional logic.
+
+**Consequences to Watch:**
+- Entity pages that have never had `last_assessed` set (newly ingested, never linted)
+  will fall back to `updated` — same behavior as before. No regression.
+- The fix reduces false-positive staleness flags but does not eliminate legitimate ones.
+  A comparison page correctly flags stale when `last_assessed` on any entity page is
+  newer than the comparison's `updated` — meaning the entity page was actively evaluated
+  and found its claims changed, but the comparison has not been re-assessed.
+- wiki-verify.sh does not check comparison staleness logic; no script update required.
+
+**References:** CLAUDE.md Section 5.5, OPERATIONS.md Step L5
+
+---
+
+## DM-105 | CHUNKED-SESSION LINT WITH PERSISTENT STATE FILE
+
+- **Date:** 2026-05-22
+- **Status:** ACTIVE
+
+**Decision:**
+Lint Phase 1 is restructured to span multiple sessions via a persistent state file
+(`raw/lint-state.md`). Phase 1 steps are organized into three groups: Group A (singleton
+reads: L1, L1a, L2), Group B (per-page assessment: L3, L4a, L4b, L5, L5a, L5b, L5c,
+L8, L9, L11, L15 — batchable across sessions), and Group C (cross-page analysis and
+non-page reads: L4c, L6, L7, L10, L12 group, L14). A hard ceiling of 30 pages per
+session governs Group B batching, with directory-aware boundaries preferred over
+mid-directory splits. The state file accumulates findings across sessions; L13 reads
+from the state file to generate the decision form. The human interaction model is
+unchanged — decision form format, decision string, forced choices, Phase 2, and
+Phase 3 are all identical.
+
+**Context:**
+FRIC-042: at 100 wiki pages, lint Phase 1 auto-compacted mid-batch during topic page
+reads. The prior context note (manual /compact, resume from last step) was insufficient
+— auto-compaction fired before the operator could intervene, and no persistent record
+of findings existed to resume from. The existing ingest compaction resilience mechanism
+(DM-093: git status check + recovery prompt) does not apply to lint because lint's
+exposure spans the entire Phase 1, not a bounded window between disk write and commit.
+
+**Rationale:**
+The single-pass page-batch model (read each page once, run all applicable checks
+simultaneously) minimizes total token consumption by eliminating re-reads. The
+alternative — step-sequential chunking (complete all of L3 in session 1, all of L5
+in session 2) — re-reads every page per step, multiplying total reads by the number
+of heavy steps.
+
+The 30-page ceiling (Alternative D from the design discussion) satisfies LL-035
+(concrete enforceable rule, no agent judgment calls). The directory-aware batching
+minimizes awkward mid-directory splits. When a single directory exceeds 30 pages, the
+partial-directory fallback is simple: process the first 30 alphabetically, record the
+last-assessed slug, resume next session.
+
+The state file is committed to git for cross-machine continuity and inspectability.
+It is ephemeral — created at lint start, deleted after Phase 3 completes. The
+staleness guard (>7 days: warn; >14 days: recommend restart) prevents stale findings
+from silently producing an outdated decision form.
+
+The analogous prior design is DM-097 (large-document decomposition with manifest files
+in raw/staged/). Both use a persistent file to track multi-session completion state.
+The lint state file serves the same role as the ingest manifest: it stores enough
+context to resume without re-running completed work.
+
+**Alternatives Considered:**
+- **Step-sequential chunking:** Complete all of one step across all pages, then move to
+  the next step in a new session. Rejected — re-reads every page per step. At 100
+  pages and 3 heavy steps, this triples total page reads.
+- **In-memory-only with manual /compact:** The prior approach (context note). FRIC-042
+  proves it insufficient at 100 pages. Rejected.
+- **Scope-reduce lint to skip low-value steps at scale:** Rejected — the value of lint
+  is comprehensive assessment. Skipping steps creates silent coverage gaps.
+- **JSON state file instead of markdown:** More precise for structured data but less
+  readable for debugging and inconsistent with every other wiki operational file format.
+  Rejected per simplicity principle.
+- **Agent self-assessment of context pressure (Alternative C):** The agent processes
+  pages until it "feels" context pressure, then stops. Rejected — unenforceable per
+  LL-035 (positive instruction without concrete rule). This is the same class of
+  problem that caused FRIC-042.
+- **Fixed page ceiling without directory awareness (Alternative A):** Deterministic but
+  wastes session capacity on lightweight directories and does not prevent mid-directory
+  splits. Rejected in favor of Alternative D (ceiling with directory-aware batching).
+- **Directory boundaries only (Alternative B):** Clean boundaries but breaks down when
+  a single directory exceeds session capacity (e.g., topics/ at 45 pages). Rejected.
+
+**Consequences to Watch:**
+- The 30-page ceiling is calibrated for the current governance doc size (~40K tokens
+  for CLAUDE.md + OPERATIONS.md) and average page density (~1.5K tokens). If governance
+  docs grow substantially, the ceiling may need to be lowered. If page density
+  decreases (e.g., more stub pages), it could be raised. Recalibrate when either
+  factor changes materially.
+- Group C steps L6 (orphan detection) and L7 (concept gap detection) require targeted
+  reads in the Group C session. At 100 pages this is lightweight. At 200+ pages, if
+  Group C itself exhausts context, it may need to be split into subgroups — defer this
+  until operationally observed.
+- The state file is a new committed file that appears and disappears during lint passes.
+  Team members pulling from the repo between lint sessions may see the file. This is
+  harmless but worth noting.
+- `raw/lint-state.md` is excluded from Quartz by the existing `"raw/**"` ignorePattern.
+  No ignorePatterns change required.
+- No wiki-verify.sh update required. The state file is ephemeral, lives in raw/ (excluded
+  from naming convention checks per DM-074), and is not a scaffold file.
+
+**References:** FRIC-042, DM-093, DM-097, LL-035, OPERATIONS.md Section 11.4,
+CLAUDE.md Section 2
