@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-22
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*99 pages. Last updated: 2026-05-21.*
+*102 pages. Last updated: 2026-05-22.*
 
 ---
 
@@ -55,6 +55,9 @@ professional roles, see the [[teaching-index]].
 - [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
 - [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 - [[ai-trustworthiness]] — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
+- [[reinforcement-learning-from-human-feedback]] — The dominant post-training methodology for aligning large language models with human preferences, operating through a three-stage pipeline of supervised fine-tuning, reward model training on human comparisons, and RL policy optimization against the reward model. *(stub — pending first ingest)*
+- [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
+- [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
 
 ## Tools
 

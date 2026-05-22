@@ -2,7 +2,7 @@
 type: comparison
 title: Frontier LLM Benchmark Comparison
 created: 2026-05-18
-updated: 2026-05-18
+updated: 2026-05-22
 comparison_type: tool-vs-tool
 entities_compared:
   - "[[tools/anthropic-claude-opus-4-7]]"
@@ -13,14 +13,6 @@ status: current
 source_count: 4
 related_topics:
   - "[[llm-fundamentals]]"
-teaching_relevance: true
-competency_domains:
-  - tool-evaluation-and-selection
-  - capability-horizon-awareness
-professional_contexts:
-  - teaching-and-instruction
-  - professional-and-continuing-education
-  - software-and-ai-development
 ---
 > **Source note:** All benchmark rankings and capability comparisons on this page are
 > derived from the Vellum LLM Leaderboard (2026), a vendor-operated aggregator.

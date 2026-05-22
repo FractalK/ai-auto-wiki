@@ -2,13 +2,13 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-05-21
+updated: 2026-05-22
 ---
 
 # Teaching Index
 
-Auto-generated from frontmatter tags. 48 page(s) indexed across 7 competency domain(s).
-Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py`.
+Auto-generated from frontmatter tags. 47 page(s) indexed across 7 competency domain(s).
+Last regenerated: 2026-05-22. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
 
@@ -215,7 +215,6 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[ai-in-medicine|AI in Medicine]] (topic · practitioner) — The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
-- [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 
 ### project-and-program-management
 
@@ -230,7 +229,6 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
 - [[anthropic-claude-mythos-preview|Claude Mythos Preview]] (tool · practitioner) — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 - [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
-- [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 
 ### teaching-and-instruction
 
@@ -238,7 +236,6 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[ai-public-opinion|AI Public Opinion and Societal Attitudes]] (topic · practitioner) — Global survey evidence on public and expert attitudes toward AI, documenting a systematic expert-public optimism gap on employment and economic impact, rising nervousness alongside rising optimism, and sharply asymmetric trust in governance institutions across countries and regions.
 - [[ai-workforce-complementarity|AI Workforce Complementarity]] (topic · practitioner) — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data, documented productivity gains concentrated in low-EPOCH structured work, and early macro-level evidence of a J-curve productivity effect.
-- [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 - [[llm-functional-emotions|LLM Functional Emotions]] (topic · research) — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
 - [[scalable-oversight|Scalable Oversight]] (topic · research) — The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 - [[weak-to-strong-supervision|Weak-to-Strong Supervision]] (topic · research) — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
@@ -446,7 +443,6 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[ai-coding-agent-workflow-types|AI Coding Agent Workflow Types]] (topic · foundational) — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 - [[ai-coding-agent-workflow-types-pitfalls|AI Coding Agent Workflow Types Pitfalls]] (pitfalls)
 - [[anthropic-claude|Claude (Anthropic)]] (tool · foundational) — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
-- [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 
 ### project-and-program-management
@@ -461,7 +457,6 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[ai-coding-agent-workflow-types|AI Coding Agent Workflow Types]] (topic · foundational) — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 - [[ai-coding-agent-workflow-types-pitfalls|AI Coding Agent Workflow Types Pitfalls]] (pitfalls)
 - [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
-- [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 
 ### teaching-and-instruction
@@ -469,6 +464,5 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[anthropic-claude|Claude (Anthropic)]] (tool · foundational) — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
-- [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 - [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.

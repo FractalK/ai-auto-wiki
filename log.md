@@ -2,10 +2,19 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-21
-last_entry: 2026-05-21
-entry_count: 70
+updated: 2026-05-22
+last_entry: 2026-05-22
+entry_count: 71
 ---
+
+## [2026-05-22] lint | pass 2
+Pages assessed: 99. Stale flags: 0. Contradiction flags: 0.
+Support scores recalculated: 0. Teaching Index regenerated.
+Collection gaps confirmed: 0 | addressed: 0 | dismissed: 0.
+Schema fixes: teaching_notes_reviewed added to [[ai-in-higher-education-pitfalls]]; non-schema fields (teaching_relevance, competency_domains, professional_contexts) removed from [[frontier-llm-benchmark-comparison]].
+Concept gap stubs created: [[reinforcement-learning-from-human-feedback]], [[sycophancy]], [[red-teaming]].
+Schema drift (L11): Key Claims count >5 flagged on [[ai-alignment]], [[ai-in-medicine]], [[ai-workforce-complementarity]] — acknowledged, correction deferred to next ingest session.
+Skill file flag: EXTRACTION-SKILL.md § 6.2 and CONTRADICTION-SKILL.md § 7 (all 5 subsections) remain unpopulated after 25+ ingests.
 
 ## [2026-05-21 PT] session-stats | ingest
 Queue size at session start: 0 queued URLs; 2 staged files

@@ -2,7 +2,7 @@
 type: pitfalls
 title: AI in Higher Education — Pitfalls
 created: 2026-05-18
-updated: 2026-05-18
+updated: 2026-05-22
 parent_entity: "[[topics/ai-in-higher-education]]"
 parent_type: topic
 status: current
@@ -16,6 +16,7 @@ professional_contexts:
   - graduate-and-doctoral-education
 contributing_sources:
   - "[[2026-bristol-craap-ai-evaluation]]"
+teaching_notes_reviewed: 2026-05-18
 ---
 
 ## Technical Limitations
