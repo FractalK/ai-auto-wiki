@@ -2,14 +2,14 @@
 type: comparison
 title: Claude vs. ChatGPT — General-Purpose AI Assistant Comparison
 created: 2026-04-22
-updated: 2026-04-29
+updated: 2026-05-22
 comparison_type: tool-vs-tool
 entities_compared:
   - "[[tools/anthropic-claude]]"
   - "[[tools/openai-chatgpt]]"
 use_case: Selecting a general-purpose AI assistant for professional writing, document work, and multi-step task execution
-status: stale
-source_count: 1
+status: current
+source_count: 2
 related_topics:
   - "[[ai-agentic-workflows]]"
 ---
@@ -19,7 +19,7 @@ The choice between Claude and ChatGPT for professional work turns on whether the
 | Dimension | Claude | ChatGPT |
 |---|---|---|
 | **Long document processing** | Up to 200 pages per session; practitioner-rated stronger | Improving; practitioner-rated catching up |
-| **Local file access** | Desktop app provides local file system access | Not available as of April 2026 |
+| **Local file access** | Desktop app provides local file system access | Not available as of last wiki assessment (April 2026) |
 | **Multi-step autonomous tasks** | Cowork mode (minutes–hours, no-code, desktop only) | Agents available; more technical configuration required |
 | **Voice interaction** | Limited; practitioner-rated weaker | Superior; practitioner-rated best-in-class |
 | **Image generation** | Not available | Native via DALL-E |
