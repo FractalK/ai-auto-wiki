@@ -71,6 +71,10 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[responsible-ai-government-evaluation|Responsible AI for Government Program Evaluation]] (topic · practitioner) — A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 
+### software-and-ai-development
+
+- [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
+
 ### teaching-and-instruction
 
 - [[ai-public-opinion|AI Public Opinion and Societal Attitudes]] (topic · practitioner) — Global survey evidence on public and expert attitudes toward AI, documenting a systematic expert-public optimism gap on employment and economic impact, rising nervousness alongside rising optimism, and sharply asymmetric trust in governance institutions across countries and regions.
@@ -130,7 +134,11 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 
 ### software-and-ai-development
 
+- [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
+- [[anthropic-claude-mythos-preview|Claude Mythos Preview]] (tool · practitioner) — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 - [[jailbreaking|Jailbreaking]] (topic · practitioner) — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
+- [[prompt-injection|Prompt Injection]] (topic · practitioner) — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
+- [[prompt-injection-pitfalls|Prompt Injection Pitfalls]] (pitfalls)
 
 ### teaching-and-instruction
 
@@ -219,6 +227,9 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
+- [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
+- [[anthropic-claude-mythos-preview|Claude Mythos Preview]] (tool · practitioner) — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
+- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 - [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
 
 ### teaching-and-instruction
@@ -321,6 +332,8 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[jailbreaking|Jailbreaking]] (topic · practitioner) — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
+- [[prompt-injection|Prompt Injection]] (topic · practitioner) — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
+- [[prompt-injection-pitfalls|Prompt Injection Pitfalls]] (pitfalls)
 
 ### teaching-and-instruction
 
@@ -386,7 +399,10 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 
 ### software-and-ai-development
 
+- [[ai-coding-agent-workflow-types|AI Coding Agent Workflow Types]] (topic · foundational) — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
+- [[ai-coding-agent-workflow-types-pitfalls|AI Coding Agent Workflow Types Pitfalls]] (pitfalls)
 - [[jailbreaking|Jailbreaking]] (topic · practitioner) — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
+- [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 
 ### teaching-and-instruction
 
@@ -442,7 +458,11 @@ Last regenerated: 2026-05-21. To regenerate: `python3 generate-teaching-index.py
 
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
+- [[ai-coding-agent-workflow-types|AI Coding Agent Workflow Types]] (topic · foundational) — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
+- [[ai-coding-agent-workflow-types-pitfalls|AI Coding Agent Workflow Types Pitfalls]] (pitfalls)
+- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 - [[frontier-llm-benchmark-comparison|Frontier LLM Benchmark Comparison]] (comparison)
+- [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 
 ### teaching-and-instruction
 

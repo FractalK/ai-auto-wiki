@@ -2,7 +2,7 @@
 type: topic
 title: AI Coding Agent Workflow Types
 created: 2026-04-30
-updated: 2026-04-30
+updated: 2026-05-21
 summary: A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 status: developing
 source_count: 1
@@ -19,6 +19,7 @@ competency_domains:
 professional_contexts:
   - professional-and-continuing-education
   - organizational-leadership-and-change-management
+  - software-and-ai-development
 technical_depth: foundational
 teaching_notes_reviewed: 2026-04-30
 ---

@@ -2,7 +2,7 @@
 type: topic
 title: Prompt Injection
 created: 2026-04-30
-updated: 2026-04-30
+updated: 2026-05-21
 summary: An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 status: developing
 source_count: 1
@@ -18,6 +18,7 @@ competency_domains:
 professional_contexts:
   - project-and-program-management
   - organizational-leadership-and-change-management
+  - software-and-ai-development
 technical_depth: practitioner
 teaching_notes_reviewed: 2026-04-30
 ---
