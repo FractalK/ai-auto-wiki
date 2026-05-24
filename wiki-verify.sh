@@ -355,6 +355,7 @@ ALLOWED_ROOT=(
     "CONTRADICTION-SKILL.md"
     "wiki-lessons-learned.md"
     "INIT-PROMPT.md"
+    "wiki-lint.py"
     "index.md"
     "overview.md"
     "log.md"

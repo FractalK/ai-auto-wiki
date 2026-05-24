@@ -1107,134 +1107,61 @@ pass) runs all checks without writing wiki files and consolidates findings into 
 Phase 2 (human response) is skipped if no forced choices are generated. Phase 3 (execution
 pass) applies auto-execute actions and confirmed forced choices.
 
-**Chunked-session lint protocol:** At approximately 60+ pages, Phase 1 cannot complete
-in a single session. Phase 1 findings are persisted in `raw/lint-state.md` — a state
-file committed to git that accumulates findings across multiple sessions. The human's
-interaction model is unchanged: when all Phase 1 work is complete, L13 generates the
-decision form from the state file exactly as it would from in-memory findings. The
-human never needs to know how many sessions Phase 1 required.
+**Hybrid lint architecture (DM-106):** Phase 1 mechanical checks are performed by
+`wiki-lint.py`, a Python script that reads all wiki files in seconds and writes
+`raw/lint-findings.json`. The agent reads this file at session start and handles only
+D-category judgment steps. This eliminates the multi-session state-file protocol from
+DM-105.
 
-Phase 1 steps are organized into three groups:
+Phase 1 steps are organized into three groups (the script executes all three in a
+single pass):
 
-- **Group A (singleton reads):** L1, L1a, L2. Read queue.md and index.md. Always
-  completes in session 1.
-- **Group B (per-page assessment — batchable):** L3, L4a, L4b, L5, L5a, L5b, L5c,
-  L8, L9, L11, L15. For each page read, run ALL applicable per-page checks
-  simultaneously — each page is read exactly once across the entire multi-session pass.
-  Pages are processed in directory order: topics/, tools/, comparisons/, pitfalls/,
-  sources/, teaching/. Within each directory, alphabetical order.
+- **Group A (singleton reads):** L1, L1a, L2. Read queue.md and index.md.
+- **Group B (per-page assessment):** L3, L4a, L4b, L5, L5a, L5b, L5c, L8, L9, L11,
+  L15. For each page, run ALL applicable per-page checks simultaneously. Pages are
+  processed in directory order: topics/, tools/, comparisons/, pitfalls/, sources/,
+  teaching/. Within each directory, alphabetical order.
 - **Group C (cross-page analysis and non-page reads):** L4c, L6, L7, L10, L12, L12a,
-  L12b, L12c, L12d, L14. These steps operate on aggregated metadata already in the
-  state file or on specific non-page files — they do not re-read wiki pages (L6 and
-  L7 use targeted grep/scan, not full page reads).
+  L12b, L12c, L12d, L14. These steps operate on aggregated data from Group B or on
+  specific non-page files. L6 and L7 use targeted grep/scan, not full page reads.
 
-**Session boundary rule (hard ceiling with directory-aware batching):** Process at most
-30 pages per session. Within that ceiling, prefer completing a full directory before
-stopping. If a directory has more pages than the remaining ceiling allowance, stop at
-the directory boundary rather than starting a directory the agent cannot finish. If a
-single directory exceeds 30 pages, process the first 30 alphabetically and stop — the
-next session resumes from the last-assessed slug. Do not attempt to process more than
-30 pages in a session under any circumstances. Do not rely on self-assessment of
-context pressure — the ceiling is the rule.
+**Pre-session and Step L0 (before any agent step):**
 
-**State file location and lifecycle:** `raw/lint-state.md`. Committed to git after each
-session (`chore: lint state — session {N}`). Created at the start of a fresh lint pass.
-Deleted after Phase 3 completes successfully. The file is excluded from Quartz
-rendering by the existing `"raw/**"` ignorePattern.
+1. **Before starting Claude Code (human):** run `wiki-verify.sh`. Then run
+   `python3 wiki-lint.py` from the wiki root. The script completes in seconds and
+   writes `raw/lint-findings.json`.
 
-**State file format:**
+2. **At session start (agent):** read `raw/lint-findings.json`. Check the `lint_date`
+   field:
+   - If more than 7 days before today: warn the human — "Findings file is {N} days old.
+     Wiki may have changed since the script ran. Consider re-running wiki-lint.py."
+   - If more than 14 days before today: recommend re-running the script before
+     proceeding. The recommendation is advisory, not a hard gate.
 
-```yaml
----
-lint_pass: {N}
-initiated: YYYY-MM-DD
-status: in-progress | ready-for-form | complete
-sessions_used: {N}
-group_a_complete: false
-group_b_complete: false
-group_c_complete: false
-directories:
-  topics: complete | partial | pending
-  tools: complete | partial | pending
-  comparisons: complete | partial | pending
-  pitfalls: complete | partial | pending
-  sources: complete | partial | pending
-  teaching: complete | partial | pending
-last_partial_slug: ""
-open_contradictions_count: 0
-teaching_tagged_count: 0
-topic_tool_count: 0
-topic_tool_deprecated_count: 0
----
+3. Report the script summary to the human: total findings by type (forced-choice,
+   auto-execute, informational), `agent_review` item count, any script errors.
 
-## Forced Choices
+**Agent judgment pass (after Step L0):**
 
-{structured markdown blocks — one per forced choice finding, preserving step ID,
-page slug, claim text, options, and recommended value; see format below}
+Process `agent_review` items from the findings file. These are D-category steps where
+the script assembled data but the agent must complete a judgment element:
 
-## Auto-Execute
+- **L4b** (open contradictions): read the pre-assembled context for each. Set
+  `recommended` based on evidence quality. May require reading the specific pages with
+  open contradictions — but only those pages, not the full corpus.
+- **L7** (concept gaps): review candidate terms. Filter aliases and proper nouns already
+  captured under different slugs. Set stub type (Topic or Tool) for surviving candidates.
+- **L9** (decay_exempt): evaluate whether each candidate claim is definitional/foundational
+  or empirical (condition (a)). All context is in the findings file — no page read required.
+- **L11** (claim granularity): review flagged candidates. Confirm or dismiss.
+- **L12c** (override categorization): categorize extracted override entry texts into the
+  five root cause bins (Section 5.9). If any category has 3+ entries, mark for Schema
+  Signals entry in Phase 3.
+- **L5** (teaching-brief): confirm or override the default recommendation (A) for stale
+  teaching briefs.
 
-{structured markdown blocks — one per auto-execute finding}
-
-## Informational
-
-{structured markdown blocks — one per informational finding}
-```
-
-**Forced choice finding format in state file:**
-
-```markdown
-### FC-NNN | {step} | {short label}
-- **Page:** [[page-slug]]
-- **Detail:** {claim text, CTRD-ID, or other identifying detail}
-- **Context:** {contesting source, support score, dates, or other context}
-- **Options:** A) {label} | B) {label} | C) {label if applicable}
-- **Recommended:** {A|B|C|null}
-```
-
-Auto-execute and informational entries use analogous formats with step ID and page slug.
-
-**State file detection (Step L0 — executes before any other lint step):**
-
-At session start, check for `raw/lint-state.md`:
-
-- **File does not exist → fresh lint pass.** Create the state file with
-  `status: in-progress`, `sessions_used: 1`, all groups and directories set to
-  `false`/`pending`. Proceed to Group A (Step L1).
-
-- **File exists, `status: in-progress` → continuation session.** Read the state file.
-  Increment `sessions_used`. Check the staleness guard (see below). If Group A is
-  complete and Group B is incomplete: resume Group B from the first pending or partial
-  directory. If Group B is complete and Group C is incomplete: execute Group C. Do not
-  re-execute completed groups.
-
-- **File exists, `status: ready-for-form` → form generation session.** All Phase 1
-  data is collected. Skip directly to Step L13 to generate the decision form from the
-  state file findings. Then proceed to Phase 2 and Phase 3.
-
-- **File exists, `status: complete` → stale state file from a prior pass.** This
-  should not occur (the file is deleted after Phase 3). Warn the human: "Stale
-  lint-state.md found with status: complete — this file should have been deleted after
-  the prior Phase 3. Delete and start fresh?" If confirmed: delete and proceed as a
-  fresh pass.
-
-**Staleness guard:** When a state file exists with `status: in-progress`:
-- If `initiated` is more than 7 days before today: warn the human.
-
-```
-Lint state file is {N} days old (initiated {date}).
-Wiki content may have changed since assessment began — findings may be stale.
-A) Continue — accept staleness risk
-B) Restart — delete state file and begin fresh lint pass
-```
-
-- If `initiated` is more than 14 days before today: recommend B (restart). The
-  recommendation is advisory, not a hard gate.
-
-**State file corruption guard:** If `raw/lint-state.md` exists but has unparseable
-YAML frontmatter or is missing required fields (`lint_pass`, `initiated`, `status`):
-warn the human, offer to delete and restart. Do not attempt to recover from a
-malformed state file.
+After the judgment pass: merge results into the findings (set `recommended` values,
+promote confirmed items, dismiss false positives). Proceed to Step L13.
 
 ---
 
@@ -1274,36 +1201,19 @@ surfaced in Step L11.
 
 **--- Group A complete ---**
 
-After Steps L1, L1a, and L2: write findings (CTRD signals, nomination aging items, page
-inventory counts) to the state file. Set `group_a_complete: true`. Set `topic_tool_count`
-and `topic_tool_deprecated_count` from the L2 inventory. Commit the state file if this
-is a continuation session and Group B will not begin in the same session. If Group B will
-begin immediately (the typical case for session 1): skip the mid-group commit and write
-the state file after the Group B batch completes.
+After Steps L1, L1a, and L2: the script records CTRD signals, nomination aging items,
+and page inventory counts. `topic_tool_count` and `topic_tool_deprecated_count` are
+accumulated for use in Group C Step L10.
 
-**--- Group B: Per-page assessment (batchable) ---**
+**--- Group B: Per-page assessment ---**
 
-For each page, run ALL applicable per-page checks simultaneously. Steps L3, L4a, L4b,
-L5, L5a, L5b, L5c, L8, L9, L11, and L15 are evaluated during a single read of each
-page. This means the agent reads the page's frontmatter and body, then applies every
-check that is relevant to that page's type before moving to the next page. Pages are
-processed in directory order (topics/, tools/, comparisons/, pitfalls/, sources/,
+The script runs ALL applicable per-page checks simultaneously for each page. Steps L3,
+L4a, L4b, L5, L5a, L5b, L5c, L8, L9, L11, and L15 are evaluated in a single read of
+each page, in directory order (topics/, tools/, comparisons/, pitfalls/, sources/,
 teaching/) and alphabetically within each directory.
 
-During Group B, also accumulate the following metadata in the state file for use by
-Group C:
-- `open_contradictions_count`: sum of individual entries in `open_contradictions`
-  frontmatter lists across all assessed pages (for L4c).
-- `teaching_tagged_count`: count of pages with `teaching_relevance: true` (for L10).
-
-After each batch (when the 30-page ceiling is reached, or a directory boundary is
-reached and the next directory would exceed the remaining ceiling): write all findings
-from this batch to the state file body sections (Forced Choices, Auto-Execute,
-Informational). Update the `directories` progress map and `last_partial_slug` if the
-current directory is partially complete. Update `sessions_used`. Commit:
-`chore: lint state — session {N}`.
-
-When all six directories show `complete`: set `group_b_complete: true`.
+The script also accumulates `open_contradictions_count` (for L4c) and
+`teaching_tagged_count` (for L10) across Group B pages.
 
 **Step L3 — Support score recalculation**
 
@@ -1708,33 +1618,25 @@ will re-surface at the next lint pass.
 
 **--- Group B complete ---**
 
-When all six directories show `complete` in the state file: set `group_b_complete: true`.
-Write final Group B findings to state file and commit.
+After all six directories are processed, the script proceeds to Group C.
 
 **--- Group C: Cross-page analysis and non-page reads ---**
 
-Group C executes only after `group_b_complete: true`. It runs Steps L4c, L6, L7, L10,
-L12, L12a, L12b, L12c, L12d, and L14 — all described above with their Group C
-annotations. These steps use aggregated metadata from the state file (for L4c, L10) or
-targeted lightweight reads (for L6, L7) or specific non-page files (for L12 group, L14).
+Group C executes after Group B completes. It runs Steps L4c, L6, L7, L10, L12, L12a,
+L12b, L12c, L12d, and L14 — described above with their Group C annotations. These steps
+use aggregated metadata from Group B (for L4c, L10) or targeted lightweight reads (for
+L6, L7) or specific non-page files (for L12 group, L14).
 
-After all Group C steps complete: write findings to state file. Set
-`group_c_complete: true` and `status: ready-for-form`. Commit:
-`chore: lint state — session {N}`.
-
-If Group C and L13 form generation can both fit in the same session (typical — Group C
-is lightweight): proceed directly to L13 without ending the session. If context is
-constrained (e.g., an unusually large number of findings): set `status: ready-for-form`,
-commit, and stop. The next session reads the state file and proceeds to L13.
+After all Group C steps complete, the script writes `raw/lint-findings.json`. The agent
+session begins by reading this file and completing the judgment pass. Proceed to Step L13.
 
 **Step L13 — Generate lint decision form**
 
-Read all findings from `raw/lint-state.md`. The state file's `## Forced Choices`,
-`## Auto-Execute`, and `## Informational` sections contain every finding accumulated
-across all Phase 1 sessions. L13 operates on these persisted findings exactly as it
-would on in-memory findings from a single-session pass.
+Read all findings from `raw/lint-findings.json`. The findings file contains all
+Phase 1 outputs from `wiki-lint.py` plus the agent's completed judgment values from
+the judgment pass.
 
-If no forced choices exist in the state file (the `## Forced Choices` section is empty):
+If the `findings` array contains no items of type `forced-choice` after the judgment pass:
 state "No forced choices this pass — proceeding to Phase 3" and proceed immediately
 without generating a form.
 
@@ -1898,11 +1800,8 @@ Last updated: YYYY-MM-DD (lint pass {N})
       Preserve the full line content including `nominated_date`; do not update the date.
     - Delete all Stage 2 items from `[stale-nominated]` in queue.md.
 13. Append lint log entry.
-14. Delete `raw/lint-state.md` and commit the deletion. Do not delete mid-pass. Do not
-    delete before Phase 3 completes. Do not carry forward a state file from a prior
-    completed lint pass into a new one. If `raw/lint-state.md` does not exist at this
-    point (e.g., a small wiki that completed Phase 1 in a single session without
-    creating a state file): skip this step.
+14. Delete `raw/lint-findings.json` and commit the deletion. Do not delete mid-pass.
+    Do not delete before Phase 3 completes.
 
 ---
 
@@ -1911,7 +1810,6 @@ Last updated: YYYY-MM-DD (lint pass {N})
 ```
 ## [YYYY-MM-DD] lint | pass {N}
 Pages assessed: {N}. Sources in wiki: {N}.
-Sessions used: {N}.
 Support scores recalculated: {N} pages ({N} claims updated).
 Expired contradictions auto-confirmed: {N} — {CTRD-IDs or "none"}
 CTRD-NNN signals processed: {N} — {CTRD-IDs and outcomes or "none"}

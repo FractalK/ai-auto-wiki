@@ -54,6 +54,7 @@ wiki/
 ├── EXTRACTION-SKILL.md          ← ingest extraction examples; excluded from Quartz
 ├── TAGGING-SKILL.md             ← teaching relevance tagging examples; excluded from Quartz
 ├── CONTRADICTION-SKILL.md       ← contradiction path examples; excluded from Quartz
+├── wiki-lint.py                 ← lint script; reads all wiki files, writes raw/lint-findings.json
 ├── index.md                     ← singleton; catalog of all pages
 ├── overview.md                  ← singleton; wiki entry point and counters
 ├── log.md                       ← singleton; append-only operation log
@@ -72,9 +73,9 @@ wiki/
 │   ├── deferred-ingest.md      ← ephemeral; created when ingest is aborted at Step 0;
 │   │                               deleted when the deferred items are processed;
 │   │                               committed to git on creation
-│   └── lint-state.md           ← ephemeral; created at lint start, deleted after Phase 3
-│                                   completes; committed to git for cross-machine continuity;
-│                                   accumulates Phase 1 findings across multi-session lint passes
+│   └── lint-findings.json      ← ephemeral; created by wiki-lint.py before agent session,
+│                                   deleted after Phase 3 completes; not committed to git;
+│                                   contains all Phase 1 mechanical check results and D-category data
 ├── topics/                      ← Topic pages
 ├── tools/                       ← Tool/Product pages
 ├── sources/                     ← Source pages

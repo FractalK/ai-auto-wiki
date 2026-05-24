@@ -17,9 +17,12 @@ Clippings/
 raw/staged/
 raw/processed/
 
-# Wiki: session-generated ingest decision form (template is committed; session output is not)
+# Wiki: session-generated decision forms (template is committed; session output is not)
 ingest-decisions.html
 lint-decisions.html
+
+# Wiki: lint script output — ephemeral, deleted after Phase 3 completes
+lint-findings.json
 
 # Keep .gitkeep files in tracked empty directories
 !**/.gitkeep
