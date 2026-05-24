@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 22/05/2026 21:00 EST
+**Last Updated:** 05/24/2026 14:30 EST
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -866,3 +866,37 @@ fields.
   boundaries. State file accumulates findings; L13 reads from state file for form
   generation. See DM-105.
 - **Resolved:** 2026-05-22
+
+---
+
+## FRIC-043 | G1-G5 Checks Implemented in wiki-lint.py But Not Documented in OPERATIONS.md
+
+- **Date:** 2026-05-24
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — Section 11.4 lint procedure (Group A/B/C
+  classification, Phase 1 step documentation, L13 informational summary, lint log entry
+  format)
+- **Symptom:** The Claude Code build session (DM-106, commits a6f6364–4d4afc0) implemented
+  all five G-category checks (G1 wikilink integrity, G2 index-filesystem parity, G3 source
+  reference integrity, G4 overview counter accuracy, G5 status-content consistency) in
+  wiki-lint.py. The build prompt (claude-code-lint-build-prompt-v2.md Step 3.1) explicitly
+  instructed: "Add the five new checks (G1-G5) to the appropriate step positions."
+  The resulting OPERATIONS.md update added G1-G5 to the hybrid architecture description but
+  omitted them from: (1) the Group A/B/C step classification lists; (2) individual Phase 1
+  step documentation entries; (3) the L13 informational summary template; (4) the lint log
+  entry format. The checks produce findings that appear in lint-findings.json but have no
+  OPERATIONS.md home — an operator reading the lint procedure cannot determine what G-check
+  findings mean or what action to take.
+- **Verdict:** Confirmed weakness — build prompt instruction was partially followed. G1-G5
+  were implemented in the script (correct) but the corresponding OPERATIONS.md documentation
+  update was incomplete. The gap between script behavior and documented procedure is a
+  maintenance hazard: future schema changes affecting G1-G5 logic have no clear procedure
+  to follow.
+- **Fix plan:** Design session (this session) added G1-G5 to the Group A/B/C
+  classification, added individual step documentation for each G check at the appropriate
+  Phase 1 position, added G-check findings lines to the L13 informational summary template,
+  and added G-check lines to the lint log entry format. See OPERATIONS.md Section 11.4.
+  test-harness.md Section 2.5.1 (wiki-lint.py maintenance table) added a row for G5
+  threshold constants.
+- **Resolved:** 2026-05-24

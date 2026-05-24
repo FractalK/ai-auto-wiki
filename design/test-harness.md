@@ -1,5 +1,5 @@
 # Wiki Test Harness — Specification
-**Last Updated:** 21/05/2026 19:45 EST
+**Last Updated:** 05/24/2026 14:30 EST
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -124,6 +124,45 @@ When the schema changes, update the script in the following cases:
 | New required body section on a page type (e.g., `## Verdict`) | Add a `grep -qF '## Section'` existence check in the relevant content directory loop. Update Section 2.3 catalogue. |
 | New conditional frontmatter field depending on a body section | Add a cross-check in Group 13 pattern: read triggering field, grep for body section, assert dependent field present. WARN severity unless dependency is unconditional. |
 | Teaching Index generation logic changes (exclusion rules, field set, output format) | Update `generate-teaching-index.py` to match the new spec. Exclusion rules are in `collect_pages()`; output format is in `render_index()`. No wiki-verify.sh change required unless the frontmatter fields being read change — if a new required tagging field is introduced, update Check 15 accordingly and update Section 2.3 catalogue row 15. |
+
+#### 2.5.1 wiki-lint.py Maintenance
+
+`wiki-lint.py` hardcodes schema knowledge in a `# Schema Constants` block at the top of
+the file. **Check the table below before delivering any schema change that touches the
+listed areas.** Failure to update the script causes it to produce stale or incorrect
+findings silently — the findings file will be written without error, but findings will
+reflect the old schema.
+
+The script's constants are in a single section at the top of the file (lines ~35–175),
+labeled with `# MAINTENANCE:` comments identifying the corresponding schema source. For
+each row below, the constant name is the exact Python identifier to update.
+
+| Schema change | Required script update |
+|---------------|----------------------|
+| Credibility weight values changed (peer-reviewed=3, institutional=2, practitioner=1, community=0) | Update `CREDIBILITY_WEIGHTS` dict |
+| Decay multiplier changed (currently 0.5×) | Update `DECAY_MULTIPLIER` constant |
+| Decay threshold changed (currently 12 months) | Update `DECAY_THRESHOLD_MONTHS` constant |
+| Staleness threshold changed (currently 90 days for Topic/Tool) | Update `STALENESS_THRESHOLD_DAYS` constant |
+| Comparison staleness signal field changed (`last_assessed` → other) | Update comparison staleness logic in `check_L5_staleness()` |
+| Nomination aging thresholds changed (currently 90 days Stage 1 / 180 days Stage 2) | Update `NOMINATION_STAGE1_DAYS`, `NOMINATION_STAGE2_DAYS` constants |
+| Teaching ratio threshold changed (currently 0.20) | Update `TEACHING_RATIO_THRESHOLD` constant |
+| Schema Signals aging threshold changed (currently 60 days) | Update `SCHEMA_SIGNALS_AGE_DAYS` constant |
+| Deferred ingest staleness threshold changed (currently 14 days) | Update `DEFERRED_STALENESS_DAYS` constant |
+| Session stats count threshold changed (currently 50 entries) | Update `SESSION_STATS_THRESHOLD` constant |
+| Contradiction override window changed (currently 7 days) | Update `OVERRIDE_WINDOW_DAYS` constant |
+| New content directory added | Add to `CONTENT_DIRS` list |
+| New page type with required frontmatter fields | Add type-keyed entry to `REQUIRED_FIELDS` dict; add type-keyed entry to `VALID_STATUS` dict; add per-page check logic in the Group B page processing loop |
+| Required frontmatter field added to existing page type | Add field name to the relevant list in `REQUIRED_FIELDS[type]` |
+| Controlled vocabulary values changed (CLAUDE.md Sections 7.1–7.2) | Update `VALID_COMPETENCY_DOMAINS` or `VALID_PROFESSIONAL_CONTEXTS` set. **Hard requirement** — same as wiki-verify.sh. Must be delivered in same batch as CLAUDE.md vocabulary change. Also update wiki-verify.sh `VALID_CD`/`VALID_PC` arrays to match (see Section 2.5 row above) |
+| Status vocabulary changed for any page type | Update the relevant set in `VALID_STATUS[type]` |
+| Key Claims table column structure changed | Update `KEY_CLAIMS_HEADER` regex and the claims-row parser in `parse_key_claims()` |
+| CTRD-NNN format changed | Update `CTRD_PATTERN` regex constant |
+| New singleton file with required fields | Add to `SINGLETON_FILES` set; add field checks in singleton-specific logic |
+| G5 status-content thresholds changed (currently stub≤3 claims, stub<500 words, current≥3 claims) | Update `G5_STUB_MAX_CLAIMS`, `G5_STUB_MAX_WORDS`, `G5_CURRENT_MIN_CLAIMS` constants |
+| New lint step (M-category) added | Implement check function; call from appropriate Group (A/B/C); add `add_finding()` call with correct step ID; update OPERATIONS.md Group classification and add step documentation in OPERATIONS.md Section 11.4 |
+| New lint step (D-category) added | Implement data-assembly function; add item to `agent_review` output in findings JSON; update OPERATIONS.md Group classification and add step documentation in OPERATIONS.md Section 11.4 |
+| L12a inline analysis criteria changed | Update session stats aggregation logic in `check_L12a_session_stats()` |
+| wiki-verify.sh controlled vocabulary allowlists changed | Verify `wiki-lint.py` uses identical values in `VALID_COMPETENCY_DOMAINS` / `VALID_PROFESSIONAL_CONTEXTS` — the two scripts must remain in sync |
 
 ---
 

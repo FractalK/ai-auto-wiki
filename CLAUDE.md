@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 22/05/2026 21:00 EST
+**Last Updated:** 05/24/2026 14:30 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document

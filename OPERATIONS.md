@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 22/05/2026 21:00 EST
+**Last Updated:** 05/24/2026 14:30 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1116,14 +1116,17 @@ DM-105.
 Phase 1 steps are organized into three groups (the script executes all three in a
 single pass):
 
-- **Group A (singleton reads):** L1, L1a, L2. Read queue.md and index.md.
+- **Group A (singleton reads):** L1, L1a, L2, G2. Read queue.md and index.md. G2
+  cross-checks index.md entries against the filesystem (enhances L2).
 - **Group B (per-page assessment):** L3, L4a, L4b, L5, L5a, L5b, L5c, L8, L9, L11,
-  L15. For each page, run ALL applicable per-page checks simultaneously. Pages are
-  processed in directory order: topics/, tools/, comparisons/, pitfalls/, sources/,
+  L15, G3, G5. For each page, run ALL applicable per-page checks simultaneously. Pages
+  are processed in directory order: topics/, tools/, comparisons/, pitfalls/, sources/,
   teaching/. Within each directory, alphabetical order.
 - **Group C (cross-page analysis and non-page reads):** L4c, L6, L7, L10, L12, L12a,
-  L12b, L12c, L12d, L14. These steps operate on aggregated data from Group B or on
-  specific non-page files. L6 and L7 use targeted grep/scan, not full page reads.
+  L12b, L12c, L12d, L14, G1, G4. These steps operate on aggregated data from Group B
+  or on specific non-page files. L6, L7, and G1 use targeted grep/scan, not full page
+  reads. G4 uses counter data from overview.md and the CTRD-NNN ID set assembled during
+  Group B.
 
 **Pre-session and Step L0 (before any agent step):**
 
@@ -1199,6 +1202,20 @@ scan the filesystem directly — index.md is the authoritative catalog. Pages pr
 disk but absent from index.md are invisible to lint; this is a schema conformance finding
 surfaced in Step L11.
 
+**Step G2 — Index.md ↔ filesystem parity**
+*(Group A — runs alongside L2 using the same index.md read and a filesystem scan.)*
+
+Cross-check the slug entries recorded in index.md against actual files on disk.
+
+- Pages present on disk but absent from index.md: list each slug. These are invisible
+  to the rest of lint (L3, L5, L6, L11 will not process them). Informational-only.
+- Entries present in index.md but with no corresponding file on disk: list each slug.
+  These are dead index entries. Informational-only.
+
+Output: informational finding per gap (or "index.md ↔ filesystem parity: verified" if
+no gaps found). No forced choice. No Phase 3 execution step — gaps are surfaced for
+human investigation; the agent does not auto-correct index.md or delete orphan entries.
+
 **--- Group A complete ---**
 
 After Steps L1, L1a, and L2: the script records CTRD signals, nomination aging items,
@@ -1208,8 +1225,8 @@ accumulated for use in Group C Step L10.
 **--- Group B: Per-page assessment ---**
 
 The script runs ALL applicable per-page checks simultaneously for each page. Steps L3,
-L4a, L4b, L5, L5a, L5b, L5c, L8, L9, L11, and L15 are evaluated in a single read of
-each page, in directory order (topics/, tools/, comparisons/, pitfalls/, sources/,
+L4a, L4b, L5, L5a, L5b, L5c, L8, L9, L11, L15, G3, and G5 are evaluated in a single
+read of each page, in directory order (topics/, tools/, comparisons/, pitfalls/, sources/,
 teaching/) and alphabetically within each directory.
 
 The script also accumulates `open_contradictions_count` (for L4c) and
@@ -1280,6 +1297,23 @@ in `overview.md`.
 ```
 
 - If actual count matches overview.md: add to informational summary as "Counter verified: {N}."
+
+**Step G4 — overview.md counter accuracy**
+*(Group C — executes after all Group B page reads are complete. Uses `total_pages` count
+from L2 and the maximum CTRD-NNN ID assembled across Group B page reads.)*
+
+Verify two numeric counters in `overview.md`:
+
+- `total_pages`: compare against the actual filesystem count of all content pages. If
+  the counts differ, add to informational summary: "total_pages drift: overview.md shows
+  {N}, actual page count is {M}." Auto-correct in Phase 3 item 11.
+- `last_contradiction_id`: compare against the highest CTRD-NNN integer found in any
+  wiki file. If overview.md shows a lower ID, add to informational summary:
+  "last_contradiction_id out of date: overview.md shows CTRD-{N}, highest found is
+  CTRD-{M}." Auto-correct in Phase 3 item 11.
+
+Output: informational findings only. No forced choice. Phase 3 auto-correction is
+handled as part of item 11 (overview.md update step).
 
 **Step L5 — Staleness checks**
 
@@ -1366,6 +1400,18 @@ For each wiki page excluding singletons and Source pages: check whether any othe
 non-source page contains a wikilink to this page. Pages with no inbound wikilinks
 from non-source pages are flagged as orphans. Informational only — no auto-action,
 no forced choice. Listed in lint report for human review.
+
+**Step G1 — Wikilink integrity**
+*(Group C — executes after all Group B page reads are complete. Requires the full valid
+slug set built from the filesystem and index.md during Groups A and B.)*
+
+Scan all wikilinks (pattern `[[slug]]`) in prose, frontmatter list fields, and Key
+Claims tables across every wiki page. For each wikilink, check whether the target slug
+corresponds to an existing file. Report all broken wikilinks.
+
+Output: informational finding per broken wikilink, grouped by source page. No forced
+choice. No Phase 3 auto-correction — broken wikilinks require human review to determine
+whether the target page was renamed, not yet created, or the link is erroneous.
 
 **Step L7 — Concept gap detection**
 *(Group C — executes after all Group B page reads are complete. Scans prose sections
@@ -1616,16 +1662,43 @@ after writing.
 If B confirmed: no action. Page remains excluded from the Teaching Index. The warning
 will re-surface at the next lint pass.
 
+**Step G3 — Source reference integrity**
+*(Group B — runs per-page as part of the single-pass assessment.)*
+
+For each Topic, Tool, Comparison, and Pitfalls page: parse the Key Claims table. For
+each source slug referenced in a claim's Source field (wikilink of the form
+`[[source-slug]]`): verify that a corresponding file exists in `sources/`. Report all
+broken source references.
+
+Output: informational finding per broken reference, identified by page and claim row.
+No forced choice. No Phase 3 auto-correction — a broken source reference may indicate a
+renamed source file, an ingest that was never completed, or a data entry error; human
+investigation is required.
+
+**Step G5 — Status-content consistency**
+*(Group B — runs per-page as part of the single-pass assessment.)*
+
+Flag cases where a page's `status` value is inconsistent with its content metrics:
+
+- `status: stub` but Key Claims count exceeds 3, or prose word count exceeds 500: flag
+  as likely mislabeled — page may have been developed past stub state without a status
+  update.
+- `status: current` but Key Claims count is fewer than 3: flag as potentially under-populated
+  for a current page.
+
+Output: informational finding per inconsistency. No forced choice. No Phase 3
+auto-correction — status transitions require human judgment about content sufficiency.
+
 **--- Group B complete ---**
 
 After all six directories are processed, the script proceeds to Group C.
 
 **--- Group C: Cross-page analysis and non-page reads ---**
 
-Group C executes after Group B completes. It runs Steps L4c, L6, L7, L10, L12, L12a,
-L12b, L12c, L12d, and L14 — described above with their Group C annotations. These steps
-use aggregated metadata from Group B (for L4c, L10) or targeted lightweight reads (for
-L6, L7) or specific non-page files (for L12 group, L14).
+Group C executes after Group B completes. It runs Steps L4c, G4, L6, G1, L7, L10,
+L12, L12a, L12b, L12c, L12d, and L14 — described above with their Group C annotations.
+These steps use aggregated metadata from Group B (for L4c, G4, L10) or targeted
+lightweight reads (for L6, G1, L7) or specific non-page files (for L12 group, L14).
 
 After all Group C steps complete, the script writes `raw/lint-findings.json`. The agent
 session begins by reading this file and completing the judgment pass. Proceed to Step L13.
@@ -1705,6 +1778,11 @@ Informational summary — Lint pass {N} | {date} | Sessions: {N}
 - Stale pages eligible for upgrade (one condition unmet): {list or "none"}
 - open_contradictions counter: overview.md {N}, actual {M} {— auto-corrected | — discrepancy flagged for investigation | — verified match}
 - Orphan pages detected: {list or "none"}
+- Broken wikilinks (G1): {N} — {source page: broken slug pairs, or "none"}
+- Index-filesystem gaps (G2): {N pages on disk absent from index / N index entries with no file, or "verified"}
+- Broken source references in Key Claims (G3): {N} — {page: claim identifiers, or "none"}
+- overview.md counter drift (G4): {description of any drift found, or "counters verified"}
+- Status-content inconsistencies (G5): {N} — {page slugs, or "none"}
 - Pitfalls failure_mode_count updates: {N}
 - Teaching notes currency flags (>90-day drift between teaching_notes_reviewed and last_assessed): {N} — {wikilinks or "none"}
 - Teaching notes missing on teaching-tagged pages: {N} — {wikilinks or "none"}
@@ -1815,6 +1893,11 @@ Expired contradictions auto-confirmed: {N} — {CTRD-IDs or "none"}
 CTRD-NNN signals processed: {N} — {CTRD-IDs and outcomes or "none"}
 Pages downgraded to stale: {N} — {wikilinks or "none"}
 Orphan pages flagged: {N} — {wikilinks or "none"}
+Broken wikilinks (G1): {N} — {"none" or count with page:slug pairs}
+Index-filesystem gaps (G2): {N} — {"none" or "verified"}
+Broken source references in Key Claims (G3): {N} — {"none" or count with page identifiers}
+Counter drift corrected (G4): {yes — {field: old → new} | no}
+Status-content inconsistencies (G5): {N} — {"none" or page slugs}
 Concept gaps surfaced: {N} — {confirmed/declined breakdown}
 decay_exempt confirmed: {N} — {wikilinks or "none"}
 Schema drift flags: {N} — {criteria or "none"}
