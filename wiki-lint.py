@@ -1331,6 +1331,731 @@ def check_G5_status_content_consistency(fm, body, page_slug, page_type, claims_r
         )
 
 
+# ─── Group C: Cross-Page Computation ─────────────────────────────────────────
+
+def build_source_info():
+    """
+    Read all source pages to collect credibility_tier and published_date.
+    Returns dict: source_slug -> {"tier": str, "published": date|None}
+    """
+    info = {}
+    if not os.path.isdir("sources"):
+        return info
+    for fname in os.listdir("sources"):
+        if not fname.endswith(".md"):
+            continue
+        slug = fname[:-3]
+        try:
+            with open(os.path.join("sources", fname), encoding="utf-8") as f:
+                text = f.read()
+        except OSError:
+            continue
+        fm, _ = parse_frontmatter(text)
+        tier = fm.get("credibility_tier", "")
+        published = fm.get("published_date")
+        info[slug] = {
+            "tier": tier,
+            "published": published if isinstance(published, date) else None,
+            "status": fm.get("status", "active"),
+        }
+    return info
+
+
+def check_L3_support_scores(page_claims, source_info, verbose):
+    """
+    L3: Recalculate support scores for every Key Claim on Topic and Tool pages.
+    Reports differences. Informational only.
+    """
+    for page_slug, claims_rows in page_claims.items():
+        for row in claims_rows:
+            source_cell = row.get("source", "")
+            status_cell = row.get("status", "")
+            decay_exempt_val = row.get("decay_exempt", "false").strip().lower() == "true"
+            current_score_str = row.get("support_score", "").strip()
+
+            # Skip [derived] claims
+            if "[derived]" in source_cell:
+                continue
+
+            total_score = 0.0
+            detail_lines = []
+
+            for m in WIKILINK_PATTERN.finditer(source_cell):
+                raw = m.group(1)
+                slug = wikilink_to_slug(raw)
+                # Check if [minority view] follows this wikilink
+                tail = source_cell[m.end():m.end() + 30]
+                if "[minority view]" in tail:
+                    detail_lines.append(f"  {slug}: minority view — excluded")
+                    continue
+
+                sinfo = source_info.get(slug, {})
+                tier = sinfo.get("tier", "")
+                weight = CREDIBILITY_WEIGHTS.get(tier, 0)
+                pub_date = sinfo.get("published")
+
+                # Apply decay if not exempt
+                if not decay_exempt_val and pub_date:
+                    age_months = months_ago(pub_date)
+                    if age_months is not None and age_months > DECAY_THRESHOLD_MONTHS:
+                        weight *= DECAY_MULTIPLIER
+
+                total_score += weight
+                detail_lines.append(
+                    f"  {slug}: tier={tier}, weight={weight:.1f}, "
+                    f"pub={pub_date}"
+                )
+
+            computed = round(total_score, 1)
+
+            if verbose:
+                print(f"  [L3] {page_slug} claim '{row.get('claim','')[:50]}...' "
+                      f"computed={computed}")
+                for dl in detail_lines:
+                    print(f"    {dl}")
+
+            # Compare to table value
+            try:
+                table_score = float(current_score_str)
+            except (ValueError, TypeError):
+                table_score = None
+
+            if table_score is not None and abs(computed - table_score) >= 0.05:
+                add_finding(
+                    "L3", "informational", page_slug,
+                    f"Support score changed on {page_slug}: table={table_score}, "
+                    f"computed={computed} (claim: '{row.get('claim','')[:60]}')",
+                    {
+                        "page": page_slug,
+                        "claim_text": row.get("claim", ""),
+                        "table_score": table_score,
+                        "computed_score": computed,
+                        "detail": detail_lines,
+                    },
+                )
+            elif table_score is None and current_score_str not in ("", "derived"):
+                add_finding(
+                    "L3", "informational", page_slug,
+                    f"Support score unparseable on {page_slug}: '{current_score_str}'",
+                    {"page": page_slug, "raw_score": current_score_str},
+                )
+
+
+def check_L4c_and_G4_counters(open_contradictions_count, all_ctrd_ids,
+                               overview_fm, total_indexed):
+    """
+    L4c: Reconcile open_contradictions counter.
+    G4: Verify total_pages and last_contradiction_id in overview.md.
+    """
+    # L4c: open_contradictions
+    overview_open = overview_fm.get("open_contradictions", 0) or 0
+    if isinstance(overview_open, str):
+        try:
+            overview_open = int(overview_open)
+        except ValueError:
+            overview_open = 0
+
+    diff = abs(open_contradictions_count - overview_open)
+    if diff == 0:
+        add_finding(
+            "L4c", "informational", None,
+            f"open_contradictions counter verified: {overview_open}",
+            {"actual": open_contradictions_count, "overview": overview_open},
+        )
+    elif diff <= 1:
+        add_finding(
+            "L4c", "informational", None,
+            f"open_contradictions counter drift ±1: overview.md={overview_open}, "
+            f"actual={open_contradictions_count} — will auto-correct",
+            {
+                "overview_value": overview_open,
+                "actual_count": open_contradictions_count,
+                "action": "auto-correct",
+            },
+        )
+    else:
+        add_finding(
+            "L4c", "forced-choice", None,
+            f"open_contradictions counter drift ±{diff}: overview.md={overview_open}, "
+            f"actual={open_contradictions_count}",
+            {
+                "overview_value": overview_open,
+                "actual_count": open_contradictions_count,
+                "diff": diff,
+                "options": {
+                    "A": f"Correct the counter to {open_contradictions_count}",
+                    "B": "Investigate before correcting — skip counter update this pass",
+                },
+            },
+            recommended="A",
+        )
+
+    # G4: total_pages
+    overview_total = overview_fm.get("total_pages", 0) or 0
+    if isinstance(overview_total, str):
+        try:
+            overview_total = int(overview_total)
+        except ValueError:
+            overview_total = 0
+
+    if overview_total != total_indexed:
+        add_finding(
+            "G4", "informational", None,
+            f"total_pages drift: overview.md={overview_total}, index.md={total_indexed}",
+            {"overview_value": overview_total, "indexed_count": total_indexed},
+        )
+    else:
+        add_finding(
+            "G4", "informational", None,
+            f"total_pages verified: {overview_total}",
+            {"verified": True},
+        )
+
+    # G4: last_contradiction_id
+    overview_last_id = overview_fm.get("last_contradiction_id", 0) or 0
+    if isinstance(overview_last_id, str):
+        try:
+            overview_last_id = int(overview_last_id)
+        except ValueError:
+            overview_last_id = 0
+
+    max_ctrd_num = 0
+    for cid in all_ctrd_ids:
+        m = CTRD_PATTERN.match(cid)
+        if m:
+            max_ctrd_num = max(max_ctrd_num, int(m.group(1)))
+
+    if max_ctrd_num > overview_last_id:
+        add_finding(
+            "G4", "informational", None,
+            f"last_contradiction_id is lower than highest CTRD found: "
+            f"overview.md={overview_last_id}, highest found={max_ctrd_num}",
+            {
+                "overview_value": overview_last_id,
+                "highest_found": max_ctrd_num,
+                "action": "auto-correct-upward",
+            },
+        )
+    else:
+        add_finding(
+            "G4", "informational", None,
+            f"last_contradiction_id verified: {overview_last_id}",
+            {"verified": True},
+        )
+
+
+def check_L10_teaching_ratio(teaching_tagged_count, topic_tool_count,
+                              topic_tool_deprecated_count):
+    """
+    L10: Teaching Index completeness ratio.
+    """
+    denominator = topic_tool_count - topic_tool_deprecated_count
+    if denominator == 0:
+        add_finding("L10", "informational", None,
+                    "No eligible topic/tool pages for teaching ratio calculation.", {})
+        return
+
+    ratio = teaching_tagged_count / denominator
+    ratio_pct = round(ratio * 100, 1)
+
+    if ratio < TEACHING_RATIO_THRESHOLD:
+        add_finding(
+            "L10", "forced-choice", None,
+            f"Teaching relevance ratio below {int(TEACHING_RATIO_THRESHOLD*100)}% threshold: "
+            f"{teaching_tagged_count}/{denominator} = {ratio_pct}%",
+            {
+                "tagged_count": teaching_tagged_count,
+                "eligible_count": denominator,
+                "ratio": ratio,
+                "threshold": TEACHING_RATIO_THRESHOLD,
+                "options": {
+                    "A": "Acknowledge — I will review tagging in the next session",
+                    "B": "Dismiss — low ratio is accurate for this wiki's current content",
+                },
+            },
+            recommended="A",
+        )
+    else:
+        add_finding(
+            "L10", "informational", None,
+            f"Teaching relevance ratio: {teaching_tagged_count}/{denominator} = {ratio_pct}% "
+            f"(threshold: {int(TEACHING_RATIO_THRESHOLD*100)}%)",
+            {"tagged_count": teaching_tagged_count, "eligible_count": denominator,
+             "ratio": ratio},
+        )
+
+
+def _parse_log_entries(log_text):
+    """Parse log.md into a list of entry dicts with keys: date, operation, description, body."""
+    entries = []
+    current = None
+    header_pat = re.compile(
+        r'^## \[(\d{4}-\d{2}-\d{2}[^\]]*)\]\s+(\S+)\s*\|(.*)'
+    )
+    for line in log_text.split("\n"):
+        m = header_pat.match(line.strip())
+        if m:
+            if current:
+                entries.append(current)
+            op = m.group(2).strip()
+            current = {
+                "date_str": m.group(1).strip()[:10],
+                "operation": op,
+                "description": m.group(3).strip(),
+                "body": [],
+                "topic_tags": [],
+                "result_quality": "",
+            }
+        elif current and line.strip():
+            current["body"].append(line.strip())
+            # Extract topic_tags and result_quality from query entries
+            if current["operation"] == "query":
+                tt = re.match(r'^Topic tags:\s+(.+)', line.strip())
+                if tt:
+                    current["topic_tags"] = [t.strip() for t in tt.group(1).split(",")]
+                rq = re.match(r'^Result quality:\s+(\S+)', line.strip())
+                if rq:
+                    current["result_quality"] = rq.group(1).strip()
+    if current:
+        entries.append(current)
+    return entries
+
+
+def check_L12_collection_gaps(log_text, collection_gaps_text):
+    """
+    L12: Collection gap analysis from log.md query entries.
+    """
+    entries = _parse_log_entries(log_text)
+    query_entries = [e for e in entries if e["operation"] == "query"]
+
+    # Aggregate sparse/shallow by topic_tag
+    tag_events = defaultdict(list)  # tag -> list of {"date", "quality"}
+    for e in query_entries:
+        quality = e["result_quality"]
+        if quality in ("sparse", "shallow"):
+            entry_date = _parse_scalar(e["date_str"])
+            for tag in e["topic_tags"]:
+                if tag:
+                    tag_events[tag].append({"date": entry_date, "quality": quality})
+
+    # Find tags with 3+ sparse/shallow entries
+    for tag, events in sorted(tag_events.items()):
+        if len(events) < 3:
+            continue
+
+        most_recent = max(
+            (e["date"] for e in events if isinstance(e["date"], date)),
+            default=None
+        )
+        # Check if sources ingested since most_recent
+        potentially_addressed = False
+        if most_recent:
+            ingest_entries = [e for e in entries
+                              if e["operation"] == "ingest"
+                              and isinstance(_parse_scalar(e["date_str"]), date)
+                              and isinstance(most_recent, date)
+                              and _parse_scalar(e["date_str"]) > most_recent]
+            potentially_addressed = len(ingest_entries) > 0
+
+        add_finding(
+            "L12", "forced-choice", None,
+            f"Collection gap: '{tag}' — {len(events)} sparse/shallow queries, "
+            f"most recent: {most_recent}",
+            {
+                "topic_tag": tag,
+                "query_count": len(events),
+                "most_recent": str(most_recent) if most_recent else None,
+                "potentially_addressed": potentially_addressed,
+                "options": {
+                    "A": "Confirm as active gap — add to collection-gaps.md",
+                    "B": "Mark as addressed — remove from collection-gaps.md if present",
+                    "C": "Dismiss — not a priority",
+                },
+            },
+            recommended=None,
+        )
+
+
+def check_L12a_session_stats(log_text):
+    """
+    L12a: Session stats threshold check.
+    """
+    entries = _parse_log_entries(log_text)
+    stats_entries = [e for e in entries if e["operation"] == "session-stats"]
+    count = len(stats_entries)
+
+    if count < SESSION_STATS_THRESHOLD:
+        add_finding(
+            "L12a", "informational", None,
+            f"Session stats count: {count} entries (threshold: {SESSION_STATS_THRESHOLD})",
+            {"count": count, "threshold": SESSION_STATS_THRESHOLD},
+        )
+        return
+
+    add_finding(
+        "L12a", "forced-choice", None,
+        f"Cost log has {count} session-stats entries. A threshold review is recommended.",
+        {
+            "count": count,
+            "threshold": SESSION_STATS_THRESHOLD,
+            "options": {
+                "A": "Review now — analyze session-stats log and propose revised batch-size guidance",
+                "B": "Defer — continue lint pass without review",
+            },
+        },
+        recommended="B",
+    )
+
+
+def check_L12b_deferred_ingest():
+    """
+    L12b: Deferred ingest staleness check.
+    """
+    path = os.path.join("raw", "deferred-ingest.md")
+    if not os.path.exists(path):
+        return
+    try:
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+    except OSError:
+        return
+    fm, _ = parse_frontmatter(text)
+    created = fm.get("created")
+    if not created:
+        add_finding("L12b", "informational", None,
+                    "raw/deferred-ingest.md exists but has no created date.", {})
+        return
+    # Parse date from potentially datetime string
+    if isinstance(created, str):
+        created = _parse_scalar(created[:10])
+    if not isinstance(created, date):
+        return
+    age = days_ago(created)
+    if age is None:
+        return
+
+    if age > DEFERRED_STALENESS_DAYS:
+        add_finding(
+            "L12b", "forced-choice", None,
+            f"Stale deferral: raw/deferred-ingest.md is {age} days old. "
+            "The deferred ingest has not been resumed.",
+            {
+                "created": str(created),
+                "age_days": age,
+                "options": {
+                    "A": "Resume ingest now — proceed to Step 0 after lint completes",
+                    "B": "Discard — delete raw/deferred-ingest.md; leave queue.md unchanged",
+                },
+            },
+            recommended="A",
+        )
+    else:
+        add_finding(
+            "L12b", "informational", None,
+            f"Pending deferral: raw/deferred-ingest.md exists ({age} days old).",
+            {"created": str(created), "age_days": age},
+        )
+
+
+def check_L12c_override_patterns(wll_text):
+    """
+    L12c: Override pattern detection in wiki-lessons-learned.md.
+    D-category: extract entries in 30-day window, send to agent_review for categorization.
+    """
+    cutoff = TODAY - timedelta(days=30)
+    entry_pat = re.compile(r'^### \[(\d{4}-\d{2}-\d{2})\]\s+(.+)', re.MULTILINE)
+    op_pat = re.compile(r'\*\*Operation:\*\*\s+(\S+)')
+    wrong_pat = re.compile(r'\*\*What was wrong:\*\*\s+(.+)')
+
+    sections_of_interest = []
+    current_section = None
+    current_entry = None
+    recent_entries = []
+
+    for line in wll_text.split("\n"):
+        if line.startswith("## "):
+            current_section = line[3:].strip()
+            continue
+        if current_section in ("Ingest", "Lint"):
+            m = entry_pat.match(line)
+            if m:
+                entry_date = _parse_scalar(m.group(1))
+                if isinstance(entry_date, date) and entry_date >= cutoff:
+                    current_entry = {
+                        "date": entry_date,
+                        "title": m.group(2),
+                        "section": current_section,
+                        "what_was_wrong": "",
+                        "operation": "",
+                    }
+                    recent_entries.append(current_entry)
+                else:
+                    current_entry = None
+                continue
+            if current_entry:
+                om = op_pat.match(line.strip())
+                if om:
+                    current_entry["operation"] = om.group(1)
+                wm = wrong_pat.match(line.strip())
+                if wm:
+                    current_entry["what_was_wrong"] = wm.group(1)
+
+    if len(recent_entries) >= 3:
+        add_agent_review(
+            "L12c", "override_categorization", None,
+            f"Override pattern detection: {len(recent_entries)} entries in past 30 days — "
+            "categorize into root cause bins to determine if Schema Signals entry is needed",
+            entries=recent_entries,
+            categories=[
+                "schema definition overlap",
+                "inference gap",
+                "human preference drift",
+                "vocabulary gap",
+                "source ambiguity",
+            ],
+            threshold=3,
+        )
+    else:
+        add_finding(
+            "L12c", "informational", None,
+            f"Override pattern check: {len(recent_entries)} entries in past 30 days "
+            "(below 3-entry pattern threshold)",
+            {"count": len(recent_entries)},
+        )
+
+
+def check_L12d_schema_signals_age(wll_text):
+    """
+    L12d: Schema Signals age check — flag open signals older than 60 days.
+    """
+    in_signals = False
+    current_entry_date = None
+    current_entry_title = None
+    is_open = False
+
+    for line in wll_text.split("\n"):
+        if line.startswith("## Schema Signals"):
+            in_signals = True
+            continue
+        if line.startswith("## ") and in_signals:
+            in_signals = False
+            continue
+        if not in_signals:
+            continue
+
+        m = re.match(r'^### \[(\d{4}-\d{2}-\d{2})\]\s+(.+)', line)
+        if m:
+            # Save previous entry if open
+            if current_entry_date and is_open:
+                age = days_ago(current_entry_date)
+                if age is not None and age > SCHEMA_SIGNALS_AGE_DAYS:
+                    add_finding(
+                        "L12d", "informational", None,
+                        f"Open Schema Signal is {age} days old: {current_entry_title}",
+                        {
+                            "entry_title": current_entry_title,
+                            "entry_date": str(current_entry_date),
+                            "age_days": age,
+                        },
+                    )
+            current_entry_date = _parse_scalar(m.group(1))
+            current_entry_title = m.group(2)
+            is_open = False
+            continue
+
+        if "**Status:** open" in line:
+            is_open = True
+        elif "**Status:** resolved" in line:
+            is_open = False
+
+    # Handle last entry
+    if current_entry_date and is_open:
+        age = days_ago(current_entry_date)
+        if age is not None and age > SCHEMA_SIGNALS_AGE_DAYS:
+            add_finding(
+                "L12d", "informational", None,
+                f"Open Schema Signal is {age} days old: {current_entry_title}",
+                {
+                    "entry_title": current_entry_title,
+                    "entry_date": str(current_entry_date),
+                    "age_days": age,
+                },
+            )
+
+
+def check_L14_skill_enrichment(log_text):
+    """
+    L14: Skill file enrichment staleness.
+    """
+    entries = _parse_log_entries(log_text)
+    ingest_count = sum(1 for e in entries if e["operation"] == "ingest")
+
+    if ingest_count < 5:
+        return
+
+    for skill_file in SKILL_FILES:
+        if not os.path.exists(skill_file):
+            continue
+        try:
+            with open(skill_file, encoding="utf-8") as f:
+                content = f.read()
+        except OSError:
+            continue
+
+        # Find "TO BE ENRICHED" sections
+        enriched_pattern = re.compile(
+            r'#+\s+.*?TO BE ENRICHED.*?(?=^#+|\Z)', re.MULTILINE | re.DOTALL | re.IGNORECASE
+        )
+        for m in enriched_pattern.finditer(content):
+            section_text = m.group(0)
+            # Check if section is unpopulated (only placeholder text)
+            lines = [l.strip() for l in section_text.split("\n") if l.strip()]
+            # A populated section has more than just the heading and placeholder
+            heading_lines = [l for l in lines if l.startswith("#")]
+            non_heading = [l for l in lines if not l.startswith("#")
+                           and "TO BE ENRICHED" not in l.upper()
+                           and "operational experience" not in l.lower()
+                           and l != "---"]
+            if len(non_heading) == 0:
+                section_heading = heading_lines[0] if heading_lines else "unknown section"
+                add_finding(
+                    "L14", "informational", None,
+                    f"Skill file TO BE ENRICHED section with no examples after {ingest_count} ingests: "
+                    f"{skill_file} — {section_heading}",
+                    {
+                        "skill_file": skill_file,
+                        "section": section_heading,
+                        "ingest_count": ingest_count,
+                    },
+                )
+
+
+def check_L7_concept_gaps(page_prose, index_slugs, valid_slugs):
+    """
+    L7 (mechanical portion): Tokenize prose of Topic/Tool pages, find terms
+    appearing in 3+ pages not covered by an existing page.
+    D-category: outputs to agent_review.
+    """
+    term_pages = defaultdict(set)  # term -> set of page slugs
+
+    stop_words = {
+        "the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for",
+        "of", "with", "by", "from", "up", "is", "are", "was", "were", "be",
+        "been", "being", "have", "has", "had", "do", "does", "did", "will",
+        "would", "could", "should", "may", "might", "can", "this", "that",
+        "these", "those", "it", "its", "not", "no", "more", "also", "as",
+        "if", "when", "which", "who", "where", "how", "than", "then", "so",
+        "such", "their", "they", "them", "we", "our", "i", "you", "your",
+        "ai", "llm", "model", "models", "system", "systems", "data", "based",
+        "use", "used", "using", "new", "well", "while", "between", "through",
+        "each", "most", "other", "about", "across", "human", "into", "over",
+        "under", "any", "all", "both", "even", "often", "however", "while",
+        "within", "without", "after", "before", "during", "since", "there",
+        "what", "per", "key", "approach", "work", "tasks", "task", "tool",
+        "tools", "time", "users", "user", "output", "outputs", "input",
+        "inputs", "content", "text", "language", "see", "example", "one",
+        "two", "three", "four", "five", "first", "second", "third",
+    }
+
+    for page_slug, prose in page_prose.items():
+        words = re.findall(r'\b[a-z][a-z-]{3,}\b', prose.lower())
+        for word in words:
+            if word not in stop_words and len(word) > 4:
+                term_pages[word].add(page_slug)
+
+    # Find terms appearing in 3+ pages with no corresponding page
+    candidates = []
+    for term, pages in sorted(term_pages.items(), key=lambda x: -len(x[1])):
+        if len(pages) < 3:
+            continue
+        # Check if a page exists for this term
+        if term in valid_slugs or term in index_slugs:
+            continue
+        # Filter out terms that are substrings of existing slugs
+        if any(term in slug for slug in valid_slugs):
+            continue
+        candidates.append({
+            "term": term,
+            "page_count": len(pages),
+            "pages": sorted(pages)[:10],  # cap at 10 for output size
+        })
+
+    if candidates:
+        add_agent_review(
+            "L7", "concept_gap_filter", None,
+            f"Concept gap candidates: {len(candidates)} terms appear in 3+ pages with "
+            "no corresponding page. Agent filters aliases and sets stub type.",
+            candidates=candidates[:30],  # cap total candidates
+            instructions=(
+                "For each candidate: (1) Filter out aliases/synonyms for existing pages. "
+                "(2) For surviving terms, set stub_type: 'Topic' or 'Tool'. "
+                "(3) Dismiss terms that are not meaningful standalone concepts."
+            ),
+        )
+    else:
+        add_finding("L7", "informational", None,
+                    "Concept gap check: no terms found in 3+ pages without a corresponding page.",
+                    {})
+
+
+def check_L9_decay_exempt(page_claims, source_info, log_text):
+    """
+    L9: Identify Key Claims where conditions (b) and (c) are met for decay_exempt.
+    D-category: outputs to agent_review for evaluation of condition (a).
+    """
+    # Build set of pages with contradiction-flag log entries
+    entries = _parse_log_entries(log_text)
+    flagged_pages = set()
+    for e in entries:
+        if e["operation"] == "contradiction-flag":
+            # Extract page slug from description line body
+            for line in e["body"]:
+                m = re.match(r'^Page:\s+\[\[([^\]]+)\]\]', line)
+                if m:
+                    flagged_pages.add(wikilink_to_slug(m.group(1)))
+
+    for page_slug, claims_rows in page_claims.items():
+        for row in claims_rows:
+            decay_exempt_val = row.get("decay_exempt", "false").strip().lower()
+            if decay_exempt_val == "true":
+                continue  # Already exempt
+
+            source_cell = row.get("source", "")
+            if "[derived]" in source_cell:
+                continue
+
+            # Condition (b): no contradiction-flag entry for this page
+            if page_slug in flagged_pages:
+                continue
+
+            # Condition (c): 2+ independent peer-reviewed or institutional sources
+            qualifying_sources = []
+            for m in WIKILINK_PATTERN.finditer(source_cell):
+                raw = m.group(1)
+                slug = wikilink_to_slug(raw)
+                tail = source_cell[m.end():m.end() + 30]
+                if "[minority view]" in tail:
+                    continue
+                sinfo = source_info.get(slug, {})
+                tier = sinfo.get("tier", "")
+                if tier in ("peer-reviewed", "institutional"):
+                    qualifying_sources.append({"slug": slug, "tier": tier})
+
+            if len(qualifying_sources) >= 2:
+                add_agent_review(
+                    "L9", "definitional_classification", page_slug,
+                    f"Claim passes conditions (b)+(c) for decay_exempt on {page_slug}. "
+                    "Agent must evaluate condition (a): is this claim definitional or empirical?",
+                    claim_text=row.get("claim", ""),
+                    supporting_sources=qualifying_sources,
+                    current_support_score=row.get("support_score", ""),
+                    condition_b_met=True,
+                    condition_c_met=True,
+                    options={"A": "Confirm — set decay_exempt: true", "B": "Decline"},
+                    recommended=None,
+                )
+
+
 # ─── Page Reader Orchestrator ─────────────────────────────────────────────────
 
 def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_date, verbose):
@@ -1355,6 +2080,8 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
     topic_tool_deprecated_count = 0
     source_slugs = set()
     all_ctrd_ids = set()
+    page_claims = {}   # topic/tool slug -> list of claim rows (for L3, L9)
+    page_prose = {}    # topic/tool slug -> prose text (for L7)
 
     # Build source slug set first (for G3)
     if os.path.isdir("sources"):
@@ -1414,6 +2141,8 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
             claims_rows = []
             if page_type in ("topic", "tool"):
                 claims_rows = parse_markdown_table(body, "## Key Claims")
+                page_claims[page_slug] = claims_rows
+                page_prose[page_slug] = body
 
             # G1: Wikilink integrity (extract outbound links)
             outbound = check_G1_wikilink_integrity(text, page_slug, valid_slugs)
@@ -1458,7 +2187,7 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
 
     return (entity_pages_fm, inbound_links, open_contradictions_count,
             teaching_tagged_count, topic_tool_count, topic_tool_deprecated_count,
-            source_slugs, all_ctrd_ids)
+            source_slugs, all_ctrd_ids, page_claims, page_prose)
 
 
 def check_L6_orphan_detection(entity_pages_fm, inbound_links):
@@ -1595,7 +2324,7 @@ def main():
 
     (entity_pages_fm, inbound_links, open_contradictions_count,
      teaching_tagged_count, topic_tool_count, topic_tool_deprecated_count,
-     source_slugs, all_ctrd_ids) = read_and_check_all_pages(
+     source_slugs, all_ctrd_ids, page_claims, page_prose) = read_and_check_all_pages(
         valid_slugs, slug_to_path, ctrd_signals, last_lint_date, verbose
     )
 
@@ -1613,9 +2342,32 @@ def main():
                 {"ctrd_id": ctrd_id, "signal_type": signal_type, "issue": "stale_signal"},
             )
 
-    # ── Build wiki_stats for findings file ─────────────────────────────────
+    # ── Group C ────────────────────────────────────────────────────────────────
+    if verbose:
+        print("\n[Group C] Cross-page computation...")
+
+    source_info = build_source_info()
     counts_by_type = entries_by_type
     total_indexed = sum(len(v) for v in counts_by_type.values())
+
+    check_L3_support_scores(page_claims, source_info, verbose)
+    check_L4c_and_G4_counters(
+        open_contradictions_count, all_ctrd_ids, overview_fm, total_indexed
+    )
+    check_L10_teaching_ratio(
+        teaching_tagged_count, topic_tool_count, topic_tool_deprecated_count
+    )
+    check_L12_collection_gaps(log_text, read_file("raw/collection-gaps.md"))
+    check_L12a_session_stats(log_text)
+    check_L12b_deferred_ingest()
+    check_L12c_override_patterns(wll_text)
+    check_L12d_schema_signals_age(wll_text)
+    check_L14_skill_enrichment(log_text)
+    check_L7_concept_gaps(page_prose, index_slugs, valid_slugs)
+    check_L9_decay_exempt(page_claims, source_info, log_text)
+
+    # ── Build wiki_stats for findings file ─────────────────────────────────
+    # (counts_by_type and total_indexed already computed above)
     pages_by_directory = {}
     for d in CONTENT_DIRS:
         if os.path.isdir(d):
