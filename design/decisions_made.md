@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 23/05/2026 11:15 EST
+**Last Updated:** 05/24/2026 15:30 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4388,3 +4388,115 @@ used in production).
 
 **References:** DM-105, FRIC-042, CLAUDE.md Section 2, OPERATIONS.md Section 11.4,
 test-harness.md Section 2.5, hybrid-lint-assessment.md
+
+## DM-107 | WIKI STATUS DASHBOARD: DUAL-MODE STANDALONE HTML TOOL
+
+- **Date:** 2026-05-24
+- **Status:** ACTIVE
+
+**Decision:**
+Build `wiki-dashboard.py`, a standalone Python script at the wiki root that generates
+`wiki-dashboard.html` — a self-contained local HTML file serving as a dual-mode operator
+tool: (1) wiki health monitoring (maintenance-facing), and (2) knowledge distillation
+(insight-facing). The generated HTML is gitignored and opened locally from the
+filesystem; it is never published to Quartz.
+
+**Dual-mode scope:**
+- **Health panels (H1–H5):** Pages by type and status; stale pages list with staleness
+  duration; open contradictions; recent activity (log.md); decay trajectory (pages
+  approaching staleness in ≤30 / 31–60 / 61–90 days).
+- **Insight panels (I1–I6):** Best-evidenced positions (top 10 pages by avg support
+  score); contested areas (pages with ≥1 contested Key Claim); evidence base quality
+  (credibility tier distribution, vendor_bias count); coverage gaps (stub pages, thin
+  coverage); teaching coverage with 2D heatmap (13 professional contexts × 7 competency
+  domains); recently learned (pages created or last_assessed updated in last 30 days).
+
+**Three-layer interaction model:**
+- Layer 1 (cockpit): Summary cards for each panel, always visible. Amber header if
+  dashboard generated >7 days ago.
+- Layer 2 (drill): Filterable list of all items in a panel dimension. Click any row
+  for Layer 3.
+- Layer 3 (page health card): Structured card showing title, type, status,
+  last_assessed, source_count, Key Claims table (color-coded by status), summary,
+  teaching tags, and Obsidian deep-link ("Open in Obsidian →").
+
+**Generation model:** Standalone Python script (`wiki-dashboard.py`), standard library
+only, Python 3.6+, CLAUDE.md guard, run from wiki root. Pattern follows
+`generate-teaching-index.py`. Reads: all page frontmatter + Key Claims tables,
+`sources/` frontmatter, `overview.md`, `log.md`, and optionally `raw/lint-findings.json`
+(consumed only if present and <7 days old). All data embedded as a JavaScript constant
+in the generated HTML. Output: `wiki-dashboard.html` at wiki root (gitignored).
+
+**Regenerate button:** The dashboard includes a "Regenerate ▾" button that copies a
+shell command to the clipboard (two variants: "Dashboard only" and "Lint + Dashboard").
+Browser HTML files cannot execute shell processes — clipboard copy is the maximum viable
+action. Tooltip: "Copied — paste in terminal, then reload."
+
+**Teaching heatmap:** 2D grid rendered as a pure HTML/CSS table. Layout: 13 rows
+(professional_contexts) × 7 columns (competency_domains). Cell value = page count.
+Click any cell → Layer 2 filtered list for that (domain, context) pair.
+
+**Staleness threshold used for H5:** 90 days from `last_assessed` (matches
+`STALENESS_THRESHOLD_DAYS` in `wiki-lint.py` per OPERATIONS.md Step L5).
+
+**Maintenance coupling:** The script encodes 13 schema elements (type vocabulary,
+status values per type, `last_assessed` / `source_count` / `teaching_relevance` field
+names, controlled vocabularies, Key Claims table structure, credibility tier values,
+`open_contradictions` in overview.md, log entry format, `lint-findings.json` structure).
+A maintenance table is added to test-harness.md Section 2.5.2. Schema changes touching
+these elements require a script update before delivery.
+
+**Context:**
+The wiki at 100 pages has no tool that answers "what does the wiki know, how well, and
+where are the gaps" without running a full lint pass. Index.md answers "what exists";
+the lint informational summary answers "what's wrong"; neither answers "what is the
+evidence quality, where is it contested, and what was recently learned." The insight
+panels fill this gap. Health panels are included because they answer questions the
+operator asks between lint passes. The dual-mode framing justifies a single tool rather
+than two separate artifacts.
+
+**Rationale:**
+Standalone script follows the established `generate-teaching-index.py` pattern:
+deterministic, no external dependencies, CLAUDE.md-guarded, runnable on demand. Agent
+context is never loaded with dashboard data. Data embedding at generation time is viable
+at 100–200 pages (~165–330 KB total, trivial for a local file). Runtime JS filesystem
+reads from a browser are not viable without the File System Access API's per-directory
+user-gesture permission. Claude Code agent generation during lint Phase 3 would require
+the agent to parse 100+ pages of content — exactly what `wiki-lint.py` was designed to
+prevent.
+
+**Alternatives Considered:**
+- **Quartz public page:** Rejected. Insight panels expose internal epistemic metadata
+  (support scores, contested states, coverage gaps) not appropriate for public display
+  without explicit editorial decisions. Separate design if a public view is ever wanted.
+- **Server-based local app:** Rejected. New operational dependency; requires the operator
+  to run a server process. Violates the zero-server-dependency design principle
+  established for the ingest UI.
+- **Runtime JS file reads (File System Access API):** Rejected. Per-directory user-gesture
+  permission required on every session in all browsers. Poor UX and not reliably
+  available.
+- **Generated by Claude Code agent during lint Phase 3:** Rejected for insight panels.
+  Key Claims content parsing at 100+ pages would expand agent context — the same
+  problem `wiki-lint.py` was built to solve.
+- **Write operations (management UI):** Out of scope. Browser HTML cannot write files.
+  Write operations belong in Claude Code. The dashboard is read-only by hard constraint.
+
+**Consequences to Watch:**
+- Key Claims parser is more fragile than frontmatter parser. Edge cases: `[derived]`
+  annotations, `[minority view]` annotations, CTRD IDs in Status cells
+  (`contested [CTRD-003]`), multi-source cells. One malformed page must not prevent the
+  dashboard from loading — defensive parsing required per spec.
+- Support score ranking as "best-evidenced positions" is an epistemic proxy, not truth.
+  Label and caveat must make this explicit in the UI.
+- Obsidian vault name configured as a constant in the script. If vault name changes,
+  deep links break silently. The script should warn if OBSIDIAN_VAULT_NAME is empty
+  (deep links disabled) rather than generating broken links.
+- 90-day staleness threshold in the script must be kept in sync with
+  `STALENESS_THRESHOLD_DAYS` in `wiki-lint.py` and OPERATIONS.md Step L5. Three
+  places; all must agree.
+- `wiki-verify.sh` Check 7 (stray root files) only scans `*.md` files — `wiki-dashboard.py`
+  is a `.py` file and is not subject to that check. No wiki-verify.sh update required.
+  The `wiki-lint.py` entry in ALLOWED_ROOT is pre-existing and inert for the same reason.
+
+**References:** OPERATIONS.md Phase 3 Step 10a, test-harness.md Section 2.5.2,
+wiki-dashboard-build-spec.md, generate-teaching-index.py, ingest-ui-implementation-plan.md

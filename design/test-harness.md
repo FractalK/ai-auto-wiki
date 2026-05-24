@@ -1,5 +1,5 @@
 # Wiki Test Harness — Specification
-**Last Updated:** 05/24/2026 14:30 EST
+**Last Updated:** 05/24/2026 15:30 EST
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -163,6 +163,47 @@ each row below, the constant name is the exact Python identifier to update.
 | New lint step (D-category) added | Implement data-assembly function; add item to `agent_review` output in findings JSON; update OPERATIONS.md Group classification and add step documentation in OPERATIONS.md Section 11.4 |
 | L12a inline analysis criteria changed | Update session stats aggregation logic in `check_L12a_session_stats()` |
 | wiki-verify.sh controlled vocabulary allowlists changed | Verify `wiki-lint.py` uses identical values in `VALID_COMPETENCY_DOMAINS` / `VALID_PROFESSIONAL_CONTEXTS` — the two scripts must remain in sync |
+
+#### 2.5.2 wiki-dashboard.py Maintenance
+
+`wiki-dashboard.py` hardcodes schema knowledge in a configuration and constants block at
+the top of the file. **Check the table below before delivering any schema change that
+touches the listed areas.** Failure to update the script causes the dashboard to display
+stale or incorrect data — no error is emitted, the output is silently wrong.
+
+The script's constants are at the top of the file in a `# ── Configuration and Schema
+Constants ──` block, labeled with `# MAINTENANCE:` comments identifying the corresponding
+schema source. For each row below, the constant name is the exact Python identifier to
+update.
+
+| Schema change | Required script update |
+|---------------|----------------------|
+| Staleness threshold changed (currently 90 days) | Update `STALENESS_THRESHOLD_DAYS` constant. **Must match `wiki-lint.py` `STALENESS_THRESHOLD_DAYS` — the two scripts must remain in sync.** |
+| Controlled vocabulary values changed — `competency_domains` (CLAUDE.md Section 7.1) | Update `COMPETENCY_DOMAINS` list. Must also update `wiki-verify.sh` `VALID_CD` and `wiki-lint.py` `VALID_COMPETENCY_DOMAINS` in the same batch (three-script sync requirement). |
+| Controlled vocabulary values changed — `professional_contexts` (CLAUDE.md Section 7.2) | Update `PROFESSIONAL_CONTEXTS` list. Must also update `wiki-verify.sh` `VALID_PC` and `wiki-lint.py` `VALID_PROFESSIONAL_CONTEXTS` in the same batch (three-script sync requirement). |
+| `status` vocabulary changed for any page type (CLAUDE.md Sections 5.2–5.6) | Update the `STALE_STATUSES`, `ACTIVE_STATUSES`, or `EXCLUDED_STATUSES` sets as appropriate. Also update decay trajectory bucket logic in `compute_decay_trajectory()` if the stale trigger status changes. |
+| Key Claims table column structure changed (CLAUDE.md Section 6.1) | Update `KEY_CLAIMS_HEADER_PATTERN` regex and the claims-row parser in `parse_key_claims()`. |
+| Key Claims `Status` field controlled values changed (current / superseded / contested) | Update `CLAIM_STATUS_VALUES` set and the color-coding map in the HTML rendering constants. |
+| Credibility tier values changed (CLAUDE.md Section 5.4 / OPERATIONS.md Section 11.1) | Update `CREDIBILITY_TIERS` set and the `CREDIBILITY_COLOR_MAP` used in I3 panel rendering. |
+| `type` controlled vocabulary changed — new page type added or removed (CLAUDE.md Section 3) | Update `CONTENT_PAGE_TYPES` set. Update H1 panel grouping logic. If the new type has a distinct staleness rule, update `compute_h2_stale()`. |
+| `teaching_relevance`, `competency_domains`, `professional_contexts` field names changed | Update field-name string constants in frontmatter parsing calls and the heatmap generation function `compute_i5_heatmap()`. |
+| `last_assessed` field name changed (CLAUDE.md Sections 5.2, 5.3) | Update `LAST_ASSESSED_FIELD` constant. Also update `wiki-lint.py` staleness logic if field name is shared. |
+| `source_count` field name changed | Update `SOURCE_COUNT_FIELD` constant. |
+| `open_contradictions` field name in overview.md changed (CLAUDE.md Section 5.7) | Update `OVERVIEW_CONTRADICTION_FIELD` constant. |
+| Log entry prefix format changed (CLAUDE.md Section 5.8) | Update `LOG_ENTRY_PATTERN` regex in `parse_log_entries()`. H4 (recent activity) and I6 (recently learned) both depend on this. |
+| `lint-findings.json` structure changed (OPERATIONS.md Section 11.4) | Update `parse_lint_findings()` to match the new JSON schema. If new finding types are introduced, update the I4 (coverage gaps) integration logic. |
+| Obsidian deep-link URL scheme changed | Update `OBSIDIAN_DEEP_LINK_TEMPLATE` constant. |
+| Dashboard generation threshold for staleness header warning changed (currently 7 days) | Update `DASHBOARD_STALENESS_WARNING_DAYS` constant. |
+
+**Three-script sync rule:** `wiki-dashboard.py`, `wiki-lint.py`, and `wiki-verify.sh`
+all hardcode `competency_domains` and `professional_contexts` vocabulary. Any vocabulary
+change must update all three scripts in the same delivery batch. Partial updates produce
+inconsistent behavior across tools.
+
+**Note on `wiki-verify.sh` ALLOWED_ROOT:** Check 7 in `wiki-verify.sh` scans only
+`*.md` files at the wiki root. Python scripts (including `wiki-dashboard.py` and
+`wiki-lint.py`) are not subject to that check. No `wiki-verify.sh` ALLOWED_ROOT update
+is required when adding a new Python script to the wiki root.
 
 ---
 

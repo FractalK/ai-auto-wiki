@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 05/24/2026 14:30 EST
+**Last Updated:** 05/24/2026 15:30 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1869,6 +1869,12 @@ Last updated: YYYY-MM-DD (lint pass {N})
 10. Regenerate Teaching Index: run `python3 generate-teaching-index.py && git add teaching-index.md`.
     If the script exits non-zero: halt and report. WARNING lines (missing tagging fields)
     are recorded in the lint log entry under Notes; they do not halt execution.
+10a. **Optional — Regenerate wiki dashboard:** run `python3 wiki-dashboard.py`. The script
+    writes `wiki-dashboard.html` to the wiki root. This file is gitignored and is not
+    committed. Regeneration is optional — the operator may also run the script manually
+    between lint passes at any time. If the script exits non-zero: report the error but
+    do not halt lint Phase 3. Failure to regenerate the dashboard does not affect wiki
+    integrity.
 11. Update `overview.md`: set `last_lint` to today; update `total_pages`,
     `open_contradictions`, `last_contradiction_id` if changed. If Step L4c flagged a
     ±1 auto-correction or the human confirmed a ±2+ correction: set `open_contradictions`
