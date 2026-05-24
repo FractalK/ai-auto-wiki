@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 22/05/2026 21:00 EST
+**Last Updated:** 23/05/2026 11:15 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4232,7 +4232,8 @@ for entity pages that have never been through a lint evaluation pass.
 ## DM-105 | CHUNKED-SESSION LINT WITH PERSISTENT STATE FILE
 
 - **Date:** 2026-05-22
-- **Status:** ACTIVE
+- **Status:** SUPERSEDED
+- **Superseded By:** DM-106
 
 **Decision:**
 Lint Phase 1 is restructured to span multiple sessions via a persistent state file
@@ -4318,3 +4319,72 @@ context to resume without re-running completed work.
 
 **References:** FRIC-042, DM-093, DM-097, LL-035, OPERATIONS.md Section 11.4,
 CLAUDE.md Section 2
+---
+
+## DM-106 | HYBRID LINT ARCHITECTURE: PYTHON SCRIPT FOR MECHANICAL CHECKS, AGENT FOR JUDGMENT
+
+- **Date:** 2026-05-23
+- **Status:** ACTIVE
+- **Supersedes:** DM-105
+
+**Decision:**
+Lint Phase 1 is restructured as a hybrid architecture. A Python script (`wiki-lint.py`)
+performs all mechanical checks (19 of 26 Phase 1 steps are fully mechanical; 7 have narrow
+judgment residues where the script assembles data and the agent completes a classification
+or recommendation). The script runs outside the context window in seconds and produces a
+structured findings file (`raw/lint-findings.json`). The agent reads the findings file,
+completes the 7 judgment-requiring steps using pre-assembled data, generates the decision
+form (L13), and executes Phase 3. The human interaction model is unchanged — decision
+form, decision string, forced choices, Phase 2, and Phase 3 are all identical to DM-033.
+
+Five new lint checks are introduced (all fully mechanical, all handled by the script):
+G1 (wikilink integrity), G2 (index-filesystem parity), G3 (source reference integrity),
+G4 (overview counter accuracy), G5 (status-content consistency).
+
+DM-105's persistent state file protocol (`raw/lint-state.md`) is fully superseded. The
+Group A/B/C step classification from DM-105 is preserved as an architectural concept
+(reflecting the dependency structure of lint steps) but no longer governs multi-session
+batching. The staleness guard concept is preserved and applied to `raw/lint-findings.json`
+(>7 days: warn; >14 days: recommend re-running the script).
+
+**Context:**
+DM-105 solved FRIC-042 (lint auto-compaction at 100 pages) with a multi-session state
+file protocol. A red-team review immediately after delivery revealed that ~80% of Phase 1
+steps are fully mechanical. At 100 pages, DM-105 requires ~4 sessions for Phase 1; the
+hybrid model completes Phase 1 data gathering in seconds and reduces the agent session to
+judgment work + Phase 3 — reliably one session.
+
+**Rationale:**
+The hybrid model eliminates the cause of context exhaustion (reading 100+ wiki pages in
+the context window) rather than managing its symptom (state file for multi-session
+batching). The agent's context consumption scales with judgment-requiring items (which
+scale with active contradictions, concept gaps, and override patterns) rather than with
+total wiki page count. Build cost is low (~940 lines Python, no external dependencies,
+1-2 Claude Code sessions). Sunk cost of DM-105 is minimal (committed 2 days ago, never
+used in production).
+
+**Alternatives Considered:**
+- **Keep DM-105 permanently:** Correct but operationally expensive. 4-session lint at
+  100 pages, 7+ at 200. Ruled out.
+- **Defer hybrid until 200+ pages:** Defers a known improvement. DM-105's sunk cost
+  does not increase with time — the cost of conversion is the same now as later, but
+  every lint pass between now and then pays the multi-session tax. Ruled out.
+- **Full agent replacement (script does everything including judgment):** The 7
+  judgment-requiring steps are the lint procedure's primary value-add. Reducing the
+  agent to rubber-stamping defeats the purpose. Ruled out.
+
+**Consequences to Watch:**
+- 23-row maintenance table (vs. wiki-verify.sh's 12 rows). Same governance pattern:
+  check the table before delivering any schema change. Add maintenance table check to
+  project instructions cross-reference list.
+- Controlled vocabulary constants are duplicated across wiki-verify.sh and wiki-lint.py.
+  If a maintenance error from inconsistent constants occurs, consider a shared constants
+  file. Defer until then.
+- Script's YAML parser handles only the subset of YAML the wiki uses. If frontmatter
+  conventions change (e.g., nested structures), parser may need updating.
+- The script is read-only except for writing `raw/lint-findings.json`. If a future
+  change makes the script write to wiki files, this constraint must be explicitly
+  revisited.
+
+**References:** DM-105, FRIC-042, CLAUDE.md Section 2, OPERATIONS.md Section 11.4,
+test-harness.md Section 2.5, hybrid-lint-assessment.md
