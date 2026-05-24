@@ -26,3 +26,4 @@ lint-findings.json
 
 # Keep .gitkeep files in tracked empty directories
 !**/.gitkeep
+wiki-dashboard.html
