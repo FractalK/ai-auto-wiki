@@ -1,5 +1,5 @@
 # Ingest Decision Form — Implementation Plan
-**Last Updated:** 01/05/2026 17:00
+**Last Updated:** 05/25/2026 20:00 EST
 
 ---
 
@@ -56,6 +56,7 @@ Used when exactly one option from a small lettered set is required.
 | Step 7 | Comparison page proposal | A=Create / B=Skip | A |
 | Step 7a | Pitfalls page proposal | A=Create or Update / B=Skip | A |
 | Step 9 | decay_exempt proposal | A=Yes / B=No | A |
+| Lint Step L16 | Wikilink proliferation — batch forced choice. Numbered-row table shows target slug, source page, and context snippet for every Tier 1 candidate. Option B reveals a text input for subset range specification (see Section 5, subset-select sub-type). | A=Apply all / B=Apply subset / C=Review by page / D=Skip | C (first run); A (subsequent) |
 
 Step 0 option D is a special case: see `conditional-text` below.
 
@@ -283,9 +284,21 @@ Rules by choice type:
 |---|---|---|
 | single-select | `N:option-id` | `1:A` |
 | single-select where D selected (no free text) | `N:D` | `1:D` |
+| subset-select (single-select where B selected with range) | `N:B:range-spec` | `7:B:1-5,9,11-15` |
 | text-with-default | `N:slug-value` | `5:2026-attention-mechanisms` |
 | teaching-relevance (accept) | `N:true:domain1,domain2:context1,context2` | `7:true:tool-evaluation-and-selection:teaching-and-instruction` |
 | teaching-relevance (decline) | `N:false` | `7:false` |
+
+**Subset-select grammar (used for L16 option B):**
+
+`N:B:range-spec` where `range-spec` is a comma-separated list of tokens. Each token is
+either a single integer (e.g., `9`) or a hyphenated integer range (e.g., `1-5`).
+Whitespace between tokens is ignored. Inclusion-list semantics: only listed row numbers
+are applied; unlisted rows are silently skipped and will resurface at the next lint pass.
+
+Examples:
+- `7:B:1-5,9,11-15` — apply rows 1 through 5, row 9, and rows 11 through 15
+- `7:B:3,7,12` — apply only rows 3, 7, and 12
 
 ### DOCUMENTS block (Step 0 option D only)
 

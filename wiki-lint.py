@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# **Last Updated:** 05/25/2026 20:00 EST
 """
 wiki-lint.py — Mechanical lint checks for the AI Effectiveness Wiki.
 
@@ -2081,7 +2082,7 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
     source_slugs = set()
     all_ctrd_ids = set()
     page_claims = {}   # topic/tool slug -> list of claim rows (for L3, L9)
-    page_prose = {}    # topic/tool slug -> prose text (for L7)
+    page_prose = {}    # slug -> prose body text (topic/tool for L7; all in-scope types for L16)
 
     # Build source slug set first (for G3)
     if os.path.isdir("sources"):
@@ -2142,6 +2143,8 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
             if page_type in ("topic", "tool"):
                 claims_rows = parse_markdown_table(body, "## Key Claims")
                 page_claims[page_slug] = claims_rows
+            # Accumulate prose body for L7 (topic/tool) and L16 (all in-scope types)
+            if page_type in ("topic", "tool", "comparison", "pitfalls", "teaching-brief"):
                 page_prose[page_slug] = body
 
             # G1: Wikilink integrity (extract outbound links)
@@ -2207,6 +2210,265 @@ def check_L6_orphan_detection(entity_pages_fm, inbound_links):
                 f"Orphan page: {slug} has no inbound wikilinks from non-source pages",
                 {"page": slug, "page_type": page_type},
             )
+
+
+def check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path, page_prose):
+    """
+    L16: Wikilink proliferation scan.
+
+    Scans prose sections of Topic, Tool, Comparison, Pitfalls, and Teaching-brief
+    pages for text that matches an existing wiki entity slug or alias but is not yet
+    enclosed in a wikilink. Emits one batch forced-choice finding (Tier 1) covering all
+    candidates, plus individual informational findings (Tier 2).
+
+    Tier 1 requires all three conditions:
+      (a) Exact match: candidate term matches a slug (kebab→space) or aliases entry.
+      (b) Standalone noun phrase: word-boundary check (no substring of a larger term).
+      (c) Topical proximity: shared related_topics/related_tools, OR target appears in
+          containing page's Key Claims source refs, OR same content directory.
+
+    Tier 2: condition (a) met but (b) or (c) fails — informational only.
+
+    Usage example:
+        check_L16_wikilink_proliferation(
+            entity_pages_fm, valid_slugs, slug_to_path, page_prose
+        )
+    """
+    # In-scope source page types for this scan (Source pages and singletons excluded)
+    L16_SCOPE_TYPES = {"topic", "tool", "comparison", "pitfalls", "teaching-brief"}
+
+    # Build alias map: normalized_alias -> target_slug
+    # Also build slug_to_dir map for condition (c) same-directory check
+    alias_map = {}   # lowercase alias text -> target_slug
+    slug_to_dir = {} # slug -> content directory name
+
+    for slug, fpath in slug_to_path.items():
+        # Infer directory from path (first component)
+        parts = fpath.replace("\\", "/").split("/")
+        if parts:
+            slug_to_dir[slug] = parts[0]
+
+    for slug, fm in entity_pages_fm.items():
+        aliases = fm.get("aliases") or []
+        if isinstance(aliases, list):
+            for alias in aliases:
+                if isinstance(alias, str):
+                    alias_map[alias.lower()] = slug
+
+    # Build set of all candidate target slugs (exclude singletons, keep only entity pages)
+    target_slugs = {
+        s for s in entity_pages_fm
+        if entity_pages_fm[s].get("type") in L16_SCOPE_TYPES
+    }
+
+    # Helper: normalize slug to space-separated words for text matching
+    def slug_to_phrase(slug):
+        return slug.replace("-", " ")
+
+    # Helper: build regex pattern matching the phrase at word boundaries
+    def make_word_boundary_pattern(phrase):
+        return re.compile(
+            r'(?<![A-Za-z0-9-])' + re.escape(phrase) + r'(?![A-Za-z0-9-])',
+            re.IGNORECASE,
+        )
+
+    # Helper: extract ~60-char context snippet centred on the match
+    def extract_snippet(text, match_start, match_end, window=60):
+        half = window // 2
+        start = max(0, match_start - half)
+        end = min(len(text), match_end + half)
+        snippet = text[start:end].replace("\n", " ")
+        if start > 0:
+            snippet = "..." + snippet
+        if end < len(text):
+            snippet = snippet + "..."
+        return snippet
+
+    # Helper: strip prose of sections that should not be scanned
+    # Returns prose lines only (no Key Claims, Data Records, headers, code blocks)
+    def extract_scannable_prose(body):
+        lines = body.split("\n")
+        result = []
+        in_code_block = False
+        in_excluded_section = False
+
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith("```"):
+                in_code_block = not in_code_block
+                continue
+            if in_code_block:
+                continue
+            if stripped.startswith("#"):
+                # Track exclusion sections; any new ## resets
+                if re.match(r'^#+\s', stripped):
+                    low = stripped.lower()
+                    if "key claims" in low or "data records" in low:
+                        in_excluded_section = True
+                    else:
+                        in_excluded_section = False
+                continue  # Always skip header lines themselves
+            if stripped.startswith("|"):
+                continue  # Skip table rows
+            if in_excluded_section:
+                continue
+            result.append(line)
+        return "\n".join(result)
+
+    # Helper: check topical proximity (condition c)
+    def has_topical_proximity(source_slug, source_fm, target_slug):
+        # Shared related_topics or related_tools
+        src_rt = set(source_fm.get("related_topics") or [])
+        src_rt_tools = set(source_fm.get("related_tools") or [])
+
+        # Normalise wikilink targets in these lists to bare slugs
+        def normalise_set(s):
+            return {wikilink_to_slug(v) for v in s}
+
+        src_rt = normalise_set(src_rt)
+        src_rt_tools = normalise_set(src_rt_tools)
+
+        if target_slug in src_rt or target_slug in src_rt_tools:
+            return True
+
+        # Target appears in source page's related sets (reciprocal)
+        target_fm = entity_pages_fm.get(target_slug, {})
+        tgt_rt = normalise_set(set(target_fm.get("related_topics") or []))
+        tgt_rt_tools = normalise_set(set(target_fm.get("related_tools") or []))
+        if source_slug in tgt_rt or source_slug in tgt_rt_tools:
+            return True
+
+        # Same content directory
+        src_dir = slug_to_dir.get(source_slug)
+        tgt_dir = slug_to_dir.get(target_slug)
+        if src_dir and tgt_dir and src_dir == tgt_dir:
+            return True
+
+        return False
+
+    # ── Main scan loop ─────────────────────────────────────────────────────────
+    # Collect all Tier 1 candidates for the single batch finding
+    tier1_rows = []   # list of dicts: {row, target_slug, source_page, snippet}
+    row_number = 0
+
+    for source_slug in sorted(page_prose.keys()):
+        source_fm = entity_pages_fm.get(source_slug, {})
+        page_type = source_fm.get("type", "")
+        if page_type not in L16_SCOPE_TYPES:
+            continue
+
+        body = page_prose[source_slug]
+        scannable = extract_scannable_prose(body)
+
+        # Build set of slugs already wikilinked in this page's prose
+        already_linked = set()
+        for wl_target in extract_wikilinks(scannable):
+            already_linked.add(wikilink_to_slug(wl_target))
+        # Also check frontmatter wikilinks
+        full_text_wikilinks = extract_wikilinks(body)
+        for wl_target in full_text_wikilinks:
+            already_linked.add(wikilink_to_slug(wl_target))
+
+        # Track which target slugs we've already surfaced for this page (first-occurrence rule)
+        surfaced_for_page = set()
+
+        for target_slug in sorted(target_slugs):
+            # Skip self-reference
+            if target_slug == source_slug:
+                continue
+            # Skip if already wikilinked
+            if target_slug in already_linked:
+                continue
+            # Skip if already surfaced as a candidate for this page
+            if target_slug in surfaced_for_page:
+                continue
+
+            # Build candidate phrases: slug-as-words and all aliases
+            candidate_phrases = [slug_to_phrase(target_slug)]
+            target_fm = entity_pages_fm.get(target_slug, {})
+            for alias in (target_fm.get("aliases") or []):
+                if isinstance(alias, str):
+                    candidate_phrases.append(alias)
+
+            for phrase in candidate_phrases:
+                pattern = make_word_boundary_pattern(phrase)
+                match = pattern.search(scannable)
+                if not match:
+                    continue
+
+                # Condition (a) satisfied — exact match found
+                # Condition (b): word-boundary satisfied by pattern (already enforced)
+                cond_b = True  # regex enforces word-boundary
+
+                # Condition (c): topical proximity
+                cond_c = has_topical_proximity(source_slug, source_fm, target_slug)
+
+                snippet = extract_snippet(scannable, match.start(), match.end())
+
+                if cond_b and cond_c:
+                    # Tier 1 — actionable
+                    row_number += 1
+                    tier1_rows.append({
+                        "row": row_number,
+                        "target_slug": target_slug,
+                        "source_page": source_slug,
+                        "snippet": snippet,
+                        "phrase_matched": phrase,
+                    })
+                    surfaced_for_page.add(target_slug)
+                else:
+                    # Tier 2 — informational
+                    reason = []
+                    if not cond_c:
+                        reason.append("no topical proximity")
+                    add_finding(
+                        "L16", "informational", source_slug,
+                        (f"L16 Tier 2: '{phrase}' in [[{source_slug}]] matches "
+                         f"[[{target_slug}]] but {' and '.join(reason)} — not linked"),
+                        {
+                            "target_slug": target_slug,
+                            "source_page": source_slug,
+                            "phrase": phrase,
+                            "reason": reason,
+                            "tier": 2,
+                        },
+                    )
+                    surfaced_for_page.add(target_slug)
+                break  # First matching phrase for this target is sufficient
+
+    # Emit single batch forced-choice for all Tier 1 candidates
+    if tier1_rows:
+        # Build human-readable table for description field
+        header = (
+            f"Wikilink proliferation — {len(tier1_rows)} candidates across "
+            f"{len({r['source_page'] for r in tier1_rows})} pages\n\n"
+            "Row | Target slug | Source page | Context snippet\n"
+            "----|-------------|-------------|----------------"
+        )
+        rows_text = "\n".join(
+            f"{r['row']:3} | [[{r['target_slug']}]] | {r['source_page']} | "
+            f"\"{r['snippet']}\""
+            for r in tier1_rows
+        )
+        description = (
+            f"{header}\n{rows_text}\n\n"
+            "A) Apply all  B) Apply subset (range notation, e.g. 1-5,9)  "
+            "C) Review by page  D) Skip"
+        )
+        add_finding(
+            "L16", "forced-choice", None,
+            description,
+            {
+                "candidates": tier1_rows,
+                "total_candidates": len(tier1_rows),
+                "affected_pages": sorted({r["source_page"] for r in tier1_rows}),
+                "options": ["A", "B", "C", "D"],
+                "option_b_subtype": "subset-select",
+                "first_run_recommended": "C",
+                "subsequent_recommended": "A",
+            },
+            recommended="C",  # Default for first run; agent should override to A on subsequent passes
+        )
 
 
 # ─── Findings File Writer ─────────────────────────────────────────────────────
@@ -2365,6 +2627,7 @@ def main():
     check_L14_skill_enrichment(log_text)
     check_L7_concept_gaps(page_prose, index_slugs, valid_slugs)
     check_L9_decay_exempt(page_claims, source_info, log_text)
+    check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path, page_prose)
 
     # ── Build wiki_stats for findings file ─────────────────────────────────
     # (counts_by_type and total_indexed already computed above)

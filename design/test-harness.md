@@ -1,5 +1,5 @@
 # Wiki Test Harness — Specification
-**Last Updated:** 05/24/2026 15:30 EST
+**Last Updated:** 05/25/2026 20:00 EST
 
 **Document status:** Design project output.
 **Audience:** Wiki operator setting up or verifying the wiki configuration.
@@ -161,6 +161,7 @@ each row below, the constant name is the exact Python identifier to update.
 | G5 status-content thresholds changed (currently stub≤3 claims, stub<500 words, current≥3 claims) | Update `G5_STUB_MAX_CLAIMS`, `G5_STUB_MAX_WORDS`, `G5_CURRENT_MIN_CLAIMS` constants |
 | New lint step (M-category) added | Implement check function; call from appropriate Group (A/B/C); add `add_finding()` call with correct step ID; update OPERATIONS.md Group classification and add step documentation in OPERATIONS.md Section 11.4 |
 | New lint step (D-category) added | Implement data-assembly function; add item to `agent_review` output in findings JSON; update OPERATIONS.md Group classification and add step documentation in OPERATIONS.md Section 11.4 |
+| Wikilink conventions changed (e.g., `[[slug]]` format, alias field name, section exclusion rules) or content directory list changed or page type scope for L16 scan changed | Update `check_L16_wikilink_proliferation()`: alias map construction, `L16_SCOPE_TYPES` set, `extract_scannable_prose()` exclusion logic, or `slug_to_dir` construction as appropriate |
 | L12a inline analysis criteria changed | Update session stats aggregation logic in `check_L12a_session_stats()` |
 | wiki-verify.sh controlled vocabulary allowlists changed | Verify `wiki-lint.py` uses identical values in `VALID_COMPETENCY_DOMAINS` / `VALID_PROFESSIONAL_CONTEXTS` — the two scripts must remain in sync |
 

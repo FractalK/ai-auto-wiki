@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 05/24/2026 15:30 EST
+**Last Updated:** 05/25/2026 20:00 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1122,11 +1122,11 @@ single pass):
   L15, G3, G5. For each page, run ALL applicable per-page checks simultaneously. Pages
   are processed in directory order: topics/, tools/, comparisons/, pitfalls/, sources/,
   teaching/. Within each directory, alphabetical order.
-- **Group C (cross-page analysis and non-page reads):** L4c, L6, L7, L10, L12, L12a,
+- **Group C (cross-page analysis and non-page reads):** L4c, L6, L16, L7, L10, L12, L12a,
   L12b, L12c, L12d, L14, G1, G4. These steps operate on aggregated data from Group B
   or on specific non-page files. L6, L7, and G1 use targeted grep/scan, not full page
-  reads. G4 uses counter data from overview.md and the CTRD-NNN ID set assembled during
-  Group B.
+  reads. L16 uses entity frontmatter and prose accumulated during Group B. G4 uses
+  counter data from overview.md and the CTRD-NNN ID set assembled during Group B.
 
 **Pre-session and Step L0 (before any agent step):**
 
@@ -1400,6 +1400,77 @@ For each wiki page excluding singletons and Source pages: check whether any othe
 non-source page contains a wikilink to this page. Pages with no inbound wikilinks
 from non-source pages are flagged as orphans. Informational only — no auto-action,
 no forced choice. Listed in lint report for human review.
+
+**Step L16 — Wikilink proliferation scan**
+*(Group C — executes after all Group B page reads are complete. Uses the valid slug set
+from G1 and alias maps from frontmatter parsing accumulated during Group B.)*
+
+Scan prose sections of Topic, Tool, Comparison, Pitfalls, and Teaching-brief pages for
+text that matches an existing wiki entity slug or alias but is not yet enclosed in a
+wikilink (`[[...]]`). Source pages, Key Claims table cells, frontmatter fields, section
+headers, singletons, and code blocks are excluded from the scan.
+
+**Tier 1 conditions (all three required for an actionable finding):**
+
+- **(a) Exact match:** The candidate term exactly matches a page slug (kebab-case
+  normalized to space-separated words) or an `aliases` frontmatter entry
+  (case-insensitive).
+- **(b) Standalone noun phrase:** The candidate term is not a substring of a larger
+  compound term. The character immediately before and after the match in the prose text
+  is a word boundary (whitespace, punctuation, start/end of line). This prevents
+  substring matches such as "chain" inside "chain-of-thought" triggering
+  `[[blockchain]]`.
+- **(c) Topical proximity:** The containing page and the target page share at least one
+  `related_topics` or `related_tools` frontmatter entry, OR the target page appears in
+  the containing page's Key Claims Source column references, OR both pages reside in the
+  same content directory.
+
+**Tier 2 (condition (a) met, but (b) or (c) fails):** Emit an informational finding
+only. No forced choice. No Phase 3 action.
+
+**Tier 1 batch forced choice structure:**
+
+All Tier 1 candidates across all pages are presented in a single forced choice with a
+numbered-row detail table:
+
+```
+[N] Wikilink proliferation — {M} candidates across {P} pages
+
+Row | Target slug              | Source page             | Context snippet
+----|--------------------------|-------------------------|--------------------------------------------
+1   | [[prompt-injection]]     | red-teaming             | "...testing for prompt injection vulnerab..."
+2   | [[chain-of-thought]]     | reasoning-techniques    | "...chain of thought prompting improves..."
+...
+
+A) Apply all — insert wikilinks for all {M} candidates
+B) Apply subset — specify row numbers (e.g., 1-5,9,11-15)
+C) Review by page — confirm choices one page at a time
+D) Skip — defer all to next lint pass
+```
+
+Context snippet: approximately 60 characters of prose surrounding the matched term,
+with the term centred in the extract. Truncate at sentence boundaries where possible.
+
+When option B is selected, a text input appears in the form for the range specification.
+Format: comma-separated integers and hyphenated integer ranges (e.g., `1-5,9,11-15`).
+Whitespace between tokens is ignored. Inclusion-list semantics — unlisted rows are
+silently skipped and will resurface at the next lint pass.
+
+Decision string sub-type for option B: `N:B:range-spec` (e.g., `7:B:1-5,9,11-15`).
+
+When option C is selected: decompose into one sub-choice per affected page, each showing
+the same A/B/D options and the numbered rows for that page only. Row numbers in
+per-page sub-choices are local to the page (re-numbered from 1). Phase 3 applies the
+same insertion logic as options A and B.
+
+**Default recommendation:**
+- First lint pass with L16: C (review by page).
+- Subsequent lint passes: A (apply all).
+
+**Phase 3 action (confirmed candidates only):** For each confirmed candidate: insert
+`[[target-slug]]` around the first occurrence of the matched term in each affected prose
+section. Do not link subsequent occurrences of the same term on the same page. Do not
+modify Key Claims tables, section headers, frontmatter fields, or code blocks.
 
 **Step G1 — Wikilink integrity**
 *(Group C — executes after all Group B page reads are complete. Requires the full valid
@@ -1695,10 +1766,11 @@ After all six directories are processed, the script proceeds to Group C.
 
 **--- Group C: Cross-page analysis and non-page reads ---**
 
-Group C executes after Group B completes. It runs Steps L4c, G4, L6, G1, L7, L10,
-L12, L12a, L12b, L12c, L12d, and L14 — described above with their Group C annotations.
-These steps use aggregated metadata from Group B (for L4c, G4, L10) or targeted
-lightweight reads (for L6, G1, L7) or specific non-page files (for L12 group, L14).
+Group C executes after Group B completes. It runs Steps L4c, G4, L6, L16, G1, L7,
+L10, L12, L12a, L12b, L12c, L12d, and L14 — described above with their Group C
+annotations. These steps use aggregated metadata from Group B (for L4c, G4, L10, L16)
+or targeted lightweight reads (for L6, G1, L7) or specific non-page files (for L12
+group, L14).
 
 After all Group C steps complete, the script writes `raw/lint-findings.json`. The agent
 session begins by reading this file and completing the judgment pass. Proceed to Step L13.
@@ -1732,7 +1804,8 @@ L4b items (one per open contradiction), L4c if triggered, L5 items (one per stal
 teaching-brief), L5a items (one per upgrade candidate), L7 items (one per concept gap),
 L9 items (one per decay_exempt proposal), L10 if triggered, L11 items (one per drift
 criterion), L12 items (one per collection gap), L12a if triggered, L12b if triggered,
-L15 items (one per under-tagged page).
+L15 items (one per under-tagged page), L16 if triggered (one batch item for all
+wikilink candidates).
 Steps contributing no items add no objects to the array.
 
 Set `recommended` to the option value the agent assesses as most appropriate. When no
@@ -1797,6 +1870,7 @@ Informational summary — Lint pass {N} | {date} | Sessions: {N}
 - Schema signal written (L12c): {category and count | none}
 - Open Schema Signals older than 60 days: {N} — {name and age in days each | "none"}
 - Skill file TO BE ENRICHED sections with no real examples after 5+ ingests: {list or "none"}
+- Wikilink proliferation candidates (L16 Tier 2 — informational only): {N} — {slug:page pairs or "none"}
 ```
 
 4. Report to the human:
@@ -1869,12 +1943,6 @@ Last updated: YYYY-MM-DD (lint pass {N})
 10. Regenerate Teaching Index: run `python3 generate-teaching-index.py && git add teaching-index.md`.
     If the script exits non-zero: halt and report. WARNING lines (missing tagging fields)
     are recorded in the lint log entry under Notes; they do not halt execution.
-10a. **Optional — Regenerate wiki dashboard:** run `python3 wiki-dashboard.py`. The script
-    writes `wiki-dashboard.html` to the wiki root. This file is gitignored and is not
-    committed. Regeneration is optional — the operator may also run the script manually
-    between lint passes at any time. If the script exits non-zero: report the error but
-    do not halt lint Phase 3. Failure to regenerate the dashboard does not affect wiki
-    integrity.
 11. Update `overview.md`: set `last_lint` to today; update `total_pages`,
     `open_contradictions`, `last_contradiction_id` if changed. If Step L4c flagged a
     ±1 auto-correction or the human confirmed a ±2+ correction: set `open_contradictions`
@@ -1884,6 +1952,12 @@ Last updated: YYYY-MM-DD (lint pass {N})
       Preserve the full line content including `nominated_date`; do not update the date.
     - Delete all Stage 2 items from `[stale-nominated]` in queue.md.
 13. Append lint log entry.
+14a. Apply confirmed wikilink insertions from Step L16: for each confirmed candidate
+    (option A, confirmed subset from B, or confirmed per-page choices from C): insert
+    `[[target-slug]]` around the first occurrence of the matched term in the affected
+    prose section. Write updated pages. Do not link subsequent occurrences of the same
+    term on the same page. Do not modify Key Claims tables, section headers, frontmatter
+    fields, or code blocks. Skip if option D was selected.
 14. Delete `raw/lint-findings.json` and commit the deletion. Do not delete mid-pass.
     Do not delete before Phase 3 completes.
 
@@ -1899,6 +1973,7 @@ Expired contradictions auto-confirmed: {N} — {CTRD-IDs or "none"}
 CTRD-NNN signals processed: {N} — {CTRD-IDs and outcomes or "none"}
 Pages downgraded to stale: {N} — {wikilinks or "none"}
 Orphan pages flagged: {N} — {wikilinks or "none"}
+Wikilinks inserted (L16): {N} — {page:slug pairs or "none"}
 Broken wikilinks (G1): {N} — {"none" or count with page:slug pairs}
 Index-filesystem gaps (G2): {N} — {"none" or "verified"}
 Broken source references in Key Claims (G3): {N} — {"none" or count with page identifiers}
