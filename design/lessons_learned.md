@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 05/23/2026 14:30 EST
+**Last Updated:** 05/25/2026 20:00 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1341,3 +1341,37 @@ Operator caught the error. Fix was already in place; file was re-presented witho
 Before instructing the operator to take any manual action, verify that the action has not already been completed by checking tool output in the current response. Specifically: if a `str_replace` succeeded and a syntax check passed in the same response, the file is already correct — do not tell the operator otherwise. Read results before writing conclusions.
 
 **References:** wiki-dashboard.html dark-mode theming (2026-05-24)
+
+## LL-040 | EDITED STALE PROJECT KNOWLEDGE COPY OF TEST-HARNESS.MD
+
+- **Date:** 2026-05-25
+- **Context:** Implementing Items 1–5 of the L16 wikilink proliferation agenda (adding L16 to all governance docs).
+
+**Problem:**
+Applied the surgical L16 maintenance entry to the project knowledge copy of
+`test-harness.md`, which was missing Section 2.5.2 (wiki-dashboard.py Maintenance).
+The delivered file was therefore missing an entire section present in the operator's
+current working copy. Operator caught the discrepancy and provided the correct version.
+Fix applied in a follow-up exchange.
+
+**Root Cause:**
+Project knowledge files reflect the state at last sync, not the current working copy.
+`test-harness.md` had been updated in a prior implementation support session (adding
+Section 2.5.2 per DM-107) but the project knowledge had not been re-synced. The session
+proceeded to edit the project knowledge copy without first confirming it was current.
+
+**Fix Applied:**
+Operator provided the correct current version inline. Single surgical edit (L16 entry)
+applied to the operator-provided version and re-delivered.
+
+**Implication Going Forward:**
+Before editing any project file that is actively updated during implementation support
+sessions (test-harness.md, OPERATIONS.md, CLAUDE.md, wiki-lint.py, wiki-verify.sh),
+confirm the project knowledge copy is current — or ask the operator to provide the
+current version if there is any doubt. The project knowledge sync lag is a known failure
+mode for files touched by both design sessions and implementation support sessions. When
+an operator provides a file inline, always treat that version as authoritative over the
+project knowledge copy.
+
+**References:** Items 1–5, L16 wikilink proliferation session (2026-05-25)
+
