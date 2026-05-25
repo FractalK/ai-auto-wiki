@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 20/05/2026 20:44 EST
+**Last Updated:** 05/23/2026 14:30 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1230,3 +1230,114 @@ produce (e.g., by over-escaping), explicitly prohibit it in the same rule block.
 pattern applies here: "Do X, do not do Y, verify X succeeded."
 
 **References:** FRIC-029, FRIC-041, DM-102, CLAUDE.md Section 6.2, OPERATIONS.md Step 12
+
+---
+
+## LL-037 | Claude Code Compaction Before First Write Loses Wiki-Inspection Ground Truth
+
+- **Date:** 2026-05-23
+- **Context:** Claude Code session building wiki-lint.py (~940-line Python script) per
+  the hybrid lint assessment (DM-106).
+
+**Problem:**
+The agent read all five required reference files, then ran 8 wiki-inspection commands
+and read index.md structure to gather ground-truth data about actual frontmatter
+patterns, page structures, counter formats, and index layout. Compaction fired before
+the agent wrote a single line of script code. All ground-truth observations from the
+live wiki were lost to compaction summarization. The spec document tells the agent
+*what* to check; the wiki inspection tells it *how things actually look on disk* —
+exact field names, list formats, table column layouts, wikilink quoting patterns. The
+second category is precisely what compaction summarizes away.
+
+**Root Cause:**
+The build prompt was structured as a single monolithic Step 1 (~940 lines of code)
+followed by testing. The agent's context budget was consumed by reading 5 large
+reference files plus running extensive wiki inspection, leaving insufficient context
+for the code-generation phase. With no intermediate commit points, compaction destroyed
+all work and all gathered ground truth simultaneously.
+
+**Fix Applied:**
+Build prompt restructured into three phases with git commit gates between each:
+Phase 1 (~500 lines: scaffold + per-page mechanical checks), Phase 2 (~440 lines:
+cross-page computation + D-category data assembly), Phase 3 (document updates). Each
+phase starts with a re-read of the committed script. If compaction fires mid-phase,
+at most one phase of work is lost; prior phases are preserved on disk.
+
+**Implication Going Forward:**
+For any Claude Code build session producing >500 lines of code, structure the prompt
+with commit gates that preserve partial progress on disk. The trigger is not code
+complexity but code volume: large scripts consume enough context for code generation
+that combined with reference-file reads and wiki inspection, they exhaust the context
+window before the first write. The commit gate pattern: (1) split into phases of
+roughly 400-500 lines each, (2) commit after each phase, (3) re-read the committed
+file at the start of each subsequent phase. Each phase must produce a working (partial)
+script that can be tested independently.
+
+**References:** DM-106, hybrid-lint-assessment.md
+
+---
+
+## LL-038 | Build Prompts That Delegate OPERATIONS.md Updates Must Specify Target Sections Explicitly
+
+**Date:** 2026-05-24
+**Trigger:** Post-build verification revealed G1-G5 checks implemented in wiki-lint.py
+but absent from OPERATIONS.md step documentation, Group A/B/C classification, L13
+summary template, and lint log format.
+
+**What Happened:**
+The claude-code-lint-build-prompt-v2.md Phase 3 instruction read: "Add the five new
+checks (G1-G5) to the appropriate step positions." The Claude Code session updated
+OPERATIONS.md's hybrid architecture description and rewrote the Section 11.4 preamble
+but did not add individual step documentation entries, did not update the Group A/B/C
+classification lists, and did not add G-check lines to the L13 informational summary
+template or the lint log entry format. All four omissions were caught in the subsequent
+design-project verification session and corrected manually.
+
+**Root Cause:**
+The instruction "add to the appropriate step positions" is ambiguous. It does not
+specify which OPERATIONS.md sections require updating, how many distinct insertion
+points exist, or what the expected output looks like. A build prompt that delegates
+documentation work to a Claude Code session must enumerate the target sections
+explicitly — the agent cannot reliably infer the full set of update sites from a
+general instruction, especially in a long document with multiple related sections
+(classification block, per-step documentation, summary template, log format).
+
+**Fix Applied:**
+Post-build verification session (this session) added all missing documentation:
+Step G1–G5 entries at correct Phase 1 positions; G2 in Group A classification;
+G3, G5 in Group B; G1, G4 in Group C; G-check lines in L13 summary template and
+lint log format. See FRIC-043.
+
+**Implication Going Forward:**
+When a build prompt delegates OPERATIONS.md (or any multi-section document) updates,
+enumerate every target section explicitly:
+- "Update the Group A/B/C classification list at line ~NNN"
+- "Add a Step GN documentation block after Step LN"
+- "Add GN output lines to the L13 informational summary template"
+- "Add GN lines to the lint log entry format"
+A general "add in appropriate positions" instruction reliably produces partial
+compliance on documents with four or more distinct update sites. The omission pattern
+is consistent: preamble/architecture sections get updated; templated output formats
+(summary template, log format) are skipped.
+
+**References:** FRIC-043, DM-106, claude-code-lint-build-prompt-v2.md
+
+## LL-039 | Advised Manual Fix After Already Executing It
+
+**Date:** 2026-05-24
+**Session:** Dark-mode dashboard theming session
+**Rule Violated:** Collaboration contract — "If uncertain, stop and ask. Never assume a way forward." Inverse failure: declared a fix unexecutable after having already executed and verified it.
+
+**What Happened:**
+During surgical str_replace editing of wiki-dashboard.html, a duplicate closing brace `}` was introduced in the `heatColor()` function. The fix was applied via str_replace and verified with `node --check` (output: "Syntax OK") — all within the same response. The response then concluded by telling the operator: "I can't execute the fix in this response" and instructing them to make the manual edit themselves.
+
+**Root Cause:**
+The response was drafted as if the fix had not yet been applied, ignoring the tool output immediately above. The verification result ("Syntax OK") was present in the same response but was not reflected in the closing prose. Writing the closing summary before re-reading the execution results.
+
+**Fix Applied:**
+Operator caught the error. Fix was already in place; file was re-presented without further changes. LL-039 logged per collaboration contract self-violation rule.
+
+**Implication Going Forward:**
+Before instructing the operator to take any manual action, verify that the action has not already been completed by checking tool output in the current response. Specifically: if a `str_replace` succeeded and a syntax check passed in the same response, the file is already correct — do not tell the operator otherwise. Read results before writing conclusions.
+
+**References:** wiki-dashboard.html dark-mode theming (2026-05-24)
