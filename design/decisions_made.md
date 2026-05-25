@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 23/05/2026 11:15 EST
+**Last Updated:** 05/25/2026 21:30 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4544,3 +4544,135 @@ does not destroy customizations.
 
 **References:** wiki-dashboard-build-spec.md, DM-107, test-harness.md Section 2.5.2,
 LL-039
+
+## DM-109 | WIKILINK PROLIFERATION: L16 LINT STEP WITH SUBSET-SELECT BATCH FORCED CHOICE
+
+- **Date:** 2026-05-25
+- **Status:** ACTIVE
+
+**Decision:**
+A new lint step L16 (Wikilink proliferation scan) is added to OPERATIONS.md Section 11.4,
+Group C, after L6 (orphan detection). L16 scans prose sections of Topic, Tool, Comparison,
+Pitfalls, and Teaching-brief pages for references to existing wiki entities that are not
+yet wikilinked. Source pages, Key Claims table cells, frontmatter fields, section headers,
+and singletons are excluded from the scan.
+
+**Confidence mechanism — three conditions, all required for Tier 1 (actionable):**
+- (a) Exact match: candidate term matches a page slug or an `aliases` entry
+  (case-insensitive, kebab-case normalized to space-separated words).
+- (b) Standalone noun phrase: candidate term is not a substring of a larger compound
+  term (e.g., "chain" inside "chain-of-thought" does not match `[[blockchain]]`).
+- (c) Topical proximity: containing page and target page share at least one
+  `related_topics` or `related_tools` entry, OR target page appears in containing
+  page's Key Claims source references, OR both pages are in the same content directory.
+
+Tier 2 (conditions a met, b or c fails): informational only, no forced choice.
+
+**Batch forced choice structure:** All Tier 1 candidates are presented in a single
+forced choice with a numbered-row detail table showing target slug, source page, and
+context snippet for every proposed link. Four options:
+- A) Apply all
+- B) Apply subset — specify row numbers using range notation (e.g., `1-5,9,11-15`)
+- C) Review by page — decompose into one batch choice per affected page (each with
+  the same A/B/D options and numbered rows)
+- D) Skip — defer to next lint pass
+
+Option B introduces a new decision string sub-type: **subset-select**, formatted as
+`N:B:range-spec` where range-spec is comma-separated integers and hyphenated ranges
+(e.g., `7:B:1-5,9,11-15`). Whitespace-tolerant. Inclusion-list semantics — unlisted
+rows are silently skipped, recoverable at next lint pass.
+
+First-run default recommendation: C (review by page). Subsequent runs: A (apply all).
+
+**Context:**
+At 102 pages, the wiki's link graph is born sparse. Each new page creates retrospective
+link debt on every older page that mentions the concept but was written before the page
+existed. The dashboard already shows orphan findings (L6) for topics like `red-teaming`
+and `sycophancy` that are almost certainly mentioned in existing prose. No existing
+workflow step addresses this gap — ingest only links pages touched by the current source,
+and rolling overwrite only fires when a page receives new source material.
+
+**Rationale:**
+Lint is the correct placement because wikilink proliferation is a maintenance operation
+on existing content, not a side effect of new source processing. Ingest placement was
+rejected because it would conflate source processing with retrospective maintenance,
+make ingest scope unpredictable, and break the principle that ingest touches only pages
+affected by the source being ingested. Discovery pass placement was rejected because
+that pass finds new sources, not edits existing pages.
+
+The three-condition Tier 1 filter is designed to minimize false positives. Slug/alias
+match alone is insufficient (e.g., "cursor" the word vs. `[[cursor]]` the tool).
+Topical proximity (condition c) filters cross-domain coincidences. The batch forced
+choice with subset-select avoids both the alert fatigue of per-link choices and the
+blind-trust problem of undifferentiated bulk approval.
+
+**Alternatives Considered:**
+- **Ingest enrichment step:** Rejected — unpredictable scope expansion, breaks ingest
+  idempotency, conflates two concerns.
+- **Discovery pass placement:** Rejected — discovery pass finds sources, not edits pages.
+- **Per-link forced choice:** Rejected — at 102 pages the first run could surface 50+
+  candidates. Alert fatigue.
+- **Bulk apply-all only (no subset):** Rejected — forces false binary between all and
+  none. Operator cannot approve a subset without switching to per-link review.
+- **Exclusion-list notation (apply all except N):** Rejected — inclusion lists are safer.
+  A miscount in an exclusion list approves something unintended; a miscount in an
+  inclusion list skips something recoverable.
+- **Semantic/LLM-based confidence (read surrounding paragraph):** Rejected — scales
+  poorly at 100+ pages, consumes context window, produces inconsistent results across
+  sessions. Mechanical proxy (alias match + topical proximity) is cheaper and more
+  reproducible.
+
+**Consequences to Watch:**
+- First-run volume: the initial L16 pass on a 102-page wiki may surface 50-100+
+  candidates. After the first run, subsequent passes should surface 0-5 new candidates
+  per lint cycle. If the first-run count is unexpectedly high (>100), reassess the
+  Tier 1 filter conditions.
+- False positive rate: monitor Tier 1 candidates rejected by the operator in the first
+  3 lint cycles. If rejection rate exceeds ~15%, tighten condition (c) (e.g., require
+  shared `related_topics`/`related_tools` entry, not just same content directory).
+- L6 interaction: after L16 runs, orphan count (L6) should decrease. If orphan count
+  does not decrease after two L16 passes, investigate whether the filter is too
+  restrictive.
+- Subset-select parsing: the `N:B:range-spec` decision string sub-type must be
+  documented in ingest-ui-implementation-plan.md and the form template parser must
+  handle it. This is a new sub-type alongside single-select, text-with-default, and
+  composite teaching-relevance.
+
+**References:** OPERATIONS.md Section 11.4 (L6, G1), hybrid-lint-assessment.md,
+test-harness.md Section 2.5.1, ingest-ui-implementation-plan.md Section 5
+
+## DM-110 | L16 TOPICAL PROXIMITY: PAGE-TYPE-AWARE SIGNALS FOR PITFALLS, COMPARISON, AND TEACHING-BRIEF
+
+- **Date:** 2026-05-25
+- **Status:** ACTIVE
+
+**Decision:**
+Extend `has_topical_proximity()` in `wiki-lint.py` to use each page type's authoritative structural frontmatter field as the topical proximity signal for L16 condition (c), rather than requiring `related_topics`/`related_tools` entries on page types that don't carry those fields. Three additions:
+
+- **Pitfalls pages:** `parent_entity` (required field, full-path wikilink to the parent Topic or Tool) establishes proximity to that entity. If `wikilink_to_slug(source_fm["parent_entity"]) == target_slug`, condition (c) passes.
+- **Comparison pages:** `entities_compared` (required list of full-path wikilinks) establishes proximity to each compared entity. If `target_slug` appears in the normalised list, condition (c) passes.
+- **Teaching-brief pages:** `derived_from` (required list of full-path wikilinks to constituent Topic, Tool, or Pitfalls pages) establishes proximity to each constituent. If `target_slug` appears in the normalised list, condition (c) passes.
+
+**Context:**
+The first L16 lint pass on a 102-page wiki produced 20 Tier 1 candidates (all topic→topic) and 19 Tier 2 informational candidates. Inspection revealed all Tier 2 suppressions were caused by missing or sparse `related_topics` frontmatter on tool pages, and by the complete absence of a proximity path for pitfalls and comparison pages (which lack `related_topics`/`related_tools` fields entirely). Teaching-brief pages have not yet been generated but face the same structural gap.
+
+**Rationale:**
+Each of the three affected page types already carries a required field that encodes exactly the relationship L16 condition (c) is trying to detect. Using these fields is more authoritative than adding `related_topics` redundantly:
+
+- A pitfalls page's `parent_entity` is definitionally its topical anchor. Adding `related_topics: [parent_entity_slug]` would duplicate that relationship in a weaker, optional field with no enforcement that they agree.
+- A comparison page's `entities_compared` is the complete set of pages the comparison is about. Proximity to those entities is structural, not editorial.
+- A teaching-brief's `derived_from` names every page the brief synthesises. Proximity to constituent pages is definitional.
+
+Adding redundant `related_topics` frontmatter to these page types would create two fields encoding the same relationship with no sync mechanism, violating DRY and introducing a maintenance hazard.
+
+**Alternatives Ruled Out:**
+- **Add `related_topics` to pitfalls/comparison/teaching-brief schemas:** Rejected — redundant data duplication of more authoritative existing fields. Creates sync drift risk.
+- **Loosen condition (c) to apply all cross-directory matches:** Rejected — would re-introduce false positives that the proximity filter was designed to prevent (e.g., a tool page mentioning a common word that matches an unrelated topic slug).
+- **Separate Tier 1.5 category for structurally-proximate cross-type candidates:** Rejected — unnecessary complexity. Extending `has_topical_proximity()` achieves the same result within the existing two-tier structure.
+
+**Consequences to Watch:**
+- After this fix, re-run L16 to verify that pitfalls and comparison candidates surface as Tier 1. If the first post-fix pass still shows zero pitfalls/comparison Tier 1 candidates, investigate whether `parent_entity`/`entities_compared` values are correctly normalised by `wikilink_to_slug()`.
+- The same session should also execute the `related_topics` enrichment pass on tool pages (so tool→topic candidates surface to Tier 1 via the existing frontmatter path). These two changes together should eliminate the structural causes of Tier 2 suppression.
+- Teaching-brief fix is latent until teaching-brief pages are generated. Verify it fires correctly on the first teaching-brief lint pass.
+
+**References:** wiki-lint.py `has_topical_proximity()`, CLAUDE.md Sections 5.4 (comparison), 5.5 (pitfalls), 5.7 (teaching-brief), DM-109
