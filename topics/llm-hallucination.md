@@ -2,7 +2,7 @@
 type: topic
 title: LLM Hallucination
 created: 2026-05-03
-updated: 2026-05-20
+updated: 2026-05-25
 status: developing
 summary: The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, confidently stated errors, and context-grounding failures where models rely on parametric knowledge instead of provided documents — as a structural consequence of next-token prediction without factual verification.
 source_count: 2
@@ -30,7 +30,7 @@ The benchmark results suggest that current models have not consistently learned 
 
 A distinct form of hallucination involves ignoring provided context and generating from parametric (training-time) knowledge instead. In legal AI benchmarks, this failure mode is well-documented: CaseLaw v2 evaluates models against recent US and Canadian court decisions dated after training cutoffs, specifically to force document-grounded reasoning. Despite this design, a recurring failure pattern is models relying on general legal knowledge rather than the supplied documents, even when explicitly instructed to do so. The consequence is outputs that are legally fluent but not grounded in the case materials actually provided — a structurally equivalent failure to citation hallucination, with the additional problem that the model's confident tone provides no signal of the deviation.
 
-Context grounding failure is practically significant in any RAG or document-assisted workflow: a model that ignores retrieved context and generates from internal knowledge reproduces exactly the accuracy and currency gaps that RAG architectures are designed to avoid. Measuring context grounding fidelity — how consistently a model anchors its output in provided documents versus its internal knowledge — is not yet standard practice in frontier model evaluation.
+Context grounding failure is practically significant in any [[retrieval-augmented-generation]] or document-assisted workflow: a model that ignores retrieved context and generates from internal knowledge reproduces exactly the accuracy and currency gaps that RAG architectures are designed to avoid. Measuring context grounding fidelity — how consistently a model anchors its output in provided documents versus its internal knowledge — is not yet standard practice in frontier model evaluation.
 
 ## Reporting Gap
 

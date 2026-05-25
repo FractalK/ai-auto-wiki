@@ -2,7 +2,7 @@
 type: topic
 title: AI-Assisted Skills Training
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-25
 summary: A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 status: developing
 source_count: 1
@@ -60,6 +60,6 @@ Current systems are not designed to replace peer practice or human supervision �
 
 **Why it matters for instruction.** This topic shows that effective AI deployment in professional training requires deliberate expert co-design of the AI's constraints — not just access to a capable model. The Stanford AP/AM research offers instructors a concrete case where prompt engineering and domain expertise combine to produce measurable learning outcomes, and where default AI behavior actively undermines the pedagogical goal.
 
-**Common misconceptions.** Students often assume that a capable AI would naturally make a good coach or training partner. The AP/AM research shows the opposite: default AI cooperativeness — sycophancy, over-disclosure, excessive agreement — actively prevents the kinds of productive friction that professional skills training requires. Effective training demands deliberately making the AI less helpful in specific ways.
+**Common misconceptions.** Students often assume that a capable AI would naturally make a good coach or training partner. The AP/AM research shows the opposite: default AI cooperativeness — [[sycophancy]], over-disclosure, excessive agreement — actively prevents the kinds of productive friction that professional skills training requires. Effective training demands deliberately making the AI less helpful in specific ways.
 
 **Suggested framing.** Present AI-assisted skills training as a case study in the gap between general AI capability and domain-appropriate AI deployment — where the work of aligning AI behavior to training objectives requires systematic expert involvement, and where the design of the constitution is the primary bottleneck for scaling to new domains.

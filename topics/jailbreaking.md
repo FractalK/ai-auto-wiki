@@ -2,7 +2,7 @@
 type: topic
 title: Jailbreaking
 created: 2026-05-03
-updated: 2026-05-20
+updated: 2026-05-25
 status: developing
 summary: Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 source_count: 1
@@ -25,7 +25,7 @@ related_topics:
   - "[[ai-alignment]]"
 ---
 
-Jailbreaking refers to adversarial prompting techniques designed to elicit outputs an AI system's safety training is intended to prevent. Unlike prompt injection — which embeds malicious instructions in content an agent processes — jailbreaking typically operates through direct user interaction, exploiting gaps between the intended scope of safety constraints and the behavioral boundaries actually enforced by training.
+Jailbreaking refers to adversarial prompting techniques designed to elicit outputs an AI system's safety training is intended to prevent. Unlike [[prompt-injection]] — which embeds malicious instructions in content an agent processes — jailbreaking typically operates through direct user interaction, exploiting gaps between the intended scope of safety constraints and the behavioral boundaries actually enforced by training.
 
 Documented jailbreak strategy families include roleplay framing (asking the model to respond in character as an unrestricted AI), hypothetical scenarios ("if you were advising a character in a novel..."), persona injection (instructing the model to adopt a new identity without its training constraints, such as the "DAN" — Do Anything Now — prompt family), and iterative refinement approaches that probe constraint boundaries across multiple turns. Gradient-based techniques operate at the token level, finding input sequences that maximize the probability of prohibited outputs. Many effective jailbreaks combine multiple strategies, using roleplay or persona framing to establish a context that makes iterative boundary probing less likely to trigger refusals.
 

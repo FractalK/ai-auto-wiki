@@ -2,14 +2,14 @@
 type: source
 title: Vellum LLM Leaderboard 2026
 created: 2026-05-18
-updated: 2026-05-18
+updated: 2026-05-25
 status: active
-source_type: practitioner-reference
+source_type: vendor-content
 published_date: 2026-04-23
 ingested_date: 2026-05-18
 ingest_via: queue
 url: https://www.vellum.ai/llm-leaderboard
-credibility_tier: vendor-content
+credibility_tier: practitioner
 extraction_depth: standard
 related_tools:
   - "[[anthropic-claude-opus-4-7]]"

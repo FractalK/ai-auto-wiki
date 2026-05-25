@@ -2,7 +2,7 @@
 type: topic
 title: Constitutional Classifiers
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-25
 summary: A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 status: developing
 source_count: 1
@@ -27,7 +27,7 @@ Constitutional Classifiers is a jailbreak-defense system developed by Anthropic'
 
 The system begins with a constitution: a structured document specifying which content categories are permitted and which are forbidden. Using the constitution, Claude generates a large synthetic dataset of prompts and model completions across all defined content classes. This synthetic data is augmented for diversity — translated into multiple languages, rewritten in styles characteristic of known jailbreak techniques — and used to train two classifiers: an input classifier that evaluates incoming user messages and an output classifier that evaluates model responses before delivery.
 
-The constitution-based design is intended to generalize across the space of attacks, including novel ones, because classifiers are trained on semantic content class rather than on specific attack patterns. As new jailbreak techniques are discovered, the constitution can be updated and new synthetic data generated without retraining the base model. The approach draws on a related Anthropic technique, Constitutional AI, which similarly uses a principles document to shape model behavior through training.
+The constitution-based design is intended to generalize across the space of attacks, including novel ones, because classifiers are trained on semantic content class rather than on specific attack patterns. As new jailbreak techniques are discovered, the constitution can be updated and new synthetic data generated without retraining the base model. The approach draws on a related Anthropic technique, [[constitutional-ai]], which similarly uses a principles document to shape model behavior through training.
 
 ## Robustness Evidence
 

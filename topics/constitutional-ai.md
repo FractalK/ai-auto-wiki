@@ -2,7 +2,7 @@
 type: topic
 title: Constitutional AI
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-25
 summary: Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 status: developing
 source_count: 1
@@ -22,7 +22,7 @@ technical_depth: practitioner
 teaching_notes_reviewed: 2026-04-30
 ---
 
-Constitutional AI (CAI) is Anthropic's approach to training AI models with an explicit, auditable alignment framework. Where Reinforcement Learning from Human Feedback (RLHF) trains models to satisfy the aggregated preferences of human raters — preferences that are implicit, variable, and difficult to inspect — CAI trains models against a written set of principles. The model learns to evaluate and revise its own outputs according to those principles during training, embedding alignment into the model's internal reasoning rather than encoding only surface behaviors.
+Constitutional AI (CAI) is Anthropic's approach to training AI models with an explicit, auditable alignment framework. Where [[reinforcement-learning-from-human-feedback]] (RLHF) trains models to satisfy the aggregated preferences of human raters — preferences that are implicit, variable, and difficult to inspect — CAI trains models against a written set of principles. The model learns to evaluate and revise its own outputs according to those principles during training, embedding alignment into the model's internal reasoning rather than encoding only surface behaviors.
 
 ## The Constitutional Training Mechanism
 

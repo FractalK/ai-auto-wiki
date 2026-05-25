@@ -2,10 +2,19 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-22
-last_entry: 2026-05-22
-entry_count: 71
+updated: 2026-05-25
+last_entry: 2026-05-25
+entry_count: 72
 ---
+
+## [2026-05-25] lint | pass 3
+Pages assessed: 102. Stale flags: 5 (L5c — stale data records, informational only). Contradiction flags: 0.
+Support scores recalculated: 1 (L3 — openai-gpt-5-5 anomaly resolved via source schema fix). Teaching Index regenerated.
+Collection gaps confirmed: 0 | addressed: 0 | dismissed: 0.
+Source schema fix: [[2026-vellum-llm-leaderboard]] — corrected credibility_tier (vendor-content → practitioner) and source_type (practitioner-reference → vendor-content); caused erroneous L3 score flag.
+L16 wikilink proliferation (first run): 20 Tier 1 candidates confirmed (decision 1:A). Insertions across 14 pages: [[ai-alignment]] ×3, [[reward-hacking]] ×4, [[reinforcement-learning-from-human-feedback]] ×3, [[retrieval-augmented-generation]] ×2, [[sycophancy]] ×1, [[prompt-injection]] ×2, [[constitutional-ai]] ×1, [[jailbreaking]] ×2, [[red-teaming]] ×1, [[ai-alignment]] ×1.
+L7 concept gaps: 1,841 candidates dismissed (all schema structural terms or Teaching Notes template labels); 0 new gap stubs.
+Orphan pages (L6): 15 informational — no action.
 
 ## [2026-05-22] lint | pass 2
 Pages assessed: 99. Stale flags: 0. Contradiction flags: 0.

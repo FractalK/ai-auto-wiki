@@ -2,7 +2,7 @@
 type: topic
 title: LLM Fundamentals
 created: 2026-04-26
-updated: 2026-04-30
+updated: 2026-05-25
 summary: The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 status: developing
 source_count: 1
@@ -24,7 +24,7 @@ technical_depth: foundational
 teaching_notes_reviewed: 2026-04-30
 ---
 
-Large language models are produced through a two-stage training process. In pretraining, a model is trained via next-token prediction on a very large corpus of text — on the order of tens to hundreds of terabytes — compressing a broad representation of human-generated knowledge into a set of neural network weights. The resulting base model is a statistical world model capable of high-fidelity continuation and completion, but it is not yet an assistant. Fine-tuning — including supervised instruction following and reinforcement learning from human feedback (RLHF) — reshapes the base model into a helpful, relatively safe assistant by training it on curated interaction data and human preference judgments. The fine-tuned model can be thought of as a thin behavioral layer over the base model's world knowledge.
+Large language models are produced through a two-stage training process. In pretraining, a model is trained via next-token prediction on a very large corpus of text — on the order of tens to hundreds of terabytes — compressing a broad representation of human-generated knowledge into a set of neural network weights. The resulting base model is a statistical world model capable of high-fidelity continuation and completion, but it is not yet an assistant. Fine-tuning — including supervised instruction following and [[reinforcement-learning-from-human-feedback]] (RLHF) — reshapes the base model into a helpful, relatively safe assistant by training it on curated interaction data and human preference judgments. The fine-tuned model can be thought of as a thin behavioral layer over the base model's world knowledge.
 
 Scaling laws describe a predictable empirical relationship between model performance and three input variables: model parameter count, training compute (measured in FLOP), and training dataset size. Within the ranges studied, increasing any of these variables reliably reduces validation loss, allowing research teams to forecast the expected benefit of larger training runs before they complete. Scaling laws are one of the most practically important findings in LLM research because they convert a fundamentally empirical process — training neural networks — into a partially plannable one.
 
@@ -52,7 +52,7 @@ As LLMs are given access to external tools — web browsers, code interpreters, 
 
 **Concept in plain terms.** LLM fundamentals covers how large language models are built — through pretraining on massive text corpora and fine-tuning on human feedback — and how they work: generating text by predicting likely continuations through a single forward pass, without deliberate reasoning or factual verification. Understanding this two-stage pipeline and the System 1 reasoning constraint is the foundation for understanding every AI capability and failure mode practitioners will encounter.
 
-**Why it matters for instruction.** Without a foundational mental model of how LLMs work, practitioners cannot accurately predict when AI tools will perform well or fail. The training pipeline explains why LLMs hallucinate (they predict likely text, not verified truth), why jailbreaks work (the safety layer is a thin behavioral overlay, not a hardcoded constraint), and why prompt injection is a structural attack vector (retrieved content is processed as trusted instruction by the same mechanism as user input).
+**Why it matters for instruction.** Without a foundational mental model of how LLMs work, practitioners cannot accurately predict when AI tools will perform well or fail. The training pipeline explains why LLMs hallucinate (they predict likely text, not verified truth), why jailbreaks work (the safety layer is a thin behavioral overlay, not a hardcoded constraint), and why [[prompt-injection]] is a structural attack vector (retrieved content is processed as trusted instruction by the same mechanism as user input).
 
 **Common misconceptions.** Students often assume LLMs "know" the information they output — that generating text about a fact is equivalent to retrieving a stored, verified fact. LLMs predict statistically likely text; they do not store, retrieve, or verify information before stating it. This mental model error leads directly to the most common misuse pattern: treating outputs as verified knowledge without independent review.
 
