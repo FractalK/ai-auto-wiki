@@ -43,7 +43,7 @@ SOURCE_DIR = "sources"
 OUTPUT_FILE = "wiki-dashboard.html"
 
 # MAINTENANCE: Set to your Obsidian vault name. Empty string disables deep links.
-OBSIDIAN_VAULT_NAME = ""
+OBSIDIAN_VAULT_NAME = "ai-auto-wiki"
 
 LINT_FINDINGS_PATH = "raw/lint-findings.json"
 
