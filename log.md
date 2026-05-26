@@ -4,8 +4,21 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-26
 last_entry: 2026-05-26
-entry_count: 79
+entry_count: 81
 ---
+
+## [2026-05-26] ops | teaching relevance — prompt-engineering
+[[prompt-engineering]] tagged teaching_relevance: true. Domains: practical-ai-use-and-interaction, output-verification-and-risk-assessment. Contexts: teaching-and-instruction, graduate-and-doctoral-education. Teaching Notes section added (teaching_notes_reviewed: 2026-05-26). Confirmed via B2:A post-ingest decision.
+
+## [2026-05-26] contradiction-resolved | Google NotebookLM
+Page: [[google-notebooklm]]
+Contradiction ID: CTRD-001
+Claim: NotebookLM lacks native mind-map visualization
+Resolution path: human-review
+Resolution: overridden
+Human action: override signal received 2026-05-26 (chat)
+Final claim status: current
+Note: Human confirmed atlas guide claim is correct — NotebookLM generates AI mind maps as read-only output but lacks import, export, or editing of mind map files; claim text updated to reflect this distinction; [[2025-huang-notebooklm-thirty-minutes]] added as [minority view] source.
 
 ## [2026-05-26 PT] session-stats | ingest
 Queue size at session start: 0 queued URLs; 3 staged files

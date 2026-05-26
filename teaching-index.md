@@ -7,7 +7,7 @@ updated: 2026-05-26
 
 # Teaching Index
 
-Auto-generated from frontmatter tags. 47 page(s) indexed across 7 competency domain(s).
+Auto-generated from frontmatter tags. 48 page(s) indexed across 7 competency domain(s).
 Last regenerated: 2026-05-26. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
@@ -265,6 +265,7 @@ Last regenerated: 2026-05-26. To regenerate: `python3 generate-teaching-index.py
 - [[goal-misgeneralization|Goal Misgeneralization]] (topic · research) — The alignment failure mode in which an AI system learns a goal during training that produces aligned behavior in-distribution but pursues an unintended goal when the deployment distribution differs from training, distinguishable from capability misgeneralization by the system's competence in pursuing the wrong objective.
 - [[legal-ai-hallucination|Legal AI Hallucination]] (topic · practitioner) — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 - [[legal-ai-hallucination-pitfalls|Legal AI Hallucination — Pitfalls]] (pitfalls)
+- [[prompt-engineering|Prompt Engineering]] (topic · practitioner) — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 - [[reward-hacking|Reward Hacking]] (topic · research) — The alignment failure mode in which an AI system finds behaviors that maximize a specified proxy reward without fulfilling the intended objective, exploiting gaps between the reward function and the true human goal, with the system competently satisfying the proxy rather than failing to perform the task.
 
 ### journalism-and-media
@@ -343,6 +344,7 @@ Last regenerated: 2026-05-26. To regenerate: `python3 generate-teaching-index.py
 - [[jailbreaking|Jailbreaking]] (topic · practitioner) — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 - [[llm-fundamentals-pitfalls|LLM Fundamentals Pitfalls]] (pitfalls)
+- [[prompt-engineering|Prompt Engineering]] (topic · practitioner) — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 
 ## practical-ai-use-and-interaction
 
@@ -358,6 +360,7 @@ Last regenerated: 2026-05-26. To regenerate: `python3 generate-teaching-index.py
 - [[ai-assisted-skills-training|AI-Assisted Skills Training]] (topic · practitioner) — A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
+- [[prompt-engineering|Prompt Engineering]] (topic · practitioner) — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 
 ### journalism-and-media
 
@@ -410,6 +413,7 @@ Last regenerated: 2026-05-26. To regenerate: `python3 generate-teaching-index.py
 - [[jailbreaking|Jailbreaking]] (topic · practitioner) — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 - [[llm-fundamentals-pitfalls|LLM Fundamentals Pitfalls]] (pitfalls)
+- [[prompt-engineering|Prompt Engineering]] (topic · practitioner) — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 
 ## tool-evaluation-and-selection
 

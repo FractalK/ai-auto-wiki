@@ -14,7 +14,7 @@ capabilities:
   - Multi-source synthesis and question-answering across up to 50 documents (300 on Pro tier)
   - Audio Overview generation (podcast-style synthesis of source materials)
   - Video Overview generation (visual summaries with source-grounded graphics)
-  - Mind Map generation (interactive concept visualization; feature availability contested — see CTRD-001)
+  - AI-generated Mind Map output (concept visualization of source content — read-only; no import, export, or editing of mind map files)
   - Reports generation (briefing documents, study guides, timelines, and quizzes)
   - Note-taking, synthesis note creation, and conversion of saved notes back into sources
   - YouTube transcript integration as a source type
@@ -25,6 +25,7 @@ limitations:
   - No cross-notebook connections (each notebook is isolated)
   - Maximum 50 sources per notebook on free tier; maximum 500,000 words per source
   - No spreadsheet or database support
+  - No mind-map import, export, or editing — AI-generated mind maps are read-only outputs with no user control over structure or file format
   - Chat history is not preserved between sessions — responses must be explicitly saved to notes
   - Restricted export options
   - Requires internet connection; limited offline capability
@@ -36,13 +37,6 @@ primary_use_cases:
   - Audio and video reinforcement learning from document collections
 source_count: 3
 last_assessed: 2026-05-26
-open_contradictions:
-  - id: "CTRD-001"
-    claim_summary: "NotebookLM lacks native mind-map visualization"
-    contesting_source: "[[2025-huang-notebooklm-thirty-minutes]]"
-    flagged_date: "2026-05-26"
-    override_window_closes: "2026-06-02"
-    path: "human-review"
 related_topics:
   - "[[ai-in-higher-education]]"
   - "[[llm-wiki-pattern]]"
@@ -77,7 +71,7 @@ Three workflow templates yield consistent results: for research paper writing, l
 
 ## Studio Features
 
-The Studio tab generates multiple types of synthesized content from the uploaded source set. Audio Overviews produce a podcast-style conversation between two synthetic voices synthesizing the source material — effective for passive reinforcement (listening while commuting, reviewing material before a meeting) and for orienting to a new document set before detailed reading. Video Overviews generate visual summaries with graphics that correspond to the source material, providing a different engagement mode for the same content. Mind Maps visualize relationships between concepts across the source set with interactive navigation by category. Reports generate structured documents in several formats: briefing documents, study guides (including quiz questions and answer keys), timelines, and FAQs.
+The Studio tab generates multiple types of synthesized content from the uploaded source set. Audio Overviews produce a podcast-style conversation between two synthetic voices synthesizing the source material — effective for passive reinforcement (listening while commuting, reviewing material before a meeting) and for orienting to a new document set before detailed reading. Video Overviews generate visual summaries with graphics that correspond to the source material, providing a different engagement mode for the same content. Mind Maps are AI-generated visualizations of relationships between concepts across the source set, navigable by category within the tool but not editable, importable, or exportable as a mind-map format — the structure is AI-synthesized from the source content and cannot be modified by the user. Reports generate structured documents in several formats: briefing documents, study guides (including quiz questions and answer keys), timelines, and FAQs.
 
 None of these Studio outputs are suitable as citable academic references. Content is AI-synthesized rather than verbatim from sources, source attribution is imprecise (notebook-level rather than line-level), and the transcript and visual outputs cannot be exported with reliable citation chains.
 
@@ -94,7 +88,7 @@ For projects spanning multiple knowledge domains or accumulating data over time,
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
 | NotebookLM supports up to 50 sources per notebook on the free tier (300 on Pro), with a maximum of 500,000 words per source, and creates a functional research workspace in under one minute using only a Google account. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | current | 2 | false |
-| NotebookLM lacks API access, cross-notebook connections, and spreadsheet/database support, constraining its use to single-project, single-session research contexts; native mind-map visualization availability is contested. | [[2026-atlas-notebooklm-usage-guide]] | 2026-04-03 | contested [CTRD-001] | 1 | false |
+| NotebookLM lacks API access, cross-notebook connections, spreadsheet/database support, and user-controllable mind-map capabilities — AI-generated mind maps are read-only outputs with no import, export, or editing of map files — constraining its use to single-project, single-session research contexts. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] [minority view] | 2026-04-03 | current | 1 | false |
 | Effective NotebookLM use requires front-loading sources before querying, using specific multi-turn question sequences, explicitly saving responses to notes before session end (chat history is not preserved between sessions), and independently verifying all citations before academic or professional use. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | current | 2 | false |
 | NotebookLM's Studio tab generates Audio Overviews (podcast-style synthesis), Video Overviews (visual summaries with source-grounded graphics), Mind Maps (interactive concept visualization), and Reports (briefing documents, study guides, timelines, and quizzes), all appropriate for passive reinforcement and learning synthesis but not for citable academic reference. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2025-08 | current | 2 | false |
 | In multi-tool AI workflows, NotebookLM functions most reliably as a stable knowledge container for content that remains consistent across tasks, with time-sensitive or evolving material introduced at the session level; separating notebooks by knowledge domain preserves reliability and simplifies file management over time. | [[2026-question-forward-gemini-notebooklm-workflow]] | 2026-03-04 | current | 1 | false |
