@@ -425,11 +425,7 @@ When updating Section 5, update the stubs in the same change.
 One threshold requires attention before the wiki reaches a specific size. One threshold
 is already resolved and requires no action at launch.
 
-**Search layer (IN-006):** When the wiki approaches 150 pages, Quartz native search
-(Ctrl+K) may degrade. The escalation path is `qmd` — a local hybrid search engine with
-BM25/vector search and an MCP server that Claude Code can use natively. The existing
-frontmatter schema is compatible with qmd without revision. Resolve IN-006 before the
-wiki reaches 150 pages. See `tooling-recommendation.md` Section 6 for detail.
+**Search layer (IN-006, resolved):** IN-006 closed 2026-05-26 (DM-111). Two-part trigger confirmed — implement qmd when either fires: (a) single-concept Quartz search routinely returns >10 results, or (b) index.md exceeds ~300 lines or a query session produces a sparse/shallow result on a topic with confirmed wiki coverage. At 102 pages / 141 index lines, neither trigger is close. Escalation path is `qmd` — compatible with existing frontmatter, requires only a workflow change in OPERATIONS.md Section 11.5. See `tooling-recommendation.md` Section 6 for detail.
 
 **Nomination queue aging (IN-007, resolved):** A two-stage automatic aging mechanism
 is implemented in CLAUDE.md (DM-051). Items in `[nominated]` older than 90 days are

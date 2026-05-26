@@ -1,4 +1,5 @@
 # Tooling Recommendation — AI Effectiveness Wiki
+**Last Updated:** 05/26/2026 22:00 EST
 
 **Document status:** Design project output. Read before standing up the execution environment.  
 **Audience:** Implementer. Does not require access to the design project governance files.  
@@ -88,12 +89,21 @@ Without this, operational files (CLAUDE.md, skill files, queue.md) render as wik
 
 Two scaling thresholds are explicitly modeled in the schema. Neither requires action at launch; both have defined escalation paths.
 
-### Threshold 1 — Search Layer (IN-006)
+### Threshold 1 — Search Layer (IN-006, resolved)
 
-**Trigger:** Wiki approaches 150 pages.  
-**Symptom:** Quartz native search (Ctrl+K) returns too many results with poor ranking; Claude Code's index.md-based navigation during queries becomes unreliable.  
-**Escalation path:** [qmd](https://github.com/tobi/qmd) — a local hybrid search engine for markdown files (BM25 + vector, LLM re-ranking). It has both a CLI (Claude Code can shell out to it) and an MCP server (Claude Code can use it as a native tool). The existing frontmatter schema is compatible with qmd without revision. The `summary` field on Topic and Tool pages directly improves BM25 ranking.  
-**Action:** Resolve IN-006 (design project information need) before the wiki reaches 150 pages. This is a design decision, not a schema change — it does not require revising CLAUDE.md, only configuring qmd and adding its invocation to the query workflow.
+**Status:** IN-006 is closed (DM-111, 2026-05-26). Two-part trigger confirmed.
+
+**Triggers (implement qmd when either fires):**
+- **Quartz side:** single-concept Quartz search (Ctrl+K) routinely returns >10 results.
+- **Agent side:** index.md exceeds ~300 lines, OR a query session produces a sparse/shallow result on a topic that visibly has coverage in the wiki — whichever comes first.
+
+At 102 pages / 141 index lines, neither trigger is close.
+
+**Why two triggers:** The Quartz degradation path (too many results for humans) and the agent-side degradation path (index.md reads becoming unreliable during Q2/Q3) are distinct and degrade on different schedules. A single page-count proxy conflated them.
+
+**Escalation path:** [qmd](https://github.com/tobi/qmd) — a local hybrid search engine for markdown files (BM25 + vector, LLM re-ranking). It has both a CLI (Claude Code can shell out to it) and an MCP server (Claude Code can use it as a native tool). The existing frontmatter schema is compatible with qmd without revision. The `summary` field on Topic and Tool pages directly improves BM25 ranking.
+
+**Implementation scope:** Workflow change only — add qmd invocation to OPERATIONS.md Section 11.5 (Q2/Q3 index consultation steps). No CLAUDE.md schema revision required.
 
 ### Threshold 2 — Nomination Queue (IN-007, resolved)
 
@@ -101,7 +111,7 @@ Two scaling thresholds are explicitly modeled in the schema. Neither requires ac
 
 **What is implemented:** A two-stage automatic aging mechanism runs during every lint Phase 3 pass. Items in `[nominated]` older than 90 days move to `[stale-nominated]` (Stage 1). Items in `[stale-nominated]` older than 180 days are deleted (Stage 2). Both stages are auto-execute; the lint informational summary lists all items being moved or deleted, giving the human a rescue window before Phase 3 runs. Stale-nominated items remain accessible via query demand signal (Step Q2a) — if a query returns a sparse or shallow result matching a stale nomination, it surfaces in a separate block with the same promotion options.
 
-**If aging thresholds prove miscalibrated:** The 90- and 180-day thresholds are documented in CLAUDE.md and are human-editable. The first few months of operation will reveal whether adjustment is needed. If title-string matching proves insufficient even with aging in place, the search layer escalation (IN-006) can be extended to cover queue.md as well as wiki pages.
+**If aging thresholds prove miscalibrated:** The 90- and 180-day thresholds are documented in CLAUDE.md and are human-editable. The first few months of operation will reveal whether adjustment is needed. If title-string matching proves insufficient even with aging in place, the qmd search layer (Threshold 1 above) can be extended to cover queue.md as well as wiki pages.
 
 ---
 

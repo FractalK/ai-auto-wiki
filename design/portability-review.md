@@ -67,7 +67,7 @@ Validation statuses:
 | QTZ-02 | Quartz renders Obsidian-style wikilinks | Section 4, Section 6 | confirmed (DM-007) | Quartz natively supports Obsidian wikilink syntax. Confirm the Quartz version in use supports short-form wikilink resolution matching Obsidian's behavior. |
 | QTZ-03 | Quartz renders Mermaid diagrams | Section 6.4 | unverified | Quartz supports Mermaid via an explicit plugin. Verify `Plugin.Mermaid()` is included in the quartz.config.ts transformers list. |
 | QTZ-04 | YAML frontmatter fields are not exposed to public readers in the chosen Quartz theme | Section 8.3 rationale | unverified | Some Quartz themes render frontmatter fields as visible page metadata. Verify that open_contradictions entries are not exposed to public readers. If they are, assess whether a theme override is needed or whether this is acceptable. |
-| QTZ-05 | Quartz native search (Ctrl+K) is adequate up to approximately 150–200 pages | Section 12 scale note | unverified (heuristic estimate) | This is a design-session estimate, not a tested threshold. Monitor search result quality as the wiki grows. Resolve IN-006 before reaching 150 pages. |
+| QTZ-05 | Quartz native search (Ctrl+K) is adequate up to approximately 150–200 pages | Section 12 scale note | unverified (heuristic estimate) | This is a design-session estimate, not a tested threshold. Monitor search result quality as the wiki grows. IN-006 closed (DM-111): implement qmd when single-concept search routinely returns >10 results. |
 | QTZ-06 | GitHub Pages hosts the Quartz build output as a public site | DM-007 | confirmed (DM-007) | GitHub Pages is free for public repositories. Confirm the repository is public, or that a paid plan is in place if the wiki should remain private. DM-007 explicitly ruled out private GitHub Pages due to cost. |
 | QTZ-07 | Quartz build does not fail on unrecognized YAML frontmatter fields | All page types with custom frontmatter fields | unverified | Quartz may warn or fail on unrecognized frontmatter keys depending on configuration. Run a test build with a page containing full Topic page frontmatter before first production ingest. |
 
@@ -79,7 +79,7 @@ The following capabilities are referenced in CLAUDE.md as future escalation path
 
 | # | Capability | Trigger Condition | Reference |
 |---|---|---|---|
-| DEF-01 | qmd hybrid search (BM25/vector, MCP server) | Wiki approaches 150 pages; Quartz native search degrades | IN-006, Section 12 |
+| DEF-01 | qmd hybrid search (BM25/vector, MCP server) | Two-part trigger (IN-006, DM-111): (a) Quartz search routinely returns >10 results per single-concept query, OR (b) index.md exceeds ~300 lines or a query returns sparse/shallow on a topic with confirmed wiki coverage | DM-111, tooling-recommendation.md Section 6 |
 | DEF-02 | arXiv API integration for discovery pass | Lab blog feeds prove insufficient for domain coverage | OPERATIONS.md Section 11.3, DM-022 |
 | DEF-03 | Git LFS for assets/ | assets/ directory grows large enough to affect clone/push performance | DM-008 consequence |
 | DEF-04 | Batch size limits for ingest pre-flight reports | Pre-flight reports grow too long for a single review session | DM-020 consequence |

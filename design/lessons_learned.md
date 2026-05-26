@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 05/25/2026 20:00 EST
+**Last Updated:** 05/26/2026 22:00 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1374,4 +1374,23 @@ an operator provides a file inline, always treat that version as authoritative o
 project knowledge copy.
 
 **References:** Items 1–5, L16 wikilink proliferation session (2026-05-25)
+
+## LL-041 | SPOTTED BUG PASSED TO OPERATOR RATHER THAN FIXED IN PLACE
+
+- **Date:** 2026-05-26
+- **Context:** Revising `claude-code-L16-followon-prompt.md` to add compaction mitigations; advisor noticed an invalid Python import statement in the original prompt while actively writing the replacement file.
+
+**Problem:**
+Advisor spotted a bug (`python3 -c "import wiki-lint"` — hyphens are illegal in Python module names) while writing the corrected file. Instead of fixing it, the advisor flagged it as a to-do for the operator in closing prose.
+
+**Root Cause:**
+Treating "I noticed this in someone else's prior text" differently from "I wrote this myself." The distinction is irrelevant: if the error is visible, the file is open, and the fix is trivial, fix it.
+
+**Fix Applied:**
+Operator challenged the pass-through. Corrected to `python3 wiki-lint.py --help` in the delivered file.
+
+**Implication Going Forward:**
+When writing or rewriting any file, fix all visible errors in that file during the same operation. Do not narrate fixable defects back to the operator as action items. If a fix requires a judgment call (ambiguous intent, multiple valid approaches), flag it. A syntax error is not a judgment call.
+
+**References:** `claude-code-L16-followon-prompt-v2.md` revision (2026-05-26)
 

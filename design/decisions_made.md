@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 05/25/2026 21:30 EST
+**Last Updated:** 05/26/2026 22:00 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4676,3 +4676,30 @@ Adding redundant `related_topics` frontmatter to these page types would create t
 - Teaching-brief fix is latent until teaching-brief pages are generated. Verify it fires correctly on the first teaching-brief lint pass.
 
 **References:** wiki-lint.py `has_topical_proximity()`, CLAUDE.md Sections 5.4 (comparison), 5.5 (pitfalls), 5.7 (teaching-brief), DM-109
+
+## DM-111 | IN-006 CLOSED: TWO-PART SEARCH ESCALATION THRESHOLD CONFIRMED
+
+- **Date:** 2026-05-26
+- **Status:** ACTIVE
+
+**Decision:**
+Close IN-006 with a two-part trigger for qmd search layer implementation:
+1. **Quartz side:** implement when single-concept Quartz search (Ctrl+K) routinely returns >10 results.
+2. **Agent side:** implement when index.md exceeds ~300 lines, OR when a query session produces a sparse/shallow result on a topic that visibly has coverage in the wiki — whichever comes first.
+
+**Context:**
+Wiki is at 102 pages; index.md is at 141 lines. Neither trigger is close. IN-006 had been open since 2026-04-14 with a page-count heuristic (150 pages) as a proxy for degradation. Operator clarified during session that the primary purpose of the search layer is agent-side efficiency — reducing index.md read cost as the index grows — not Quartz end-user search quality. The two symptoms are distinct and degrade on different schedules; the two-part threshold tracks each independently.
+
+**Rationale:**
+The 150-page proxy conflated two separate degradation paths. The Quartz side is directly observable (result count is visible). The agent side is observable via sparse/shallow result quality flags and line count. Splitting the trigger makes each degradation path independently detectable and actionable. The agent-side threshold (~300 lines) reflects that index.md at ~3 lines per page would reach that mark around 100 additional pages from current state, giving adequate runway before the query workflow degrades.
+
+**Alternatives Ruled Out:**
+- Keep the 150-page count as the sole trigger: conflates two distinct problems; the agent-side issue could arrive sooner or later than the page count predicts depending on index entry verbosity.
+- No threshold (implement now): premature; neither symptom is present at 102 pages / 141 index lines.
+
+**Consequences to Watch:**
+- Monitor index.md line count during lint passes. When approaching 300 lines, surface the qmd implementation decision.
+- If a query session returns sparse/shallow on a topic with confirmed wiki coverage, treat that as an immediate agent-side trigger regardless of line count.
+- qmd implementation requires only a workflow change in OPERATIONS.md Section 11.5 (Q2/Q3 index consultation steps) plus qmd configuration — no CLAUDE.md schema revision required.
+
+**References:** IN-006, tooling-recommendation.md Section 6, portability-review.md DEF-01

@@ -1,5 +1,5 @@
 # Information Needs
-**Last Updated:** 18/05/2026 20:00
+**Last Updated:** 05/26/2026 22:00 EST
 
 Authoritative repository of open questions, data gaps, and contradictions that must
 be resolved before dependent design or implementation work can proceed.
@@ -191,22 +191,25 @@ Claude Code at Pro tier ($20/month fixed) as wiki maintenance agent. Git reposit
 
 ## IN-006 | Scale Threshold for Index-Only Navigation Not Established
 
-- **Status:** OPEN
+- **Status:** CLOSED
 - **Priority:** P3
 - **Category:** Architecture
 - **Raised:** 2026-04-14
-- **Resolved:** —
+- **Resolved:** 2026-05-26
 
 **Question / Gap / Contradiction:**
 At what wiki size does index.md-based navigation become insufficient, and what is the recommended escalation path?
 
 **Why This Blocks Progress:**
-Does not block initial schema design. Frontmatter and tagging conventions are already designed to accommodate a future search layer without revision. The `summary` field (DM-027) directly improves future search quality. Quartz native search (Ctrl+K) is the baseline and is adequate up to approximately 150–200 pages. qmd hybrid search (BM25/vector, MCP server available) is the recommended escalation path — compatible with existing frontmatter without schema revision. Resolve this entry before the wiki approaches 150 pages.
+Does not block initial schema design. Frontmatter and tagging conventions are already designed to accommodate a future search layer without revision. The `summary` field (DM-027) directly improves future search quality. Quartz native search (Ctrl+K) is the baseline and is adequate up to approximately 150–200 pages. qmd hybrid search (BM25/vector, MCP server available) is the recommended escalation path — compatible with existing frontmatter without schema revision.
 
 **Resolution:**
-—
+Closed 2026-05-26 with a two-part trigger (DM-111). The Quartz side and agent side degrade on different schedules and require separate thresholds:
+1. **Quartz side:** implement qmd when single-concept Quartz search (Ctrl+K) routinely returns >10 results.
+2. **Agent side:** implement qmd when index.md exceeds ~300 lines, OR when a query session produces a sparse/shallow result on a topic that visibly has coverage in the wiki — whichever comes first.
+At closure: wiki is at 102 pages, index.md is at 141 lines. Neither trigger is close.
 
-**References:** IN-002, DM-027
+**References:** IN-002, DM-027, DM-111
 
 ---
 
@@ -642,3 +645,55 @@ source count exceeds 75 and manual audit becomes impractical.
 —
 
 **References:** DM-096, FRIC-035, OPERATIONS.md Section 11.1
+
+---
+
+## IN-020 — Large-Document Decomposition Threshold Calibration
+
+**ID:** IN-020
+**Priority:** P3
+**Status:** open
+**Raised:** 2026-05-24
+
+**The Gap:**
+FRIC-037 set the chunking threshold at >100 pages (PDF) or >50,000 words (other formats),
+derived from the Stanford HAI AI Index (425 pages) as the triggering case. The current
+threshold has not been validated against lower-density documents. Four specific questions
+require investigation:
+
+1. **Cost of unnecessary chunking.** What is the actual cost when chunking fires on a
+   document that would have fit in one session (e.g., a 60-page PDF with a threshold of
+   50 pages)? If the cost is low — one extra manifest file, one extra session boundary —
+   a lower threshold is defensible as a conservative default.
+
+2. **Cost of not chunking.** What is the cost of the failure mode FRIC-037 was designed
+   to prevent: a document that needed chunking processed in a single session, leading to
+   compaction and lost extraction work?
+
+3. **Structural marker effect.** Does the presence of a TOC or section headers change the
+   calculus? A well-structured 80-page document decomposes cleanly at a 50-page split; an
+   unstructured 80-page document may produce poor chunks at the same boundary. A
+   structure-conditional threshold (lower for unstructured, higher for structured) may be
+   more accurate than a single page-count number.
+
+4. **Empirical signal.** Is there evidence from actual ingest sessions that the 100-page
+   threshold is too high — e.g., compaction events during ingest of documents in the
+   70–100 page range?
+
+**Why This Doesn't Block Current Operation:**
+The threshold is functional and has not produced confirmed failures since FRIC-037 was
+resolved. This is a calibration question, not a correctness gap.
+
+**Trigger:** Revisit when any of the following: (a) compaction is observed during ingest
+of a document below the 100-page threshold; (b) a document with a TOC/headers is
+chunked at a boundary that produces poor extraction; or (c) operator decides to revisit
+as a deliberate tuning exercise.
+
+**Deliverable when resolved:** Assessment with recommendation to keep, lower, or make the
+threshold conditional on document structure. If a change is recommended: OPERATIONS.md
+edit and a DM entry.
+
+**Resolution:**
+—
+
+**References:** FRIC-037, OPERATIONS.md Section 11.2 (Step 0 high-density source handling)
