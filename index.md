@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-05-22
+updated: 2026-05-26
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*102 pages. Last updated: 2026-05-22.*
+*103 pages. Last updated: 2026-05-26.*
 
 ---
 
@@ -134,3 +134,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-medicine-pitfalls]] — parent: ai-in-medicine
 - [[ai-agentic-workflows-pitfalls]] — parent: ai-agentic-workflows
 - [[ai-trustworthiness-pitfalls]] — parent: ai-trustworthiness
+
+## Teaching
+
+- [[teaching/ai-capabilities-failure-modes-instructor-brief]] — instructor brief: AI capabilities and failure modes for non-technical leadership course (INTS 475-A02)

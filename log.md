@@ -2,10 +2,18 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-25
-last_entry: 2026-05-25
-entry_count: 72
+updated: 2026-05-26
+last_entry: 2026-05-26
+entry_count: 73
 ---
+
+## [2026-05-26] query | instructor summary — AI capabilities and failure modes for leadership course
+Pattern: synthesis
+Result quality: rich
+Topic tags: ai-capabilities, failure-modes, hallucination, output-verification, accountability, organizational-trust
+Pages consulted: 14 — [[llm-fundamentals]], [[llm-fundamentals-pitfalls]], [[ai-trustworthiness]], [[ai-trustworthiness-pitfalls]], [[legal-ai-hallucination]], [[legal-ai-hallucination-pitfalls]], [[ai-alignment]], [[ai-alignment-pitfalls]], [[scalable-oversight]], [[llm-self-preference-bias]], [[llm-self-preference-bias-pitfalls]], [[ai-search-citation-accuracy]], [[ai-search-citation-accuracy-pitfalls]], [[reward-hacking]]
+Filed: yes — [[teaching/ai-capabilities-failure-modes-instructor-brief]]
+Gap nominations surfaced: no
 
 ## [2026-05-25] lint | pass 3
 Pages assessed: 102. Stale flags: 5 (L5c — stale data records, informational only). Contradiction flags: 0.
