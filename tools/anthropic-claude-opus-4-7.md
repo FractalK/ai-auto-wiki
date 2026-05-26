@@ -34,6 +34,9 @@ source_count: 3
 last_assessed: 2026-05-18
 related_tools:
   - "[[anthropic-claude-mythos-preview]]"
+related_topics:
+  - "[[prompt-injection]]"
+  - "[[sycophancy]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness
