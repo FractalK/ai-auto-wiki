@@ -4,8 +4,39 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-26
 last_entry: 2026-05-26
-entry_count: 74
+entry_count: 79
 ---
+
+## [2026-05-26 PT] session-stats | ingest
+Queue size at session start: 0 queued URLs; 3 staged files
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: yes (context window compacted between Phase 1 and Phase 2; Phase 2 executed in resumed session)
+Time window: off-peak
+Source type mix: research-paper: 1, youtube-video: 2
+Notes: Phase 1 pre-flight and form generation completed in prior context window; decision 1:A (create prompt-engineering topic page). All 3 staged sources processed; CTRD-001 flagged on google-notebooklm (mind-map feature — Path B, both sources practitioner weight=1, |diff|=0 ≤ 2).
+
+## [2026-05-26] ingest | The AI System Most People Aren't Building (Gemini + NotebookLM + Gems)
+Added: [[2026-question-forward-gemini-notebooklm-workflow]]. Updated: [[google-notebooklm]] (source_count 2→3; KC5 added — notebook-as-stable-knowledge-container principle; multi-notebook prose section added; related_topics adds ai-agentic-workflows), [[ai-agentic-workflows]] (source_count 5→6; three-layer agentic architecture paragraph added to Delegation section; related_tools adds google-notebooklm). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 1.
+
+## [2026-05-26] ingest | NotebookLM In 30 Minutes
+Added: [[2025-huang-notebooklm-thirty-minutes]]. Updated: [[google-notebooklm]] (source_count 1→2; KC3 updated with save-to-notes; KC4 expanded to full Studio suite — Audio/Video Overviews, Mind Maps, Reports; KC2 marked contested CTRD-001; no-chat-history limitation added). Contradictions flagged: 1 (CTRD-001).
+Auto-resolved: 0. New pages created: 1.
+
+## [2026-05-26] contradiction-flag | Google NotebookLM
+Page: [[google-notebooklm]]
+Claim: NotebookLM lacks native mind-map visualization
+Contesting source: [[2025-huang-notebooklm-thirty-minutes]] (practitioner, weight=1)
+Existing support score: 1
+Resolution path: human-review
+Contradiction ID: CTRD-001
+Override window closes: 2026-06-02
+
+## [2026-05-26] ingest | Mind Your Tone: Investigating How Prompt Politeness Affects LLM Accuracy
+Added: [[2025-dobariya-prompt-politeness-llm-accuracy]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[prompt-engineering]], [[2025-dobariya-prompt-politeness-llm-accuracy]]).
+  Citation nominations: Yin et al. 2024 (ACL SICon; peer-reviewed), Webb et al. 2023 (Nature Human Behaviour; peer-reviewed) — both added to queue.md [nominated].
 
 ## [2026-05-26] query | instructor summary — agentic AI, delegation, accountability for leadership course
 Pattern: synthesis

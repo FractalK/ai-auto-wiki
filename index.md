@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*104 pages. Last updated: 2026-05-26.*
+*108 pages. Last updated: 2026-05-26.*
 
 ---
 
@@ -55,6 +55,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
 - [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 - [[ai-trustworthiness]] — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
+- [[prompt-engineering]] — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 - [[reinforcement-learning-from-human-feedback]] — The dominant post-training methodology for aligning large language models with human preferences, operating through a three-stage pipeline of supervised fine-tuning, reward model training on human comparisons, and RL policy optimization against the reward model. *(stub — pending first ingest)*
 - [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
@@ -110,6 +111,9 @@ professional roles, see the [[teaching-index]].
 - [[2024-stanford-hai-healthcare-ai-liability]] — Mello & Guha via Stanford HAI News, 2024-03-14, practitioner
 - [[2025-mit-sloan-bcg-agentic-ai-management]] — MIT Sloan Management Review / Boston Consulting Group, 2025-09-16, practitioner
 - [[2024-afroogh-trust-ai-review]] — Afroogh, Akbari, Malone et al. (Humanities and Social Sciences Communications), 2024-11-17, peer-reviewed
+- [[2025-dobariya-prompt-politeness-llm-accuracy]] — Om Dobariya, Akhil Kumar (Penn State / arXiv), 2025-10, institutional
+- [[2025-huang-notebooklm-thirty-minutes]] — Tina Huang (YouTube), 2025-08-13, practitioner
+- [[2026-question-forward-gemini-notebooklm-workflow]] — Question Forward (YouTube), 2026-03-04, practitioner
 
 ## Comparisons
 
