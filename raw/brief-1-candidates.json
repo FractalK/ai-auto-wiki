@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-05-26T00:00:00",
+  "query_topic": "ai-capabilities-failure-modes",
+  "result_quality": "rich",
+  "candidates": [
+    {"slug": "llm-fundamentals", "type": "topic", "reason": "What AI systems do: pretraining pipeline, System 1 reasoning constraint, output generation mechanics"},
+    {"slug": "llm-fundamentals-pitfalls", "type": "pitfalls", "reason": "Systematic failure modes: statistical boundaries, benchmark saturation, treating outputs as facts"},
+    {"slug": "ai-trustworthiness", "type": "topic", "reason": "Trust vs. trustworthiness distinction, distrust taxonomy, trust equity problem, accountability gap"},
+    {"slug": "ai-trustworthiness-pitfalls", "type": "pitfalls", "reason": "Trust calibration failure, ethics-washing, accountability gap, trust equity neglect"},
+    {"slug": "legal-ai-hallucination", "type": "topic", "reason": "Empirical hallucination rates (17-34%) in domain-specific RAG tools; sycophancy; provider opacity"},
+    {"slug": "legal-ai-hallucination-pitfalls", "type": "pitfalls", "reason": "Misgrounded citations, hallucination-free marketing collapse, sycophancy toward false premises"},
+    {"slug": "ai-alignment", "type": "topic", "reason": "RICE framework; RAI dimension tradeoffs (quantified); superficial alignment; accountability structures"},
+    {"slug": "ai-alignment-pitfalls", "type": "pitfalls", "reason": "RAI tradeoffs under empirical evidence; treating RLHF as solution; in-distribution evaluation limitation"},
+    {"slug": "scalable-oversight", "type": "topic", "reason": "Human oversight challenge as AI capability advances; AAR experiment as recursive case"},
+    {"slug": "llm-self-preference-bias", "type": "topic", "reason": "Structural evaluator bias (23-60% shortlisting advantage); AI automation != neutrality; leadership/org implications"},
+    {"slug": "llm-self-preference-bias-pitfalls", "type": "pitfalls", "reason": "AI-generates, AI-evaluates antipattern; bias auditing requirements"},
+    {"slug": "ai-search-citation-accuracy", "type": "topic", "reason": "Confidence miscalibration; 60%+ error rates across 8 platforms; premium tier inversion"},
+    {"slug": "ai-search-citation-accuracy-pitfalls", "type": "pitfalls", "reason": "Systematic confidence miscalibration; premium-tier accuracy assumption; treating AI output as citable source"},
+    {"slug": "reward-hacking", "type": "topic", "reason": "Proxy optimization failure (Goodhart's Law); why AI systems pursue metrics not goals; org measurement implications"}
+  ]
+}
