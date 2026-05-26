@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 05/25/2026 20:00 EST
+**Last Updated:** 05/26/2026 13:30 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -163,7 +163,21 @@ Inspect output for uncommitted changes in wiki content paths: `topics/`, `tools/
 `sources/`, `comparisons/`, `pitfalls/`, `teaching/`, `index.md`, `overview.md`,
 `log.md`, `raw/queue.md`.
 
-**If no uncommitted changes are found in these paths:** proceed to Step 0.
+**If no uncommitted changes are found in these paths:** Check for `raw/ingest-checkpoint.md`. If found, read it and report:
+
+```
+Ingest checkpoint detected: raw/ingest-checkpoint.md exists.
+Batch in progress from a prior session.
+Completed sources: {list from checkpoint}
+Remaining sources: {list from checkpoint}
+
+A) Resume — skip completed sources; process remaining sources only
+B) Discard — delete raw/ingest-checkpoint.md and start fresh from the full source list
+```
+
+Wait for selection before proceeding. If A: confirm the completed sources against the current state of `raw/staged/` and `raw/queue.md` (verify those sources are in fact committed); proceed to Step 0 with scope limited to remaining sources. If B: delete the checkpoint file; proceed to Step 0 with the full source list.
+
+If `raw/ingest-checkpoint.md` is not found: proceed to Step 0.
 
 **If uncommitted changes are found:** stop. Do not proceed with ingest. Run
 `git log --oneline -1` to identify the last clean commit. Report to the human:
@@ -331,6 +345,38 @@ To resume: start a new wiki session and tell Claude Code:
 
 **If options A–D are selected:** proceed to Step 1 with the selected document scope.
 Documents outside the selected scope remain in `[queued]` unchanged.
+
+**Ingest checkpoint file spec (`raw/ingest-checkpoint.md`):**
+
+Written or updated after each per-source commit in a multi-source session (see Step 22d).
+Deleted after the final source in the batch is committed (see Step 22b). Never written for
+single-source sessions. Format:
+
+```markdown
+---
+type: ingest-checkpoint
+created: {YYYY-MM-DD HH:MM PT}
+batch_size: {N}
+---
+
+## Ingest Checkpoint
+
+Batch in progress: {N} sources queued in this session.
+
+### Completed
+- {source-slug-1} | committed: {short-hash} | {YYYY-MM-DD}
+- {source-slug-2} | committed: {short-hash} | {YYYY-MM-DD}
+
+### Remaining
+- {source-slug-3}
+- {source-slug-4}
+```
+
+`batch_size` is the total count of sources in this session's batch (completed + remaining).
+`source-slug` for staged files is the filename without extension; for queue URLs it is the
+prospective source slug determined in Step 10. `short-hash` is the output of
+`git rev-parse --short HEAD` immediately after the commit. Update the file in place after
+each commit — do not append multiple checkpoint entries.
 
 **On resumption after a deferral:** At session start, if `raw/deferred-ingest.md` exists,
 the agent reads it and reconciles its queued-items list against the current state of
@@ -896,6 +942,31 @@ nominations from this source from queue.md immediately. Option A requires no act
 nominations remain in the `[nominated]` section and surface via query-time matching
 (Step Q2a) if a relevant sparse or shallow result occurs.
 
+Step 22d — Per-source commit and checkpoint write
+
+**Single-source sessions:** After Step 22 output is complete, run:
+```bash
+git add -A
+git commit -m "ingest: {source-slug}"
+```
+Then proceed to Step 22a. Do not write `raw/ingest-checkpoint.md`.
+
+**Multi-source sessions:** After Step 22 output for source N is complete, run:
+```bash
+git add -A
+git commit -m "ingest: {source-slug}"
+```
+Then write or update `raw/ingest-checkpoint.md` per the Ingest Checkpoint File spec: move
+source N from Remaining to Completed (with the short hash from `git rev-parse --short HEAD`);
+leave remaining sources unchanged. Then proceed to source N+1 (return to Step 10).
+
+After the final source in the batch is committed, proceed to Step 22a. Do not write a final
+checkpoint update — Step 22b deletes the file.
+
+**Commit message format:** `ingest: {source-slug}` — use the Source page slug assigned in
+Step 10. For enrichment sessions (Step 2a): `enrich: {source-slug} — richer source version
+ingested`.
+
 Step 22a — Session stats log entry
 
 After the post-ingest summary (Step 22), append a `session-stats` entry to `log.md`.
@@ -934,6 +1005,14 @@ After Step 22a, for each document successfully ingested in this session:
 
 Do not run this step for documents that did not complete (no git commit made). Those
 sources remain in `raw/staged/` or `## [queued]` for the next session.
+
+**Checkpoint cleanup:** If `raw/ingest-checkpoint.md` exists, delete it now:
+```bash
+git rm raw/ingest-checkpoint.md
+```
+Include this deletion in the same commit as the housekeeping changes, or as a standalone
+commit with message `chore: clear ingest checkpoint`. Do not leave the file present after
+a completed batch.
 
 Step 22c — Push to remote
 
@@ -1652,10 +1731,10 @@ primary signal. Recommendations are directional, not empirically precise."
 The human confirms any threshold changes. If confirmed: the human updates the batch-size
 numbers in Step 0 of this document and appends a `schema-change` log entry to `log.md`.
 
-**Step L12b — Deferred ingest staleness check**
-*(Group C — reads raw/deferred-ingest.md, not wiki pages.)*
+**Step L12b — Deferred ingest and checkpoint staleness check**
+*(Group C — reads raw/deferred-ingest.md and raw/ingest-checkpoint.md, not wiki pages.)*
 
-Check whether `raw/deferred-ingest.md` exists. If it does not: skip this step.
+**Deferred ingest check:** Check whether `raw/deferred-ingest.md` exists. If it does not: skip this sub-step.
 
 If it exists, read the `created` field. If the file is older than 14 days, add a forced
 choice to the lint pre-flight report:
@@ -1670,6 +1749,23 @@ choice to the lint pre-flight report:
 
 If the file is 14 days old or fewer: add to the informational summary only —
 "Pending deferral: raw/deferred-ingest.md exists ({N} days old)." No forced choice.
+
+**Checkpoint staleness check:** Check whether `raw/ingest-checkpoint.md` exists. If it does not: skip this sub-step.
+
+If it exists, read the `created` field. A checkpoint file older than 7 days indicates a
+multi-source batch that was never completed. Add a forced choice:
+
+```
+[N] Stale ingest checkpoint: raw/ingest-checkpoint.md is {N} days old.
+    Completed sources: {list}
+    Remaining sources: {list}
+
+    A) Resume — run an ingest session for the remaining sources
+    B) Discard — delete raw/ingest-checkpoint.md; leave remaining sources in staged/queue
+```
+
+If the file is 7 days old or fewer: add to the informational summary only —
+"Pending checkpoint: raw/ingest-checkpoint.md exists ({N} days old) — batch in progress." No forced choice.
 
 **Step L12c — Override pattern detection**
 *(Group C — reads wiki-lessons-learned.md, not wiki pages.)*
@@ -1867,6 +1963,7 @@ Informational summary — Lint pass {N} | {date} | Sessions: {N}
 - Stale nominations being deleted (≥180 days): {N} — {titles or "none"}
 - Items without nominated_date (aging skipped): {N or "none"}
 - Pending deferral: {raw/deferred-ingest.md exists — N days old | none}
+- Pending checkpoint: {raw/ingest-checkpoint.md exists — N days old, remaining: {list} | none}
 - Schema signal written (L12c): {category and count | none}
 - Open Schema Signals older than 60 days: {N} — {name and age in days each | "none"}
 - Skill file TO BE ENRICHED sections with no real examples after 5+ ingests: {list or "none"}
