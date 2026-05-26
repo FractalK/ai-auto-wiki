@@ -8,9 +8,15 @@ total_sources: 3
 slug: 2025-dobariya-prompt-politeness-llm-accuracy
 pages_created: sources/2025-dobariya-prompt-politeness-llm-accuracy.md, topics/prompt-engineering.md
 pages_updated: raw/queue.md (2 citations nominated)
+commit: 3c5d683
+
+## Source 2 — COMPLETE
+slug: 2025-huang-notebooklm-thirty-minutes
+pages_created: sources/2025-huang-notebooklm-thirty-minutes.md
+pages_updated: tools/google-notebooklm.md (CTRD-001 path B + Studio suite KC update), overview.md (open_contradictions 0→1, last_contradiction_id 0→1)
 commit: pending
 
-## Source 2 — PENDING
+## Source 3 — PENDING
 slug: 2025-huang-notebooklm-thirty-minutes
 pages_to_create: sources/2025-huang-notebooklm-thirty-minutes.md
 pages_to_update: tools/google-notebooklm.md (Path B contradiction CTRD-001 + Studio suite update)
