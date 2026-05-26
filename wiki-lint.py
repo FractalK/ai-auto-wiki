@@ -2321,9 +2321,18 @@ def check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path,
         src_rt = set(source_fm.get("related_topics") or [])
         src_rt_tools = set(source_fm.get("related_tools") or [])
 
-        # Normalise wikilink targets in these lists to bare slugs
+        # Normalise wikilink targets in these lists to bare slugs.
+        # Frontmatter values are stored as "[[slug]]" strings; extract inner
+        # content before calling wikilink_to_slug to avoid regex stripping
+        # the outer brackets incorrectly.
         def normalise_set(s):
-            return {wikilink_to_slug(v) for v in s}
+            slugs = set()
+            for v in s:
+                if not isinstance(v, str):
+                    continue
+                inner_links = extract_wikilinks(v)
+                slugs.add(wikilink_to_slug(inner_links[0] if inner_links else v))
+            return slugs
 
         src_rt = normalise_set(src_rt)
         src_rt_tools = normalise_set(src_rt_tools)
@@ -2343,6 +2352,30 @@ def check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path,
         tgt_dir = slug_to_dir.get(target_slug)
         if src_dir and tgt_dir and src_dir == tgt_dir:
             return True
+
+        # Pitfalls: parent_entity is the authoritative proximity signal
+        if source_fm.get("type") == "pitfalls":
+            parent = source_fm.get("parent_entity", "")
+            if parent:
+                for inner in extract_wikilinks(str(parent)):
+                    if wikilink_to_slug(inner) == target_slug:
+                        return True
+
+        # Comparison: any entity in entities_compared establishes proximity
+        if source_fm.get("type") == "comparison":
+            for entity in (source_fm.get("entities_compared") or []):
+                if isinstance(entity, str):
+                    for inner in extract_wikilinks(entity):
+                        if wikilink_to_slug(inner) == target_slug:
+                            return True
+
+        # Teaching-brief: any page in derived_from establishes proximity
+        if source_fm.get("type") == "teaching-brief":
+            for constituent in (source_fm.get("derived_from") or []):
+                if isinstance(constituent, str):
+                    for inner in extract_wikilinks(constituent):
+                        if wikilink_to_slug(inner) == target_slug:
+                            return True
 
         return False
 
