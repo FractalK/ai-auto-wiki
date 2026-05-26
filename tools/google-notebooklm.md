@@ -34,7 +34,7 @@ primary_use_cases:
   - Meeting preparation and document review
   - Topic learning from curated source sets
   - Audio and video reinforcement learning from document collections
-source_count: 2
+source_count: 3
 last_assessed: 2026-05-26
 open_contradictions:
   - id: "CTRD-001"
@@ -46,6 +46,7 @@ open_contradictions:
 related_topics:
   - "[[ai-in-higher-education]]"
   - "[[llm-wiki-pattern]]"
+  - "[[ai-agentic-workflows]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction
@@ -86,6 +87,8 @@ NotebookLM is constrained to single-project research contexts. It has no API acc
 
 Citation verification is required before academic or professional use. NotebookLM will cite sources within its notebook, but those citations should be independently verified against the original document. The tool can misattribute quotes or generate subtly inaccurate summaries of specific passages.
 
+For projects spanning multiple knowledge domains or accumulating data over time, designing a multi-notebook system addresses the isolation constraint productively. Separate notebooks by knowledge purpose: a stable knowledge container for reference documents and foundational research or product information; a separate container for time-sensitive data such as performance metrics or recent publications that shift too often to anchor as grounding context. Each notebook stays reliable for its specific job because its content boundaries are clear, and file management decisions become straightforward — a document belongs in a notebook if it is stable enough to trust as consistent grounding across multiple sessions. NotebookLM does not auto-sync between notebooks and does not track file history on its own, making intentional design a prerequisite for reliable multi-task use.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -94,6 +97,7 @@ Citation verification is required before academic or professional use. NotebookL
 | NotebookLM lacks API access, cross-notebook connections, and spreadsheet/database support, constraining its use to single-project, single-session research contexts; native mind-map visualization availability is contested. | [[2026-atlas-notebooklm-usage-guide]] | 2026-04-03 | contested [CTRD-001] | 1 | false |
 | Effective NotebookLM use requires front-loading sources before querying, using specific multi-turn question sequences, explicitly saving responses to notes before session end (chat history is not preserved between sessions), and independently verifying all citations before academic or professional use. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | current | 2 | false |
 | NotebookLM's Studio tab generates Audio Overviews (podcast-style synthesis), Video Overviews (visual summaries with source-grounded graphics), Mind Maps (interactive concept visualization), and Reports (briefing documents, study guides, timelines, and quizzes), all appropriate for passive reinforcement and learning synthesis but not for citable academic reference. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2025-08 | current | 2 | false |
+| In multi-tool AI workflows, NotebookLM functions most reliably as a stable knowledge container for content that remains consistent across tasks, with time-sensitive or evolving material introduced at the session level; separating notebooks by knowledge domain preserves reliability and simplifies file management over time. | [[2026-question-forward-gemini-notebooklm-workflow]] | 2026-03-04 | current | 1 | false |
 
 ## Teaching Notes
 

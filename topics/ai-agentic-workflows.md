@@ -2,13 +2,15 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-05-21
+updated: 2026-05-26
 summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, and the governance requirements — explicit rules, accountability structures, and AI offspring oversight — that distinguish agentic AI management from traditional human delegation.
 status: developing
-source_count: 5
-last_assessed: 2026-05-21
+source_count: 6
+last_assessed: 2026-05-26
 related_topics:
   - "[[llm-wiki-pattern]]"
+related_tools:
+  - "[[google-notebooklm]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction
@@ -46,6 +48,8 @@ Directing AI agents effectively maps onto established delegation frameworks used
 What makes good delegation documentation is consistent across domains: What are we trying to accomplish, and why? Where are the limits of the delegated authority? What does "done" look like? What specific outputs are required? What should the agent verify before reporting completion? When these elements are well-specified, AI agents perform substantially better on open-ended tasks.
 
 Subject-matter expertise amplifies delegation effectiveness. Experts write better instructions because they know specifically what to ask for. They evaluate outputs faster because they can recognize quality problems immediately. They provide more directed feedback when the AI's first attempt misses the mark. This creates an important asymmetry: AI tools amplify the productivity of people who already know what "good" looks like in their domain, while generic requesters without strong domain knowledge get less value from the same tools.
+
+Practitioners have begun developing reusable architectural patterns for multi-tool agentic systems that extend the general delegation framework to distributed task execution. One such pattern separates responsibilities across three layers: an execution model for dynamic reasoning and task generation; a custom instruction set that holds reusable process rules, output constraints, and thinking patterns that apply consistently across sessions; and a source-bounded knowledge container that grounds the system in stable, curated content. This three-layer design reduces context re-establishment overhead across repeated tasks — the thinking rules do not need to be restated, and the stable knowledge does not need to be re-uploaded — while preserving the ability to bring in task-specific or time-sensitive material at the session level. The design principle mirrors the delegation framework itself: separating what stays constant (the rules and the stable knowledge base) from what varies (the specific task and its supporting evidence) is what makes the system reliable rather than ad hoc.
 
 ## Organizational Implications
 
