@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 05/26/2026 13:30 EST
+**Last Updated:** 05/26/2026 15:30 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -2383,7 +2383,12 @@ Same as Case 1 (Comparison) except: no `provenance` field, standard Source class
    `status: current`. Populate `derived_from` with full-path wikilinks to all constituent
    pages whose `teaching_notes` or Key Claims contributed to the response.
 3. Page body: the structured output from the instructor summary mode (concept overview,
-   teachable angle, suggested framing, related topics). Plain prose, no citations.
+   teachable angle, suggested framing, related topics). Plain prose, no source citations
+   (no `[[sources/...]]` slugs, no `(→ [[page]])` inline citation format). Exception:
+   the `## Related Pages` section must use full-path wikilinks to constituent pages
+   (e.g., `[[topics/llm-fundamentals]] — topic`) — not plain text. These are the
+   navigation links that Quartz renders as clickable on the public site; plain text
+   in this section is a navigation dead-end.
 4. Assign `competency_domains` and `professional_contexts` from the constituent pages'
    tags — use the union of all constituent page tags, filtered to those clearly relevant
    to the brief's topic scope.

@@ -69,17 +69,17 @@ Three misconceptions specific to a non-technical leadership audience should be a
 
 ## Related Pages
 
-- LLM Fundamentals — topic
-- LLM Fundamentals Pitfalls — pitfalls
-- AI Trustworthiness — topic
-- AI Trustworthiness Pitfalls — pitfalls
-- Legal AI Hallucination — topic
-- Legal AI Hallucination Pitfalls — pitfalls
-- AI Alignment — topic
-- AI Alignment Pitfalls — pitfalls
-- Scalable Oversight — topic
-- LLM Self-Preference Bias — topic
-- LLM Self-Preference Bias Pitfalls — pitfalls
-- AI Search Citation Accuracy — topic
-- AI Search Citation Accuracy Pitfalls — pitfalls
-- Reward Hacking — topic
+- [[topics/llm-fundamentals]] — topic
+- [[pitfalls/llm-fundamentals-pitfalls]] — pitfalls
+- [[topics/ai-trustworthiness]] — topic
+- [[pitfalls/ai-trustworthiness-pitfalls]] — pitfalls
+- [[topics/legal-ai-hallucination]] — topic
+- [[pitfalls/legal-ai-hallucination-pitfalls]] — pitfalls
+- [[topics/ai-alignment]] — topic
+- [[pitfalls/ai-alignment-pitfalls]] — pitfalls
+- [[topics/scalable-oversight]] — topic
+- [[topics/llm-self-preference-bias]] — topic
+- [[pitfalls/llm-self-preference-bias-pitfalls]] — pitfalls
+- [[topics/ai-search-citation-accuracy]] — topic
+- [[pitfalls/ai-search-citation-accuracy-pitfalls]] — pitfalls
+- [[topics/reward-hacking]] — topic

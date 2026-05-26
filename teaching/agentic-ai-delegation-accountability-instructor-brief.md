@@ -68,13 +68,13 @@ The RAI-Ev framework offers a practical case for illustrating responsible human-
 
 ## Related Pages
 
-- ai-agentic-workflows (topic)
-- ai-agentic-workflows-pitfalls (pitfalls)
-- prompt-injection (topic)
-- prompt-injection-pitfalls (pitfalls)
-- scalable-oversight (topic)
-- ai-trustworthiness (topic)
-- ai-trustworthiness-pitfalls (pitfalls)
-- responsible-ai-government-evaluation (topic)
-- ai-workforce-complementarity (topic)
-- ai-governance-policy (topic)
+- [[topics/ai-agentic-workflows]] — topic
+- [[pitfalls/ai-agentic-workflows-pitfalls]] — pitfalls
+- [[topics/prompt-injection]] — topic
+- [[pitfalls/prompt-injection-pitfalls]] — pitfalls
+- [[topics/scalable-oversight]] — topic
+- [[topics/ai-trustworthiness]] — topic
+- [[pitfalls/ai-trustworthiness-pitfalls]] — pitfalls
+- [[topics/responsible-ai-government-evaluation]] — topic
+- [[topics/ai-workforce-complementarity]] — topic
+- [[topics/ai-governance-policy]] — topic
