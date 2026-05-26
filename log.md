@@ -4,8 +4,16 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-26
 last_entry: 2026-05-26
-entry_count: 73
+entry_count: 74
 ---
+
+## [2026-05-26] query | instructor summary — agentic AI, delegation, accountability for leadership course
+Pattern: synthesis
+Result quality: rich
+Topic tags: agentic-ai, delegation, human-in-the-loop, accountability, trust-calibration
+Pages consulted: 10 — [[ai-agentic-workflows]], [[ai-agentic-workflows-pitfalls]], [[prompt-injection]], [[prompt-injection-pitfalls]], [[scalable-oversight]], [[ai-trustworthiness]], [[ai-trustworthiness-pitfalls]], [[responsible-ai-government-evaluation]], [[ai-workforce-complementarity]], [[ai-governance-policy]]
+Filed: yes — [[teaching/agentic-ai-delegation-accountability-instructor-brief]]
+Gap nominations surfaced: no
 
 ## [2026-05-26] query | instructor summary — AI capabilities and failure modes for leadership course
 Pattern: synthesis

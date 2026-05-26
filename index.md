@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*103 pages. Last updated: 2026-05-26.*
+*104 pages. Last updated: 2026-05-26.*
 
 ---
 
@@ -138,3 +138,4 @@ professional roles, see the [[teaching-index]].
 ## Teaching
 
 - [[teaching/ai-capabilities-failure-modes-instructor-brief]] — instructor brief: AI capabilities and failure modes for non-technical leadership course (INTS 475-A02)
+- [[teaching/agentic-ai-delegation-accountability-instructor-brief]] — instructor brief: agentic AI, delegation, and human-in-the-loop accountability for non-technical leadership course (INTS 475-A02)
