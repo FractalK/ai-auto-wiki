@@ -2,11 +2,11 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-05-26
+updated: 2026-05-28
 summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, and the governance requirements — explicit rules, accountability structures, and AI offspring oversight — that distinguish agentic AI management from traditional human delegation.
 status: developing
-source_count: 6
-last_assessed: 2026-05-26
+source_count: 7
+last_assessed: 2026-05-28
 related_topics:
   - "[[llm-wiki-pattern]]"
 related_tools:
@@ -69,6 +69,8 @@ Managing agentic AI systems introduces a governance dimension that has no direct
 | τ-bench pass@1 (top 7 range) | 62.9–70.2% | Top 7 models; no model exceeds 71%; spread of 7.3 percentage points | 2026 | [[2026-stanford-hai-ai-index]] | current |
 | Cybench unguided solve rate | 93% | 40 professional CTF tasks; 6 categories; up from 15% in 2024 | 2026 | [[2026-stanford-hai-ai-index]] | current |
 | Terminal-Bench 2.0 accuracy | 77.3% | Real terminal tasks (compilation, model training, server setup); up from 20% in February 2025 | 2026-01 | [[2026-stanford-hai-ai-index]] | current |
+| Agentic framework GitHub repos growth | 920% | Repositories using AutoGPT, BabyAGI, OpenDevin, CrewAI; early 2023 to mid-2025 | 2025-06 | [[2026-oecd-agentic-ai-full-report]] | current |
+| Developer AI agent adoption intent | ~50% using or planning to use | Stack Overflow Developer Survey; 49,000+ respondents; 177 countries; 38% report no adoption plans | 2025 | [[2026-oecd-agentic-ai-full-report]] | current |
 
 ## Key Claims
 
@@ -78,7 +80,7 @@ Managing agentic AI systems introduces a governance dimension that has no direct
 | The Equation of Agentic Work frames AI delegation as a tradeoff between Human Baseline Time, Probability of Success, and AI Process Time, with delegation yielding net time savings only when Probability of Success is high relative to evaluation overhead per attempt. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
 | Agentic AI systems require explicitly defined rules, threshold values, permissible decision scopes, data usage guardrails, ethical boundaries, and escalation confidence thresholds that human workers navigate through implicit judgment — creating governance requirements outside traditional management models, including accounting for "AI offspring" (AI systems autonomously created or modified by other AI systems that fall outside existing governance scope). | [[2025-mit-sloan-bcg-agentic-ai-management]] | 2025-09-16 | current | 1 | false |
 | Professional management skills — scoping problems, defining deliverables, and recognizing quality in one's domain — are the primary determinant of AI agent output quality in agentic workflows, functioning directly as the prompt specification. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
-| Agentic AI, per the OECD Expert Group's 2026 report, refers to systems composed of multiple coordinated AI agents that decompose and delegate complex tasks and sustain autonomous operation over extended periods with minimal human supervision — distinct from simpler single-agent AI systems. | [[2026-oecd-agentic-ai-landscape]] | 2026-03-03 | current | 2 | false |
+| Agentic AI, per the OECD Expert Group's 2026 report, refers to systems composed of multiple coordinated AI agents that decompose and delegate complex tasks and sustain autonomous operation over extended periods with minimal human supervision — distinct from simpler single-agent AI systems. | [[2026-oecd-agentic-ai-landscape]], [[2026-oecd-agentic-ai-full-report]] | 2026-03-03 | current | 4 | false |
 
 ## Teaching Notes
 
