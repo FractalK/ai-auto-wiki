@@ -2,10 +2,22 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-27
-last_entry: 2026-05-27
-entry_count: 87
+updated: 2026-05-28
+last_entry: 2026-05-28
+entry_count: 90
 ---
+
+## [2026-05-28] ingest | The Agentic AI Landscape and Its Conceptual Foundations
+Added: [[2026-oecd-agentic-ai-full-report]]. Updated: [[ai-agentic-workflows]] (data records added, Key Claim 5 co-sourced with full report). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 1 (source page).
+
+## [2026-05-28] ingest | Algorithmic Monocultures in Hiring
+Added: [[2026-bommasani-algorithmic-monocultures-hiring]]. Updated: [[llm-self-preference-bias]] (related_topics). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[algorithmic-monoculture]], [[algorithmic-monoculture-pitfalls]], [[2026-bommasani-algorithmic-monocultures-hiring]]).
+
+## [2026-05-28] ingest | Gemini 3.5: Frontier Intelligence with Action
+Added: [[2026-google-gemini-3-5-flash-announcement]]. Updated: [[frontier-llm-benchmark-comparison]] (Gemini 3.5 Flash added as 4th entity). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[google-gemini-3-5-flash]], [[2026-google-gemini-3-5-flash-announcement]]).
 
 ## [2026-05-27 PT] session-stats | ingest
 Queue size at session start: 2 (INGEST-QUEUE operation; 2 URLs in raw/queue.md [queued])

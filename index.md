@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-05-27
+updated: 2026-05-28
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*115 pages. Last updated: 2026-05-27.*
+*121 pages. Last updated: 2026-05-28.*
 
 ---
 
@@ -56,6 +56,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 - [[ai-trustworthiness]] — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
 - [[prompt-engineering]] — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
+- [[algorithmic-monoculture]] — The state in which many employers or decision-makers rely on the same or similar vendor-provided algorithms, producing correlated adverse outcomes — the same individuals and demographic groups facing systematic rejection across multiple independent decision contexts — with aggregate compliance metrics that mask per-position disparities.
 - [[reinforcement-learning-from-human-feedback]] — The dominant post-training methodology for aligning large language models with human preferences, operating through a three-stage pipeline of supervised fine-tuning, reward model training on human comparisons, and RL policy optimization against the reward model. *(stub — pending first ingest)*
 - [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
@@ -75,6 +76,7 @@ professional roles, see the [[teaching-index]].
 - [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
 - [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
 - [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
+- [[google-gemini-3-5-flash]] — Google's frontier agentic model in the Flash speed tier, optimized for multi-step task execution, multi-agent coordination via the Antigravity harness, and coding workflows, with vendor-reported benchmark performance claimed to rival larger frontier models at lower latency and cost.
 
 ## Sources
 
@@ -120,13 +122,16 @@ professional roles, see the [[teaching-index]].
 - [[2026-stanford-hai-ai-science-discovery]] — Shana Lynch (Stanford HAI News), 2026-05-27, practitioner
 - [[2026-ibm-granite-4-1-models]] — Mike Murphy, IBM Research Blog, 2026-04-29, practitioner
 - [[2025-ibm-llm-defense-applications]] — Brandi Vincent, DefenseScoop, 2025-10-29, practitioner
+- [[2026-oecd-agentic-ai-full-report]] — Aranda & Sugimoto (OECD), 2026-02-01, institutional
+- [[2026-bommasani-algorithmic-monocultures-hiring]] — Bommasani, Bana, Creel, Jurafsky, Liang (FAccT '26 / arXiv), 2026-05-26, practitioner
+- [[2026-google-gemini-3-5-flash-announcement]] — Kavukcuoglu, Google Blog, 2026-05-19, practitioner
 
 ## Comparisons
 
 - [[anthropic-claude-vs-openai-chatgpt]] — Selecting a general-purpose AI assistant for writing, document work, and multi-step task execution
 - [[ai-search-tools-citation-comparison]] — Evaluating eight generative AI search tools for citation accuracy and attribution reliability when citing news content
 - [[legal-ai-tools-hallucination-comparison]] — Comparing hallucination rates across three leading legal AI research tools (Lexis+ AI, Westlaw AI, Ask Practical Law AI) on the Stanford RegLab 2024 benchmark
-- [[frontier-llm-benchmark-comparison]] — Selecting a frontier AI model for agentic coding, knowledge work, and scientific research as of April–May 2026
+- [[frontier-llm-benchmark-comparison]] — Selecting a frontier AI model for agentic coding, knowledge work, and scientific research as of May 2026
 
 ## Pitfalls
 
@@ -145,6 +150,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-agentic-workflows-pitfalls]] — parent: ai-agentic-workflows
 - [[ai-trustworthiness-pitfalls]] — parent: ai-trustworthiness
 - [[ai-in-science-pitfalls]] — parent: ai-in-science
+- [[algorithmic-monoculture-pitfalls]] — parent: algorithmic-monoculture
 
 ## Teaching
 
