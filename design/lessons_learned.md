@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 05/26/2026 22:00 EST
+**Last Updated:** 05/27/2026 15:30 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1394,3 +1394,22 @@ When writing or rewriting any file, fix all visible errors in that file during t
 
 **References:** `claude-code-L16-followon-prompt-v2.md` revision (2026-05-26)
 
+
+## LL-042 | "NO CITATIONS" INSTRUCTION PROHIBITED WIKILINKS IN TEACHING-BRIEF RELATED PAGES
+
+- **Date:** 2026-05-27
+- **Context:** Reviewing filed teaching briefs after the first Claude Code teaching-brief generation session.
+
+**Problem:**
+Both filed teaching briefs had plain-text `## Related Pages` sections — no wikilinks — rendering them navigation dead-ends on the public Quartz site. The `derived_from` frontmatter was correct; only the body section was broken.
+
+**Root Cause:**
+OPERATIONS.md Step Q7 Case 3 item 3 said "Plain prose, no citations." The agent correctly followed the instruction. The instruction meant no *source* citations (`→ [[sources/...]]` format); it did not mean no wikilinks of any kind. A single negative constraint was used to cover two distinct concepts without distinguishing them.
+
+**Fix Applied:**
+Step Q7 Case 3 item 3 updated to explicitly distinguish: no source citations; `## Related Pages` must use full-path wikilinks. Both existing briefs patched manually.
+
+**Implication Going Forward:**
+Schema instructions using negative constraints ("no X") must specify the scope of the negation precisely when X has multiple plausible referents. "No citations" covers both inline source citations and navigation wikilinks — two different things. Write "no source citations" and "navigation wikilinks required in Related Pages" as separate, explicit directives. When a negative constraint could be read broadly, assume the agent will read it broadly.
+
+**References:** DM-113, OPERATIONS.md Step Q7 Case 3

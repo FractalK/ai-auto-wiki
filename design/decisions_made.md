@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 05/26/2026 22:00 EST
+**Last Updated:** 05/27/2026 15:30 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4703,3 +4703,54 @@ The 150-page proxy conflated two separate degradation paths. The Quartz side is 
 - qmd implementation requires only a workflow change in OPERATIONS.md Section 11.5 (Q2/Q3 index consultation steps) plus qmd configuration — no CLAUDE.md schema revision required.
 
 **References:** IN-006, tooling-recommendation.md Section 6, portability-review.md DEF-01
+
+## DM-112 | INGEST CHECKPOINT MECHANISM: SOURCE GRANULARITY FOR MULTI-SOURCE BATCH RECOVERY
+
+- **Date:** 2026-05-27
+- **Status:** ACTIVE
+
+**Decision:**
+Add a source-granularity checkpoint mechanism to the ingest workflow for multi-source sessions. After each source's git commit, write/update `raw/ingest-checkpoint.md` with completed and remaining sources (including commit hash). Delete on batch completion. Pre-session check and lint Step L12b both detect stale checkpoint files.
+
+**Context:**
+Multi-source ingest sessions are vulnerable to mid-batch compaction. The existing `raw/deferred-ingest.md` mechanism covers planned deferrals but not unplanned interruptions between sources. After a compaction event, the agent has no artifact indicating which sources are complete; it must re-derive state from git log, which works but is unreliable if the agent does not execute the audit correctly.
+
+**Rationale:**
+Source is the right granularity for checkpointing ingest: each source is an atomic unit ending in a git commit, so a completed source is always in a deterministic recoverable state. Mid-source checkpointing would require partial-work detection logic and increases complexity without benefit for sub-threshold sources. Single-source sessions require no checkpoint — the only interruption risk is within a source, which already falls to the existing git-status-based recovery.
+
+**Alternatives Considered:**
+- **Step-level checkpointing (mid-source):** More granular but adds significant complexity. Mid-source state is not cleanly recoverable without rollback logic. Rejected for sub-threshold sources.
+- **Rely on git log audit at session start:** Works but depends on the agent executing the audit correctly after compaction. Fragile. Rejected as the primary mechanism.
+- **No checkpoint (status quo):** Acceptable for single-source sessions; inadequate for multi-source batches where compaction risk is higher.
+
+**Consequences to Watch:**
+- Queue-URL source slugs in the checkpoint may be provisional (assigned at Step 10) — if Step 10 hasn't run for remaining sources, checkpoint shows filenames not slugs. Acceptable; resumption path handles this.
+- Lint L12b staleness threshold (7 days) may need adjustment if multi-source batches routinely span more than one day.
+
+**References:** OPERATIONS.md pre-session check, Step 22d, Step 22b, Step L12b
+
+---
+
+## DM-113 | STEP Q7 "NO CITATIONS" CLARIFIED: RELATED PAGES SECTION REQUIRES WIKILINKS
+
+- **Date:** 2026-05-27
+- **Status:** ACTIVE
+
+**Decision:**
+OPERATIONS.md Step Q7 Case 3 item 3 clarified: "no citations" means no source citations (`[[sources/...]]` slugs, `(→ [[page]])` inline format) — not no wikilinks of any kind. The `## Related Pages` section must use full-path wikilinks to constituent pages. Plain text in this section is a navigation dead-end on the Quartz-rendered public site.
+
+**Context:**
+Both filed teaching briefs had dead-link Related Pages sections: the agent correctly interpreted "Plain prose, no citations" as prohibiting all wikilinks. The `derived_from` frontmatter contains correct wikilinks, so Obsidian graph view works, but the body section renders as unclickable text on the public site. L16 does not cover list-item wikilink detection reliably enough to be a safety net for this.
+
+**Rationale:**
+The intent of "no citations" was always to prohibit raw-source citation format (`→ [[sources/...]]`), not navigation wikilinks. The ambiguity was introduced by using a single negative instruction to cover two distinct concepts. The fix makes the distinction explicit rather than relying on implied context.
+
+**Alternatives Considered:**
+- **Rely on L16 to catch and fix dead-link list items at lint time:** Ambiguous whether L16 covers list items; treating a lint step as a safety net for a schema gap is the wrong layering. Rejected.
+- **Add a lint check specifically for plain-text Related Pages sections:** Addresses symptom not cause. Rejected in favor of fixing the instruction.
+
+**Consequences to Watch:**
+- Existing filed teaching briefs (before this fix) need manual remediation — two briefs fixed in this session.
+- Future lint passes should confirm Related Pages sections contain wikilinks, not plain text; consider adding to L16 scope or a dedicated lint check if the issue recurs after this fix.
+
+**References:** OPERATIONS.md Step Q7 Case 3, CLAUDE.md Section 5.10, LL-042
