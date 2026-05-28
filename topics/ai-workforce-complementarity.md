@@ -2,11 +2,11 @@
 type: topic
 title: AI Workforce Complementarity
 created: 2026-05-18
-updated: 2026-05-20
+updated: 2026-05-27
 summary: A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data, documented productivity gains concentrated in low-EPOCH structured work, and early macro-level evidence of a J-curve productivity effect.
 status: developing
-source_count: 2
-last_assessed: 2026-05-20
+source_count: 3
+last_assessed: 2026-05-27
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-in-higher-education]]"
@@ -43,7 +43,7 @@ The framework is grounded in analysis of the O*NET database, one of the largest 
 
 Corroborating evidence from the Stanford HAI AI Index 2026 shows an asymmetric displacement pattern in software development — a field with relatively low EPOCH intensity. U.S. employment for software developers ages 22–25 fell close to 20% from its 2022 peak by September 2025, while headcount for older developers continued to grow. This divergence is consistent with the EPOCH hypothesis: early-career software work involves more formalized, pattern-matching tasks susceptible to AI substitution, while senior developer roles increasingly require judgment, architecture decisions, and stakeholder communication that engage higher EPOCH capability groups.
 
-The workforce impact is concentrated in hiring pipelines and AI-exposed roles rather than mass layoffs. Controlling for firm-type effects, workers ages 22–25 in the most AI-exposed occupations showed roughly 16% lower headcount relative to the least-exposed, with the gap widening steadily from mid-2024. One-third of organizations surveyed by McKinsey in 2025 expected AI to reduce their workforce in the coming year — particularly pronounced in service operations, supply chain, software engineering, and marketing. Data from Gimbel et al. (2025) shows the U.S. occupational mix has shifted faster since generative AI's introduction than the comparable periods following either the personal computer or the internet, though the shift appears to register in how tasks are redesigned rather than blunt occupation-level replacement: a survey of 844 occupational tasks found that 46.1% of workers actively want AI to take over certain tasks — particularly those freeing time for higher-value work.
+The workforce impact is concentrated in hiring pipelines and AI-exposed roles rather than mass layoffs. Controlling for firm-type effects, workers ages 22–25 in the most AI-exposed occupations showed roughly 16% lower headcount relative to the least-exposed, with the gap widening steadily from mid-2024. One-third of organizations surveyed by McKinsey in 2025 expected AI to reduce their workforce in the coming year — particularly pronounced in service operations, supply chain, software engineering, and marketing. At the company level, internal Amazon planning documents leaked in early 2025 projected significant AI-driven workforce reductions across major departments — a specific instance of how the workforce-reduction expectation appearing in aggregate surveys manifests in large organizations' internal planning horizons. Data from Gimbel et al. (2025) shows the U.S. occupational mix has shifted faster since generative AI's introduction than the comparable periods following either the personal computer or the internet, though the shift appears to register in how tasks are redesigned rather than blunt occupation-level replacement: a survey of 844 occupational tasks found that 46.1% of workers actively want AI to take over certain tasks — particularly those freeing time for higher-value work.
 
 The research proposes three evaluation metrics for analyzing any task in the context of AI adoption: the EPOCH index (a measure of how EPOCH-intensive a task is), a risk-of-substitution score (how susceptible the task is to full automation), and a potential-for-augmentation score (how much AI assistance could enhance output quality without replacing the human). Applied to any occupation, these metrics shift the analysis from job-level generalization to task-level diagnostic.
 

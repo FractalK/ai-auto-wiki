@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-05-26
+updated: 2026-05-27
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*108 pages. Last updated: 2026-05-26.*
+*109 pages. Last updated: 2026-05-27.*
 
 ---
 
@@ -114,6 +114,7 @@ professional roles, see the [[teaching-index]].
 - [[2025-dobariya-prompt-politeness-llm-accuracy]] — Om Dobariya, Akhil Kumar (Penn State / arXiv), 2025-10, institutional
 - [[2025-huang-notebooklm-thirty-minutes]] — Tina Huang (YouTube), 2025-08-13, practitioner
 - [[2026-question-forward-gemini-notebooklm-workflow]] — Question Forward (YouTube), 2026-03-04, practitioner
+- [[2026-whitlock-american-roulette-scenarios]] — Chris Whitlock (The AI Leadership Channel), 2026-02-05, practitioner
 
 ## Comparisons
 
