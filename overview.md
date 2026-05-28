@@ -3,8 +3,8 @@ type: overview
 title: Wiki Overview
 created: 2026-04-22
 updated: 2026-05-27
-total_pages: 111
-total_sources: 40
+total_pages: 115
+total_sources: 42
 open_contradictions: 0
 last_contradiction_id: 1
 last_lint: 2026-05-25

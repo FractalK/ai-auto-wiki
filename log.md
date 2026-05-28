@@ -4,8 +4,27 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-27
 last_entry: 2026-05-27
-entry_count: 84
+entry_count: 87
 ---
+
+## [2026-05-27 PT] session-stats | ingest
+Queue size at session start: 2 (INGEST-QUEUE operation; 2 URLs in raw/queue.md [queued])
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: yes — continued from prior context window (compaction occurred between Phase 1 and Phase 2)
+Time window: off-peak
+Source type mix: vendor-content: 1, publication-article: 1
+Approx tokens (from /cost): unavailable (multi-session)
+Notes: Phase 1 pre-flight and form generation completed in prior context window; both sources fetched and processed in resumed session. Status correction: IBM Defense Model classified as emerging (not stub — stub is restricted to ingested-in-error correction procedure per schema).
+
+## [2026-05-27] ingest | A First Look at IBM's New Large Language Model Fine-Tuned for Defense Applications
+Added: [[2025-ibm-llm-defense-applications]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[ibm-defense-model]], [[2025-ibm-llm-defense-applications]]).
+
+## [2026-05-27] ingest | Introducing the IBM Granite 4.1 Family of Models
+Added: [[2026-ibm-granite-4-1-models]]. Updated: none. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[ibm-granite-4-1]], [[2026-ibm-granite-4-1-models]]).
+  Citation nominations: 2 — DeepStack vision architecture (https://arxiv.org/abs/2406.04334; peer-reviewed), Speech NAR generation (https://arxiv.org/abs/2603.08397; peer-reviewed) — both added to queue.md [nominated].
 
 ## [2026-05-27] session-stats | ingest
 Queue size at session start: 0 (INGEST-STAGED operation; 2 files in raw/staged/)

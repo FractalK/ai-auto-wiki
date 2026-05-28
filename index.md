@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*111 pages. Last updated: 2026-05-27.*
+*115 pages. Last updated: 2026-05-27.*
 
 ---
 
@@ -73,6 +73,8 @@ professional roles, see the [[teaching-index]].
 - [[thomson-reuters-ask-practical-law-ai]] — Thomson Reuters's AI assistant for practical law questions, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab in 2024, comparable to Lexis+ AI.
 - [[openai-gpt-5-5]] — OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 - [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
+- [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
+- [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
 
 ## Sources
 
@@ -116,6 +118,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-question-forward-gemini-notebooklm-workflow]] — Question Forward (YouTube), 2026-03-04, practitioner
 - [[2026-whitlock-american-roulette-scenarios]] — Chris Whitlock (The AI Leadership Channel), 2026-02-05, practitioner
 - [[2026-stanford-hai-ai-science-discovery]] — Shana Lynch (Stanford HAI News), 2026-05-27, practitioner
+- [[2026-ibm-granite-4-1-models]] — Mike Murphy, IBM Research Blog, 2026-04-29, practitioner
+- [[2025-ibm-llm-defense-applications]] — Brandi Vincent, DefenseScoop, 2025-10-29, practitioner
 
 ## Comparisons
 
