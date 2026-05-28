@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-27
 last_entry: 2026-05-27
-entry_count: 83
+entry_count: 84
 ---
+
+## [2026-05-27] session-stats | ingest
+Queue size at session start: 0 (INGEST-STAGED operation; 2 files in raw/staged/)
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: yes — continued from prior context window
+Time window: off-peak
+Source type mix: youtube-video: 1, publication-article: 1
+Approx tokens (from /cost): unavailable (multi-session)
+Notes: session resumed from context compaction; Source 1 complete at session boundary, Source 2 completed in resumed session
 
 ## [2026-05-27] ingest | How AI is Transforming Scientific Discovery While Keeping Humans at the Center
 Added: [[2026-stanford-hai-ai-science-discovery]]. Updated: [[ai-in-science]] (major), [[ai-governance-policy]], [[ai-capability-benchmarking]]. Contradictions flagged: 0.
