@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*109 pages. Last updated: 2026-05-27.*
+*111 pages. Last updated: 2026-05-27.*
 
 ---
 
@@ -115,6 +115,7 @@ professional roles, see the [[teaching-index]].
 - [[2025-huang-notebooklm-thirty-minutes]] — Tina Huang (YouTube), 2025-08-13, practitioner
 - [[2026-question-forward-gemini-notebooklm-workflow]] — Question Forward (YouTube), 2026-03-04, practitioner
 - [[2026-whitlock-american-roulette-scenarios]] — Chris Whitlock (The AI Leadership Channel), 2026-02-05, practitioner
+- [[2026-stanford-hai-ai-science-discovery]] — Shana Lynch (Stanford HAI News), 2026-05-27, practitioner
 
 ## Comparisons
 
@@ -139,6 +140,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-medicine-pitfalls]] — parent: ai-in-medicine
 - [[ai-agentic-workflows-pitfalls]] — parent: ai-agentic-workflows
 - [[ai-trustworthiness-pitfalls]] — parent: ai-trustworthiness
+- [[ai-in-science-pitfalls]] — parent: ai-in-science
 
 ## Teaching
 

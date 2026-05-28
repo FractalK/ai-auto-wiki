@@ -4,8 +4,12 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-27
 last_entry: 2026-05-27
-entry_count: 82
+entry_count: 83
 ---
+
+## [2026-05-27] ingest | How AI is Transforming Scientific Discovery While Keeping Humans at the Center
+Added: [[2026-stanford-hai-ai-science-discovery]]. Updated: [[ai-in-science]] (major), [[ai-governance-policy]], [[ai-capability-benchmarking]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 (source page, pitfalls page).
 
 ## [2026-05-27] ingest | American Roulette — AI Scenarios for America's Future
 Added: [[2026-whitlock-american-roulette-scenarios]]. Updated: [[ai-research-ecosystem]], [[ai-workforce-complementarity]]. Contradictions flagged: 0.

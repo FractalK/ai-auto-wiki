@@ -2,11 +2,11 @@
 type: topic
 title: AI Capability Benchmarking
 created: 2026-05-18
-updated: 2026-05-20
+updated: 2026-05-27
 summary: The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 status: developing
-source_count: 2
-last_assessed: 2026-05-20
+source_count: 3
+last_assessed: 2026-05-27
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-alignment]]"
@@ -50,7 +50,7 @@ In 2025, Meta faced credible criticism that its Llama 4 model was optimized usin
 
 The 2025–2026 period saw dramatic convergence at the frontier. In early 2023, OpenAI's Arena score (1,322) led Google's (1,117) by 205 points; by March 2026 the top four providers — Anthropic (1,503), xAI (1,495), Google (1,494), and OpenAI (1,481) — sit within 25 Elo points of each other. The US-China performance gap has followed the same trajectory: DeepSeek-R1 briefly matched the leading US model in February 2025 (5 Elo points apart), and as of March 2026 the gap stands at only 2.7%. The closed-weight advantage has reopened: the top closed model leads the top open model by 3.3% as of March 2026 (up from 0.5% in August 2024), with 6 of the top 10 Arena models now closed-weight. When frontier models cannot be distinguished on general benchmarks, competitive pressure shifts to cost, latency, reliability, and domain specialization — factors current benchmark infrastructure cannot measure.
 
-Performance convergence also highlights the "jagged intelligence" pattern. Gemini Deep Think won the 2025 IMO gold medal (35 points, natural language, within the 4.5-hour limit), but the top model in March 2026 read analog clocks correctly only 50.6% of the time, versus 90.1% for humans. Strong performance on PhD-level reasoning benchmarks does not predict performance on basic visual-temporal tasks, and no established benchmark captures this inconsistency systematically.
+Performance convergence also highlights the "jagged intelligence" pattern. Gemini Deep Think won the 2025 IMO gold medal (35 points, natural language, within the 4.5-hour limit), and the trajectory of AI mathematical reasoning more broadly illustrates the pace of gains: AI took a silver medal at the IMO in July 2024 and achieved a perfect score on the hardest undergraduate mathematics exam by December 2025 — an 18-month window. Yet the top model in March 2026 read analog clocks correctly only 50.6% of the time, versus 90.1% for humans. Strong performance on PhD-level reasoning benchmarks does not predict performance on basic visual-temporal tasks, and no established benchmark captures this inconsistency systematically.
 
 ## Emerging Evaluation Approaches
 
@@ -78,6 +78,8 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 | Arena Elo — top Chinese model (Dola-Seed-2.0 Preview) | 1,464 | Text Arena; gap to top US model: 2.7%; March 2026 | 2026-03 | [[2026-stanford-hai-ai-index]] | current |
 | ClockBench accuracy — top model (GPT-5.4 High) | 50.6% | 180 clock designs, 720 questions; median error 1–3 hours vs 3 min for humans; March 2026 | 2026-03 | [[2026-stanford-hai-ai-index]] | current |
 | ClockBench accuracy — human baseline | 90.1% | Correctly formatted clocks; March 2026 | 2026-03 | [[2026-stanford-hai-ai-index]] | current |
+| AI math — IMO competition performance | Silver medal | International Mathematical Olympiad; natural language; within 4.5-hour limit | 2024-07 | [[2026-stanford-hai-ai-science-discovery]] | superseded |
+| AI math — hardest undergraduate mathematics exam | Perfect score | Carina Hong / Axiom AI assessment; hardest undergraduate math exam | 2025-12 | [[2026-stanford-hai-ai-science-discovery]] | current |
 
 ## Key Claims
 

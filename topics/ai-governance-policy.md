@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-05-20
+updated: 2026-05-27
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 4
-last_assessed: 2026-05-20
+source_count: 5
+last_assessed: 2026-05-27
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -48,6 +48,8 @@ Congressional attention to AI grew nearly twentyfold since 2017, with AI-related
 ## US Federal Policy Evolution
 
 At the federal level, the Biden administration built a substantial executive framework including the White House Blueprint for an AI Bill of Rights (2022) and Executive Order 14110 on safe, secure, and trustworthy AI. In January 2025, the Trump Administration revoked many of these orders, directing agencies to revise or rescind all AI policies from the prior administration. The White House's America's AI Action Plan (July 2025) reoriented federal policy toward promoting AI workforce development and reducing regulatory constraints. Multiple 2025 executive orders addressed AI infrastructure buildout on federal lands, export controls, and export promotion. Following the federal rollback, many state and local governments have continued promoting responsible AI practices independently.
+
+A significant federal initiative launched in this period is the Genesis Mission, established by executive order in November 2025. Genesis connects high-performance computing, AI, quantum technologies, and experimental facilities — including robotic labs — into a unified national discovery architecture. Its stated goal is to double the productivity and impact of American science and engineering within a decade. The initiative attracted 8,000+ applications from 800+ institutions in all 50 states (three times the previous federal science program record) and signed 38 company memoranda of understanding to form a public-private partnership vehicle.
 
 ## Public Investment
 
@@ -94,7 +96,7 @@ Public trust in AI governance institutions is fragmented. The United States repo
 | Harris cites a China-initiated agreement at the 2023–2024 Biden-Xi meetings to prevent AI use in nuclear command and control systems as evidence that adversarial nations can coordinate on AI safety when existential stakes are mutually recognized. | [[2025-pivot-harris-ai-dilemma]] | 2025-12-22 | current | 1 | false |
 | Harris cites AI-27 authors arguing that monitoring approximately 95% of global compute — via satellite heat-emission data, electrical signal tracking, and shared data center mapping — is the threshold needed for international AI governance treaties to be enforceable against the most dangerous AI development. | [[2025-pivot-harris-ai-dilemma]] | 2025-12-22 | current | 1 | false |
 | The Trump Administration revoked many prior AI executive orders in January 2025, directing agencies to revise or rescind all AI policies from the prior administration; many state and local governments continue promoting responsible AI practices independently. | [[2025-responsible-ai-public-evaluation]] | 2025-12-01 | current | 1 | false |
-| A 2025 IBM IBV survey of 100 senior government technology executives found that 69% acknowledge potential AI productivity gains are so large they must accept significant risk to keep pace, with nearly 90% planning to accelerate AI transformation despite uncertainty. | [[2025-ibm-government-ai-era]] | 2025-12-01 | current | 1 | false |
+| The U.S. Genesis Mission, launched by executive order in November 2025, received 8,000+ applications from 800+ institutions in all 50 states — three times the previous federal science program record — and signed 38 company MOUs, targeting a doubling of American scientific productivity within a decade by integrating HPC, AI, quantum technologies, and robotic experimental facilities into a unified national discovery architecture. | [[2026-stanford-hai-ai-science-discovery]] | 2026-05-27 | current | 1 | false |
 
 ## Teaching Notes
 
