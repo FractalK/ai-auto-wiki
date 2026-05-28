@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-28
 last_entry: 2026-05-28
-entry_count: 90
+entry_count: 91
 ---
+
+## [2026-05-28 PT] session-stats | ingest
+Queue size at session start: 3 (INGEST-STAGED operation; 3 files in raw/staged/)
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: yes — continued from prior context window (compaction occurred between Phase 1 and Phase 2)
+Time window: off-peak
+Source type mix: policy-document: 1, research-paper: 1, vendor-content: 1
+Approx tokens (from /cost): unavailable (multi-session)
+Notes: Phase 1 pre-flight and form generation completed in prior context window; all 3 sources processed in resumed session after user submitted decision string.
 
 ## [2026-05-28] ingest | The Agentic AI Landscape and Its Conceptual Foundations
 Added: [[2026-oecd-agentic-ai-full-report]]. Updated: [[ai-agentic-workflows]] (data records added, Key Claim 5 co-sourced with full report). Contradictions flagged: 0.
