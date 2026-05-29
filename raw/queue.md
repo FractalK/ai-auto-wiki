@@ -1,11 +1,11 @@
 ## [queued]
-
+https://www.anthropic.com/news/claude-opus-4-8
+https://openai.com/index/codex-for-almost-everything/
 ## [nominated]
 Should We Respect LLMs? A Cross-Lingual Study on the Influence of Prompt Politeness on LLM Performance | https://doi.org/10.18653/v1/2024.sicon-1.2 | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[prompt-engineering]]]
 Emergent Analogical Reasoning in Large Language Models | https://doi.org/10.1038/s41562-023-01659-w | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[llm-fundamentals]]]
 Understanding Liability Risk from Health Care Artificial Intelligence Tools | https://www.nejm.org/doi/full/10.1056/NEJMhle2308901 | research-paper | peer-reviewed | nominated: 2026-05-20 [nominated — cited by [[2024-stanford-hai-healthcare-ai-liability]]]
 PlanBench: Evaluating LLMs on Planning and Reasoning about Change (Corrêa et al., 2025) | https://arxiv.org/pdf/2511.09378 | research-paper | peer-reviewed | nominated: 2026-05-20 [nominated — cited by [[2026-stanford-hai-ai-index]]]
-The agentic AI landscape and its conceptual foundations | https://www.oecd.org/content/dam/oecd/en/publications/reports/2026/02/the-agentic-ai-landscape-and-its-conceptual-foundations_a9d4b451/396cf758-en.pdf | policy-document | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-oecd-agentic-ai-landscape]]]
 Building AI Cyber Defenders | https://www.anthropic.com/research/building-ai-cyber-defenders | industry-blog | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-anthropic-project-glasswing]]]
 Anthropic Red Team Blog: Exploit development | https://red.anthropic.com/2026/exploit/ | industry-blog | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-anthropic-project-glasswing]]]
 Anthropic Red Team Blog: Mythos Preview technical details | https://red.anthropic.com/2026/mythos-preview | industry-blog | institutional | nominated: 2026-04-22 [nominated — cited by [[2026-anthropic-project-glasswing]]]
