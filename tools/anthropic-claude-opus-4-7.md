@@ -4,8 +4,7 @@ title: Claude Opus 4.7
 created: 2026-04-22
 updated: 2026-05-29
 summary: Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
-status: deprecated
-superseded_by: "[[tools/anthropic-claude-opus-4-8]]"
+status: active
 vendor: Anthropic
 pricing_model: usage-based
 access_tier:
@@ -48,6 +47,8 @@ professional_contexts:
   - software-and-ai-development
 technical_depth: practitioner
 teaching_notes_reviewed: 2026-04-30
+prior_generation: "true"
+succeeded_by: "[[anthropic-claude-opus-4-8]]"
 ---
 
 Claude Opus 4.7 is Anthropic's flagship generally available model as of April 2026, positioned as a substantial advance over Opus 4.6 in software engineering, vision, document reasoning, and agentic workflow execution. It is available through the Claude consumer interface, the Anthropic API, Amazon Bedrock, Google Cloud Vertex AI, and Microsoft Foundry. Pricing is unchanged at \$5/\$25 per million input/output tokens, though a tokenizer update means effective token consumption increases by 1.0–1.35× depending on content type — operators should re-evaluate prompt costs before assuming cost parity with Opus 4.6.
