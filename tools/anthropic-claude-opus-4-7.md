@@ -2,9 +2,10 @@
 type: tool
 title: Claude Opus 4.7
 created: 2026-04-22
-updated: 2026-05-21
+updated: 2026-05-29
 summary: Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
-status: active
+status: deprecated
+superseded_by: "[[tools/anthropic-claude-opus-4-8]]"
 vendor: Anthropic
 pricing_model: usage-based
 access_tier:

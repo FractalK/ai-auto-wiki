@@ -2,7 +2,7 @@
 type: tool
 title: Claude (Anthropic)
 created: 2026-04-22
-updated: 2026-04-30
+updated: 2026-05-29
 summary: Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 status: active
 vendor: Anthropic
@@ -33,7 +33,7 @@ primary_use_cases:
 source_count: 1
 last_assessed: 2026-04-22
 related_tools:
-  - "[[anthropic-claude-opus-4-7]]"
+  - "[[anthropic-claude-opus-4-8]]"
   - "[[openai-chatgpt]]"
   - "[[google-notebooklm]]"
 related_topics:

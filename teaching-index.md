@@ -2,13 +2,13 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-05-28
+updated: 2026-05-29
 ---
 
 # Teaching Index
 
 Auto-generated from frontmatter tags. 52 page(s) indexed across 7 competency domain(s).
-Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py`.
+Last regenerated: 2026-05-29. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
 
@@ -187,10 +187,6 @@ Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py
 - [[ai-public-opinion|AI Public Opinion and Societal Attitudes]] (topic · practitioner) — Global survey evidence on public and expert attitudes toward AI, documenting a systematic expert-public optimism gap on employment and economic impact, rising nervousness alongside rising optimism, and sharply asymmetric trust in governance institutions across countries and regions.
 - [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
 
-### entrepreneurship-and-startups
-
-- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
-
 ### graduate-and-doctoral-education
 
 - [[ai-alignment|AI Alignment]] (topic · research) — The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
@@ -221,12 +217,13 @@ Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[ai-in-medicine|AI in Medicine]] (topic · practitioner) — The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
+- [[anthropic-claude-opus-4-8|Claude Opus 4.8]] (tool · practitioner) — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 
 ### project-and-program-management
 
 - [[ai-workforce-complementarity|AI Workforce Complementarity]] (topic · practitioner) — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data, documented productivity gains concentrated in low-EPOCH structured work, and early macro-level evidence of a J-curve productivity effect.
 - [[anthropic-claude-mythos-preview|Claude Mythos Preview]] (tool · practitioner) — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
-- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[anthropic-claude-opus-4-8|Claude Opus 4.8]] (tool · practitioner) — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 
 ### software-and-ai-development
 
@@ -234,7 +231,7 @@ Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
 - [[anthropic-claude-mythos-preview|Claude Mythos Preview]] (tool · practitioner) — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
-- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[anthropic-claude-opus-4-8|Claude Opus 4.8]] (tool · practitioner) — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 
 ### teaching-and-instruction
 
@@ -436,7 +433,6 @@ Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py
 ### entrepreneurship-and-startups
 
 - [[anthropic-claude|Claude (Anthropic)]] (tool · foundational) — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
-- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 
 ### graduate-and-doctoral-education
 
@@ -463,11 +459,12 @@ Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py
 - [[ai-coding-agent-workflow-types|AI Coding Agent Workflow Types]] (topic · foundational) — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 - [[ai-coding-agent-workflow-types-pitfalls|AI Coding Agent Workflow Types Pitfalls]] (pitfalls)
 - [[anthropic-claude|Claude (Anthropic)]] (tool · foundational) — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
+- [[anthropic-claude-opus-4-8|Claude Opus 4.8]] (tool · practitioner) — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 
 ### project-and-program-management
 
-- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[anthropic-claude-opus-4-8|Claude Opus 4.8]] (tool · practitioner) — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 
 ### software-and-ai-development
@@ -476,7 +473,7 @@ Last regenerated: 2026-05-28. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[ai-coding-agent-workflow-types|AI Coding Agent Workflow Types]] (topic · foundational) — A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 - [[ai-coding-agent-workflow-types-pitfalls|AI Coding Agent Workflow Types Pitfalls]] (pitfalls)
-- [[anthropic-claude-opus-4-7|Claude Opus 4.7]] (tool · practitioner) — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[anthropic-claude-opus-4-8|Claude Opus 4.8]] (tool · practitioner) — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 
 ### teaching-and-instruction

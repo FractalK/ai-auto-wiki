@@ -2,10 +2,24 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-28
-last_entry: 2026-05-28
-entry_count: 91
+updated: 2026-05-29
+last_entry: 2026-05-29
+entry_count: 93
 ---
+
+## [2026-05-29 PT] session-stats | ingest
+Queue size at session start: 2
+Documents attempted: 2
+Documents completed: 1
+Session limit hit: yes — context compaction between pre-flight (prior session) and Phase 2 execution
+Time window: off-peak
+Source type mix: industry-blog: 1, fetch-failed: 1
+Approx tokens (from /cost): unavailable (multi-session)
+Notes: OpenAI Codex URL (https://openai.com/index/codex-for-almost-everything/) returned HTTP 403 — marked fetch-failed in queue.md.
+
+## [2026-05-29] ingest | Introducing Claude Opus 4.8
+Added: [[2026-anthropic-claude-opus-4-8-announcement]]. Updated: [[anthropic-claude-opus-4-7]] (deprecated, superseded_by [[tools/anthropic-claude-opus-4-8]]), [[anthropic-claude]] (related_tools updated). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[anthropic-claude-opus-4-8]], [[2026-anthropic-claude-opus-4-8-announcement]]).
 
 ## [2026-05-28 PT] session-stats | ingest
 Queue size at session start: 3 (INGEST-STAGED operation; 3 files in raw/staged/)

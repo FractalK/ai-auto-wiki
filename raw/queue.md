@@ -1,6 +1,4 @@
 ## [queued]
-https://www.anthropic.com/news/claude-opus-4-8
-https://openai.com/index/codex-for-almost-everything/
 ## [nominated]
 Should We Respect LLMs? A Cross-Lingual Study on the Influence of Prompt Politeness on LLM Performance | https://doi.org/10.18653/v1/2024.sicon-1.2 | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[prompt-engineering]]]
 Emergent Analogical Reasoning in Large Language Models | https://doi.org/10.1038/s41562-023-01659-w | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[llm-fundamentals]]]
@@ -16,6 +14,8 @@ Google Workspace's continuous approach to mitigating indirect prompt injections 
 Mitigating prompt injection attacks with a layered defense strategy | https://security.googleblog.com/2025/06/mitigating-prompt-injection-attacks.html | industry-blog | institutional | nominated: 2026-04-30 [nominated — cited by [[2026-google-prompt-injection-wild]]]
 Visual feature injection in vision-language models (DeepStack) | https://arxiv.org/abs/2406.04334 | research-paper | peer-reviewed | nominated: 2026-05-27 [nominated — cited by [[2026-ibm-granite-4-1-models]], relevant to [[llm-fundamentals]]]
 Non-autoregressive generation for speech models | https://arxiv.org/abs/2603.08397 | research-paper | peer-reviewed | nominated: 2026-05-27 [nominated — cited by [[2026-ibm-granite-4-1-models]], relevant to [[llm-fundamentals]]]
+https://www.anthropic.com/claude-opus-4-8-system-card | policy-document | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-anthropic-claude-opus-4-8-announcement]], relevant to [[ai-alignment]]]
+https://claude.com/blog/introducing-dynamic-workflows-in-claude-code | industry-blog | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-anthropic-claude-opus-4-8-announcement]], relevant to [[ai-agentic-workflows]]]
 
 
 
@@ -30,3 +30,5 @@ https://bristol.libguides.com/ai-and-the-library/using-the-craap-framework | pro
 https://mitsloan.mit.edu/press/new-mit-sloan-research-suggests-ai-more-likely-to-complement-not-replace-human-workers | processed: 2026-05-18 → [[2025-mit-sloan-ai-complement-workers]]
 https://research.ibm.com/blog/granite-4-1-ai-foundation-models | processed: 2026-05-27 → [[2026-ibm-granite-4-1-models]]
 https://defensescoop.com/2025/10/29/ibm-new-large-language-model-defense-applications-janes/ | processed: 2026-05-27 → [[2025-ibm-llm-defense-applications]]
+https://www.anthropic.com/news/claude-opus-4-8 | processed: 2026-05-29 → [[2026-anthropic-claude-opus-4-8-announcement]]
+https://openai.com/index/codex-for-almost-everything/ | fetch-failed: 2026-05-29

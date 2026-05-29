@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-05-28
+updated: 2026-05-29
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*121 pages. Last updated: 2026-05-28.*
+*123 pages. Last updated: 2026-05-29.*
 
 ---
 
@@ -65,7 +65,7 @@ professional roles, see the [[teaching-index]].
 
 - [[anthropic-claude]] — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 - [[anthropic-claude-mythos-preview]] — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
-- [[anthropic-claude-opus-4-7]] — Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
+- [[anthropic-claude-opus-4-8]] — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[google-notebooklm]] — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
 - [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
 - [[openai-chatgpt]] — OpenAI's general-purpose AI assistant and the most widely recognized conversational AI product, with strengths in voice interaction, native image generation, and real-time web search.
@@ -125,6 +125,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-oecd-agentic-ai-full-report]] — Aranda & Sugimoto (OECD), 2026-02-01, institutional
 - [[2026-bommasani-algorithmic-monocultures-hiring]] — Bommasani, Bana, Creel, Jurafsky, Liang (FAccT '26 / arXiv), 2026-05-26, practitioner
 - [[2026-google-gemini-3-5-flash-announcement]] — Kavukcuoglu, Google Blog, 2026-05-19, practitioner
+- [[2026-anthropic-claude-opus-4-8-announcement]] — Anthropic, 2026-05-28, institutional
 
 ## Comparisons
 
