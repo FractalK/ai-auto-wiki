@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 05/27/2026 15:30 EST
+**Last Updated:** 05/29/2026 17:45 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4754,3 +4754,31 @@ The intent of "no citations" was always to prohibit raw-source citation format (
 - Future lint passes should confirm Related Pages sections contain wikilinks, not plain text; consider adding to L16 scope or a dedicated lint check if the issue recurs after this fix.
 
 **References:** OPERATIONS.md Step Q7 Case 3, CLAUDE.md Section 5.10, LL-042
+
+---
+
+## DM-114 | PRIOR-GENERATION MODEL VERSIONING: TWO-PATH RULE REPLACING BINARY DEPRECATED STATUS
+
+- **Date:** 2026-05-29
+- **Status:** ACTIVE
+
+**Decision:**
+Added `prior_generation` (optional boolean) and `succeeded_by` (optional full-path wikilink) fields to the Tool/Product page frontmatter (CLAUDE.md Section 5.3). Replaced the binary "version superseded → status: deprecated" rule in Section 9 with a two-path rule: (1) vendor-available prior-generation versions use `prior_generation: true` + `succeeded_by`, retain `status: active`, and continue to run lint staleness checks and appear in the Teaching Index; (2) vendor-announced EOL or removed-from-availability versions use `status: deprecated` + `superseded_by` as before. The `succeeded_by` field points one step forward only — each prior-gen page links to its immediate successor, forming a linked list. No page accumulates a growing list of predecessors. `superseded_by` usage tightened: explicitly prohibited for versions that remain available.
+
+**Context:**
+Agent correctly followed the existing schema rule and deprecated `anthropic-claude-opus-4-7` upon ingesting the Opus 4.8 announcement. The rule was wrong: it conflated "a newer version exists" with "this version is being retired." Anthropic's model lineup — and competitor lineups (GPT 5.3/5.4/5.5, etc.) — maintain multiple named versions simultaneously at different capability and price points. A user may deliberately select an older model for cost or compatibility reasons. Deprecating an available, selectable model misrepresents its status and removes it from Teaching Index and lint coverage incorrectly.
+
+**Rationale:**
+The `prior_generation` boolean preserves all existing lint behavior for available older versions (staleness checks run, Teaching Index inclusion, index.md listing) while adding navigational lineage via `succeeded_by`. The linked-list pattern (one step forward only) avoids accumulating stale backward pointers: when 4.9 is ingested, only 4.8 gains `prior_generation: true` and `succeeded_by: [[opus-4-9]]`; 4.6 and 4.7 are untouched. `status: deprecated` is reserved for its correct semantic: vendor-announced end-of-life.
+
+**Alternatives Considered:**
+- **`successor_to` (pointing backward from new page to old):** Inverted direction — the prior-gen page needs to know what superseded it, not the other way around. Requires updating the new page every time another newer version drops, causing fan-out writes. Rejected in favor of forward-pointing `succeeded_by` on the prior-gen page.
+- **New `prior_generation` status value:** Would break existing lint logic that excludes `deprecated` pages from staleness checks and Teaching Index. A boolean flag avoids touching any script logic — prior-gen pages remain `status: active` throughout. Rejected.
+- **No schema change; manual override per ingest:** Requires human to catch and correct every model announcement ingest. Not scalable. Rejected.
+
+**Consequences to Watch:**
+- Agent must not set `status: deprecated` on any model version without confirming vendor EOL; the uncertainty forced-choice gate in Section 9 is the safeguard.
+- `succeeded_by` creates a navigable lineage chain; if a version is skipped (e.g., 4.7 never existed), the chain has a gap. Acceptable — point to the next actually-existing page.
+- wiki-lint.py requires no changes: deprecated exclusions are status-based; prior-gen pages are `status: active`.
+
+**References:** CLAUDE.md Sections 5.3, 9; LL-043

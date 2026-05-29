@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 05/27/2026 15:30 EST
+**Last Updated:** 05/29/2026 17:50 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1413,3 +1413,24 @@ Step Q7 Case 3 item 3 updated to explicitly distinguish: no source citations; `#
 Schema instructions using negative constraints ("no X") must specify the scope of the negation precisely when X has multiple plausible referents. "No citations" covers both inline source citations and navigation wikilinks — two different things. Write "no source citations" and "navigation wikilinks required in Related Pages" as separate, explicit directives. When a negative constraint could be read broadly, assume the agent will read it broadly.
 
 **References:** DM-113, OPERATIONS.md Step Q7 Case 3
+
+---
+
+## LL-043 | FIELD DIRECTION ERROR: PROPOSED `successor_to` POINTED BACKWARD, NOT FORWARD
+
+- **Date:** 2026-05-29
+- **Context:** Designing `succeeded_by` / `successor_to` lineage fields for prior-generation model-class tool pages.
+
+**Problem:**
+Advisor proposed `successor_to` as the lineage field for prior-generation pages. The name implies the field identifies "what this page is a successor to" — i.e., it points *backward* to the older version. But the intent was a forward pointer from the older page to the newer one. The operator caught the inversion before it was committed.
+
+**Root Cause:**
+The field name was chosen to express the relationship from the newer page's perspective ("I am a successor to X") rather than from the older page's perspective ("I was succeeded by X"). When the field lives on the *older* page, the correct name is `succeeded_by`.
+
+**Fix Applied:**
+Field renamed to `succeeded_by` in CLAUDE.md Sections 5.3 and 9 and in DM-114 before delivery. `successor_to` documented as a rejected alternative in DM-114 rationale.
+
+**Implication Going Forward:**
+When naming a relational field, always resolve it from the perspective of the page that *carries* the field, not the page being *referenced*. A field on page A pointing to page B should be named to complete the sentence "A _____ B." If the sentence reads unnaturally from A's perspective, the field is on the wrong page or has the wrong name. Test the name before proposing it.
+
+**References:** DM-114

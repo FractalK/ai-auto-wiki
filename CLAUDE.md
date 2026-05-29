@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 05/24/2026 14:30 EST
+**Last Updated:** 05/29/2026 17:45 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -454,16 +454,33 @@ teaching_relevance:  # optional | boolean
 competency_domains:  # conditional | same as Topic
 professional_contexts: # conditional | same as Topic
 technical_depth:     # optional | same rules and values as Topic
-superseded_by:       # conditional | full-path wikilink; required when status: deprecated
+superseded_by:       # conditional | full-path wikilink; required when status: deprecated or
+                     #   discontinued; use only when the vendor has announced EOL or removed the
+                     #   tool from availability. Do NOT set for prior-generation model versions
+                     #   that remain available — use succeeded_by instead.
+prior_generation:    # optional | boolean; set to true when a newer version of this model-class
+                     #   tool exists and is the current flagship, but this version remains
+                     #   actively available (e.g., for cost or compatibility reasons). Omit
+                     #   (do not set false) on current-generation pages. Does NOT change status.
+                     #   Pages with prior_generation: true retain status: active, appear in
+                     #   index.md, run lint staleness checks normally, and are included in the
+                     #   Teaching Index.
+succeeded_by:        # optional | full-path wikilink; points to the immediate next-generation
+                     #   page in the same model lineage. Set on prior-generation pages alongside
+                     #   prior_generation: true. Points one step forward only — do not skip
+                     #   versions. Does not imply deprecation. Omit on current-generation pages.
 teaching_notes_reviewed: # conditional | same rules as Topic Section 5.2
 ```
 
 **Status definitions:**
-- `active` — tool is generally available and production-ready
+- `active` — tool is generally available and production-ready; includes prior-generation
+  model versions still available from the vendor
 - `emerging` — tool is in early access, preview, or beta
-- `deprecated` — tool has a planned end-of-life; `superseded_by` required; excluded from
-  lint staleness checks and Teaching Index generation
-- `discontinued` — tool is no longer available
+- `deprecated` — vendor has announced planned end-of-life; `superseded_by` required;
+  excluded from lint staleness checks and Teaching Index generation. Do NOT use for
+  model versions that remain available but are no longer the flagship — use
+  `prior_generation: true` instead.
+- `discontinued` — tool is no longer available from the vendor
 - `stub` — page created but lacks valid source coverage; pending re-ingest. Set only by
   the ingested-in-error correction procedure (Section 8.6). Because `last_assessed` is
   cleared on stub creation (Section 8.6 Step IE-4 option B), lint staleness checks do
@@ -1540,9 +1557,19 @@ meaningfully distinct by capability or pricing tier.
 
 - Always encode the version identifier in the filename slug at page creation. Never rename
   a page after creation.
-- When a version is superseded: set `status: deprecated`, populate `superseded_by`.
-- Deprecated pages are retained for historical wikilink resolution. Exclude them from
-  lint staleness checks and Teaching Index generation.
+- When a newer version is released but the prior version **remains available from the
+  vendor** (e.g., still listed in API docs, still purchasable): set `prior_generation: true`
+  and `succeeded_by: [[tools/newer-version-slug]]` on the prior-version page. Keep
+  `status: active`. Do NOT set `status: deprecated`. The prior-generation page continues
+  to run lint staleness checks and appears in the Teaching Index. Point one step forward
+  only — do not chain across multiple versions. When 4.9 is ingested, only 4.8 gains
+  `prior_generation: true` and `succeeded_by`; earlier pages (4.6, 4.7) are untouched.
+- When a version reaches **vendor-announced end-of-life or is removed from availability**:
+  set `status: deprecated`, populate `superseded_by`. Deprecated pages are retained for
+  historical wikilink resolution and are excluded from lint staleness checks and Teaching
+  Index generation.
+- When availability status is uncertain: stop and surface to the human as a forced choice
+  before setting `status: deprecated`.
 
 ### Application-class tools
 Definition: tools where version is not a user-facing selection decision.
