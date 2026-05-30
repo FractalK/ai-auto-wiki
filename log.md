@@ -7,6 +7,9 @@ last_entry: 2026-05-29
 entry_count: 97
 ---
 
+## [2026-05-29] skill-enrichment | wiki-lessons-learned.md § Ingest
+Case: OpenAI product announcement (openai.com domain) classified as vendor-content/practitioner by human override — content-purpose test overrides domain-match rule for product launch announcements from institutional lab domains.
+
 ## [2026-05-29 19:09 PT] session-stats | ingest
 Queue size at session start: 1 staged file
 Documents attempted: 1
