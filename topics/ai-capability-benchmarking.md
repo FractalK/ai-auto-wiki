@@ -2,11 +2,11 @@
 type: topic
 title: AI Capability Benchmarking
 created: 2026-05-18
-updated: 2026-05-27
+updated: 2026-05-29
 summary: The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 status: developing
-source_count: 3
-last_assessed: 2026-05-27
+source_count: 4
+last_assessed: 2026-05-29
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-alignment]]"
@@ -80,6 +80,13 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 | ClockBench accuracy — human baseline | 90.1% | Correctly formatted clocks; March 2026 | 2026-03 | [[2026-stanford-hai-ai-index]] | current |
 | AI math — IMO competition performance | Silver medal | International Mathematical Olympiad; natural language; within 4.5-hour limit | 2024-07 | [[2026-stanford-hai-ai-science-discovery]] | superseded |
 | AI math — hardest undergraduate mathematics exam | Perfect score | Carina Hong / Axiom AI assessment; hardest undergraduate math exam | 2025-12 | [[2026-stanford-hai-ai-science-discovery]] | current |
+| SWE-bench Verified — Claude Opus 4.6 | 80.8% | Adaptive thinking, max effort; 25-trial average; thinking blocks included in results | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| ARC-AGI-2 — Claude Opus 4.6 | 68.8% | High effort; private validation set; ARC Prize Foundation; new SOTA at release | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| ARC-AGI-1 — Claude Opus 4.6 | 94.0% | High effort; private validation set; ARC Prize Foundation; new SOTA at release | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| GPQA Diamond — Claude Opus 4.6 | 91.3% | Adaptive thinking, max effort; 5-trial average; 198 questions | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| Terminal-Bench 2.0 — Claude Opus 4.6 | 65.4% | Adaptive thinking, max effort; 1,335 trials; Harbor scaffold, Terminus-2 harness | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| MMMLU — Claude Opus 4.6 | 91.1% | Adaptive thinking, max effort; 5-trial average; 57 subjects, 14 non-English languages | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| OSWorld-Verified — Claude Opus 4.6 | 72.7% | 5-run average; 1080p; max 100 action steps | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
 
 ## Key Claims
 

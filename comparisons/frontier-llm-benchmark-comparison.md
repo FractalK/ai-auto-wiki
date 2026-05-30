@@ -2,7 +2,7 @@
 type: comparison
 title: Frontier LLM Benchmark Comparison
 created: 2026-05-18
-updated: 2026-05-28
+updated: 2026-05-29
 comparison_type: tool-vs-tool
 entities_compared:
   - "[[tools/anthropic-claude-opus-4-7]]"
@@ -11,7 +11,7 @@ entities_compared:
   - "[[tools/google-gemini-3-5-flash]]"
 use_case: Selecting a frontier AI model for agentic coding, knowledge work, and scientific research as of May 2026
 status: current
-source_count: 5
+source_count: 6
 related_topics:
   - "[[llm-fundamentals]]"
 ---
@@ -46,6 +46,16 @@ All benchmark figures are vendor-reported unless noted in Evidence Notes.
 ## Verdict
 
 Prefer [[anthropic-claude-opus-4-7]] when the primary task is production software engineering and output cost must stay at or below \$25 per 1M tokens. Prefer [[openai-gpt-5-5]] when the task requires state-of-the-art abstract reasoning (ARC-AGI-2), a 1M-token context window, or general knowledge work at GPT-5.5 pricing. Prefer [[openai-gpt-5-5-pro]] when the task involves frontier mathematics, multi-step multi-source web research, or scientific bioinformatics workflows and the \$180/1M output cost is acceptable. Prefer [[google-gemini-3-5-flash]] when the primary requirement is agentic task throughput at the lowest latency and cost in this comparison — vendor-claimed at 4x output speed and less than half the cost of comparable frontier models — and multi-agent coordination via MCP or Antigravity is within the deployment stack; note that all Gemini 3.5 Flash figures are vendor-reported and independently unverified.
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| SWE-bench Verified — Claude Opus 4.6 | 80.8% | Adaptive thinking, max effort; 25-trial average (prior generation baseline) | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| ARC-AGI-2 — Claude Opus 4.6 | 68.8% | High effort; prior generation baseline; SOTA at February 2026 release | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| GPQA Diamond — Claude Opus 4.6 | 91.3% | Adaptive thinking, max effort; 5-trial average; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| OSWorld-Verified — Claude Opus 4.6 | 72.7% | 5-run average; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| Terminal-Bench 2.0 — Claude Opus 4.6 | 65.4% | Adaptive thinking, max effort; 1,335 trials; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
 
 ## Evidence Notes
 

@@ -15,6 +15,9 @@ Google Workspace's continuous approach to mitigating indirect prompt injections 
 Mitigating prompt injection attacks with a layered defense strategy | https://security.googleblog.com/2025/06/mitigating-prompt-injection-attacks.html | industry-blog | institutional | nominated: 2026-04-30 [nominated — cited by [[2026-google-prompt-injection-wild]]]
 Visual feature injection in vision-language models (DeepStack) | https://arxiv.org/abs/2406.04334 | research-paper | peer-reviewed | nominated: 2026-05-27 [nominated — cited by [[2026-ibm-granite-4-1-models]], relevant to [[llm-fundamentals]]]
 Non-autoregressive generation for speech models | https://arxiv.org/abs/2603.08397 | research-paper | peer-reviewed | nominated: 2026-05-27 [nominated — cited by [[2026-ibm-granite-4-1-models]], relevant to [[llm-fundamentals]]]
+Pre-deployment auditing can catch an overt saboteur (Treutlein et al., 2026) | https://alignment.anthropic.com/2026/auditing-overt-saboteur/ | industry-blog | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-claude-opus-4-6-system-card]], relevant to [[ai-alignment]]]
+SHADE-Arena: Evaluating sabotage and monitoring in LLM agents (Kutasov et al., 2025) | https://arxiv.org/abs/2506.15740 | research-paper | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-claude-opus-4-6-system-card]], relevant to [[ai-alignment]]]
+Monitoring computer use via hierarchical summarization (Sumers et al., 2025) | https://alignment.anthropic.com/2025/summarization-for-monitoring/ | industry-blog | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-claude-opus-4-6-system-card]], relevant to [[ai-agentic-workflows]]]
 
 
 
