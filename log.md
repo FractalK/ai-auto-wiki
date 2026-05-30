@@ -7,6 +7,15 @@ last_entry: 2026-05-29
 entry_count: 97
 ---
 
+## [2026-05-29 19:09 PT] session-stats | ingest
+Queue size at session start: 1 staged file
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: no
+Time window: off-peak
+Source type mix: vendor-content: 1
+Notes: source reclassified from industry-blog/institutional to vendor-content/practitioner by human override; wiki-lessons-learned entry pending confirmation below
+
 ## [2026-05-29] ingest | Codex for (almost) everything
 Added: [[2026-openai-codex-feature-launch]]. Updated: [[ai-coding-agent-workflow-types]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2 ([[openai-codex]], [[2026-openai-codex-feature-launch]]).
 Note: source reclassified from industry-blog/institutional to vendor-content/practitioner by human override (product announcement, marketing purpose).
