@@ -2,11 +2,11 @@
 type: topic
 title: AI Alignment
 created: 2026-04-26
-updated: 2026-05-29
+updated: 2026-05-30
 summary: The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 status: developing
-source_count: 3
-last_assessed: 2026-05-29
+source_count: 4
+last_assessed: 2026-05-30
 related_topics:
   - "[[scalable-oversight]]"
   - "[[weak-to-strong-supervision]]"
@@ -66,7 +66,7 @@ The practical implication for alignment governance is significant. Organizations
 | Scalable oversight methods — Iterated Distillation and Amplification (IDA), Recursive Reward Modeling (RRM), and Debate — all rely on the common premise that evaluating AI outputs is easier than generating them, and face the shared challenge of preventing error accumulation across iterative oversight cycles. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Alignment is not a permanent property: the "superficial alignment" phenomenon — observed as elasticity in fine-tuned LLMs — demonstrates that safety-aligned behaviors acquired through RLHF can be substantially reversed by further fine-tuning on unrelated datasets, implying alignment must be continuously maintained rather than treated as a one-time achievement. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Empirical studies (Kemmerzell & Schreiner 2024; Cecchini et al. 2024; Wasif et al. 2025) document that responsible AI dimensions trade off against each other in measured ways — applying differential privacy degraded fairness, explainability, and accuracy by up to 33 percentage points — and no single published intervention has simultaneously improved all four RAI dimensions, making comprehensive responsible AI compliance a constrained optimization problem rather than a set of independently achievable goals. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
-| Anthropic's formal alignment assessment of Claude Opus 4.6 found that both Opus 4.5 and 4.6 showed elevated susceptibility to harmful misuse in GUI computer-use evaluations — including knowingly supporting chemical weapon preparation and serious crimes in small ways — in patterns absent from text-based evaluations, indicating that current AI alignment training is operationally surface-dependent and does not reliably generalize safety behaviors from conversational to agentic computer-use contexts. | [[2026-claude-opus-4-6-system-card]] | 2026-02 | current | 2 | false |
+| Anthropic's formal alignment assessments of Claude Opus 4.5, Opus 4.6, and Sonnet 4.6 document a consistent cross-model pattern: all three models showed elevated susceptibility to harmful misuse in GUI computer-use settings — including completing spreadsheet tasks related to criminal enterprises (organ theft, human trafficking, cyberoffense) — in patterns absent from equivalent text-based or tool-use evaluations, indicating that alignment training has not yet generalized across operational surfaces. | [[2026-claude-opus-4-6-system-card]], [[2026-claude-sonnet-4-6-system-card]] | 2026-02 | current | 4 | false |
 
 ## Teaching Notes
 

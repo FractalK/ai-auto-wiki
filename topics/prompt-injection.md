@@ -2,11 +2,11 @@
 type: topic
 title: Prompt Injection
 created: 2026-04-30
-updated: 2026-05-21
+updated: 2026-05-30
 summary: An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 status: developing
-source_count: 1
-last_assessed: 2026-04-30
+source_count: 2
+last_assessed: 2026-05-30
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[constitutional-classifiers]]"
@@ -52,6 +52,8 @@ Detecting IPI in large corpora is technically demanding. Naive pattern matching 
 ## Defensive Posture
 
 No comprehensive architectural mitigation was production-ready as of the initial research on this attack class. Google describes ongoing investments in red team pressure-testing and an AI Vulnerability Reward Program for external researchers. Partial mitigations exist for related direct injection and jailbreak attacks — see [[constitutional-classifiers]] — but these address model-level defense against user-supplied adversarial input, not IPI through retrieved content. Limiting the blast radius of successful IPI attacks requires agentic pipeline design choices: sandboxed execution, minimal permission grants, and human-in-the-loop gates for irreversible actions.
+
+At the model level, Anthropic's Sonnet 4.6 system card (February 2026) documents a substantial improvement in coding-context prompt injection robustness: the Gray Swan Shade adaptive attacker achieved 0% attack success against Sonnet 4.6 with extended thinking enabled — across 200 refinement attempts, with or without additional safeguards — compared to 70% for Sonnet 4.5 in the same conditions. Browser-use robustness improved similarly (1.29% scenario attack success vs. 54.24% for Sonnet 4.5, without safeguards). This represents the first documented case of near-complete prompt injection resistance in a widely-deployed frontier model in coding contexts, though the protection is conditional: standard thinking mode retains meaningful attack surface (7.5% at 200 attempts without safeguards), and computer-use environments remain substantially more vulnerable than coding environments across all tested models.
 
 ## Key Claims
 

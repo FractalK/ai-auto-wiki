@@ -2,10 +2,23 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-29
-last_entry: 2026-05-29
-entry_count: 97
+updated: 2026-05-30
+last_entry: 2026-05-30
+entry_count: 99
 ---
+
+## [2026-05-30 PT] session-stats | ingest
+Queue size at session start: 1 staged file
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: yes (context compaction mid-session; resumed from summary)
+Time window: off-peak
+Source type mix: policy-document: 1
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: pre-flight form generated in prior context window; execution pass completed in resumed session
+
+## [2026-05-30] ingest | Claude Sonnet 4.6 System Card
+Added: [[2026-claude-sonnet-4-6-system-card]]. Updated: [[anthropic-claude-sonnet-4-6]], [[ai-alignment]], [[reward-hacking]], [[prompt-injection]], [[ai-agentic-workflows-pitfalls]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2 ([[anthropic-claude-sonnet-4-6]], [[2026-claude-sonnet-4-6-system-card]]).
 
 ## [2026-05-29] skill-enrichment | wiki-lessons-learned.md § Ingest
 Case: OpenAI product announcement (openai.com domain) classified as vendor-content/practitioner by human override — content-purpose test overrides domain-match rule for product launch announcements from institutional lab domains.
