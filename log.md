@@ -11,6 +11,16 @@ entry_count: 95
 Added: [[2026-claude-opus-4-6-system-card]]. Updated: [[anthropic-claude-opus-4-6]], [[ai-alignment]], [[reward-hacking]], [[ai-agentic-workflows]], [[ai-capability-benchmarking]], [[ai-agentic-workflows-pitfalls]], [[ai-alignment-pitfalls]], [[frontier-llm-benchmark-comparison]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2.
 
 ## [2026-05-29 PT] session-stats | ingest
+Queue size at session start: 1 staged file
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: no (this session was Phase 2 continuation after prior session compaction during pre-flight)
+Time window: off-peak
+Source type mix: policy-document: 1
+Approx tokens (from /cost): unavailable (continuation session)
+Notes: HIGH-DENSITY source (53,637 words). Decomposed into 6 chapter chunks. All chunks processed in single session by reading original file in sections — chunk files retained in raw/staged/ until housekeeping. Prior session (same day) handled pre-flight and form generation.
+
+## [2026-05-29 PT] session-stats | ingest (prior session)
 Queue size at session start: 2
 Documents attempted: 2
 Documents completed: 1
