@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*125 pages. Last updated: 2026-05-29.*
+*127 pages. Last updated: 2026-05-29.*
 
 ---
 
@@ -75,6 +75,7 @@ professional roles, see the [[teaching-index]].
 - [[thomson-reuters-ask-practical-law-ai]] — Thomson Reuters's AI assistant for practical law questions, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab in 2024, comparable to Lexis+ AI.
 - [[openai-gpt-5-5]] — OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 - [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
+- [[openai-codex]] — OpenAI's AI-powered coding assistant desktop application for macOS and Windows, featuring background computer use, cross-session automations with scheduling, cross-session memory, an in-app browser for localhost development, image generation, and 90+ plugin integrations across the software development lifecycle.
 - [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
 - [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
 - [[google-gemini-3-5-flash]] — Google's frontier agentic model in the Flash speed tier, optimized for multi-step task execution, multi-agent coordination via the Antigravity harness, and coding workflows, with vendor-reported benchmark performance claimed to rival larger frontier models at lower latency and cost.
@@ -128,6 +129,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-google-gemini-3-5-flash-announcement]] — Kavukcuoglu, Google Blog, 2026-05-19, practitioner
 - [[2026-anthropic-claude-opus-4-8-announcement]] — Anthropic, 2026-05-28, institutional
 - [[2026-claude-opus-4-6-system-card]] — Anthropic, 2026-02, institutional
+- [[2026-openai-codex-feature-launch]] — OpenAI, 2026-04-16, practitioner
 
 ## Comparisons
 

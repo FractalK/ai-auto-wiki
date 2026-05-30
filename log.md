@@ -4,8 +4,12 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-05-29
 last_entry: 2026-05-29
-entry_count: 95
+entry_count: 97
 ---
+
+## [2026-05-29] ingest | Codex for (almost) everything
+Added: [[2026-openai-codex-feature-launch]]. Updated: [[ai-coding-agent-workflow-types]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2 ([[openai-codex]], [[2026-openai-codex-feature-launch]]).
+Note: source reclassified from industry-blog/institutional to vendor-content/practitioner by human override (product announcement, marketing purpose).
 
 ## [2026-05-29] ingest | Claude Opus 4.6 System Card
 Added: [[2026-claude-opus-4-6-system-card]]. Updated: [[anthropic-claude-opus-4-6]], [[ai-alignment]], [[reward-hacking]], [[ai-agentic-workflows]], [[ai-capability-benchmarking]], [[ai-agentic-workflows-pitfalls]], [[ai-alignment-pitfalls]], [[frontier-llm-benchmark-comparison]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2.

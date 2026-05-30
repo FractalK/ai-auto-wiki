@@ -2,16 +2,17 @@
 type: topic
 title: AI Coding Agent Workflow Types
 created: 2026-04-30
-updated: 2026-05-21
+updated: 2026-05-29
 summary: A taxonomy of AI coding agent interaction modes — IDE, terminal, pull request, and cloud — organized by deployment environment, autonomy level, and real-time control, used to match the right workflow type to the development task.
 status: developing
-source_count: 1
-last_assessed: 2026-04-30
+source_count: 2
+last_assessed: 2026-05-29
 related_topics:
   - "[[ai-agentic-workflows]]"
   - "[[llm-fundamentals]]"
 related_tools:
   - "[[anthropic-claude]]"
+  - "[[openai-codex]]"
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection
@@ -42,7 +43,9 @@ Pull request agents are structurally asynchronous. Rather than working alongside
 
 ## Cloud Agents
 
-Cloud agents offer the most autonomy. The developer describes a task; the agent works in a remote or managed environment; the agent later reports back with a branch, pull request, or prototype. This makes cloud agents suited for greenfield prototyping or work that takes longer than a developer would monitor live. Devin, Claude Code on the web, Codex web, and Cursor's Cloud Agents fall into this category. Access channels include Slack, issue trackers, and web browsers. The tradeoff is that real-time control is absent — the code runs on infrastructure outside the developer's machine, sometimes vendor-managed (Anthropic for Claude Code on the web, GitHub Actions for GitHub Copilot cloud agent), sometimes on machines the developer controls (Cursor's My Machines). Where code executes matters for compliance verification.
+Cloud agents offer the most autonomy. The developer describes a task; the agent works in a remote or managed environment; the agent later reports back with a branch, pull request, or prototype. This makes cloud agents suited for greenfield prototyping or work that takes longer than a developer would monitor live. Devin, Claude Code on the web, [[openai-codex|Codex web]], and Cursor's Cloud Agents fall into this category. Access channels include Slack, issue trackers, and web browsers. The tradeoff is that real-time control is absent — the code runs on infrastructure outside the developer's machine, sometimes vendor-managed (Anthropic for Claude Code on the web, GitHub Actions for GitHub Copilot cloud agent), sometimes on machines the developer controls (Cursor's My Machines). Where code executes matters for compliance verification.
+
+An emerging variant within the high-autonomy category is background computer use in desktop applications — agents running locally on the developer's machine, operating all installed applications via mouse and keyboard in the background without interfering with the developer's active work. [[openai-codex]]'s April 2026 update introduced this capability (vendor-reported), supporting multiple parallel agents in background sessions. This modality shares the asynchrony and autonomy of cloud agents but differs on two dimensions: execution stays on the developer's machine rather than vendor infrastructure, and the agent has access to every locally installed application rather than a configured remote environment.
 
 ## Workflow Overlap and Selection
 
