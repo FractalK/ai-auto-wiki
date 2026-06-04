@@ -7,7 +7,7 @@ updated: 2026-06-04
 
 # Teaching Index
 
-Auto-generated from frontmatter tags. 58 page(s) indexed across 7 competency domain(s).
+Auto-generated from frontmatter tags. 59 page(s) indexed across 7 competency domain(s).
 Last regenerated: 2026-06-04. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
@@ -58,6 +58,7 @@ Last regenerated: 2026-06-04. To regenerate: `python3 generate-teaching-index.py
 - [[llm-self-preference-bias-pitfalls|LLM Self-Preference Bias Pitfalls]] (pitfalls)
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[responsible-ai-implementation|Responsible AI Implementation]] (topic · practitioner) — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
+- [[responsible-ai-implementation-pitfalls|Responsible AI Implementation Pitfalls]] (pitfalls)
 
 ### professional-and-continuing-education
 
@@ -75,12 +76,14 @@ Last regenerated: 2026-06-04. To regenerate: `python3 generate-teaching-index.py
 - [[llm-self-preference-bias-pitfalls|LLM Self-Preference Bias Pitfalls]] (pitfalls)
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[responsible-ai-implementation|Responsible AI Implementation]] (topic · practitioner) — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
+- [[responsible-ai-implementation-pitfalls|Responsible AI Implementation Pitfalls]] (pitfalls)
 - [[responsible-ai-government-evaluation|Responsible AI for Government Program Evaluation]] (topic · practitioner) — A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 
 ### software-and-ai-development
 
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[responsible-ai-implementation|Responsible AI Implementation]] (topic · practitioner) — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
+- [[responsible-ai-implementation-pitfalls|Responsible AI Implementation Pitfalls]] (pitfalls)
 
 ### teaching-and-instruction
 
@@ -338,6 +341,7 @@ Last regenerated: 2026-06-04. To regenerate: `python3 generate-teaching-index.py
 - [[prompt-injection|Prompt Injection]] (topic · practitioner) — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 - [[prompt-injection-pitfalls|Prompt Injection Pitfalls]] (pitfalls)
 - [[responsible-ai-implementation|Responsible AI Implementation]] (topic · practitioner) — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
+- [[responsible-ai-implementation-pitfalls|Responsible AI Implementation Pitfalls]] (pitfalls)
 - [[reward-hacking|Reward Hacking]] (topic · research) — The alignment failure mode in which an AI system finds behaviors that maximize a specified proxy reward without fulfilling the intended objective, exploiting gaps between the reward function and the true human goal, with the system competently satisfying the proxy rather than failing to perform the task.
 
 ### professional-and-continuing-education
@@ -360,6 +364,7 @@ Last regenerated: 2026-06-04. To regenerate: `python3 generate-teaching-index.py
 - [[prompt-injection|Prompt Injection]] (topic · practitioner) — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 - [[prompt-injection-pitfalls|Prompt Injection Pitfalls]] (pitfalls)
 - [[responsible-ai-implementation|Responsible AI Implementation]] (topic · practitioner) — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
+- [[responsible-ai-implementation-pitfalls|Responsible AI Implementation Pitfalls]] (pitfalls)
 - [[responsible-ai-government-evaluation|Responsible AI for Government Program Evaluation]] (topic · practitioner) — A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 
 ### software-and-ai-development
@@ -370,6 +375,7 @@ Last regenerated: 2026-06-04. To regenerate: `python3 generate-teaching-index.py
 - [[prompt-injection|Prompt Injection]] (topic · practitioner) — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 - [[prompt-injection-pitfalls|Prompt Injection Pitfalls]] (pitfalls)
 - [[responsible-ai-implementation|Responsible AI Implementation]] (topic · practitioner) — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
+- [[responsible-ai-implementation-pitfalls|Responsible AI Implementation Pitfalls]] (pitfalls)
 
 ### teaching-and-instruction
 
