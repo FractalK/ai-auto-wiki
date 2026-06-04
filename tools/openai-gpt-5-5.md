@@ -2,7 +2,7 @@
 type: tool
 title: GPT-5.5
 created: 2026-04-30
-updated: 2026-05-18
+updated: 2026-06-04
 summary: OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 status: active
 vendor: OpenAI
@@ -29,7 +29,7 @@ primary_use_cases:
   - Knowledge work automation across professional domains
   - Scientific data analysis and research assistance
   - Computer use and multi-tool workflow automation
-source_count: 2
+source_count: 3
 last_assessed: 2026-05-18
 related_tools:
   - "[[openai-gpt-5-5-pro]]"
@@ -73,3 +73,13 @@ OpenAI states that GPT-5.5 was co-designed and trained with NVIDIA GB200 and GB3
 | OpenAI rates GPT-5.5's cybersecurity and biological/chemical capabilities as "High" under its Preparedness Framework — the highest level before Critical — triggering stricter deployment classifiers and a Trusted Access program for verified defenders. | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
 | GPT-5.5 achieves 85.0% on ARC-AGI-2 (Verified), an 11.7 percentage point improvement over GPT-5.4's 73.3%, and 95.0% on ARC-AGI-1, per OpenAI's April 2026 evaluation. *(vendor-sourced — treat comparative claims with caution)* | [[2026-openai-gpt-5-5-announcement]], [[2026-vellum-llm-leaderboard]] | 2026-04-28 | current | 2 | false |
 | GPT-5.5 scores 58.6% on SWE-Bench Pro (Public), below Claude Opus 4.7's 64.3% on the same benchmark; OpenAI notes that Anthropic has cited evidence of memorization in Claude's score on this evaluation. *(vendor-sourced — treat comparative claims with caution)* | [[2026-openai-gpt-5-5-announcement]] | 2026-04-28 | current | 1 | false |
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| API input price | \$5.00 per 1M tokens | Standard API list price, April 2026 | 2026-04 | [[2026-disappearing-ai-middle-class]] | current |
+| API output price | \$30.00 per 1M tokens | Standard API list price, April 2026 | 2026-04 | [[2026-disappearing-ai-middle-class]] | current |
+| Terminal-Bench 2.0 | 82.7% | Vendor-reported; evaluation methodology not independently verified | 2026-04 | [[2026-openai-gpt-5-5-announcement]] | current |
+| SWE-Bench Pro (Public) | 58.6% | Vendor-reported; OpenAI notes Anthropic has cited evidence of memorization in Claude's score on this benchmark | 2026-04 | [[2026-openai-gpt-5-5-announcement]] | current |
+| ARC-AGI-2 (Verified) | 85.0% | Vendor-reported | 2026-04 | [[2026-openai-gpt-5-5-announcement]], [[2026-vellum-llm-leaderboard]] | current |

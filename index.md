@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*138 pages. Last updated: 2026-06-04.*
+*141 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -81,6 +81,8 @@ professional roles, see the [[teaching-index]].
 - [[openai-codex]] — OpenAI's AI-powered coding assistant desktop application for macOS and Windows, featuring background computer use, cross-session automations with scheduling, cross-session memory, an in-app browser for localhost development, image generation, and 90+ plugin integrations across the software development lifecycle.
 - [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
 - [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
+- [[deepseek-v4-pro]] — DeepSeek's frontier open-weight model as of April 2026, a 1.6T-parameter Mixture-of-Experts model (49B active per token) with MIT license, 80.6% SWE-bench Verified score, and API pricing at approximately one-ninth of GPT-5.5 output token cost — text-only at launch.
+- [[deepseek-v4-flash]] — DeepSeek's low-cost open-weight model as of April 2026, a 284B-parameter MoE model (13B active per token) with MIT license and \$0.14/\$0.28 per million token pricing — self-hostable on mid-size team infrastructure and text-only at launch.
 - [[google-gemini-3-5-flash]] — Google's frontier agentic model in the Flash speed tier, optimized for multi-step task execution, multi-agent coordination via the Antigravity harness, and coding workflows, with vendor-reported benchmark performance claimed to rival larger frontier models at lower latency and cost.
 
 ## Sources
@@ -135,6 +137,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-openai-codex-feature-launch]] — OpenAI, 2026-04-16, practitioner
 - [[2026-claude-sonnet-4-6-system-card]] — Anthropic, 2026-02-17, institutional
 - [[2026-claude-opus-4-7-system-card]] — Anthropic, 2026-04-16, institutional
+- [[2026-disappearing-ai-middle-class]] — Janakiram MSV, 2026-04-26, practitioner
 - [[2025-three-obstacles-responsible-ai]] — Isık & Goswami, 2025-10-30, practitioner
 - [[2024-implement-ai-responsibly]] — Wade & Yokoi, 2024-05-10, practitioner
 - [[2025-roadmap-safer-ai-healthcare]] — Mello, Hernandez-Boussard & Shah, 2025-10-13, practitioner

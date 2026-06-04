@@ -30,7 +30,7 @@ primary_use_cases:
   - Document-heavy analysis and legal/financial workflows
   - Long-horizon agentic task execution
   - Vision-intensive document processing
-source_count: 4
+source_count: 5
 last_assessed: 2026-06-04
 related_tools:
   - "[[anthropic-claude-mythos-preview]]"
@@ -105,6 +105,8 @@ Claude Mythos Preview remains the top-aligned model in Anthropic's portfolio; Op
 | Humanity's Last Exam (no tools) | 46.9% | Max reasoning effort; 1M token cap; no web access | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
 | Humanity's Last Exam (with tools) | 54.7% | Max reasoning effort; 1M token cap; web search + code execution | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
 | BrowseComp | 79.3% | Adaptive thinking, max effort | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| API input price | \$5.00 per 1M tokens | Standard API list price, unchanged from Opus 4.6 | 2026-04 | [[2026-disappearing-ai-middle-class]] | current |
+| API output price | \$25.00 per 1M tokens | Standard API list price, unchanged from Opus 4.6 | 2026-04 | [[2026-disappearing-ai-middle-class]] | current |
 
 ## Teaching Notes
 
