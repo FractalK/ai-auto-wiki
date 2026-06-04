@@ -2,11 +2,11 @@
 type: topic
 title: AI in Medicine
 created: 2026-05-20
-updated: 2026-05-20
+updated: 2026-06-04
 summary: The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
 status: developing
-source_count: 2
-last_assessed: 2026-05-20
+source_count: 3
+last_assessed: 2026-06-04
 related_topics:
   - "[[ai-capability-benchmarking]]"
   - "[[ai-governance-policy]]"
@@ -54,6 +54,8 @@ AI-generated overviews now appear in 84%–92% of health-related Google searches
 
 Ethics discussion in medical AI publications grew from 37.1% in 2024 to 43.4% in 2025, with the absolute count more than doubling. The growth concentrated on governance rather than algorithmic or societal concerns. Biosecurity remains a notable gap: only 14 publications in 2025 addressed it. Global health publications show a different pattern — societal concerns (equity, justice, accessibility) ranked highest, a divergence from the governance-dominated mainstream.
 
+A 2025 JAMA report by Mello, Hernandez-Boussard, and Shah identifies four systemic priorities for responsible clinical AI adoption: multistakeholder engagement across developers, clinicians, regulators, and patients; robust real-world evaluation methods that go beyond technical performance metrics; a national data infrastructure for shared learning across health systems; and expanded FDA oversight with aligned funding incentives. The report notes that direct-to-consumer health apps — now numbering in the hundreds of thousands — are typically marketed as low-risk wellness tools and evade FDA regulatory scrutiny entirely, and that most health systems are adopting AI tools faster than they can evaluate them, lacking the in-house infrastructure for rigorous independent assessment.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -61,7 +63,7 @@ Ethics discussion in medical AI publications grew from 37.1% in 2024 to 43.4% in
 | Ambient AI documentation tools achieved measurable outcomes at enterprise scale in 2025: Sharp HealthCare reported an 83% reduction in note-writing effort; Northwestern Medicine reported a 112% return on investment; two sepsis prediction systems (TREWS and COMPOSER) reported 17%–18.7% relative mortality reductions in large-scale hospital deployments — demonstrating that narrow, workflow-constrained clinical AI can deliver verified outcomes when clinician oversight is maintained. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | A review of more than 500 published clinical AI studies found that nearly half relied on exam-style questions rather than real patient data and only 5% used actual clinical data; separately, the NOHARM benchmark found leading LLMs produced 11.8 to 14.6 severely harmful recommendations per 100 clinical cases — indicating that the clinical AI evidence base largely reflects simulated performance and that general-purpose LLMs pose safety risks in open-ended clinical reasoning tasks. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Microsoft's AI Diagnostic Orchestrator paired with OpenAI's o3 achieved 85.5% accuracy on diagnostically challenging NEJM cases versus approximately 20% among 21 practicing physicians, and OpenAI's o1-preview scored 86% on management reasoning compared with 34% for physicians using conventional resources — demonstrating that AI systems have surpassed most existing clinical reasoning benchmarks, though these results reflect isolated cognitive evaluations rather than real-world clinical integration. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
-| By December 2025, the FDA had authorized 1,357 AI/ML medical devices from 693 companies across 17 clinical specialties — with 258 authorizations in 2025 alone — but a peer-reviewed analysis of all 1,016 authorizations through December 2024 found only 2.4% of devices with clinical studies were supported by randomized controlled trial data, nearly all entering via the 510(k) substantial-equivalence pathway, indicating a substantial gap between regulatory authorization and clinical evidence quality. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+| By December 2025, the FDA had authorized 1,357 AI/ML medical devices from 693 companies across 17 clinical specialties — with 258 authorizations in 2025 alone — but a peer-reviewed analysis of all 1,016 authorizations through December 2024 found only 2.4% of devices with clinical studies were supported by randomized controlled trial data, nearly all entering via the 510(k) substantial-equivalence pathway, indicating a substantial gap between regulatory authorization and clinical evidence quality. | [[2026-stanford-hai-ai-index]], [[2025-roadmap-safer-ai-healthcare]] | 2026-04-01 | current | 3 | false |
 | In molecular AI, GPN-Star (200 million parameters) outperformed Evo 2 (40 billion parameters) on variant effect prediction tasks, and AlphaFold 3's FoldBench accuracy (63.10%) has not been surpassed by any of the larger cofolding models released since — replicating the pattern from general scientific AI benchmarks that specialized smaller models frequently exceed larger general-purpose models and that data quality rather than scale is the primary bottleneck for molecular AI performance. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Liability for AI-caused patient harm is legally unclear because no independent regulatory testing standard for medical AI exists and courts lack established frameworks for AI causation, creating compound exposure for hospitals from jury hostility to AI, developer liability disclaimers shifting risk to users, and the risk that patients can add informed consent claims to malpractice suits when AI involvement was not disclosed — with a counterintuitive dynamic in which transparent, high-performing models are more legally exposed than opaque, poorly performing ones because causation is easier to prove when a model's reasoning is interpretable. | [[2024-stanford-hai-healthcare-ai-liability]] | 2024-03-14 | current | 0.5 | false |
 

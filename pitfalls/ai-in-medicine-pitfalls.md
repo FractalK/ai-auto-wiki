@@ -2,11 +2,11 @@
 type: pitfalls
 title: AI in Medicine Pitfalls
 created: 2026-05-20
-updated: 2026-05-20
+updated: 2026-06-04
 parent_entity: "[[topics/ai-in-medicine]]"
 parent_type: topic
 status: current
-failure_mode_count: 8
+failure_mode_count: 10
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -19,6 +19,7 @@ professional_contexts:
 contributing_sources:
   - "[[2026-stanford-hai-ai-index]]"
   - "[[2024-stanford-hai-healthcare-ai-liability]]"
+  - "[[2025-roadmap-safer-ai-healthcare]]"
 teaching_notes_reviewed: 2026-05-20
 ---
 
@@ -26,7 +27,7 @@ teaching_notes_reviewed: 2026-05-20
 
 ### Regulatory authorization without clinical proof
 **Status:** active<br>
-**Source:** [[2026-stanford-hai-ai-index]]
+**Source:** [[2026-stanford-hai-ai-index]], [[2025-roadmap-safer-ai-healthcare]]
 
 Nearly all AI medical devices enter the market via the FDA's 510(k) substantial-equivalence pathway, which does not require clinical trials demonstrating efficacy or patient outcome improvement. A peer-reviewed analysis of all 1,016 FDA AI/ML device authorizations through December 2024 found only 2.4% supported by randomized controlled trial data. FDA authorization is evidence of substantial equivalence to a previously marketed device — not proof of clinical effectiveness.
 
@@ -42,6 +43,12 @@ Unlike pharmaceutical approval, which requires independent FDA-overseen clinical
 
 A review of more than 500 published clinical AI studies found that nearly half relied on exam-style questions rather than real patient data, and only 5% used actual clinical data. High benchmark performance on structured medical knowledge tasks does not transfer directly to safe and effective performance in integrated clinical workflows with real patients. Prospective clinical trials remain the minority of the evidence base.
 
+### Direct-to-consumer health apps evade FDA oversight
+**Status:** active<br>
+**Source:** [[2025-roadmap-safer-ai-healthcare]]
+
+Direct-to-consumer health apps — now numbering in the hundreds of thousands — are typically marketed as low-risk wellness tools, allowing them to avoid FDA regulatory scrutiny entirely. Tools used for business operations such as prior authorization or operating room scheduling algorithms, which shape patient access to care, also generally fall outside FDA review. The scope of AI operating in health-adjacent contexts without regulatory oversight substantially exceeds the set of FDA-authorized medical AI devices, creating a large blind spot in the current governance framework.
+
 ## Usage Antipatterns
 
 ### Treating FDA authorization as clinical proof of effectiveness
@@ -55,6 +62,12 @@ Clinicians, procurement teams, and administrators frequently treat FDA device au
 **Source:** [[2026-stanford-hai-ai-index]]
 
 The NOHARM benchmark found that leading general-purpose LLMs produce 11.8 to 14.6 severely harmful recommendations per 100 clinical cases, with 76.6% being errors of omission. High benchmark accuracy on structured medical knowledge tasks does not imply safe performance on open-ended clinical reasoning. General-purpose LLMs and workflow-constrained clinical AI tools (such as ambient documentation systems) have substantially different risk profiles that should not be conflated.
+
+### Health system infrastructure gap for clinical AI evaluation
+**Status:** active<br>
+**Source:** [[2025-roadmap-safer-ai-healthcare]]
+
+Most health systems are adopting AI tools faster than they can evaluate them, and few have the in-house infrastructure or dedicated resources to conduct rigorous independent assessments of clinical AI before or during deployment. In the absence of evaluation capacity, procurement decisions rely on vendor-reported performance data and regulatory authorization status rather than institution-specific validation — creating exposure to tools that may not generalize to the institution's patient population, care setting, or workflow context. The gap between the pace of adoption and the maturity of evaluation infrastructure is a system-wide phenomenon, not an outlier condition.
 
 ### Failing to document deployment details for auditability and litigation defense
 **Status:** active<br>
