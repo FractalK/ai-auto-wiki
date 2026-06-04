@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 05/29/2026 17:45 EST
+**Last Updated:** 06/04/2026 13:39 EST
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,

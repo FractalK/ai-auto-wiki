@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 05/26/2026 15:30 EST
+**Last Updated:** 06/04/2026 13:39 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -667,10 +667,15 @@ other formats) at Step 0:
    manifest-aware continuation path in Step 0). The manifest provides the pre-flight
    decisions, eliminating re-analysis.
 
-7. **Post-ingest housekeeping:** Move the original source file to `raw/processed/`,
-   delete all chunk files and the manifest from `raw/staged/` — but only after all
-   chunks are processed. Partial completion leaves chunks and manifest in place for
-   the next session.
+7. **Post-ingest housekeeping:** Execute only after all chunks are processed and
+   committed. Partial completion leaves chunks and manifest in place for the next
+   session.
+
+   - [ ] Move original source file from `raw/staged/` to `raw/processed/`
+   - [ ] Delete all chunk files (`{source-slug}_part-NN_*.txt`) from `raw/staged/`
+   - [ ] Delete the manifest (`{source-slug}_manifest.md`) from `raw/staged/`
+   - [ ] Verify `raw/staged/` is empty (or contains only unrelated in-progress sources)
+   - [ ] Commit: `chore: post-ingest housekeeping {source-slug}`
 
 **Execution pass (Phase 2 — wiki files written):**
 

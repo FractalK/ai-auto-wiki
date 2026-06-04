@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 05/29/2026 17:50 EST
+**Last Updated:** 06/04/2026 13:39 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1434,3 +1434,24 @@ Field renamed to `succeeded_by` in CLAUDE.md Sections 5.3 and 9 and in DM-114 be
 When naming a relational field, always resolve it from the perspective of the page that *carries* the field, not the page being *referenced*. A field on page A pointing to page B should be named to complete the sentence "A _____ B." If the sentence reads unnaturally from A's perspective, the field is on the wrong page or has the wrong name. Test the name before proposing it.
 
 **References:** DM-114
+
+---
+
+## LL-044 | TIMESTAMPS INVENTED RATHER THAN DERIVED FROM ACTUAL CURRENT TIME
+
+- **Date:** 2026-06-04
+- **Context:** End-of-chat ritual file delivery across multiple files in a single session.
+
+**Problem:**
+All five files delivered this session carried invented timestamps (17:00, 17:30, 17:45, 17:50, 18:00 EST) rather than the actual current time. The operator had to catch and correct this explicitly, supplying the real time (13:39 EST) before correct files could be delivered.
+
+**Root Cause:**
+The session instructions specify timestamp format (`MM/DD/YYYY HH:MM EST`) but do not specify the source of the time value. With no authoritative source named, the advisor defaulted to plausible-looking but fabricated times. The date was correct (derived from the system prompt); the time was not.
+
+**Fix Applied:**
+All five files re-delivered with correct timestamp 06/04/2026 13:39 EST. Session instructions updated with one additional sentence: "Use the actual current time as reported by the system or confirmed by the operator. Do not invent or approximate a timestamp."
+
+**Implication Going Forward:**
+When instructions specify a timestamp format, always derive the time value from an authoritative source — system-reported time or operator-confirmed time. If neither is available, ask before delivering. A correctly formatted invented timestamp is worse than no timestamp: it creates a false audit trail. Format compliance and value accuracy are separate requirements; both must be met.
+
+**References:** Session instructions (Last Updated line), all files delivered 2026-06-04

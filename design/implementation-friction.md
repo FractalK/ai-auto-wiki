@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 05/24/2026 14:30 EST
+**Last Updated:** 06/04/2026 13:39 EST
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -969,3 +969,15 @@ fields.
   threshold constants.
 - **Resolved:** 2026-05-24
 
+---
+
+## FRIC-044 | CHUNKED INGEST POST-INGEST HOUSEKEEPING NOT EXECUTED
+
+- **Date:** 2026-05-29
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** OPERATIONS.md — chunked PDF ingest workflow, Step 7 (post-ingest housekeeping)
+- **Symptom:** After completing all chunks of the Opus 4.7 system card ingest, the manifest file (`2026-claude-opus-4-7-system-card_manifest.md`) and all nine chunk files (`_part-01_` through `_part-09_`) remain in `raw/staged/`. The agent updated the manifest to reflect completion but did not execute the housekeeping step.
+- **Verdict:** Confirmed weakness — Step 7 exists and is unambiguous ("delete all chunk files and the manifest from `raw/staged/`") but was not followed. The agent's final action was updating the manifest checklist; the deletion step that follows was skipped. Likely cause: the agent treated manifest-update as the terminal action of the ingest loop and did not continue to the explicit housekeeping step. The step may need to be more visually prominent or structurally separated from the loop body to prevent it being treated as optional cleanup rather than a required terminal step.
+- **Fix plan:** Add a mandatory terminal checklist item to OPERATIONS.md Step 7 making deletion of chunk files and manifest an explicit, enumerated action — not prose embedded in a paragraph. Consider adding a verification line: after deletion, confirm `raw/staged/` contains only the original source file (now moved to `raw/processed/`) or is empty. This makes the completion state checkable, not just imperative.
+- **Resolved:** 2026-05-29
