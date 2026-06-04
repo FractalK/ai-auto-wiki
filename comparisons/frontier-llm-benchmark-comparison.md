@@ -2,7 +2,7 @@
 type: comparison
 title: Frontier LLM Benchmark Comparison
 created: 2026-05-18
-updated: 2026-05-29
+updated: 2026-06-04
 comparison_type: tool-vs-tool
 entities_compared:
   - "[[tools/anthropic-claude-opus-4-7]]"
@@ -51,15 +51,22 @@ Prefer [[anthropic-claude-opus-4-7]] when the primary task is production softwar
 
 | Metric | Value | Conditions | Measurement Date | Source | Status |
 |---|---|---|---|---|---|
-| SWE-bench Verified — Claude Opus 4.6 | 80.8% | Adaptive thinking, max effort; 25-trial average (prior generation baseline) | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
-| ARC-AGI-2 — Claude Opus 4.6 | 68.8% | High effort; prior generation baseline; SOTA at February 2026 release | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
-| GPQA Diamond — Claude Opus 4.6 | 91.3% | Adaptive thinking, max effort; 5-trial average; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
-| OSWorld-Verified — Claude Opus 4.6 | 72.7% | 5-run average; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
-| Terminal-Bench 2.0 — Claude Opus 4.6 | 65.4% | Adaptive thinking, max effort; 1,335 trials; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| SWE-bench Verified — Claude Opus 4.6 | 80.8% | Adaptive thinking, max effort; 25-trial average (prior generation baseline) | 2026-02 | [[2026-claude-opus-4-6-system-card]] | superseded |
+| ARC-AGI-2 — Claude Opus 4.6 | 68.8% | High effort; prior generation baseline; SOTA at February 2026 release | 2026-02 | [[2026-claude-opus-4-6-system-card]] | superseded |
+| GPQA Diamond — Claude Opus 4.6 | 91.3% | Adaptive thinking, max effort; 5-trial average; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | superseded |
+| OSWorld-Verified — Claude Opus 4.6 | 72.7% | 5-run average; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | superseded |
+| Terminal-Bench 2.0 — Claude Opus 4.6 | 65.4% | Adaptive thinking, max effort; 1,335 trials; prior generation baseline | 2026-02 | [[2026-claude-opus-4-6-system-card]] | superseded |
+| SWE-bench Verified — Claude Opus 4.7 | 87.6% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| SWE-bench Pro — Claude Opus 4.7 | 64.3% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| Terminal-Bench 2.0 — Claude Opus 4.7 | 69.4% | Thinking disabled; Harbor scaffold, Terminus-2 harness; 5-trial mean over 89 tasks | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| GPQA Diamond — Claude Opus 4.7 | 94.2% | Adaptive thinking, max effort; 10-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| ARC-AGI-2 — Claude Opus 4.7 | 75.83% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| OSWorld — Claude Opus 4.7 | 78.0% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
 
 ## Evidence Notes
 
-**Independent SWE-bench evaluation:** Vellum's LLM Leaderboard (April 2026) places Claude Opus 4.7 at 87.6% on SWE-bench — substantially above its vendor-reported SWE-Bench Pro figure of 64.3%. These are methodologically distinct evaluations; the Vellum figure should not be treated as a direct substitute for the SWE-Bench Pro figure in the table above. Source: [[2026-vellum-llm-leaderboard]].<br>
+**Claude Opus 4.7 system card benchmarks:** The Data Records section now includes official Anthropic benchmark figures from the Claude Opus 4.7 System Card (April 2026). These supersede the prior Opus 4.6 baseline rows for the same metrics. The main comparison table was constructed from Vellum LLM Leaderboard (vendor-aggregated) data; the system card data in Data Records is from Anthropic's own evaluations, which use the same benchmark names but potentially different harness configurations.<br>
+**Independent SWE-bench evaluation:** Vellum's LLM Leaderboard (April 2026) places Claude Opus 4.7 at 87.6% on SWE-bench Verified, consistent with the system card figure. SWE-Bench Pro (64.3%) is a methodologically distinct evaluation; the two figures are not directly comparable. Source: [[2026-vellum-llm-leaderboard]].<br>
 **Benchmark scope gaps:** OpenAI does not separately report GPT-5.5 Pro scores on ARC-AGI-2, Terminal-Bench 2.0, or Expert-SWE; the Pro variant's advantage appears concentrated in research-intensive and mathematics-heavy tasks. Claude Opus 4.7's ARC-AGI-2 score is not reported in available sources. Claude Opus 4.7 regresses from Opus 4.6 on BrowseComp (no absolute score reported).<br>
 **Cross-model SWE-Bench Pro comparisons:** The Claude Opus 4.7 SWE-Bench Pro figure (64.3%) and the FrontierMath T4 Claude Opus 4.7 figure (22.9%) in the table above are drawn from OpenAI's release materials and should be evaluated as vendor-sourced comparative claims.<br>
 **Gemini 3.5 Flash benchmark methodology:** All Gemini 3.5 Flash figures are drawn from Google's product blog announcement (vendor-reported) rather than the Vellum LLM Leaderboard used for the other three entities. Terminal-Bench 2.1 (Gemini, 76.2%) and Terminal-Bench 2.0 (GPT-5.5, 82.7%) are different benchmark versions and are not directly comparable; both appear in the "Agentic coding" row for contextual reference only. GDPval-AA and MCP Atlas scores have no equivalent figures available for the other models in this comparison's source set. Gemini 3.5 Flash pricing is vendor-stated as less than half the cost of comparable frontier models but specific per-token prices are not published in the available source.

@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-05-30
+updated: 2026-06-04
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*129 pages. Last updated: 2026-05-30.*
+*131 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -30,6 +30,7 @@ professional roles, see the [[teaching-index]].
 - [[weak-to-strong-supervision]] — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 - [[constitutional-classifiers]] — A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
 - [[llm-functional-emotions]] — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
+- [[ai-model-welfare]] — The research area assessing whether AI models may have morally relevant states — including functional analogs to affect, preferences, and distress — and developing methods to measure and improve those states, independent of the open question of subjective experience.
 - [[ai-agentic-workflows]] — A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, and the governance requirements — explicit rules, accountability structures, and AI offspring oversight — that distinguish agentic AI management from traditional human delegation.
 - [[ai-assisted-skills-training]] — A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[ai-in-higher-education]] — A framework for navigating AI use in higher education, covering three instructor approaches (Assign, Limit, Prohibit), student guidelines for evaluating AI output accuracy and learning impact, and institutional policy considerations around academic integrity and disclosure.
@@ -132,6 +133,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-claude-opus-4-6-system-card]] — Anthropic, 2026-02, institutional
 - [[2026-openai-codex-feature-launch]] — OpenAI, 2026-04-16, practitioner
 - [[2026-claude-sonnet-4-6-system-card]] — Anthropic, 2026-02-17, institutional
+- [[2026-claude-opus-4-7-system-card]] — Anthropic, 2026-04-16, institutional
 
 ## Comparisons
 

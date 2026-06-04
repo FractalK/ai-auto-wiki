@@ -2,10 +2,23 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-05-30
-last_entry: 2026-05-30
-entry_count: 99
+updated: 2026-06-04
+last_entry: 2026-06-04
+entry_count: 101
 ---
+
+## [2026-06-04] ingest | System Card: Claude Opus 4.7
+Added: [[2026-claude-opus-4-7-system-card]]. Updated: [[anthropic-claude-opus-4-7]], [[ai-alignment]], [[reward-hacking]], [[llm-functional-emotions]], [[ai-alignment-pitfalls]], [[frontier-llm-benchmark-comparison]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2 ([[2026-claude-opus-4-7-system-card]], [[ai-model-welfare]]).
+
+## [2026-06-04 PT] session-stats | ingest
+Queue size at session start: 1 staged file
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: yes (context compaction mid-session; resumed from summary)
+Time window: off-peak
+Source type mix: policy-document: 1
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: HIGH-DENSITY flag triggered (62,233 words); decomposed to 9 chunk files; all chunks processed in single session
 
 ## [2026-05-30 PT] session-stats | ingest
 Queue size at session start: 1 staged file

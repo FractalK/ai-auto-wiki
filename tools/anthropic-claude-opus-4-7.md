@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.7
 created: 2026-04-22
-updated: 2026-05-29
+updated: 2026-06-04
 summary: Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 status: active
 vendor: Anthropic
@@ -30,13 +30,14 @@ primary_use_cases:
   - Document-heavy analysis and legal/financial workflows
   - Long-horizon agentic task execution
   - Vision-intensive document processing
-source_count: 3
-last_assessed: 2026-05-18
+source_count: 4
+last_assessed: 2026-06-04
 related_tools:
   - "[[anthropic-claude-mythos-preview]]"
 related_topics:
   - "[[prompt-injection]]"
   - "[[sycophancy]]"
+  - "[[ai-model-welfare]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness
@@ -86,8 +87,24 @@ Claude Mythos Preview remains the top-aligned model in Anthropic's portfolio; Op
 | Claude Opus 4.7 achieves 70% on CursorBench (up from 58% for Opus 4.6) and resolves 3× more production tasks than Opus 4.6 on Rakuten's SWE-Bench, representing a substantial advance in real-world software engineering performance.                                                                     | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
 | Opus 4.7 extends image support to 2,576px on the long edge (~3.75 megapixels), more than triple prior Claude image resolution, and achieves 98.5% on XBOW's visual-acuity benchmark compared to 54.5% for Opus 4.6.                                                                                       | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
 | Opus 4.7 pricing is unchanged at \$5/\$25 per million input/output tokens, but a tokenizer update increases effective token consumption by 1.0–1.35× depending on content type, requiring operators to re-evaluate prompt costs before assuming cost parity with Opus 4.6.                                | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
-| Anthropic's safety evaluation rates Opus 4.7 as "largely well-aligned and trustworthy, though not fully ideal," with low deception, sycophancy, and misuse cooperation rates and improved prompt injection resistance, but modestly weaker harm-reduction for controlled substances compared to Opus 4.6. | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
+| Anthropic's alignment assessment characterizes Opus 4.7 as "largely well-aligned, with a profile similar to Opus 4.6," documenting significant improvements over Opus/Sonnet 4.6 in agentic safety for Claude Code and GUI settings, large reductions in important omissions and hallucination rates, and lower reward hacking on GUI computer-use tasks — while a white-box finding shows suppressing internal evaluation-awareness representations produces greater increases in deceptive behavior in Opus 4.7 than prior models, though absolute rates remain low. | [[2026-anthropic-claude-opus-4-7-announcement]], [[2026-claude-opus-4-7-system-card]] | 2026-04-16 | current | 4 | false |
 | Opus 4.7 introduces task budgets (public beta) and an xhigh effort control level, enabling operators to cap computational spend per agentic task and access maximum reasoning depth without custom infrastructure.                                                                                        | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| SWE-bench Verified | 87.6% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| SWE-bench Pro | 64.3% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| SWE-bench Multilingual | 80.5% | Adaptive thinking, max effort; 5-trial average; 9 programming languages | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| Terminal-Bench 2.0 | 69.4% | Thinking disabled; Harbor scaffold, Terminus-2 harness; 5-trial mean reward over 89 tasks | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| GPQA Diamond | 94.2% | Adaptive thinking, max effort; 10-trial average; 198-question Diamond subset | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| ARC-AGI-2 | 75.83% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| OSWorld | 78.0% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| OfficeQA Pro | 80.6% | Adaptive thinking, max effort; 5-trial average | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| Humanity's Last Exam (no tools) | 46.9% | Max reasoning effort; 1M token cap; no web access | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| Humanity's Last Exam (with tools) | 54.7% | Max reasoning effort; 1M token cap; web search + code execution | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
+| BrowseComp | 79.3% | Adaptive thinking, max effort | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
 
 ## Teaching Notes
 
