@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*131 pages. Last updated: 2026-06-04.*
+*133 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -134,6 +134,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-openai-codex-feature-launch]] — OpenAI, 2026-04-16, practitioner
 - [[2026-claude-sonnet-4-6-system-card]] — Anthropic, 2026-02-17, institutional
 - [[2026-claude-opus-4-7-system-card]] — Anthropic, 2026-04-16, institutional
+- [[2026-claude-opus-4-8-system-card]] — Anthropic, 2026-05-28, institutional
 
 ## Comparisons
 
@@ -160,6 +161,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-trustworthiness-pitfalls]] — parent: ai-trustworthiness
 - [[ai-in-science-pitfalls]] — parent: ai-in-science
 - [[algorithmic-monoculture-pitfalls]] — parent: algorithmic-monoculture
+- [[anthropic-claude-opus-4-8-pitfalls]] — parent: anthropic-claude-opus-4-8
 
 ## Teaching
 

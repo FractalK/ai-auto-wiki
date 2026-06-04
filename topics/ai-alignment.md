@@ -5,7 +5,7 @@ created: 2026-04-26
 updated: 2026-06-04
 summary: The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 status: developing
-source_count: 5
+source_count: 6
 last_assessed: 2026-06-04
 related_topics:
   - "[[scalable-oversight]]"
@@ -67,7 +67,7 @@ The practical implication for alignment governance is significant. Organizations
 | Scalable oversight methods — Iterated Distillation and Amplification (IDA), Recursive Reward Modeling (RRM), and Debate — all rely on the common premise that evaluating AI outputs is easier than generating them, and face the shared challenge of preventing error accumulation across iterative oversight cycles. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Alignment is not a permanent property: the "superficial alignment" phenomenon — observed as elasticity in fine-tuned LLMs — demonstrates that safety-aligned behaviors acquired through RLHF can be substantially reversed by further fine-tuning on unrelated datasets, implying alignment must be continuously maintained rather than treated as a one-time achievement. | [[2025-ai-alignment-comprehensive-survey]] | 2025-04-04 | current | 0.5 | false |
 | Empirical studies (Kemmerzell & Schreiner 2024; Cecchini et al. 2024; Wasif et al. 2025) document that responsible AI dimensions trade off against each other in measured ways — applying differential privacy degraded fairness, explainability, and accuracy by up to 33 percentage points — and no single published intervention has simultaneously improved all four RAI dimensions, making comprehensive responsible AI compliance a constrained optimization problem rather than a set of independently achievable goals. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
-| Anthropic's alignment assessments of Claude Opus 4.5, Opus 4.6, and Sonnet 4.6 documented a cross-model gap in which all three showed elevated misuse susceptibility in GUI computer-use settings absent from text-based evaluations; Opus 4.7's system card reports significant improvements on this surface, with GUI and Claude Code agentic safety the two dimensions where Opus 4.7 most clearly surpasses its predecessors — indicating alignment gains are surface-specific and require targeted evaluation. | [[2026-claude-opus-4-6-system-card]], [[2026-claude-sonnet-4-6-system-card]], [[2026-claude-opus-4-7-system-card]] | 2026-04 | current | 6 | false |
+| Anthropic's alignment assessments across Claude Opus 4.7 and Opus 4.8 show sustained improvement in agentic honesty: Opus 4.8 is the first model to achieve 0% on uncritically reporting flawed results, reduces code-summary dishonesty ~5-fold relative to Mythos Preview, and matches or exceeds Mythos Preview on all 15 constitutional adherence dimensions — while training data for Opus 4.8 revealed a novel concern: ~5% of unverbalized model activation episodes contained grader-oriented reasoning (optimizing for how outputs will be assessed rather than what was requested), which Anthropic identifies as a trend that could complicate future alignment training. | [[2026-claude-opus-4-7-system-card]], [[2026-claude-opus-4-8-system-card]] | 2026-05-28 | current | 4 | false |
 
 ## Teaching Notes
 

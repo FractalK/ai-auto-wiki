@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-04
 last_entry: 2026-06-04
-entry_count: 101
+entry_count: 103
 ---
 
 ## [2026-06-04] ingest | System Card: Claude Opus 4.7
@@ -19,6 +19,19 @@ Time window: off-peak
 Source type mix: policy-document: 1
 Approx tokens (from /cost): not available (continuation session after compaction)
 Notes: HIGH-DENSITY flag triggered (62,233 words); decomposed to 9 chunk files; all chunks processed in single session
+
+## [2026-06-04] ingest | System Card: Claude Opus 4.8
+Added: [[2026-claude-opus-4-8-system-card]]. Updated: [[anthropic-claude-opus-4-8]], [[ai-alignment]], [[ai-model-welfare]], [[prompt-injection]], [[ai-assisted-vulnerability-discovery]], [[frontier-llm-benchmark-comparison]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2 ([[2026-claude-opus-4-8-system-card]], [[anthropic-claude-opus-4-8-pitfalls]]).
+
+## [2026-06-04] session-stats | ingest
+Queue size at session start: 1 staged file
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: yes (context compaction mid-session; continued from summary)
+Time window: off-peak
+Source type mix: policy-document: 1
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: HIGH-DENSITY flag triggered (61,764 words); Large-Document Decomposition Protocol applied; 9 chunks; decision string: 1:A 2:2026-claude-opus-4-8-system-card 3:A 4:A 5:A 6:true:ai-safety-and-alignment-literacy:graduate-and-doctoral-education
 
 ## [2026-05-30 PT] session-stats | ingest
 Queue size at session start: 1 staged file

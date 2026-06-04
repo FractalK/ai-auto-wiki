@@ -2,11 +2,11 @@
 type: topic
 title: Prompt Injection
 created: 2026-04-30
-updated: 2026-05-30
+updated: 2026-06-04
 summary: An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 status: developing
-source_count: 2
-last_assessed: 2026-05-30
+source_count: 3
+last_assessed: 2026-06-04
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[constitutional-classifiers]]"
@@ -53,7 +53,9 @@ Detecting IPI in large corpora is technically demanding. Naive pattern matching 
 
 No comprehensive architectural mitigation was production-ready as of the initial research on this attack class. Google describes ongoing investments in red team pressure-testing and an AI Vulnerability Reward Program for external researchers. Partial mitigations exist for related direct injection and jailbreak attacks — see [[constitutional-classifiers]] — but these address model-level defense against user-supplied adversarial input, not IPI through retrieved content. Limiting the blast radius of successful IPI attacks requires agentic pipeline design choices: sandboxed execution, minimal permission grants, and human-in-the-loop gates for irreversible actions.
 
-At the model level, Anthropic's Sonnet 4.6 system card (February 2026) documents a substantial improvement in coding-context prompt injection robustness: the Gray Swan Shade adaptive attacker achieved 0% attack success against Sonnet 4.6 with extended thinking enabled — across 200 refinement attempts, with or without additional safeguards — compared to 70% for Sonnet 4.5 in the same conditions. Browser-use robustness improved similarly (1.29% scenario attack success vs. 54.24% for Sonnet 4.5, without safeguards). This represents the first documented case of near-complete prompt injection resistance in a widely-deployed frontier model in coding contexts, though the protection is conditional: standard thinking mode retains meaningful attack surface (7.5% at 200 attempts without safeguards), and computer-use environments remain substantially more vulnerable than coding environments across all tested models.
+At the model level, Anthropic's Sonnet 4.6 system card (February 2026) documents a substantial improvement in coding-context prompt injection robustness: the Gray Swan Shade adaptive attacker achieved 0% attack success against Sonnet 4.6 with extended thinking enabled — across 200 refinement attempts, with or without additional safeguards — compared to 70% for Sonnet 4.5 in the same conditions. Browser-use robustness improved similarly (1.29% scenario attack success vs. 54.24% for Sonnet 4.5, without safeguards). This established the first documented near-complete prompt injection resistance in a production frontier model in coding contexts.
+
+Claude Opus 4.8 (May 2026) shows mixed results relative to this baseline. Without safeguards, Opus 4.8 is less robust than Opus 4.7 in coding environments (7.03% vs. 2.34% per-attempt success with extended thinking; 57.5% vs. 60.0% success over 200 attempts) and substantially less robust in computer use (7.14% vs. 0.46% per-attempt). With deployed safeguards, however, Opus 4.8 achieves near-zero attack success in browser-use environments (0.0% without thinking mode; 0.5% with thinking across 129 scenarios). Anthropic hosted the first one-week live bug bounty for prompt injection during Opus 4.8's evaluation period, testing robustness directly against expert red-teamers across tool use, coding, and browser surfaces. The results confirm that model-level robustness and deployment-level safeguards are distinct and non-interchangeable protection layers.
 
 ## Key Claims
 
@@ -64,6 +66,7 @@ At the model level, Anthropic's Sonnet 4.6 system card (February 2026) documents
 | Distinguishing malicious IPI from benign content at web scale requires a coarse-to-fine approach — pattern matching, then LLM-based intent classification, then human validation — because naive keyword search produces predominantly false positive detections. | [[2026-google-prompt-injection-wild]] | 2026-04-23 | current | 2 | false |
 | IPI goals observed on the public web include SEO ranking manipulation, resource-exhaustion lure attacks against AI crawlers, data exfiltration, and destructive command injection; none showed the sophistication of advanced techniques published by security researchers in 2025. | [[2026-google-prompt-injection-wild]] | 2026-04-23 | current | 2 | false |
 | Google's Threat Intelligence Group asserts that as AI agents become more capable and as attackers adopt agentic AI for automation, both the scale and sophistication of IPI attacks are expected to grow in the near future, based on a shifting attacker cost/benefit calculus. | [[2026-google-prompt-injection-wild]] | 2026-04-23 | current | 2 | false |
+| Anthropic's Opus 4.8 system card documents that prompt injection robustness without safeguards regressed relative to Opus 4.7 in coding (7.03% vs 2.34% per-attempt with extended thinking) and computer use environments, while deployed safeguards achieved near-zero browser-use attack success (0.0%/0.5% without/with thinking) — confirming that model-level robustness and operator-deployed safeguards are distinct and non-interchangeable protection layers. | [[2026-claude-opus-4-8-system-card]] | 2026-05-28 | current | 2 | false |
 
 ## Teaching Notes
 
