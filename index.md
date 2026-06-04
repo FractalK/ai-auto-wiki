@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*134 pages. Last updated: 2026-06-04.*
+*137 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -51,6 +51,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-workforce-complementarity]] — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
 - [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while exhibiting large capability gaps across disciplines, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
+- [[responsible-ai-implementation]] — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
 - [[ai-in-medicine]] — The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
 - [[ai-efficiency-trap]] — The paradox in which AI productivity tools compress task time and produce higher performance expectations rather than reduced workload, creating a four-stage organizational cycle — initial gains, managerial recalibration, dependency acceleration, and expectation lock-in — that erodes worker agency and generates collectively unsustainable productivity standards across industries.
 - [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
@@ -134,6 +135,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-openai-codex-feature-launch]] — OpenAI, 2026-04-16, practitioner
 - [[2026-claude-sonnet-4-6-system-card]] — Anthropic, 2026-02-17, institutional
 - [[2026-claude-opus-4-7-system-card]] — Anthropic, 2026-04-16, institutional
+- [[2024-implement-ai-responsibly]] — Wade & Yokoi, 2024-05-10, practitioner
 - [[2025-roadmap-safer-ai-healthcare]] — Mello, Hernandez-Boussard & Shah, 2025-10-13, practitioner
 - [[2026-claude-opus-4-8-system-card]] — Anthropic, 2026-05-28, institutional
 
@@ -157,6 +159,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-higher-education-pitfalls]] — parent: ai-in-higher-education
 - [[ai-capability-benchmarking-pitfalls]] — parent: ai-capability-benchmarking
 - [[ai-efficiency-trap-pitfalls]] — parent: ai-efficiency-trap
+- [[responsible-ai-implementation-pitfalls]] — parent: responsible-ai-implementation
 - [[ai-in-medicine-pitfalls]] — parent: ai-in-medicine
 - [[ai-agentic-workflows-pitfalls]] — parent: ai-agentic-workflows
 - [[ai-trustworthiness-pitfalls]] — parent: ai-trustworthiness
