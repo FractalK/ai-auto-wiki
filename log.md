@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-04
 last_entry: 2026-06-04
-entry_count: 107
+entry_count: 108
 ---
+
+## [2026-06-04 PT] session-stats | ingest
+Queue size at session start: 4 staged files
+Documents attempted: 4
+Documents completed: 4
+Session limit hit: yes (context compaction mid-session; execution pass resumed from summary)
+Time window: off-peak
+Source type mix: publication-article: 4
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: pre-flight form generated in prior context window; all 4 sources and 6 decisions executed in resumed session
 
 ## [2026-06-04] ingest | The Disappearing AI Middle Class
 Added: [[2026-disappearing-ai-middle-class]]. Updated: [[openai-gpt-5-5]], [[anthropic-claude-opus-4-7]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 3 ([[2026-disappearing-ai-middle-class]], [[deepseek-v4-pro]], [[deepseek-v4-flash]]).
