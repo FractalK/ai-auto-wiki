@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*137 pages. Last updated: 2026-06-04.*
+*138 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -135,6 +135,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-openai-codex-feature-launch]] — OpenAI, 2026-04-16, practitioner
 - [[2026-claude-sonnet-4-6-system-card]] — Anthropic, 2026-02-17, institutional
 - [[2026-claude-opus-4-7-system-card]] — Anthropic, 2026-04-16, institutional
+- [[2025-three-obstacles-responsible-ai]] — Isık & Goswami, 2025-10-30, practitioner
 - [[2024-implement-ai-responsibly]] — Wade & Yokoi, 2024-05-10, practitioner
 - [[2025-roadmap-safer-ai-healthcare]] — Mello, Hernandez-Boussard & Shah, 2025-10-13, practitioner
 - [[2026-claude-opus-4-8-system-card]] — Anthropic, 2026-05-28, institutional
