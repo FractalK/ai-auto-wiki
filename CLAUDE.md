@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 06/04/2026 13:39 EST
+**Last Updated:** 06/05/2026 02:45 EST
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -915,6 +915,24 @@ provenance anchor for the page.
   `[derived]` claims as noted above.
 - When a new source contradicts a Key Claim, apply the three-path contradiction protocol
   in Section 8. Do not silently overwrite.
+
+**Key Claims overcap resolution (lint Step L11):** When a page has more than 5 Key Claims,
+the lint pass surfaces a forced choice with three options. You do not resolve overcap
+autonomously at ingest or lint time.
+
+- **Consolidate:** Merge two or more claims from the same source and date into a single
+  claim. Propose the merged claim text in the forced choice context. Execute in Phase 3
+  only after human confirmation. When consolidating: carry the highest Support Score of
+  the merged rows; preserve both source wikilinks comma-separated; set Date to the most
+  recent. Do not consolidate claims from different sources or claims with `Status: contested`.
+- **Defer 3 passes:** Suppress the overcap forced choice for the next 3 lint passes.
+  Record the deferral in the page's frontmatter as `claims_cap_deferred: N` where N is
+  the pass number of the deferring lint pass. Decrement on each subsequent pass; remove
+  the field when it reaches 0. The flag recurs on the 4th pass.
+- **Accept as-is:** Override the cap for this page permanently. Record the override in
+  the page's frontmatter as `claims_cap_override: true`. Lint does not flag this page
+  for overcap again unless the claim count increases beyond its count at the time of
+  the override. Log the override in `wiki-lessons-learned.md` under `## Lint`.
 
 **Self-check before writing Key Claims:** Verify — (a) claim count is 3–5; (b) each claim
 has a source wikilink or `[derived]` annotation; (c) each claim is a single assertable

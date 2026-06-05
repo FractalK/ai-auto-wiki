@@ -1,5 +1,5 @@
 # Ingest Decision Form — Implementation Plan
-**Last Updated:** 05/25/2026 20:00 EST
+**Last Updated:** 06/05/2026 02:45 EST
 
 ---
 
@@ -56,6 +56,7 @@ Used when exactly one option from a small lettered set is required.
 | Step 7 | Comparison page proposal | A=Create / B=Skip | A |
 | Step 7a | Pitfalls page proposal | A=Create or Update / B=Skip | A |
 | Step 9 | decay_exempt proposal | A=Yes / B=No | A |
+| Lint Step L11 (overcap) | Key Claims overcap — one card per overcapped page (skipping deferred/overridden). Context shows current count, proposed merged claim text (if consolidation candidates exist), and source/date of candidates. Option A is greyed out when no consolidation candidates exist. | A=Consolidate / B=Defer 3 passes / C=Accept as-is | B (no candidates); A (candidates exist) |
 | Lint Step L16 | Wikilink proliferation — batch forced choice. Numbered-row table shows target slug, source page, and context snippet for every Tier 1 candidate. Option B reveals a text input for subset range specification (see Section 5, subset-select sub-type). | A=Apply all / B=Apply subset / C=Review by page / D=Skip | C (first run); A (subsequent) |
 
 Step 0 option D is a special case: see `conditional-text` below.

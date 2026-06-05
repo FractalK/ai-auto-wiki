@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 06/04/2026 21:30 EST
+**Last Updated:** 06/05/2026 02:45 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1241,6 +1241,15 @@ the script assembled data but the agent must complete a judgment element:
 - **L9** (decay_exempt): evaluate whether each candidate claim is definitional/foundational
   or empirical (condition (a)). All context is in the findings file — no page read required.
 - **L11** (claim granularity): review flagged candidates. Confirm or dismiss.
+- **L11** (overcap): for each `key_claims_overcap` agent_review item, identify
+  consolidation candidates from `claims_summary` — rows sharing the same `source` value
+  AND the same `date` value, where `status` is not `contested`. Propose a merged claim
+  text that combines their assertions into one assertable sentence. If candidates exist,
+  set `consolidation_proposed` to the merged text and `consolidation_source` to the
+  shared source wikilink and date. If no candidates exist, set both to `null`. Promote
+  to a forced-choice item in the findings with `recommended` set to `"A"` when candidates
+  exist and `"B"` when they do not. Do not read the page file — all data is in the
+  findings item.
 - **L12c** (override categorization): categorize extracted override entry texts into the
   five root cause bins (Section 5.9). If any category has 3+ entries, mark for Schema
   Signals entry in Phase 3.
@@ -1665,6 +1674,33 @@ three or more sampled pages: flag as systemic drift — forced choice:
 
 Individual deviations below the three-page threshold: logged informational only.
 
+**Key Claims overcap — forced choice (one per overcapped page):**
+
+Key Claims count overcap is exempt from the three-page threshold. Each overcapped page
+surfaces its own forced choice regardless of how many other pages are overcapped.
+
+Before generating the forced choice, identify consolidation candidates: claims from the
+same source slug AND same date that are not `Status: contested`. Propose a merged claim
+text combining their assertions into a single sentence. If no consolidation candidates
+exist, set the context to "No consolidation candidates — manual review required."
+
+Skip this forced choice if `claims_cap_override: true` is set on the page, OR if
+`claims_cap_deferred: N` is set and N > 0 (decrement the counter in Phase 3 regardless).
+
+```
+[N] Key Claims overcap: [[page-slug]]
+    Current count: {N} claims (cap: 5)
+    Consolidation candidates: {proposed merged claim text, or "No consolidation candidates — manual review required"}
+    Source/date of candidates: {source wikilink, date, or "—"}
+    A) Consolidate — merge candidates in Phase 3 (requires consolidation candidates above)
+    B) Defer 3 passes — suppress this flag for the next 3 lint passes
+    C) Accept as-is — override cap permanently for this page; log to wiki-lessons-learned.md
+```
+
+Option A is unavailable (greyed out in the form) when no consolidation candidates exist.
+When option A is selected but the context field says "No consolidation candidates", halt
+and surface an error rather than proceeding.
+
 **Step L12 — Collection gap analysis**
 *(Group C — reads log.md, not wiki pages.)*
 
@@ -1904,7 +1940,8 @@ Populate `choices` with one `single-select` object per forced choice, in this or
 L4b items (one per open contradiction), L4c if triggered, L5 items (one per stale
 teaching-brief), L5a items (one per upgrade candidate), L7 items (one per concept gap),
 L9 items (one per decay_exempt proposal), L10 if triggered, L11 items (one per drift
-criterion), L12 items (one per collection gap), L12a if triggered, L12b if triggered,
+criterion), L11 overcap items (one per overcapped page, skipping deferred/overridden pages),
+L12 items (one per collection gap), L12a if triggered, L12b if triggered,
 L15 items (one per under-tagged page), L16 if triggered (one batch item for all
 wikilink candidates).
 Steps contributing no items add no objects to the array.
@@ -1963,6 +2000,8 @@ Informational summary — Lint pass {N} | {date} | Sessions: {N}
 - Data records stale (>90 days since last measurement): {N} — {wikilinks or "none"}
 - CTRD-NNN signals found in queue.md: {list or "none"}
 - Individual schema deviations (below drift threshold): {list or "none"}
+- Key Claims overcap pages (deferred): {N} — {page slugs with passes remaining, or "none"}
+- Key Claims overcap pages (cap override active): {N} — {page slugs, or "none"}
 - Potentially-addressed gaps: {list or "none"}
 - Nominations aging to stale (≥90 days): {N} — {titles or "none"}
 - Stale nominations being deleted (≥180 days): {N} — {titles or "none"}
@@ -2022,6 +2061,24 @@ skill file enrichment in the next ingest session.
     each confirmed page.
 5. Update `failure_mode_count` on all marked Pitfalls pages.
 6. Apply confirmed `decay_exempt: true` settings.
+6a. Process Key Claims overcap resolutions for all overcapped pages:
+    - **Option A (Consolidate):** For each confirmed consolidation: replace the candidate
+      rows with a single merged row. Set Claim to the proposed merged text confirmed in
+      Phase 2. Set Source to the comma-separated source wikilinks of the merged rows.
+      Set Date to the most recent date among merged rows. Set Support Score to the highest
+      of the merged rows. Set Status to `current` (only if neither merged row was
+      `contested`). Remove the merged rows. Write the updated page.
+    - **Option B (Defer 3 passes):** Set `claims_cap_deferred: {current_lint_pass_number}`
+      in the page's frontmatter. Do not modify the Key Claims table. The counter value
+      is the pass number at which deferral was granted; lint decrements it each subsequent
+      pass and skips the forced choice while N > 0.
+    - **Option C (Accept as-is):** Set `claims_cap_override: true` in the page's
+      frontmatter. Record the current claim count as `claims_cap_override_count: {N}`.
+      Append a `wiki-lessons-learned.md` entry under `## Lint`:
+      `[YYYY-MM-DD] Cap override: [[page-slug]] — {N} claims accepted`.
+    - **Deferral counter decrement (all overcapped pages, regardless of forced choice
+      result):** For any page where `claims_cap_deferred` is present and > 0, decrement
+      by 1. If the result is 0, remove the field.
 7. Create stub pages for confirmed concept gap choices.
 8. Write Schema Signals entries to `wiki-lessons-learned.md` if L12c detected patterns
    (auto-execute — no human confirmation).
@@ -2105,6 +2162,7 @@ Status-content inconsistencies (G5): {N} — {"none" or page slugs}
 Concept gaps surfaced: {N} — {confirmed/declined breakdown}
 decay_exempt confirmed: {N} — {wikilinks or "none"}
 Schema drift flags: {N} — {criteria or "none"}
+Key Claims overcap resolved: {N} consolidated | {N} deferred | {N} accepted-as-is
 Teaching relevance ratio: {N}% ({above/below} 20% threshold)
 Collection gaps confirmed: {N} | addressed: {N} | dismissed: {N}
 Nominations aged to stale: {N} — {titles or "none"}

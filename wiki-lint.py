@@ -1188,11 +1188,44 @@ def check_L11_schema_conformance(fm, body, page_slug, page_type, claims_rows, la
                 {"page": page_slug, "claim_count": claim_count, "criterion": "key_claims_count_low"},
             )
         elif claim_count > 5:
-            add_finding(
-                "L11", "informational", page_slug,
-                f"Key Claims count above maximum: {page_slug} has {claim_count} claims (maximum 5)",
-                {"page": page_slug, "claim_count": claim_count, "criterion": "key_claims_count_high"},
-            )
+            # Check skip conditions: deferred or overridden in frontmatter.
+            cap_deferred = fm.get("claims_cap_deferred", 0)
+            cap_override = fm.get("claims_cap_override", False)
+            if cap_override:
+                # Permanently overridden — informational only.
+                add_finding(
+                    "L11", "informational", page_slug,
+                    f"Key Claims overcap on {page_slug}: {claim_count} claims (cap override active)",
+                    {"page": page_slug, "claim_count": claim_count, "criterion": "key_claims_count_high_override"},
+                )
+            elif cap_deferred and int(cap_deferred) > 0:
+                # Deferred — informational only; Phase 3 will decrement counter.
+                add_finding(
+                    "L11", "informational", page_slug,
+                    f"Key Claims overcap on {page_slug}: {claim_count} claims (deferred, {cap_deferred} passes remaining)",
+                    {"page": page_slug, "claim_count": claim_count, "criterion": "key_claims_count_high_deferred",
+                     "cap_deferred": int(cap_deferred)},
+                )
+            else:
+                # No skip condition — route to agent_review for consolidation candidate
+                # identification and forced-choice promotion.
+                # Serialise claims_rows for the agent: include claim text, source, date,
+                # and status only (support score and decay_exempt not needed for consolidation).
+                claims_summary = [
+                    {
+                        "claim": r.get("claim", ""),
+                        "source": r.get("source", ""),
+                        "date": r.get("date", ""),
+                        "status": r.get("status", ""),
+                    }
+                    for r in claims_rows
+                ]
+                add_agent_review(
+                    "L11", "key_claims_overcap", page_slug,
+                    f"Key Claims overcap: {page_slug} has {claim_count} claims (cap: 5)",
+                    claim_count=claim_count,
+                    claims_summary=claims_summary,
+                )
 
     # Prose length
     word_count = count_prose_words(body)

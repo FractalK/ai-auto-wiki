@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 06/04/2026 21:45 EST
+**Last Updated:** 06/05/2026 02:45 EST
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -1007,3 +1007,16 @@ fields.
 - **Verdict:** Confirmed weakness. Phase 3 ended at step 14 ("delete `raw/lint-findings.json` and commit the deletion") with no subsequent step to commit the full set of Phase 3 changes and no push step. The ingest workflow has explicit Step 22d (commit) and Step 22a (push); the lint Phase 3 procedure had no equivalent. The agent committed only the findings-file deletion, leaving all substantive changes uncommitted.
 - **Fix plan:** Added steps 15 and 16 to Phase 3 in `OPERATIONS.md`: step 14 now stages the findings-file deletion without committing; step 15 runs `git add -A && git commit -m "lint: pass {N} — {YYYY-MM-DD}"` to commit all Phase 3 changes in a single commit; step 16 runs `git push origin HEAD:main` with the standard rejection fallback. Mirrors the ingest commit/push pattern.
 - **Resolved:** 2026-06-04
+
+---
+
+## FRIC-047 | KEY CLAIMS OVERCAP FLAG RECURS INDEFINITELY WITH NO RESOLUTION PATH
+
+- **Date:** 2026-06-05
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** `OPERATIONS.md` — Section 11.4, Step L11; `CLAUDE.md` — Section 6.1 Key Claims Rules; `ingest-ui-implementation-plan.md` — Section 2 Forced Choice Catalog
+- **Symptom:** After each lint or ingest pass, the D-flags section reports Key Claims overcap violations (e.g., `ai-alignment.md` at 7 claims, `responsible-ai-implementation.md` at 6 claims). The same flags recur on every subsequent pass with no mechanism to resolve, defer, or explicitly accept them. The operator receives identical informational output each time with no forced choice presented.
+- **Verdict:** Confirmed weakness — Step L11 detected Key Claims count overcap but classified it as informational, with no downstream resolution path. The three-page threshold for systemic drift forced choices excluded per-page overcap from forced-choice treatment. The result was an indefinitely recurring flag with no operator action possible.
+- **Fix plan:** (1) `CLAUDE.md` Section 6.1: added Key Claims overcap resolution options — Consolidate, Defer 3 passes, Accept as-is — with agent behavior for each, including `claims_cap_deferred` and `claims_cap_override` frontmatter fields. (2) `OPERATIONS.md` Step L11: added overcap forced choice block exempt from the three-page threshold, with consolidation candidate identification logic and skip conditions for deferred/overridden pages. Added Phase 3 execution steps 6a (all three resolution paths) and deferral counter decrement. Added overcap status lines to informational summary and lint log entry format. Updated Phase 2 choices ordering. (3) `ingest-ui-implementation-plan.md` Section 2: added Lint Step L11 (overcap) card to single-select catalog.
+- **Resolved:** 2026-06-05
