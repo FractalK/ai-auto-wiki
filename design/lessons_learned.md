@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 06/04/2026 13:39 EST
+**Last Updated:** 06/04/2026 21:30 EST
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1455,3 +1455,24 @@ All five files re-delivered with correct timestamp 06/04/2026 13:39 EST. Session
 When instructions specify a timestamp format, always derive the time value from an authoritative source — system-reported time or operator-confirmed time. If neither is available, ask before delivering. A correctly formatted invented timestamp is worse than no timestamp: it creates a false audit trail. Format compliance and value accuracy are separate requirements; both must be met.
 
 **References:** Session instructions (Last Updated line), all files delivered 2026-06-04
+
+---
+
+## LL-045 | FIXES TO GENERATED ARTIFACTS NOT BACKPORTED TO COMMITTED TEMPLATE
+
+- **Date:** 2026-06-04
+- **Context:** L16 wikilink proliferation table rendering in `lint-decisions.html`.
+
+**Problem:**
+The `parseContext` function (which renders pipe-delimited markdown tables as HTML `<table>` elements) was added to a prior generated `lint-decisions.html` but was never backported to `ingest-ui-template.html`, the committed template from which every new generated file is produced. On the next lint pass, a new `lint-decisions.html` was generated from the unmodified template, reverting the fix. The regression was only caught when the operator noticed the table rendering as ASCII text.
+
+**Root Cause:**
+The template-and-generation pattern creates two artifacts with the same name in different states: the committed template (persistent, the real source of truth) and the generated output (ephemeral, gitignored). When a fix is applied to the generated output for immediate usability and the session ends without backporting, the fix is silently lost at the next generation. There is no natural forcing function — the fixed generated file works, nothing fails visibly, and the template divergence is invisible until the next generation cycle.
+
+**Fix Applied:**
+`ingest-ui-template.html` updated with `parseContext`, `.context-table` CSS, and call-site replacements at all three render functions. FRIC-045 logged. The project knowledge copy of `lint-decisions.html` (which contains the correct state) served as the authoritative source for the backport.
+
+**Implication Going Forward:**
+Any time a fix is applied to a generated artifact (a file produced by injecting data into a committed template), the committed template must be updated in the same session before delivery. The rule is: fix the template first, then regenerate if needed — never fix the output and leave the template unchanged. If the template is not accessible in the current session, the FRIC entry must explicitly name the template as the fix target so it is not missed in the next session.
+
+**References:** FRIC-045, ingest-ui-implementation-plan.md Section 10

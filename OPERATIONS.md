@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 06/04/2026 13:39 EST
+**Last Updated:** 06/04/2026 21:30 EST
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -2060,8 +2060,29 @@ Last updated: YYYY-MM-DD (lint pass {N})
     prose section. Write updated pages. Do not link subsequent occurrences of the same
     term on the same page. Do not modify Key Claims tables, section headers, frontmatter
     fields, or code blocks. Skip if option D was selected.
-14. Delete `raw/lint-findings.json` and commit the deletion. Do not delete mid-pass.
-    Do not delete before Phase 3 completes.
+14. Delete `raw/lint-findings.json`. Stage the deletion with `git add raw/lint-findings.json`.
+    Do not delete mid-pass. Do not delete before Phase 3 completes.
+
+15. Commit all Phase 3 changes in a single commit:
+
+    ```
+    git add -A
+    git commit -m "lint: pass {N} — {YYYY-MM-DD}"
+    ```
+
+    This commit includes: all page edits (wikilinks, status updates, support scores,
+    frontmatter changes), `overview.md`, `log.md`, `teaching-index.md`, `queue.md`,
+    `raw/collection-gaps.md`, and the `raw/lint-findings.json` deletion staged in step 14.
+
+16. Push to remote:
+
+    ```
+    git push origin HEAD:main
+    ```
+
+    **Rejection fallback:** If the push is rejected (remote main has diverged), stop and
+    report the conflict to the human. Do not force-push. The human must resolve the
+    divergence before the lint pass is considered complete.
 
 ---
 

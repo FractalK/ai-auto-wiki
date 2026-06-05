@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- **Last Updated:** 06/04/2026 21:30 EST -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -103,6 +104,31 @@ body {
   margin-bottom: 14px; line-height: 1.65;
   white-space: pre-wrap;
 }
+
+/* ── Context prose + table (parseContext output) ── */
+.context-text { font-size: 14px; color: #374151; margin-bottom: 10px; line-height: 1.65; }
+.context-text:last-child { margin-bottom: 0; }
+.context-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; margin-bottom: 10px;
+  table-layout: auto;
+}
+.context-table th {
+  background: #f1f5f9; color: #1e2d3d;
+  font-weight: 700; font-size: 11px;
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 6px 10px; border: 1px solid #dde1e6;
+  white-space: nowrap;
+}
+.context-table td {
+  padding: 5px 10px; border: 1px solid #e5e7eb;
+  color: #374151; line-height: 1.4; vertical-align: top;
+}
+.context-table td:first-child { text-align: right; color: #9ca3af; width: 2em; }
+.context-table td:nth-child(2) { font-family: monospace; font-size: 12px; white-space: nowrap; }
+.context-table td:nth-child(3) { white-space: nowrap; }
+.context-table tbody tr:hover td { background: #f9fafb; }
+.context-note { font-size: 13px; color: #6b7280; margin-top: 8px; font-style: italic; }
 
 /* ── Option buttons ── */
 .opts { display: flex; flex-direction: column; gap: 7px; }
@@ -440,6 +466,59 @@ function buildDecisionString() {
   return line;
 }
 
+// ── Context parser ──────────────────────────────────────────────────────────
+// Converts a plain-text context string (which may contain a pipe-delimited markdown
+// table) into HTML. Prose lines → <p class="context-text">; table blocks → <table>.
+function parseContext(text) {
+  const lines = text.split('\n');
+  let html = '';
+  let i = 0;
+
+  // Separator line: only ASCII dashes, pipes, spaces — must contain at least one dash
+  function isSep(s) { return /^[-|\s]+$/.test(s) && s.includes('-'); }
+
+  while (i < lines.length) {
+    const line = lines[i];
+
+    // Table block: current line has pipes AND the very next line is a separator
+    if (i + 1 < lines.length && line.includes('|') && isSep(lines[i + 1])) {
+      const headers = line.split('|').map(h => h.trim()).filter(h => h !== '');
+      let tbl = '<table class="context-table"><thead><tr>';
+      tbl += headers.map(h => `<th>${esc(h)}</th>`).join('');
+      tbl += '</tr></thead><tbody>';
+      i += 2; // skip header and separator lines
+
+      while (i < lines.length && lines[i].includes('|')) {
+        const parts = lines[i].split('|').map(c => c.trim());
+        // Drop empty strings created by leading/trailing pipes
+        const cells = parts.filter((c, j, a) =>
+          !(j === 0 && c === '') && !(j === a.length - 1 && c === '')
+        );
+        tbl += '<tr>' + cells.map(c => `<td>${esc(c)}</td>`).join('') + '</tr>';
+        i++;
+      }
+      tbl += '</tbody></table>';
+      html += tbl;
+      continue;
+    }
+
+    if (line.trim() === '') { i++; continue; }
+
+    // Prose: collect consecutive non-blank, non-table-header lines
+    let para = '';
+    while (
+      i < lines.length &&
+      lines[i].trim() !== '' &&
+      !(lines[i].includes('|') && i + 1 < lines.length && isSep(lines[i + 1]))
+    ) {
+      para += (para ? '\n' : '') + lines[i];
+      i++;
+    }
+    if (para) html += `<p class="context-text">${esc(para)}</p>`;
+  }
+  return html;
+}
+
 // ── Rendering ───────────────────────────────────────────────────────────
 function renderSingleSelect(c) {
   const s = S[c.id];
@@ -464,7 +543,7 @@ function renderSingleSelect(c) {
     ${nullRec?`<span class="badge badge-req" id="req-badge-${c.id}" style="${needsSel?"":"display:none"}">Required — please select</span>`:""}
     <span class="badge badge-mod" id="mod-badge-${c.id}" style="${modFlag?"":"display:none"}">Modified</span>
   </div>
-  <p class="context">${esc(c.context)}</p>
+  <div class="context">${parseContext(c.context)}</div>
   <div class="opts">${optHtml}</div>
   <div class="card-foot">
     ${c.recommended!==null?`<a href="#" class="reset-link${modFlag?" show":""}" data-cid="${c.id}">Reset to recommended</a>`:""}
@@ -481,7 +560,7 @@ function renderTextWithDefault(c) {
     <span class="card-kind">Slug</span>
     <span class="badge badge-mod" id="mod-badge-${c.id}" style="${modFlag?"":"display:none"}">Modified</span>
   </div>
-  <p class="context">${esc(c.context)}</p>
+  <div class="context">${parseContext(c.context)}</div>
   <input type="text" class="slug-input" id="slug-${c.id}" data-cid="${c.id}" value="${esc(s.val)}">
   <div class="card-foot">
     <a href="#" class="reset-link${modFlag?" show":""}" data-cid="${c.id}">Reset to recommended</a>
@@ -509,7 +588,7 @@ function renderTeachingRelevance(c) {
     <span class="card-kind">Teaching Relevance</span>
     <span class="badge badge-mod" id="mod-badge-${c.id}" style="${modFlag?"":"display:none"}">Modified</span>
   </div>
-  <p class="context">${esc(c.context)}</p>
+  <div class="context">${parseContext(c.context)}</div>
   <div class="toggle-row">
     <button class="tog-btn accept${s.accept?" selected":""}" data-cid="${c.id}" data-tv="accept">Accept</button>
     <button class="tog-btn decline${!s.accept?" selected":""}" data-cid="${c.id}" data-tv="decline">Decline</button>

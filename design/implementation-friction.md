@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 06/04/2026 13:39 EST
+**Last Updated:** 06/04/2026 21:45 EST
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -981,3 +981,29 @@ fields.
 - **Verdict:** Confirmed weakness — Step 7 exists and is unambiguous ("delete all chunk files and the manifest from `raw/staged/`") but was not followed. The agent's final action was updating the manifest checklist; the deletion step that follows was skipped. Likely cause: the agent treated manifest-update as the terminal action of the ingest loop and did not continue to the explicit housekeeping step. The step may need to be more visually prominent or structurally separated from the loop body to prevent it being treated as optional cleanup rather than a required terminal step.
 - **Fix plan:** Add a mandatory terminal checklist item to OPERATIONS.md Step 7 making deletion of chunk files and manifest an explicit, enumerated action — not prose embedded in a paragraph. Consider adding a verification line: after deletion, confirm `raw/staged/` contains only the original source file (now moved to `raw/processed/`) or is empty. This makes the completion state checkable, not just imperative.
 - **Resolved:** 2026-05-29
+
+---
+
+## FRIC-045 | PARSECONTEXT TABLE RENDERING NOT IN COMMITTED TEMPLATE
+
+- **Date:** 2026-06-04
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** `ingest-ui-template.html` — committed template file; `parseContext` function and `.context-table` CSS block absent
+- **Symptom:** After a lint pass, the L16 wikilink proliferation table in `lint-decisions.html` renders as ASCII text (pipe characters, padded columns, dash separators) inside a `<p>` tag rather than as an HTML `<table>`. The context field is passed through `esc(c.context)` verbatim instead of through `parseContext(c.context)`.
+- **Verdict:** Confirmed weakness. The `parseContext` function and its supporting `.context-table` CSS were added to a prior generated `lint-decisions.html` but were never backported to `ingest-ui-template.html`, the committed source from which every new generated file is produced. Generated files are ephemeral (gitignored); the template is the durable artifact. Fixes applied to generated output without updating the template will regress on every subsequent generation.
+- **Fix plan:** Update `ingest-ui-template.html`: (1) add `.context-table` and `.context-text` CSS block after the existing `.context` rule; (2) add `parseContext(text)` function before `renderSingleSelect`; (3) replace `${esc(c.context)}` with `${parseContext(c.context)}` at the three call sites in `renderSingleSelect`, `renderTextWithDefault`, and `renderTeachingRelevance`. Deliver as a complete file. No other files require changes.
+- **Resolved:** 2026-06-04
+
+---
+
+## FRIC-046 | LINT PHASE 3 MISSING COMMIT AND PUSH STEPS
+
+- **Date:** 2026-06-04
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** `OPERATIONS.md` — Section 11.4, Phase 3 Execution Pass
+- **Symptom:** After a completed lint pass, wiki page changes (wikilink insertions, `overview.md` update, `log.md` entry, `teaching-index.md` regeneration) were left uncommitted and unpushed. The operator had to commit and push manually.
+- **Verdict:** Confirmed weakness. Phase 3 ended at step 14 ("delete `raw/lint-findings.json` and commit the deletion") with no subsequent step to commit the full set of Phase 3 changes and no push step. The ingest workflow has explicit Step 22d (commit) and Step 22a (push); the lint Phase 3 procedure had no equivalent. The agent committed only the findings-file deletion, leaving all substantive changes uncommitted.
+- **Fix plan:** Added steps 15 and 16 to Phase 3 in `OPERATIONS.md`: step 14 now stages the findings-file deletion without committing; step 15 runs `git add -A && git commit -m "lint: pass {N} — {YYYY-MM-DD}"` to commit all Phase 3 changes in a single commit; step 16 runs `git push origin HEAD:main` with the standard rejection fallback. Mirrors the ingest commit/push pattern.
+- **Resolved:** 2026-06-04

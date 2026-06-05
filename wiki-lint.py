@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# **Last Updated:** 05/25/2026 20:00 EST
+# **Last Updated:** 06/04/2026 21:30 EST
 """
 wiki-lint.py — Mechanical lint checks for the AI Effectiveness Wiki.
 
@@ -588,6 +588,67 @@ def count_prose_words(body):
         word_count += words
 
     return word_count
+
+
+def strip_non_prose(body):
+    """
+    Return only the prose lines from a page body, stripping structures that
+    would contaminate term-frequency analysis.
+
+    Excluded:
+    - Section headers (# / ## / ###)
+    - Key Claims table rows and content beneath the ## Key Claims heading
+    - Data Records table rows and content beneath the ## Data Records heading
+    - Teaching Notes section (## Teaching Notes through the next ## heading)
+    - All markdown pipe-table rows (| … |) including separator rows
+    - Fenced code blocks (``` … ```)
+
+    Used by check_L7_concept_gaps to ensure only real prose is tokenized.
+    """
+    lines = body.split("\n")
+    prose_lines = []
+    in_code_block = False
+    in_key_claims = False
+    in_data_records = False
+    in_teaching_notes = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Code block toggle
+        if stripped.startswith("```"):
+            in_code_block = not in_code_block
+            continue
+        if in_code_block:
+            continue
+
+        # Section heading — update state flags, always skip the heading line itself
+        if stripped.startswith("#"):
+            if "## " in stripped or stripped.startswith("## "):
+                # Top-level section transitions reset all structural flags
+                in_key_claims = False
+                in_data_records = False
+                in_teaching_notes = False
+                if "Key Claims" in stripped:
+                    in_key_claims = True
+                elif "Data Records" in stripped:
+                    in_data_records = True
+                elif "Teaching Notes" in stripped:
+                    in_teaching_notes = True
+            # Always skip header lines
+            continue
+
+        # Skip content under structural sections
+        if in_key_claims or in_data_records or in_teaching_notes:
+            continue
+
+        # Skip all table rows (pipe-delimited lines, including separator rows)
+        if stripped.startswith("|"):
+            continue
+
+        prose_lines.append(line)
+
+    return "\n".join(prose_lines)
 
 
 # ─── Group A: Singleton Checks ────────────────────────────────────────────────
@@ -1936,6 +1997,11 @@ def check_L7_concept_gaps(page_prose, index_slugs, valid_slugs):
     L7 (mechanical portion): Tokenize prose of Topic/Tool pages, find terms
     appearing in 3+ pages not covered by an existing page.
     D-category: outputs to agent_review.
+
+    Calls strip_non_prose() before tokenizing to exclude Key Claims tables,
+    Data Records tables, Teaching Notes sections, section headers, and code
+    blocks. Without this filter the candidate list is dominated by schema
+    column headers and structural boilerplate, producing zero signal.
     """
     term_pages = defaultdict(set)  # term -> set of page slugs
 
@@ -1959,7 +2025,7 @@ def check_L7_concept_gaps(page_prose, index_slugs, valid_slugs):
     }
 
     for page_slug, prose in page_prose.items():
-        words = re.findall(r'\b[a-z][a-z-]{3,}\b', prose.lower())
+        words = re.findall(r'\b[a-z][a-z-]{3,}\b', strip_non_prose(prose).lower())
         for word in words:
             if word not in stop_words and len(word) > 4:
                 term_pages[word].add(page_slug)
@@ -2321,18 +2387,9 @@ def check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path,
         src_rt = set(source_fm.get("related_topics") or [])
         src_rt_tools = set(source_fm.get("related_tools") or [])
 
-        # Normalise wikilink targets in these lists to bare slugs.
-        # Frontmatter values are stored as "[[slug]]" strings; extract inner
-        # content before calling wikilink_to_slug to avoid regex stripping
-        # the outer brackets incorrectly.
+        # Normalise wikilink targets in these lists to bare slugs
         def normalise_set(s):
-            slugs = set()
-            for v in s:
-                if not isinstance(v, str):
-                    continue
-                inner_links = extract_wikilinks(v)
-                slugs.add(wikilink_to_slug(inner_links[0] if inner_links else v))
-            return slugs
+            return {wikilink_to_slug(v) for v in s}
 
         src_rt = normalise_set(src_rt)
         src_rt_tools = normalise_set(src_rt_tools)
@@ -2352,30 +2409,6 @@ def check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path,
         tgt_dir = slug_to_dir.get(target_slug)
         if src_dir and tgt_dir and src_dir == tgt_dir:
             return True
-
-        # Pitfalls: parent_entity is the authoritative proximity signal
-        if source_fm.get("type") == "pitfalls":
-            parent = source_fm.get("parent_entity", "")
-            if parent:
-                for inner in extract_wikilinks(str(parent)):
-                    if wikilink_to_slug(inner) == target_slug:
-                        return True
-
-        # Comparison: any entity in entities_compared establishes proximity
-        if source_fm.get("type") == "comparison":
-            for entity in (source_fm.get("entities_compared") or []):
-                if isinstance(entity, str):
-                    for inner in extract_wikilinks(entity):
-                        if wikilink_to_slug(inner) == target_slug:
-                            return True
-
-        # Teaching-brief: any page in derived_from establishes proximity
-        if source_fm.get("type") == "teaching-brief":
-            for constituent in (source_fm.get("derived_from") or []):
-                if isinstance(constituent, str):
-                    for inner in extract_wikilinks(constituent):
-                        if wikilink_to_slug(inner) == target_slug:
-                            return True
 
         return False
 
