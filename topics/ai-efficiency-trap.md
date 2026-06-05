@@ -2,11 +2,11 @@
 type: topic
 title: AI Efficiency Trap
 created: 2026-05-20
-updated: 2026-05-20
+updated: 2026-06-04
 summary: The paradox in which AI productivity tools compress task time and produce higher performance expectations rather than reduced workload, creating a four-stage organizational cycle — initial gains, managerial recalibration, dependency acceleration, and expectation lock-in — that erodes worker agency and generates collectively unsustainable productivity standards across industries.
 status: developing
-source_count: 1
-last_assessed: 2026-05-20
+source_count: 2
+last_assessed: 2026-06-04
 related_topics:
   - "[[ai-agentic-workflows]]"
   - "[[ai-workforce-complementarity]]"
@@ -59,7 +59,7 @@ Research conducted before the AI adoption wave indicates that organizations main
 | Three-quarters (75%) of workers surveyed in 2024 were using AI at work, yet widespread adoption did not deliver the promised reduction in cognitive load — instead, many workers reported feeling simultaneously more productive and more overwhelmed as AI time savings converted immediately into additional deliverable volume rather than capacity for recovery or higher-value work. | [[2025-walther-ai-efficiency-trap]] | 2025-06-24 | current | 1 | false |
 | The AI efficiency trap operates as a four-stage organizational cycle — initial productivity gains, managerial recalibration of expectations upward, dependency acceleration and skill atrophy, and performance expectation lock-in — in which each productivity improvement becomes the new baseline and workers' autonomous decision-making capability progressively erodes through agency decay. | [[2025-walther-ai-efficiency-trap]] | 2025-06-24 | current | 1 | false |
 | Agency decay can escalate to learned technological helplessness in which workers report feeling incapable of performing their roles without AI assistance even for tasks they previously managed independently — a dynamic studies link to a statistically significant decrease in perceived personal agency — which simultaneously creates organizational resilience risk as workforces in this state become vulnerable when AI access is restricted or systems fail. | [[2025-walther-ai-efficiency-trap]] | 2025-06-24 | current | 1 | false |
-| The AI efficiency trap creates a collective action problem at industry level in which individually rational AI utilization decisions produce collectively irrational outcomes — unsustainable productivity expectations across entire industries — as each company's efficiency gains become the new competitive baseline, forcing all participants to accelerate AI utilization while working conditions and compensation do not improve commensurately. | [[2025-walther-ai-efficiency-trap]] | 2025-06-24 | current | 1 | false |
+| The AI efficiency trap creates a collective action problem at industry level in which individually rational AI utilization decisions produce collectively irrational outcomes — unsustainable productivity expectations across entire industries — as each company's efficiency gains become the new competitive baseline, forcing all participants to accelerate AI utilization while working conditions and compensation do not improve commensurately. | [[2025-walther-ai-efficiency-trap]], [[2026-futurism-corporations-ai-costs-no-benefits]] | 2026-05-29 | current | 2 | false |
 | The POZE framework (Perspective, Optimization, Zeniths, Exposure) proposes four organizational interventions for escaping the efficiency trap: maintaining a long-term strategic view over short-term output maximization, measuring value created rather than output volume, setting explicit maximum thresholds for workload increases following AI implementation, and preserving AI-free zones for strategic thinking and relationship building to protect critical human judgment capabilities. | [[2025-walther-ai-efficiency-trap]] | 2025-06-24 | current | 1 | false |
 
 ## Teaching Notes
