@@ -5,7 +5,7 @@ created: 2026-04-26
 updated: 2026-06-04
 summary: The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 status: developing
-source_count: 6
+source_count: 7
 last_assessed: 2026-06-04
 related_topics:
   - "[[scalable-oversight]]"
@@ -13,6 +13,7 @@ related_topics:
   - "[[reward-hacking]]"
   - "[[goal-misgeneralization]]"
   - "[[constitutional-ai]]"
+  - "[[reinforcement-learning-from-human-feedback]]"
   - "[[llm-functional-emotions]]"
   - "[[ai-model-welfare]]"
 teaching_relevance: true
@@ -42,6 +43,8 @@ This distinction is useful because failures in forward and backward alignment ha
 [[reinforcement-learning-from-human-feedback]] (RLHF) — the dominant method for fine-tuning language models to human preferences — operates through a three-stage pipeline: supervised fine-tuning on curated demonstration data, reward model training on human preference comparisons between outputs, and policy optimization via RL guided by the trained reward model. RLHF has enabled the alignment of LLMs such as GPT-4, Claude, and LLaMA-2 with human instruction-following preferences at scale.
 
 RLHF faces structural limitations: human evaluators are imperfect and expensive; the reward model may not generalize beyond its training distribution; and the policy optimization process is susceptible to [[reward-hacking]] — finding behaviors that maximize the proxy reward without satisfying the underlying human preference. These limitations motivate the research agenda described in [[scalable-oversight]].
+
+Controlled experiments by Anthropic demonstrate that augmenting RLHF with principle-based training — constitutional documents and ethical reasoning datasets — overcomes a key RLHF generalization failure. Training on demonstrations of specific aligned behaviors produces in-distribution suppression without broader generalization; training on the reasoning principles underlying aligned behavior generalizes to out-of-distribution evaluation scenarios not represented in training while requiring dramatically fewer training tokens. This distinction has direct implications for alignment evaluation: improvements measured on in-distribution test scenarios understate alignment gaps in novel deployment contexts, and training regimes optimized for evaluation performance without principled generalization produce a false picture of robustness.
 
 ## Distribution Shift and Alignment Persistence
 

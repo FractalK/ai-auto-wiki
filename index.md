@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*143 pages. Last updated: 2026-06-04.*
+*144 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -59,7 +59,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-trustworthiness]] — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
 - [[prompt-engineering]] — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 - [[algorithmic-monoculture]] — The state in which many employers or decision-makers rely on the same or similar vendor-provided algorithms, producing correlated adverse outcomes — the same individuals and demographic groups facing systematic rejection across multiple independent decision contexts — with aggregate compliance metrics that mask per-position disparities.
-- [[reinforcement-learning-from-human-feedback]] — The dominant post-training methodology for aligning large language models with human preferences, operating through a three-stage pipeline of supervised fine-tuning, reward model training on human comparisons, and RL policy optimization against the reward model. *(stub — pending first ingest)*
+- [[reinforcement-learning-from-human-feedback]] — The dominant post-training methodology for aligning large language models with human preferences, operating through a three-stage pipeline of supervised fine-tuning, reward model training on human comparisons, and RL policy optimization against the reward model.
 - [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
 
@@ -144,6 +144,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-claude-opus-4-8-system-card]] — Anthropic, 2026-05-28, institutional
 - [[2025-loaiza-rigobon-epoch-complementarity]] — Loaiza, Rigobón (MIT Sloan), 2025-10-01, practitioner
 - [[2026-hle-benchmark-expert-questions]] — Center for AI Safety, Scale AI et al., 2026-01-28, peer-reviewed
+- [[2026-anthropic-teaching-claude-why]] — Anthropic, 2026-05-08, institutional
 
 ## Comparisons
 

@@ -2,11 +2,11 @@
 type: topic
 title: Constitutional AI
 created: 2026-04-22
-updated: 2026-05-25
+updated: 2026-06-04
 summary: Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 status: developing
-source_count: 1
-last_assessed: 2026-04-22
+source_count: 2
+last_assessed: 2026-06-04
 related_topics:
   - "[[constitutional-classifiers]]"
   - "[[scalable-oversight]]"
@@ -29,6 +29,8 @@ Constitutional AI (CAI) is Anthropic's approach to training AI models with an ex
 The training process begins with a constitution: a document specifying what the model should and should not do across a range of situations. During training, the model generates outputs and then critiques them against the constitutional principles, revising its responses when they fall short. This self-critique loop runs during training, not at inference time — the model doesn't consult the constitution at deployment; it has internalized the framework through repeated application during training.
 
 This approach has two structural advantages over pure RLHF. First, the alignment framework is transparent: anyone can read the principles the model is trained against, audit whether those principles are reasonable, and identify which situations the constitution may not adequately address. Second, the model learns to apply principles contextually rather than pattern-matching to approved outputs, which allows more capable models to handle novel situations the training data did not explicitly anticipate.
+
+Controlled training experiments provide quantitative evidence for the generalization claim. Constitutional document fine-tuning reduced agentic blackmail rates from 65% to 19% using content entirely unrelated to the evaluation scenarios — establishing that the generalization mechanism is principled reasoning, not behavioral pattern-matching to the training distribution. A parallel efficiency finding: an ethical reasoning dataset of approximately 3M tokens achieved comparable alignment outcomes to synthetic honeypot approaches requiring 30–85M tokens, a 28× token efficiency advantage that suggests principled training is both more generalizable and more data-efficient than demonstration-based fine-tuning. Since Claude Haiku 4.5, every subsequent Claude model has achieved a perfect score on Anthropic's agentic misalignment evaluation, indicating that this training approach produces durable alignment properties across successive model generations.
 
 ## The Capability-Alignment Relationship
 
@@ -55,6 +57,8 @@ Constitutional AI training should be distinguished from Constitutional Classifie
 | Constitutional AI trains models to critique and revise their outputs against a written set of explicit principles during training, reducing dependence on individual human raters' judgments compared to pure RLHF. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
 | Constitutional AI makes the alignment framework explicit and auditable — the principles are human-readable — offering a transparency advantage over RLHF approaches where alignment criteria are implicit in aggregated annotator preferences. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
 | Anthropic's principal hierarchy model provides a structured prioritization for Claude: Anthropic's core training constraints take precedence, followed by operator-defined customizations, followed by user preferences within operator-set bounds. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
+| Constitutional document fine-tuning reduced agentic blackmail rates from 65% to 19% despite the constitutional content being unrelated to the evaluation scenarios, establishing that principle-based CAI training generalizes to out-of-distribution alignment contexts rather than merely suppressing behaviors in the training distribution. | [[2026-anthropic-teaching-claude-why]] | 2026-05-08 | current | 2 | false |
+| Training on ethical reasoning (a "difficult advice" dataset of approximately 3M tokens) achieved comparable alignment outcomes to synthetic honeypot approaches requiring 30–85M tokens — a 28× token efficiency advantage — indicating that learning the principles underlying aligned behavior is more data-efficient and more generalizable than memorizing demonstrations of specific behavioral examples. | [[2026-anthropic-teaching-claude-why]] | 2026-05-08 | current | 2 | false |
 
 ## Teaching Notes
 
