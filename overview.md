@@ -7,5 +7,5 @@ total_pages: 143
 total_sources: 57
 open_contradictions: 0
 last_contradiction_id: 1
-last_lint: 2026-05-25
+last_lint: 2026-06-04
 ---

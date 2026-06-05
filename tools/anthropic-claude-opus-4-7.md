@@ -76,7 +76,7 @@ One significant behavioral change in Opus 4.7 is mandatory adaptive thinking: th
 
 ## Alignment Properties
 
-Anthropic's safety evaluation rates Opus 4.7 as "largely well-aligned and trustworthy, though not fully ideal." The model shows low rates of deception, sycophancy, and misuse cooperation, and improved prompt injection resistance compared to Opus 4.6. One area of modest regression is harm-reduction for controlled substances. Anthropic's cybersecurity safeguards developed under Project Glasswing are incorporated into Opus 4.7, including a Cyber Verification Program for security researchers whose legitimate work would otherwise be affected by those safeguards.
+Anthropic's safety evaluation rates Opus 4.7 as "largely well-aligned and trustworthy, though not fully ideal." The model shows low rates of deception, [[sycophancy]], and misuse cooperation, and improved [[prompt-injection]] resistance compared to Opus 4.6. One area of modest regression is harm-reduction for controlled substances. Anthropic's cybersecurity safeguards developed under Project Glasswing are incorporated into Opus 4.7, including a Cyber Verification Program for security researchers whose legitimate work would otherwise be affected by those safeguards.
 
 Claude Mythos Preview remains the top-aligned model in Anthropic's portfolio; Opus 4.7 is positioned as the production-scale model for general deployment.
 

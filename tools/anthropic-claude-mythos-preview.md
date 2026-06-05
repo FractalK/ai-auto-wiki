@@ -2,7 +2,7 @@
 type: tool
 title: Claude Mythos Preview
 created: 2026-04-22
-updated: 2026-05-21
+updated: 2026-06-04
 summary: Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 status: emerging
 vendor: Anthropic
@@ -62,7 +62,7 @@ An Anthropic internal survey cited a 4× acceleration in engineer productivity f
 
 ## Alignment Approach
 
-Mythos Preview is trained using an evolved version of Anthropic's Constitutional AI framework, with more sophisticated reasoning about competing principles and edge cases than prior models. It is also the first Claude model trained with direct feedback from mechanistic interpretability research: Anthropic researchers identified specific circuits and attention patterns associated with problematic behaviors during training and used those findings to shape the model's development. Extended thinking — the ability to reason through problems step-by-step before producing a final output — is supported and functions as a form of self-monitoring that reduces impulsive harmful outputs.
+Mythos Preview is trained using an evolved version of Anthropic's [[constitutional-ai]] framework, with more sophisticated reasoning about competing principles and edge cases than prior models. It is also the first Claude model trained with direct feedback from mechanistic interpretability research: Anthropic researchers identified specific circuits and attention patterns associated with problematic behaviors during training and used those findings to shape the model's development. Extended thinking — the ability to reason through problems step-by-step before producing a final output — is supported and functions as a form of self-monitoring that reduces impulsive harmful outputs.
 
 Despite these advances, Anthropic characterizes the alignment challenge of Mythos Preview as unresolved. The model's most dangerous capabilities require safeguards that have not yet been deployed at scale. The planned path is to test new cybersecurity safeguards with an upcoming Claude Opus model before enabling Mythos-class capabilities for broad deployment.
 

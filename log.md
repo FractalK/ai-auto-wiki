@@ -4,8 +4,15 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-04
 last_entry: 2026-06-04
-entry_count: 111
+entry_count: 112
 ---
+
+## [2026-06-04] lint | pass 1
+Pages assessed: 102. Stale flags: 0. Contradiction flags: 0.
+Support scores recalculated: 0. Teaching Index regenerated.
+Collection gaps confirmed: 0 | addressed: 0 | dismissed: 0.
+L16 wikilinks applied: 4 (rows 4–7; rows 1–3, 8–10 skipped per Teaching Notes constraint).
+L7: 1,841 concept gap candidates dismissed — all schema metadata terms, Teaching Notes boilerplate, or common words. Script quality issue flagged.
 
 ## [2026-06-04 PT] session-stats | ingest
 Queue size at session start: 2 staged files

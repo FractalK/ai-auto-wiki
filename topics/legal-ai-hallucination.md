@@ -2,7 +2,7 @@
 type: topic
 title: Legal AI Hallucination
 created: 2026-04-25
-updated: 2026-05-25
+updated: 2026-06-04
 summary: The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 status: developing
 source_count: 1
@@ -26,7 +26,7 @@ teaching_notes_reviewed: 2026-04-30
 
 AI-powered legal research tools have emerged as a major product category, with companies like LexisNexis and Thomson Reuters releasing tools built on retrieval-augmented generation that claim to reduce or eliminate hallucination in legal research contexts. Nearly three-quarters of lawyers plan to use generative AI for legal work, with use cases spanning case law research, contract drafting, document review, and brief writing. The potential for hallucination — factual errors, invented citations, or misgrounded case law — in this high-stakes domain makes reliability benchmarking both essential and unusually consequential.
 
-A 2024 preprint study by Stanford RegLab and HAI researchers benchmarked three leading legal AI research tools — LexisNexis Lexis+ AI, Thomson Reuters Westlaw AI-Assisted Research, and Thomson Reuters Ask Practical Law AI — using a preregistered dataset of over 200 open-ended legal queries across four categories: general doctrine and case law, jurisdiction- and time-specific questions, false premise questions, and factual recall questions. The study provided empirical evidence against provider claims of "hallucination-free" performance.
+A 2024 preprint study by Stanford RegLab and HAI researchers benchmarked three leading legal AI research tools — LexisNexis Lexis+ AI, Thomson Reuters Westlaw AI-Assisted Research, and [[thomson-reuters-ask-practical-law-ai|Thomson Reuters Ask Practical Law AI]] — using a preregistered dataset of over 200 open-ended legal queries across four categories: general doctrine and case law, jurisdiction- and time-specific questions, false premise questions, and factual recall questions. The study provided empirical evidence against provider claims of "hallucination-free" performance.
 
 Westlaw AI-Assisted Research hallucinated more than 34 percent of the time — more than double the error rate of the other two tools. Lexis+ AI and Ask Practical Law AI hallucinated more than 17 percent of the time. Errors fell into two forms: outright incorrect statements of law, and misgrounded citations — the AI cited an authority that exists but does not in fact support the stated claim. The researchers note that misgrounded citations may be more dangerous than invented cases because they pass a basic URL existence check and appear as legitimate citations to a reviewing attorney.
 
