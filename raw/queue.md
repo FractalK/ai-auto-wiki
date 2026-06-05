@@ -1,8 +1,4 @@
 ## [queued]
-https://www.anthropic.com/research/teaching-claude-why
-https://openai.com/index/model-disproves-discrete-geometry-conjecture/
-https://futurism.com/artificial-intelligence/corporations-ai-costs-no-benefits
-https://thefoundation.limestonedigital.com/p/where-did-2t-go
 ## [nominated]
 Should We Respect LLMs? A Cross-Lingual Study on the Influence of Prompt Politeness on LLM Performance | https://doi.org/10.18653/v1/2024.sicon-1.2 | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[prompt-engineering]]]
 Emergent Analogical Reasoning in Large Language Models | https://doi.org/10.1038/s41562-023-01659-w | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[llm-fundamentals]]]
@@ -31,6 +27,11 @@ Monitoring computer use via hierarchical summarization (Sumers et al., 2025) | h
 
 
 ## [processed]
+
+https://www.anthropic.com/research/teaching-claude-why | processed: 2026-06-04 → [[2026-anthropic-teaching-claude-why]]
+https://openai.com/index/model-disproves-discrete-geometry-conjecture/ | fetch-failed: 2026-06-04
+https://futurism.com/artificial-intelligence/corporations-ai-costs-no-benefits | processed: 2026-06-04 → [[2026-futurism-corporations-ai-costs-no-benefits]]
+https://thefoundation.limestonedigital.com/p/where-did-2t-go | processed: 2026-06-04 → [[2026-limestone-2t-enterprise-ai-roi]]
 
 https://www.vellum.ai/llm-leaderboard | processed: 2026-05-18 → [[2026-vellum-llm-leaderboard]]
 https://bristol.libguides.com/ai-and-the-library/using-the-craap-framework | processed: 2026-05-18 → [[2026-bristol-craap-ai-evaluation]]

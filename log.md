@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-04
 last_entry: 2026-06-04
-entry_count: 112
+entry_count: 116
 ---
 
 ## [2026-06-04] lint | pass 1
@@ -165,6 +165,31 @@ Time window: off-peak
 Source type mix: vendor-content: 1, publication-article: 1
 Approx tokens (from /cost): unavailable (multi-session)
 Notes: Phase 1 pre-flight and form generation completed in prior context window; both sources fetched and processed in resumed session. Status correction: IBM Defense Model classified as emerging (not stub — stub is restricted to ingested-in-error correction procedure per schema).
+
+## [2026-06-04] ingest | Teaching Claude why
+Added: [[2026-anthropic-teaching-claude-why]]. Updated: [[constitutional-ai]], [[reinforcement-learning-from-human-feedback]], [[ai-alignment]], [[ai-alignment-pitfalls]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+Note: constitutional-ai source_count 1→2, 2 Key Claims added; reinforcement-learning-from-human-feedback stub→developing, first Key Claim added; ai-alignment prose-only update (page already at 7 Key Claims — overcap not worsened); ai-alignment-pitfalls +1 failure mode (Behavioral Suppression Without Generalization, count 16→17).
+
+## [2026-06-04] ingest | Corporations Reeling From Huge AI Costs With No Clear Benefits
+Added: [[2026-futurism-corporations-ai-costs-no-benefits]]. Updated: [[ai-efficiency-trap]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+Note: corroborating source added to collective action Key Claim; support score 1→2; source_count 1→2.
+
+## [2026-06-04] ingest | Where Did \$2T Go?
+Added: [[2026-limestone-2t-enterprise-ai-roi]]. Updated: [[responsible-ai-implementation]], [[responsible-ai-implementation-pitfalls]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+Note: vendor-content, vendor_bias: true; responsible-ai-implementation +1 Key Claim (budget allocation inversion) and prose update, source_count 2→3 — page now at 6 Key Claims (1 over cap, flagged for next lint); pitfalls +1 failure mode (budget allocation inversion, count 8→9).
+
+## [2026-06-04 PT] session-stats | ingest
+Queue size at session start: 4 (INGEST-QUEUE operation; 4 URLs in raw/queue.md [queued])
+Documents attempted: 4
+Documents completed: 3
+Session limit hit: yes — context compaction occurred between Phase 1 and Phase 2; resumed in continuation session
+Time window: peak
+Source type mix: industry-blog: 1, publication-article: 1, vendor-content: 1
+Approx tokens (from /cost): unavailable (multi-session)
+Notes: 1 fetch-failed (openai.com/index/model-disproves-discrete-geometry-conjecture/ — HTTP 403 Forbidden). Teaching Index regenerated. Two cap/over-cap flags for next lint: (1) ai-alignment.md at 7 Key Claims (pre-existing condition, no claims added this session); (2) responsible-ai-implementation.md at 6 Key Claims — recommend consolidating claims 1–3 (Translate/Integrate/Calibrate) into one claim at next lint pass.
 
 ## [2026-05-27] ingest | A First Look at IBM's New Large Language Model Fine-Tuned for Defense Applications
 Added: [[2025-ibm-llm-defense-applications]]. Updated: none. Contradictions flagged: 0.
