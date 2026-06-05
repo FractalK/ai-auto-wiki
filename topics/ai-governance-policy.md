@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-05-27
+updated: 2026-06-05
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 5
-last_assessed: 2026-05-27
+source_count: 6
+last_assessed: 2026-06-05
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -44,6 +44,8 @@ Infrastructure sovereignty is most visible: between 2018 and 2025, Europe and Ce
 The United States passed the most AI-related laws of any G20 country between 2016 and 2025 (25 total). At the state level, California leads with 62 bills enacted over the same period; Maryland (28) and Virginia (25) follow. Total US state AI bills rose from fewer than 10 in 2020 to 150 in 2025. Among notable 2025 measures: Texas's Responsible Artificial Intelligence Governance Act set rules against behavioral manipulation and child exploitation; Utah's HB 452 regulated mental health chatbots requiring AI disclosure and banning data sharing; California's SB 243 mandated AI companion safety protocols for minors. A December 2025 executive order directed the DOJ to challenge state AI laws considered overly burdensome, creating significant uncertainty about the durability of state frameworks.
 
 Congressional attention to AI grew nearly twentyfold since 2017, with AI-related witnesses rising from 5 in 2017 to 102 in 2025. Industry's share of witnesses tripled from 13% to 37%, becoming the largest witness group; government's share fell from 35% to 10%.
+
+In June 2026, a bipartisan congressional push emerged around AI biosecurity: the Biosecurity Modernization and Innovation Act of 2026 (Cotton-Klobuchar) proposed mandatory screening requirements for synthetic DNA and RNA sales, supported by an open letter co-signed by the CEOs of OpenAI, Anthropic, and Microsoft AI alongside synthetic material manufacturers. The letter represents the first coordinated ask from frontier AI developers for biosecurity regulation addressing their own technology's role in lowering biological weapon creation barriers. See [[ai-biosecurity]] for detailed treatment.
 
 ## US Federal Policy Evolution
 

@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-05
 last_entry: 2026-06-05
-entry_count: 119
+entry_count: 120
 ---
 
 ## [2026-06-05 PT] session-stats | ingest
@@ -16,6 +16,10 @@ Time window: off-peak
 Source type mix: industry-blog: 1, white-paper: 1
 Approx tokens (from /cost): not available (continuation session after compaction)
 Notes: Source 1 rescued from previously fetch-failed URL (2026-06-04 queue entry). Source 2 credibility: practitioner (NANDA commercial mandate + v0.1 preliminary). ai-in-science Key Claims now at 6; overcap deferred to lint per Choice 1:A.
+
+## [2026-06-05] ingest | AI CEOs from OpenAI, Anthropic, and Microsoft warn Congress AI enables bioweapon creation
+Added: [[2026-ai-ceos-bioweapon-congress]]. Updated: [[ai-governance-policy]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[ai-biosecurity]], [[2026-ai-ceos-bioweapon-congress]]).
 
 ## [2026-06-05] ingest | The GenAI Divide: State of AI in Business 2025
 Added: [[2025-mit-nanda-genai-divide]]. Updated: (none — new pages only). Contradictions flagged: 0.
