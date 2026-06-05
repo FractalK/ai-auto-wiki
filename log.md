@@ -4,8 +4,22 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-05
 last_entry: 2026-06-05
-entry_count: 117
+entry_count: 119
 ---
+
+## [2026-06-05 PT] session-stats | ingest
+Queue size at session start: 2 staged files
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: yes (context compaction between pre-flight and execution phases; resumed in continuation session)
+Time window: off-peak
+Source type mix: industry-blog: 1, white-paper: 1
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: Source 1 rescued from previously fetch-failed URL (2026-06-04 queue entry). Source 2 credibility: practitioner (NANDA commercial mandate + v0.1 preliminary). ai-in-science Key Claims now at 6; overcap deferred to lint per Choice 1:A.
+
+## [2026-06-05] ingest | The GenAI Divide: State of AI in Business 2025
+Added: [[2025-mit-nanda-genai-divide]]. Updated: (none — new pages only). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[2025-mit-nanda-genai-divide]], [[enterprise-ai-adoption]], [[enterprise-ai-adoption-pitfalls]]).
 
 ## [2026-06-05] ingest | An OpenAI Model Has Disproved a Central Conjecture in Discrete Geometry
 Added: [[2026-openai-discrete-geometry-conjecture]]. Updated: [[ai-in-science]]. Contradictions flagged: 0.

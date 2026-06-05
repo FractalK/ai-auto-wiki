@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*147 pages. Last updated: 2026-06-05.*
+*150 pages. Last updated: 2026-06-05.*
 
 ---
 
@@ -60,6 +60,7 @@ professional roles, see the [[teaching-index]].
 - [[prompt-engineering]] — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 - [[algorithmic-monoculture]] — The state in which many employers or decision-makers rely on the same or similar vendor-provided algorithms, producing correlated adverse outcomes — the same individuals and demographic groups facing systematic rejection across multiple independent decision contexts — with aggregate compliance metrics that mask per-position disparities.
 - [[reinforcement-learning-from-human-feedback]] — The dominant post-training methodology for aligning large language models with human preferences, operating through a three-stage pipeline of supervised fine-tuning, reward model training on human comparisons, and RL policy optimization against the reward model.
+- [[enterprise-ai-adoption]] — The organizational challenge of converting GenAI pilots into deployed workflows with measurable business value, characterized by a "GenAI Divide" in which 95% of organizations show zero P&L ROI while 5% extract millions — with adoption failures driven primarily by learning-incapable tools and organizational design failures rather than model limitations.
 - [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
 
@@ -148,6 +149,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-futurism-corporations-ai-costs-no-benefits]] — Tangermann (Futurism), 2026-05-29, practitioner
 - [[2026-limestone-2t-enterprise-ai-roi]] — Limestone Digital Team, 2026-06-02, practitioner
 - [[2026-openai-discrete-geometry-conjecture]] — OpenAI, 2026-05-20, institutional
+- [[2025-mit-nanda-genai-divide]] — Challapally, Pease, Raskar, Chari (MIT NANDA), 2025-07-01, practitioner
 
 ## Comparisons
 
@@ -176,6 +178,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-science-pitfalls]] — parent: ai-in-science
 - [[algorithmic-monoculture-pitfalls]] — parent: algorithmic-monoculture
 - [[anthropic-claude-opus-4-8-pitfalls]] — parent: anthropic-claude-opus-4-8
+- [[enterprise-ai-adoption-pitfalls]] — parent: enterprise-ai-adoption
 
 ## Teaching
 
