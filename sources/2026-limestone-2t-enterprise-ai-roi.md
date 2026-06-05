@@ -1,6 +1,6 @@
 ---
 type: source
-title: "Where Did \$2T Go?"
+title: "Where Did $2T Go?"
 created: 2026-06-04
 updated: 2026-06-04
 status: active
