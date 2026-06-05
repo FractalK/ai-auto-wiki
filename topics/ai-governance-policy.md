@@ -5,7 +5,7 @@ created: 2026-04-23
 updated: 2026-06-05
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 6
+source_count: 7
 last_assessed: 2026-06-05
 related_topics:
   - "[[ai-companion-risks]]"
@@ -32,6 +32,8 @@ AI governance encompasses the institutional, legal, and international mechanisms
 The most developed framework for international AI governance comes from advocates of preemptive limits on systems capable of causing civilizational harm. Analyst Tristan Harris proposes four regulatory red lines: mass labor displacement without transition infrastructure, AI-enabled surveillance states that permanently erode privacy, engagement-maximizing AI companions for minors, and deployment of uncontrollable superintelligent systems. These are proposed as the minimum scope for international coordination, analogous to the nuclear Non-Proliferation Treaty and the Montreal Protocol — precedents where adversarial countries coordinated on shared existential risks.
 
 A precedent for adversarial AI coordination exists: at China's request, the 2023–2024 Biden-Xi meetings produced an agreement preventing AI use in nuclear command and control systems, establishing that adversarial powers can coordinate when mutual existential stakes are recognized. The 2025 Paris AI Action Summit was the most significant multilateral AI governance event to date by signatory count. More than 100 countries participated; 64 — including the EU and the African Union — signed the Statement on Inclusive and Sustainable AI. The United States and United Kingdom declined to sign, signaling divergence between historically close governance partners. As of 2025, AI Safety Institutes are operational in the United Kingdom (established 2023), the United States (housed within NIST), Japan, Singapore, and Israel; India and France launched new institutes in 2025.
+
+In June 2026, Anthropic proposed that the world should have the option to slow or temporarily pause frontier AI development, conditional on building multi-party verification infrastructure analogous to nuclear arms control — arguing that without such infrastructure, a unilateral pause by any single lab would merely shift which lab leads rather than enabling genuine societal deliberation. The proposal is framed as dependent on other frontier developers and governments participating simultaneously under a common verification regime. See [[recursive-self-improvement]] for the technical context driving the proposal.
 
 ## AI Sovereignty
 

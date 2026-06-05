@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-05
 last_entry: 2026-06-05
-entry_count: 121
+entry_count: 122
 ---
 
 ## [2026-06-05 PT] session-stats | ingest
@@ -16,6 +16,11 @@ Time window: off-peak
 Source type mix: industry-blog: 1, white-paper: 1
 Approx tokens (from /cost): not available (continuation session after compaction)
 Notes: Source 1 rescued from previously fetch-failed URL (2026-06-04 queue entry). Source 2 credibility: practitioner (NANDA commercial mandate + v0.1 preliminary). ai-in-science Key Claims now at 6; overcap deferred to lint per Choice 1:A.
+
+## [2026-06-05] ingest | Anthropic says the world should have option to 'pause' on AI
+Added: [[2026-guardian-anthropic-pause-option]]. Updated: [[ai-governance-policy]], [[anthropic-claude-mythos-preview]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 1 ([[2026-guardian-anthropic-pause-option]]).
+Note: NSA embed Key Claim for anthropic-claude-mythos-preview (OC-2) and Anthropic pause Key Claim for ai-governance-policy (OC-1) deferred pending overcap forced choices. Prose updates applied to both pages.
 
 ## [2026-06-05] ingest | Wrongful Arrests Pile Up Due to Facial Recognition Technology
 Added: [[2026-aclu-facial-recognition-wrongful-arrests]]. Updated: (none — new pages only). Contradictions flagged: 0.

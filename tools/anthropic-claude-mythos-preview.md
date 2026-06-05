@@ -25,8 +25,8 @@ primary_use_cases:
   - Defensive vulnerability scanning in critical infrastructure
   - Autonomous security research and exploit analysis
   - Advanced software engineering and agentic coding tasks
-source_count: 3
-last_assessed: 2026-04-23
+source_count: 4
+last_assessed: 2026-06-05
 related_topics:
   - "[[ai-assisted-vulnerability-discovery]]"
   - "[[constitutional-ai]]"
@@ -69,6 +69,8 @@ Despite these advances, Anthropic characterizes the alignment challenge of Mytho
 ## Access and Pricing
 
 Project Glasswing partners receive access through the Claude API, Amazon Bedrock, Google Cloud Vertex AI, and Microsoft Foundry. Anthropic has committed up to \$100M in usage credits. After the research preview period, access is priced at \$25/\$125 per million input/output tokens. Open-source software maintainers can apply through the Claude for Open Source program. Security researchers whose legitimate work is affected by cybersecurity safeguards can apply to an upcoming Cyber Verification Program.
+
+In June 2026, the Financial Times reported (via The Guardian) that Anthropic engineers are embedded inside the National Security Agency, helping the NSA use Mythos for offensive cybersecurity operations — despite an ongoing legal dispute with the Pentagon over use of Anthropic tools. Separately, Anthropic filed for an IPO in June 2026 at a reported valuation of \$1 trillion. Neither development was officially confirmed by Anthropic at time of reporting.
 
 ## Key Claims
 

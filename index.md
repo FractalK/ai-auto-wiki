@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*155 pages. Last updated: 2026-06-05.*
+*156 pages. Last updated: 2026-06-05.*
 
 ---
 
@@ -154,6 +154,7 @@ professional roles, see the [[teaching-index]].
 - [[2025-mit-nanda-genai-divide]] — Challapally, Pease, Raskar, Chari (MIT NANDA), 2025-07-01, practitioner
 - [[2026-ai-ceos-bioweapon-congress]] — Marco Quiroz-Gutierrez (Fortune), 2026-06-05, practitioner
 - [[2026-aclu-facial-recognition-wrongful-arrests]] — Lauren Yu, Nathan Freed Wessler (ACLU), 2026-04-14, institutional
+- [[2026-guardian-anthropic-pause-option]] — Aisha Down (The Guardian), 2026-06-05, practitioner
 
 ## Comparisons
 
