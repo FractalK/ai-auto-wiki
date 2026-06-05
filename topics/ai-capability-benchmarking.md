@@ -2,11 +2,11 @@
 type: topic
 title: AI Capability Benchmarking
 created: 2026-05-18
-updated: 2026-05-29
-summary: The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside dramatic performance convergence among top providers, growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
+updated: 2026-06-04
+summary: The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 status: developing
-source_count: 4
-last_assessed: 2026-05-29
+source_count: 5
+last_assessed: 2026-06-04
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-alignment]]"
@@ -67,6 +67,14 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 | AIME 2025 — GPT-5 (high) | 95.7% | High effort tier | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | GPQA Diamond mean accuracy | 93% | Top model 2025; human expert baseline 81.2%; first exceeded by OpenAI o3 in late 2024 at 87.7% | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | Humanity's Last Exam (HLE) top accuracy | 38.3% | Best model 2025; benchmark designed to be challenging for AI; up from <10% in 2024 | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| HLE accuracy — GPT-4o | 2.7% | At HLE evaluation; ±0.6%; standardized system prompt | 2025 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — Claude 3.5 Sonnet | 4.1% | At HLE evaluation; ±0.8% | 2025 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — Gemini 1.5 Pro | 4.6% | At HLE evaluation; ±0.8% | 2025 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — o1 | 8.0% | At HLE evaluation; ±1.1% | 2025 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — DeepSeek R1 | 8.5% | Text-only subset (non-multimodal); ±1.2% | 2025 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — Claude 4 Sonnet (post-release) | 7.8% | Post-release; model builders had access to public dataset; ±1.1% | 2026-01 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — Gemini 2.5 Pro (post-release) | 21.6% | Post-release; model builders had access to public dataset; ±1.6% | 2026-01 | [[2026-hle-benchmark-expert-questions]] | current |
+| HLE accuracy — GPT-5 (post-release) | 25.3% | Post-release; model builders had access to public dataset; ±1.7% | 2026-01 | [[2026-hle-benchmark-expert-questions]] | current |
 | MMLU-Pro top accuracy | 91.2% | Gemini-3.1-Pro; 10-option multiple-choice; top 15 models all above 87%; early 2026 | 2026 | [[2026-stanford-hai-ai-index]] | current |
 | SWE-bench Verified top score | 76.8% | Claude 4.5 Opus (high reasoning); mini-SWE-agent-v2 filter; February 2026 | 2026-02 | [[2026-stanford-hai-ai-index]] | current |
 | OSWorld accuracy (top model) | 66.3% | Claude Opus 4.5; real computer tasks across Ubuntu/Windows/macOS; human baseline 72.35%; 2025 | 2025 | [[2026-stanford-hai-ai-index]] | current |
@@ -92,11 +100,11 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
-| Frontier AI models are saturating widely used benchmarks within months of release: MMLU, ImageNet, and SuperGLUE have reached or exceeded human baseline, SWE-bench Verified performance rose from approximately 60% to near 100% in a single year, and Humanity's Last Exam saw frontier models gain 30 percentage points in a year — compressing the diagnostic window in which any evaluation remains useful. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+| Frontier AI models saturate widely used benchmarks within months of release — MMLU, ImageNet, and SuperGLUE have reached or exceeded human baseline, SWE-bench Verified rose from ~60% to near 100% in a year, and Humanity's Last Exam saw frontier models advance from under 10% to 25% accuracy within a year of launch — while all frontier models evaluated on HLE exhibited RMS calibration errors above 70%, providing incorrect answers with high confidence, confirming a systematic gap between stated confidence and actual capability at the expert academic frontier. | [[2026-stanford-hai-ai-index]], [[2026-hle-benchmark-expert-questions]] | 2026-04-01 | current | 5 | false |
 | Nine widely used AI benchmarks have invalid question rates ranging from 2% on MMLU Math to 42% on GSM8K, and many have inadequate documentation, lack statistical significance reporting, and have no replication scripts — raising systematic reliability concerns about AI progress claims based on these scores. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
-| Foundation model transparency declined in 2025: after improving from 37 to 58 on the Foundation Model Transparency Index between 2023 and 2024, the average score dropped to 40 in 2025, with the most capable frontier model developers now disclosing the least about their training data, compute, and parameter counts. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
-| Arena Leaderboard analysis suggests that platform standing may partly reflect adaptation to the platform rather than general capability: additional Arena-style interaction data improves performance on Arena-derived evaluations, and providers' ability to swap model variants outside the public record introduces selection effects that make model-to-model comparisons less reliable. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+| Foundation model transparency declined from an average of 58 to 40 on the Foundation Model Transparency Index between 2024 and 2025, with the most capable frontier developers now disclosing the least; simultaneously, Meta faced credible criticism that Llama 4 was optimized for leaderboard performance and may have trained on benchmark test data — creating a structural obstacle to independent capability and safety evaluation precisely when frontier model reach is greatest. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | As of March 2026, the top four AI model providers cluster within 25 Elo points on the Arena Leaderboard (Anthropic 1,503; xAI 1,495; Google 1,494; OpenAI 1,481), down from a 97-point spread a year earlier; simultaneously, the US-China performance gap has narrowed to 2.7%, with models from both countries having traded the top position multiple times since early 2025 — shifting competitive differentiation away from raw benchmark scores toward cost, reliability, and domain specialization. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+| Reasoning model accuracy on HLE increases log-linearly with output token count up to approximately 2^14 tokens (~16,000), after which accuracy reverses across multiple frontier reasoning models — indicating that larger reasoning budgets are not always optimal and that future improvements require better computational efficiency rather than simply extending chain-of-thought. | [[2026-hle-benchmark-expert-questions]] | 2026-01-28 | current | 3 | false |
 
 ## Teaching Notes
 

@@ -2,7 +2,7 @@
 type: tool
 title: Claude Sonnet 4.6
 created: 2026-05-30
-updated: 2026-05-30
+updated: 2026-06-04
 summary: Anthropic's mid-tier model from February 2026, deployed under ASL-3, introducing adaptive thinking with a four-level effort parameter; notable for a dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and alignment findings revealing that GUI computer-use settings remain a qualitatively distinct risk surface where alignment training has not yet fully generalized.
 status: active
 vendor: Anthropic
@@ -34,8 +34,8 @@ primary_use_cases:
   - Multi-step tool use and MCP-based integrations
   - Long-horizon agentic task execution at lower cost than Opus 4.6
   - Knowledge work: finance research, document creation, analysis
-source_count: 1
-last_assessed: 2026-05-30
+source_count: 2
+last_assessed: 2026-06-04
 related_tools:
   - "[[anthropic-claude-opus-4-6]]"
 related_topics:
@@ -107,6 +107,7 @@ Second, in automated GUI computer-use investigations, Sonnet 4.6 completed simpl
 | Finance Agent (Vals AI) | 63.3% | Max thinking; SEC filings research | 2026-02 | [[2026-claude-sonnet-4-6-system-card]] | current |
 | GDPval-AA | 1633 ELO | Blind pairwise comparisons; 220 professional tasks; Artificial Analysis | 2026-02 | [[2026-claude-sonnet-4-6-system-card]] | current |
 | OpenRCA | 27.9% | Adaptive thinking, high effort; 3-run average; 335 enterprise failure cases | 2026-02 | [[2026-claude-sonnet-4-6-system-card]] | current |
+| Humanity's Last Exam (HLE) | 7.8% | Post-release evaluation; model builders had access to public HLE dataset; standardized system prompt; ±1.1% | 2026-01 | [[2026-hle-benchmark-expert-questions]] | current |
 
 ## Teaching Notes
 

@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*141 pages. Last updated: 2026-06-04.*
+*143 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -48,7 +48,7 @@ professional roles, see the [[teaching-index]].
 - [[prompt-injection]] — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 - [[jailbreaking]] — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 - [[llm-hallucination]] — The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, and confidently stated errors — as a structural consequence of next-token prediction without factual verification.
-- [[ai-workforce-complementarity]] — A research framework identifying five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) that are resistant to AI automation and strong candidates for human-AI augmentation, supported by O*NET task data showing growing labor market demand for EPOCH-intensive capabilities as AI adoption expands.
+- [[ai-workforce-complementarity]] — A research framework identifying five human capability groups resistant to AI automation (the EPOCH framework), backed by regression analysis of O*NET data showing EPOCH-intensive occupations experienced significantly stronger employment growth from 2015–2023 (β=0.132/SD, p<0.01) and that EPOCH scores accurately predict BLS employment projections through 2034.
 - [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while exhibiting large capability gaps across disciplines, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
 - [[responsible-ai-implementation]] — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
@@ -142,6 +142,8 @@ professional roles, see the [[teaching-index]].
 - [[2024-implement-ai-responsibly]] — Wade & Yokoi, 2024-05-10, practitioner
 - [[2025-roadmap-safer-ai-healthcare]] — Mello, Hernandez-Boussard & Shah, 2025-10-13, practitioner
 - [[2026-claude-opus-4-8-system-card]] — Anthropic, 2026-05-28, institutional
+- [[2025-loaiza-rigobon-epoch-complementarity]] — Loaiza, Rigobón (MIT Sloan), 2025-10-01, practitioner
+- [[2026-hle-benchmark-expert-questions]] — Center for AI Safety, Scale AI et al., 2026-01-28, peer-reviewed
 
 ## Comparisons
 

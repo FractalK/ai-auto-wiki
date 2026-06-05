@@ -2,11 +2,11 @@
 type: pitfalls
 title: AI Capability Benchmarking Pitfalls
 created: 2026-05-20
-updated: 2026-05-20
+updated: 2026-06-04
 parent_entity: "[[topics/ai-capability-benchmarking]]"
 parent_type: topic
 status: current
-failure_mode_count: 8
+failure_mode_count: 10
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection
@@ -19,6 +19,7 @@ professional_contexts:
   - professional-and-continuing-education
 contributing_sources:
   - "[[2026-stanford-hai-ai-index]]"
+  - "[[2026-hle-benchmark-expert-questions]]"
 teaching_notes_reviewed: 2026-05-20
 ---
 
@@ -61,6 +62,18 @@ Arena Leaderboard Elo ratings reflect human voting preferences on model outputs,
 **Source:** [[2026-stanford-hai-ai-index]]
 
 Benchmark scores are only comparable when produced under identical conditions: same prompting approach, same tool use, same evaluation methodology. On MMLU-Pro, models using chain-of-thought substantially outperform those answering directly. On Berkeley Function Calling, prompt mode and function-calling mode produce different scores for the same model. Comparing a score produced under one condition to a score produced under another produces no meaningful ranking. The growing use of nonstandard prompting techniques by frontier developers makes model-to-model comparisons in publicly reported results structurally unreliable.
+
+### Calibration overconfidence on expert-level evaluations
+**Status:** active<br>
+**Source:** [[2026-hle-benchmark-expert-questions]]
+
+All frontier models evaluated on Humanity's Last Exam exhibited root mean square (RMS) calibration errors above 70%, consistently providing incorrect answers with high confidence on questions they cannot solve. A well-calibrated model's stated confidence should match its actual accuracy — a model claiming 50% confidence should be right roughly half the time. On HLE, this alignment breaks down systematically: models frequently assert high confidence on questions that are simply beyond their capabilities. Users who treat model confidence as a proxy for correctness will systematically overestimate performance on genuinely hard tasks, particularly in high-stakes domains such as medicine, law, or mathematics where the questions may sit at or beyond the frontier of model knowledge.
+
+### Reasoning token budget reversal
+**Status:** active<br>
+**Source:** [[2026-hle-benchmark-expert-questions]]
+
+On Humanity's Last Exam, accuracy increases log-linearly with reasoning token output up to approximately 2^14 tokens (~16,000), after which accuracy reverses across multiple frontier reasoning models. This means that allocating a larger reasoning budget does not always improve results and can reduce performance beyond a model- and task-specific threshold. Practitioners who assume that maximum reasoning effort produces maximum accuracy — for instance, by always selecting the highest inference budget tier — may see degraded outputs beyond an optimal threshold. The inversion point is not predictable without empirical evaluation on the target task and model, and vendors do not typically disclose where it occurs.
 
 ## Alignment and Safety Concerns
 

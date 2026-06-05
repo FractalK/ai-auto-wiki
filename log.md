@@ -4,8 +4,24 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-04
 last_entry: 2026-06-04
-entry_count: 108
+entry_count: 111
 ---
+
+## [2026-06-04 PT] session-stats | ingest
+Queue size at session start: 2 staged files
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: yes (context compaction between pre-flight and execution phases; resumed from summary)
+Time window: off-peak
+Source type mix: research-paper: 2
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: pre-flight and execution in separate context windows; HLE paper is peer-reviewed Nature source (spot-check block below in post-ingest summary); EPOCH working paper provides primary quantitative backing for existing ai-workforce-complementarity claims
+
+## [2026-06-04] ingest | The EPOCH of AI: Human-Machine Complementarities at Work
+Added: [[2025-loaiza-rigobon-epoch-complementarity]]. Updated: [[ai-workforce-complementarity]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1 ([[2025-loaiza-rigobon-epoch-complementarity]]).
+
+## [2026-06-04] ingest | A Benchmark of Expert-Level Academic Questions to Assess AI Capabilities (HLE)
+Added: [[2026-hle-benchmark-expert-questions]]. Updated: [[ai-capability-benchmarking]], [[ai-capability-benchmarking-pitfalls]], [[anthropic-claude-sonnet-4-6]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1 ([[2026-hle-benchmark-expert-questions]]).
 
 ## [2026-06-04 PT] session-stats | ingest
 Queue size at session start: 4 staged files
