@@ -6,10 +6,11 @@ updated: 2026-06-04
 parent_entity: "[[topics/responsible-ai-implementation]]"
 parent_type: topic
 status: current
-failure_mode_count: 8
+failure_mode_count: 9
 contributing_sources:
   - "[[2024-implement-ai-responsibly]]"
   - "[[2025-three-obstacles-responsible-ai]]"
+  - "[[2026-limestone-2t-enterprise-ai-roi]]"
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows
@@ -54,6 +55,12 @@ Addressing ethical issues post-deployment creates expensive, disruptive correcti
 **Source:** [[2024-implement-ai-responsibly]]
 
 Continuous monitoring after deployment is necessary to detect divergence between the scenarios an AI solution was designed for and evolving real-world conditions. Most organizations treat responsible AI compliance as a deployment milestone rather than an ongoing practice, and few allocate dedicated bandwidth for post-deployment monitoring — leaving ethics governance to atrophy as operational conditions change. Effective calibration distributes active monitoring responsibility across deployment teams and user communities, prioritizes high-risk use cases for focused attention, and establishes clear escalation procedures. Without these mechanisms, organizations discover ethical failures only through visible harm rather than proactive oversight.
+
+### Budget allocation inversion — model-first spending over infrastructure
+**Status:** active<br>
+**Source:** [[2026-limestone-2t-enterprise-ai-roi]] [vendor_bias]
+
+Organizations that allocate the majority of AI budgets to model selection and ML talent while underinvesting in data infrastructure, legacy system integration, and human-in-the-loop tooling fail to achieve production-grade AI deployments. Analysis of 14 enterprise AI engagements found that 73% of production AI engineering work involves non-model infrastructure, yet a typical organizational budget allocation runs 70% to model and ML talent and 30% to infrastructure — inverting the actual engineering effort distribution. Successful deployments in the same analysis inverted this ratio (30% model, 70% infrastructure). The pattern explains why individual productivity gains, documented in multiple surveys at up to 5× improvements, fail to translate into organizational ROI: the model performs, but the surrounding infrastructure cannot carry it into reliable production operation. Note: quantitative claims are drawn from a commercial AI consulting firm's client engagements and should be treated as indicative rather than independently replicated empirical findings.
 
 ### Accountability gap — diffuse ownership with no defined project-level responsibility
 **Status:** active<br>

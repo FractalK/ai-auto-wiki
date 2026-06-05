@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*145 pages. Last updated: 2026-06-04.*
+*146 pages. Last updated: 2026-06-04.*
 
 ---
 
@@ -146,6 +146,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-hle-benchmark-expert-questions]] — Center for AI Safety, Scale AI et al., 2026-01-28, peer-reviewed
 - [[2026-anthropic-teaching-claude-why]] — Anthropic, 2026-05-08, institutional
 - [[2026-futurism-corporations-ai-costs-no-benefits]] — Tangermann (Futurism), 2026-05-29, practitioner
+- [[2026-limestone-2t-enterprise-ai-roi]] — Limestone Digital Team, 2026-06-02, practitioner
 
 ## Comparisons
 
