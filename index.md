@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*146 pages. Last updated: 2026-06-04.*
+*147 pages. Last updated: 2026-06-05.*
 
 ---
 
@@ -50,7 +50,7 @@ professional roles, see the [[teaching-index]].
 - [[llm-hallucination]] — The tendency of large language models to generate plausible-sounding but factually incorrect or fabricated content — including nonexistent citations, invented entities, and confidently stated errors — as a structural consequence of next-token prediction without factual verification.
 - [[ai-workforce-complementarity]] — A research framework identifying five human capability groups resistant to AI automation (the EPOCH framework), backed by regression analysis of O*NET data showing EPOCH-intensive occupations experienced significantly stronger employment growth from 2015–2023 (β=0.132/SD, p<0.01) and that EPOCH scores accurately predict BLS employment projections through 2034.
 - [[ai-capability-benchmarking]] — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
-- [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while exhibiting large capability gaps across disciplines, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
+- [[ai-in-science]] — The application of AI systems to scientific research tasks, characterized by domain-specific capability gaps on end-to-end workflows, the first autonomous AI resolution of a prominent open mathematical problem (2026), and the consistent finding that specialized smaller models frequently outperform much larger general-purpose models on narrow scientific tasks.
 - [[responsible-ai-implementation]] — The organizational capability of embedding AI ethics principles into operational workflows and governance structures — addressing the persistent gap between stated ethics commitments and sustainable operational practice through structured implementation frameworks, project-level accountability, aligned incentives, and continuous calibration.
 - [[ai-in-medicine]] — The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
 - [[ai-efficiency-trap]] — The paradox in which AI productivity tools compress task time and produce higher performance expectations rather than reduced workload, creating a four-stage organizational cycle — initial gains, managerial recalibration, dependency acceleration, and expectation lock-in — that erodes worker agency and generates collectively unsustainable productivity standards across industries.
@@ -147,6 +147,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-teaching-claude-why]] — Anthropic, 2026-05-08, institutional
 - [[2026-futurism-corporations-ai-costs-no-benefits]] — Tangermann (Futurism), 2026-05-29, practitioner
 - [[2026-limestone-2t-enterprise-ai-roi]] — Limestone Digital Team, 2026-06-02, practitioner
+- [[2026-openai-discrete-geometry-conjecture]] — OpenAI, 2026-05-20, institutional
 
 ## Comparisons
 

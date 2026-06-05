@@ -29,7 +29,7 @@ Monitoring computer use via hierarchical summarization (Sumers et al., 2025) | h
 ## [processed]
 
 https://www.anthropic.com/research/teaching-claude-why | processed: 2026-06-04 → [[2026-anthropic-teaching-claude-why]]
-https://openai.com/index/model-disproves-discrete-geometry-conjecture/ | fetch-failed: 2026-06-04
+https://openai.com/index/model-disproves-discrete-geometry-conjecture/ | processed: 2026-06-05 → [[2026-openai-discrete-geometry-conjecture]] (rescued from staged file)
 https://futurism.com/artificial-intelligence/corporations-ai-costs-no-benefits | processed: 2026-06-04 → [[2026-futurism-corporations-ai-costs-no-benefits]]
 https://thefoundation.limestonedigital.com/p/where-did-2t-go | processed: 2026-06-04 → [[2026-limestone-2t-enterprise-ai-roi]]
 

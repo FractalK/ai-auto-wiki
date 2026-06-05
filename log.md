@@ -2,10 +2,15 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-04
-last_entry: 2026-06-04
-entry_count: 116
+updated: 2026-06-05
+last_entry: 2026-06-05
+entry_count: 117
 ---
+
+## [2026-06-05] ingest | An OpenAI Model Has Disproved a Central Conjecture in Discrete Geometry
+Added: [[2026-openai-discrete-geometry-conjecture]]. Updated: [[ai-in-science]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 1 ([[2026-openai-discrete-geometry-conjecture]]).
+Note: ai-in-science Key Claims now at 6 (1 over cap per Choice 1 decision); deferred to next lint pass for formal resolution.
 
 ## [2026-06-04] lint | pass 1
 Pages assessed: 102. Stale flags: 0. Contradiction flags: 0.

@@ -2,11 +2,11 @@
 type: topic
 title: AI in Science
 created: 2026-05-20
-updated: 2026-05-27
-summary: The application of AI systems to scientific research tasks, characterized by frontier models outperforming human specialists on select domain benchmarks while falling substantially below expert performance on end-to-end research workflows, and by specialized smaller models frequently surpassing much larger general-purpose models on narrow scientific tasks.
+updated: 2026-06-05
+summary: The application of AI systems to scientific research tasks, characterized by domain-specific capability gaps on end-to-end workflows, the first autonomous AI resolution of a prominent open mathematical problem (2026), and the consistent finding that specialized smaller models frequently outperform much larger general-purpose models on narrow scientific tasks.
 status: developing
-source_count: 2
-last_assessed: 2026-05-27
+source_count: 3
+last_assessed: 2026-06-05
 related_topics:
   - "[[ai-capability-benchmarking]]"
   - "[[ai-in-medicine]]"
@@ -19,7 +19,7 @@ competency_domains:
 professional_contexts:
   - graduate-and-doctoral-education
   - teaching-and-instruction
-teaching_notes_reviewed: 2026-05-27
+teaching_notes_reviewed: 2026-06-05
 ---
 
 AI's role in science spans three evolving categories that coexist at different maturity levels: machine learning applied to scientific data for predictive and explainable models (established and now commonplace); AI systems assisting scientist workflows through literature synthesis, experiment design, and data analysis (expanding rapidly in 2025); and autonomous AI systems generating new discoveries with limited human guidance (emerging, early stage). The most visible 2025 advances occurred in the second and third categories. A consistent finding across all three is that AI performs well on isolated subtasks but falls substantially short of expert performance when required to execute the full multistep workflows that actual scientific research demands. Experimental validation also remains a bottleneck: AI systems can propose novel candidates at scale, but confirming discoveries through wet-lab experiments or observational data is costly and time-consuming.
@@ -46,6 +46,8 @@ In Earth science, Aardvark Weather replaced the traditional numerical weather pr
 
 Despite these advances, the list of experimentally confirmed AI discoveries remains short. Published confirmed discoveries include novel proteins from ProtAgents, 92 antibody candidates for SARS-CoV-2 (>90% successfully bound their target), two cancer drug targets (GPR160 and ARG2), five metal-organic frameworks, and one novel chromophore. Key roadblocks include workforce training gaps, API and interoperability standards, and funding structures not yet supporting the maintenance and scaling of autonomous research infrastructure. A 2026 experimental case added a validated end-to-end result: James Zou's Virtual Lab — AI agents running autonomous group meetings to design experiments — produced COVID variant antibody binders in days that wet-lab testing confirmed outperformed previous human-designed nanobodies.
 
+In mathematics, an OpenAI general-purpose reasoning model autonomously disproved the Erdős planar unit distance conjecture in May 2026 — a problem in combinatorial geometry posed in 1946 and studied intensively for 80 years without resolution. The model constructed point configurations with a polynomial improvement over the best known square grid construction (δ ≥ 0.014 per a subsequent refinement by Princeton's Will Sawin), using tools from algebraic number theory — specifically infinite class field towers and Golod–Shafarevich theory — that domain experts had not previously connected to discrete geometry. The proof was verified by Fields medalist Tim Gowers and leading number theorists Arul Shankar and Jacob Tsimerman. This is the first documented case of an AI autonomously resolving a prominent open problem central to an active mathematical subfield, achieved by a general-purpose reasoner without domain-specific training or proof scaffolding.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -55,6 +57,7 @@ Despite these advances, the list of experimentally confirmed AI discoveries rema
 | In 2025, autonomous science agent systems demonstrated end-to-end workflow execution: Aardvark Weather replaced the full numerical weather prediction pipeline; Google's AI Co-Scientist achieved 78.4% top-1 on GPQA Diamond and validated hypotheses in three biomedical areas; and Sakana's AI Scientist-v2 produced the first fully AI-generated paper accepted at a peer-reviewed workshop — but the list of experimentally confirmed AI discoveries remains short, indicating a persistent gap between computational proposals and validated results. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | James Zou's Virtual Lab, using AI agents running autonomous group meetings to design experiments, produced COVID variant antibody binders within days that were experimentally confirmed in a wet lab to outperform previous human-designed nanobodies — a validated case of fully autonomous AI research producing results superior to human-directed science on a specific biological design task. | [[2026-stanford-hai-ai-science-discovery]] | 2026-05-27 | current | 1 | false |
 | AI-assisted scientific papers receive approximately 300% more citations than non-AI-assisted papers but systematically converge toward the same large datasets and predictable questions, creating an AI monoculture effect that risks shrinking the diversity of scientific questions explored and disincentivizing abductive, surprise-driven scientific breakthroughs. | [[2026-stanford-hai-ai-science-discovery]] | 2026-05-27 | current | 1 | false |
+| An OpenAI general-purpose reasoning model autonomously disproved the Erdős planar unit distance conjecture (1946) — constructing point configurations with a polynomial improvement over the best known square grid construction (fixed positive exponent δ ≥ 0.014 per Will Sawin's refinement) using algebraic number theory tools verified by Fields medalist Tim Gowers — marking the first autonomous AI resolution of a prominent open problem central to an active mathematical subfield. | [[2026-openai-discrete-geometry-conjecture]] | 2026-05-20 | current | 2 | false |
 
 ## Data Records
 
@@ -64,6 +67,7 @@ Despite these advances, the list of experimentally confirmed AI discoveries rema
 | Natural sciences AI publications — annual growth | 26% | Web of Science; year-over-year 2024→2025 | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | Earth science AI penetration (share of field output) | 8.8% | Share of total Earth science publications with AI content | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | AI frontier model success rate — graduate physics problems | 30% | Eun-Ah Kim assessment; graduate-level quantum matter physics | 2025 | [[2026-stanford-hai-ai-science-discovery]] | current |
+| pass@1 accuracy — Erdős unit distance problem | 48% | Log scale test-time compute factor ×16 from baseline; pass@1 metric | 2026-05 | [[2026-openai-discrete-geometry-conjecture]] | current |
 
 ## Structural Risks and Human Judgment
 
@@ -75,8 +79,8 @@ Two additional structural risks compound this: peer review systems are already s
 
 **Concept in plain terms.** AI in science means using machine learning and autonomous agents to accelerate research — analyzing datasets, designing experiments, and in some cases conducting discovery autonomously. AI excels at isolated subtasks within known domains but falls substantially below expert performance on full research workflows: AI agents score roughly 30–40% on end-to-end research benchmarks where PhD experts score 80%+.
 
-**Why it matters for instruction.** Science is where AI's capabilities and limitations are most concrete and most consequential. Instructors need to convey calibrated expectations: documented breakthroughs exist in specific constrained domains (Samudra: 1,000 years of climate per day; Virtual Lab: AI-designed antibodies experimentally confirmed to outperform human designs), but these coexist with 30% success rates on graduate-level physics and systematic failure on full research workflows.
+**Why it matters for instruction.** Science is where AI's capabilities and limitations are most concrete and most consequential. Instructors need to convey calibrated expectations: documented breakthroughs exist in specific constrained domains — Samudra running 1,000 years of climate simulations per day, the Virtual Lab producing antibodies experimentally confirmed to outperform human designs, and an OpenAI general-purpose model autonomously resolving an 80-year-old open problem in combinatorial geometry — but these coexist with 30% success rates on graduate-level physics and systematic failure on full research workflows.
 
 **Common misconceptions.** Students assume AI capabilities are uniform across scientific domains, or that benchmark progress translates directly to research utility. Capability is highly domain-specific, and the AI monoculture effect shows that AI incentivizes predictable, citation-maximizing research rather than the surprising, hypothesis-violating observations that drive fundamental advances.
 
-**Suggested framing.** Open with the Samudra result alongside the PaperArena result: one AI system outperforms traditional models 1,000x on a specific climate task; a different AI system answers complex research questions correctly only 38.8% of the time where PhD experts score 83.5%. Ask students what to infer about AI scientific capability from both facts simultaneously.
+**Suggested framing.** Open with three data points in sequence: one AI system runs 1,000 years of climate simulations per day; a second autonomously proved an open problem in combinatorial geometry that mathematicians failed to resolve over 80 years; a third answers complex research questions correctly only 38.8% of the time where PhD experts score 83.5%. Ask students what to infer about AI scientific capability from all three facts simultaneously.
