@@ -2,10 +2,10 @@
 type: topic
 title: AI Alignment
 created: 2026-04-26
-updated: 2026-06-04
+updated: 2026-06-05
 summary: The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 status: developing
-source_count: 7
+source_count: 8
 last_assessed: 2026-06-04
 related_topics:
   - "[[scalable-oversight]]"
@@ -16,6 +16,7 @@ related_topics:
   - "[[reinforcement-learning-from-human-feedback]]"
   - "[[llm-functional-emotions]]"
   - "[[ai-model-welfare]]"
+  - "[[recursive-self-improvement]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -59,6 +60,10 @@ Responsible AI (RAI) frameworks typically enumerate alignment objectives across 
 The AI Index 2026 documents specific findings from three empirical studies. Kemmerzell and Schreiner (2024) found that applying differential privacy to model training reduced privacy exposure but degraded fairness and explainability. Cecchini et al. (2024) confirmed similar tradeoffs in federated learning settings, where differential privacy reduced model accuracy by up to 14.8 percentage points at smaller institutions — with smaller data contributors bearing disproportionate accuracy losses. Wasif et al. (2025) documented that the tradeoffs were consistent across multiple intervention types, with degradation reaching 33 percentage points on affected dimensions.
 
 The practical implication for alignment governance is significant. Organizations deploying AI under responsible AI policies that enumerate multiple simultaneous requirements may be operating under the assumption that all requirements can be satisfied at once. The empirical evidence suggests this assumption is false at current capability levels: responsible AI deployment is a constrained optimization problem in which tradeoffs between dimensions must be acknowledged, prioritized, and disclosed rather than treated as jointly achievable goals.
+
+## Recursive Self-Improvement as an Alignment Pressure Point
+
+Documented progress toward [[recursive-self-improvement]] intensifies all four RICE alignment dimensions simultaneously. As AI systems handle a growing share of their own development — writing code, executing experiments, proposing research directions — the rate of capability advancement may outpace the rate at which alignment research, interpretability tooling, and safety evaluations can be produced and validated. Anthropic's June 2026 internal data shows that more than 80% of their production code is now AI-authored and engineers merge 8x as much code per day as in 2024, with human code review already becoming a documented bottleneck. If alignment assessments must keep pace with capability advances driven partly by AI itself, the backward alignment challenge (assurance and governance) faces compounding pressure even if forward alignment methods continue to improve. See [[recursive-self-improvement-pitfalls]] for the documented failure modes.
 
 ## Key Claims
 

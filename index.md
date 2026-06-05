@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*156 pages. Last updated: 2026-06-05.*
+*159 pages. Last updated: 2026-06-05.*
 
 ---
 
@@ -40,6 +40,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-governance-policy]] — The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 - [[ai-biosecurity]] — The intersection of AI capability and biological threat amplification — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the dual-use challenge of advanced AI in life sciences.
 - [[facial-recognition-technology]] — AI-based identification systems that match a query face against a database of images — characterized by structural false-match rates, documented demographic disparities, investigative anchoring failures, and a growing record of wrongful arrests in law enforcement contexts.
+- [[recursive-self-improvement]] — The capability milestone at which AI systems can fully autonomously design and develop their own successors — currently partially underway as AI handles a growing share of AI development work, with documented doubling of autonomous task horizons every four months and over 80% of one frontier lab's production code now AI-authored.
 - [[ai-public-opinion]] — Global survey evidence on public and expert attitudes toward AI, documenting a systematic expert-public optimism gap on employment and economic impact, rising nervousness alongside rising optimism, and sharply asymmetric trust in governance institutions across countries and regions.
 - [[ai-search-citation-accuracy]] — The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
 - [[legal-ai-hallucination]] — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
@@ -155,6 +156,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-ai-ceos-bioweapon-congress]] — Marco Quiroz-Gutierrez (Fortune), 2026-06-05, practitioner
 - [[2026-aclu-facial-recognition-wrongful-arrests]] — Lauren Yu, Nathan Freed Wessler (ACLU), 2026-04-14, institutional
 - [[2026-guardian-anthropic-pause-option]] — Aisha Down (The Guardian), 2026-06-05, practitioner
+- [[2026-anthropic-recursive-self-improvement]] — Anthropic Institute (Marina Favaro, Jack Clark et al.), 2026-06-04, institutional
 
 ## Comparisons
 
@@ -185,6 +187,7 @@ professional roles, see the [[teaching-index]].
 - [[anthropic-claude-opus-4-8-pitfalls]] — parent: anthropic-claude-opus-4-8
 - [[enterprise-ai-adoption-pitfalls]] — parent: enterprise-ai-adoption
 - [[facial-recognition-technology-pitfalls]] — parent: facial-recognition-technology
+- [[recursive-self-improvement-pitfalls]] — parent: recursive-self-improvement
 
 ## Teaching
 

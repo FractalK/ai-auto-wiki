@@ -25,7 +25,7 @@ primary_use_cases:
   - Defensive vulnerability scanning in critical infrastructure
   - Autonomous security research and exploit analysis
   - Advanced software engineering and agentic coding tasks
-source_count: 4
+source_count: 5
 last_assessed: 2026-06-05
 related_topics:
   - "[[ai-assisted-vulnerability-discovery]]"

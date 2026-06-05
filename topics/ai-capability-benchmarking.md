@@ -2,10 +2,10 @@
 type: topic
 title: AI Capability Benchmarking
 created: 2026-05-18
-updated: 2026-06-04
+updated: 2026-06-05
 summary: The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 status: developing
-source_count: 5
+source_count: 6
 last_assessed: 2026-06-04
 related_topics:
   - "[[llm-fundamentals]]"
@@ -54,6 +54,8 @@ Performance convergence also highlights the "jagged intelligence" pattern. Gemin
 
 ## Emerging Evaluation Approaches
 
+METR's task completion horizon benchmark represents a category that has not saturated: it measures the length of autonomous tasks AI systems can reliably complete (at 50% success rate), and this metric has continued to advance from approximately 4 minutes in March 2024 to at least 16 hours by May 2026 — doubling approximately every four months. Unlike static capability benchmarks, agentic task horizon benchmarks present an open-ended measurement surface that naturally scales with capability improvements. See the Data Records section for model-by-model METR measurements and [[recursive-self-improvement]] for context on the development trends these numbers reflect.
+
 The convergence of saturation, invalid questions, gaming, and declining transparency has prompted proposals for new evaluation paradigms. Centaur evaluations — assessments in which humans and AI jointly solve tasks — are proposed as better reflections of actual deployment contexts, where people supervise and integrate AI outputs rather than AI acting in isolation. Certificate-grade community-governed benchmark frameworks, with continuously refreshed test items, proctored environments, and delayed result disclosure, are proposed as a structural alternative to the current model-managed benchmark ecosystem. Neither approach has been widely adopted as of early 2026.
 
 ## Data Records
@@ -95,6 +97,11 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 | Terminal-Bench 2.0 — Claude Opus 4.6 | 65.4% | Adaptive thinking, max effort; 1,335 trials; Harbor scaffold, Terminus-2 harness | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
 | MMMLU — Claude Opus 4.6 | 91.1% | Adaptive thinking, max effort; 5-trial average; 57 subjects, 14 non-English languages | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
 | OSWorld-Verified — Claude Opus 4.6 | 72.7% | 5-run average; 1080p; max 100 action steps | 2026-02 | [[2026-claude-opus-4-6-system-card]] | current |
+| METR task horizon — Claude Opus 3 | ~4 minutes | 50% reliable autonomous task completion; METR time horizons methodology | 2024-03 | [[2026-anthropic-recursive-self-improvement]] | superseded |
+| METR task horizon — Claude Sonnet 3.7 | ~90 minutes | 50% reliable; METR time horizons methodology | 2025-03 | [[2026-anthropic-recursive-self-improvement]] | superseded |
+| METR task horizon — Claude Opus 4.6 | ~12 hours | 50% reliable; METR time horizons methodology | 2026-03 | [[2026-anthropic-recursive-self-improvement]] | current |
+| METR task horizon — Claude Mythos Preview | ≥16 hours | Upper bound of what METR can measure without new tasks; confirmed "at least" 16 hours by METR | 2026-05 | [[2026-anthropic-recursive-self-improvement]] | current |
+| METR task horizon doubling rate | ~4 months | Current rate of doubling of reliable autonomous task completion horizon; up from ~7 months trend in 2024–2025 | 2026-06 | [[2026-anthropic-recursive-self-improvement]] | current |
 
 ## Key Claims
 
