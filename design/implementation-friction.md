@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 06/05/2026 02:45 EST
+**Last Updated:** 06/05/2026 21:49 EDT
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed

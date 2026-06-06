@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 06/04/2026 21:30 EST
+**Last Updated:** 06/05/2026 21:49 EDT
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1476,3 +1476,45 @@ The template-and-generation pattern creates two artifacts with the same name in 
 Any time a fix is applied to a generated artifact (a file produced by injecting data into a committed template), the committed template must be updated in the same session before delivery. The rule is: fix the template first, then regenerate if needed — never fix the output and leave the template unchanged. If the template is not accessible in the current session, the FRIC entry must explicitly name the template as the fix target so it is not missed in the next session.
 
 **References:** FRIC-045, ingest-ui-implementation-plan.md Section 10
+
+---
+
+## LL-046 | SCRIPT CHANGE SCOPING: DETECTION IS NOT SUFFICIENT — OUTPUT CHANNEL MUST ALSO BE VERIFIED
+
+- **Date:** 2026-06-05
+- **Context:** Key Claims overcap resolution fix (FRIC-047, DM-115).
+
+**Problem:**
+Initial scoping stated "wiki-lint.py does not change — it already detects and flags overcap." This was wrong. The script did detect overcap correctly but emitted it as `"informational"`, which means it never reached the agent judgment pass and never reached the forced-choice form. The fix required changing the output channel from `add_finding(..., "informational", ...)` to `add_agent_review(...)`. The error was caught during the cross-reference check before delivery, not after.
+
+**Root Cause:**
+When assessing whether a script change is required for a workflow fix, only the detection logic was verified ("does the script catch this condition?"), not the routing logic ("does the finding reach the correct downstream consumer?"). In the hybrid lint architecture, `informational` findings are reported but never acted on; only `agent_review` items reach the judgment pass and can be promoted to forced choices. Detection and routing are separate concerns that must both be verified.
+
+**Fix Applied:**
+wiki-lint.py updated to route overcap to `add_agent_review` with `claims_summary` and `claim_count` data when no skip condition is active. Deferred and overridden pages remain `informational` with descriptive messages. Cross-reference check caught the gap mid-execution before any files were delivered.
+
+**Implication Going Forward:**
+When assessing whether a script requires changes for a workflow fix, verify two things independently: (1) does the script detect the condition? (2) does the finding emit to the correct output channel for the intended downstream behavior? In wiki-lint.py specifically: `informational` → reported only; `agent_review` → judgment pass + form; `forced-choice` → form directly. A finding in the wrong channel is a silent gap — it produces output but no action.
+
+**References:** FRIC-047, DM-115, wiki-lint.py `check_L11_schema_conformance`
+
+---
+
+## LL-047 | UTC TIME USED DIRECTLY AS EST — TIMEZONE CONVERSION NOT PERFORMED
+
+- **Date:** 2026-06-05
+- **Context:** End-of-chat file deliveries — CLAUDE.md, OPERATIONS.md, wiki-lint.py, ingest-ui-implementation-plan.md, implementation-friction.md, decisions_made.md, lessons_learned.md, carry-forward, session instructions.
+
+**Problem:**
+The system `date` command returned `Fri Jun 5 02:41:38 UTC 2026`. All files updated in that batch received timestamps of `06/05/2026 02:41–02:55 EST` — UTC time with the EST label applied without conversion. The correct Eastern time was approximately `06/04/2026 21:41–21:55 EDT` (UTC−4 in June), a nine-hour discrepancy on a different calendar date. The operator caught it by comparing the stated timestamp against the expected local time.
+
+**Root Cause:**
+Same failure mode as LL-044: the system-reported time was used as-is without converting to Eastern time. The numeric value was correct but the timezone label and resulting wall-clock time were wrong. Knowing the rule ("use system time, convert to EST") is not sufficient if the conversion step is skipped.
+
+**Fix Applied:**
+All nine affected files corrected to `06/05/2026 21:49 EDT` (system-verified Eastern time at correction time). LL-047 logged.
+
+**Implication Going Forward:**
+When recording a Last Updated timestamp, always perform the conversion explicitly: run `TZ='America/New_York' date` rather than `date`, which returns UTC. The EDT/EST label should match what `TZ='America/New_York' date` reports — EDT during summer, EST during winter. The session instructions say "EST" colloquially but the correct label varies by season; use whatever the system reports for America/New_York. Never use UTC time as a proxy for Eastern time.
+
+**References:** LL-044, session instructions (Last Updated line rule)

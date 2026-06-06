@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 06/04/2026 13:39 EST
+**Last Updated:** 06/05/2026 21:49 EDT
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4782,3 +4782,30 @@ The `prior_generation` boolean preserves all existing lint behavior for availabl
 - wiki-lint.py requires no changes: deprecated exclusions are status-based; prior-gen pages are `status: active`.
 
 **References:** CLAUDE.md Sections 5.3, 9; LL-043
+
+---
+
+## DM-115 | KEY CLAIMS OVERCAP RESOLUTION ARCHITECTURE: FORCED CHOICE WITH THREE PATHS
+
+- **Date:** 2026-06-05
+- **Status:** ACTIVE
+
+**Decision:**
+Key Claims overcap (>5 claims on a Topic or Tool page) is resolved via a forced choice surfaced in the lint decisions form (Phase 2), with three operator-selectable paths: (A) Consolidate — agent merges candidate rows sharing the same source slug and date into a single claim in Phase 3; (B) Defer 3 passes — overcap flag suppressed for the next 3 lint passes via `claims_cap_deferred: N` frontmatter field, decremented each pass; (C) Accept as-is — cap permanently overridden via `claims_cap_override: true` frontmatter field, logged to `wiki-lessons-learned.md`. Overcap is exempt from the three-page threshold that governs other L11 schema deviations — each overcapped page surfaces its own card regardless of how many other pages are overcapped. wiki-lint.py routes overcap to `agent_review` (not `informational`) so the agent can attach consolidation candidate data before the form is generated.
+
+**Context:**
+Two pages (`ai-alignment.md` at 7 claims, `responsible-ai-implementation.md` at 6 claims) accumulated overcap violations that recurred after every lint and ingest pass with no resolution path. The operator received identical D-flag output each time. The existing schema had no mechanism to resolve, defer, or explicitly accept overcap — only to observe it indefinitely.
+
+**Rationale:**
+Forced choice in the lint form (Option A) was selected over three alternatives: (B) Phase 3 interactive resolution — breaks the Phase 2 (decisions) / Phase 3 (execution) separation and becomes increasingly disruptive as violations accumulate; (C) frontmatter suppression field only — invisible to operator during normal operation, no decision record, no resolution path; (D) deferral log only — relocates the problem without closing the loop. Fixed N=3 for deferral chosen over operator-specified N for simplicity and consistency with other staleness deferral patterns in the schema.
+
+**Alternatives Considered:**
+See rationale above. All three alternatives rejected on the grounds that they either violate workflow architecture, create invisible state, or merely relocate the recurring flag without actionable resolution.
+
+**Consequences to Watch:**
+- `claims_cap_deferred` stores the pass number at time of deferral, not a countdown. Phase 3 decrements it each subsequent pass regardless of whether the forced choice is shown. When it reaches 0, the field is removed and the forced choice resurfaces.
+- Consolidation is restricted to same-source, same-date, non-contested rows. Claims from different sources or with `Status: contested` cannot be auto-consolidated — these require manual review.
+- `claims_cap_override_count` records the claim count at time of override; lint re-flags only if count increases beyond that value, not merely because it remains above 5.
+- wiki-lint.py change is additive — new `agent_review` item type `key_claims_overcap` with `claims_summary` field. Existing agent_review consumers are unaffected.
+
+**References:** CLAUDE.md Section 6.1, OPERATIONS.md Section 11.4 Step L11 + Phase 3 step 6a, ingest-ui-implementation-plan.md Section 2, FRIC-047, LL-046

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# **Last Updated:** 06/04/2026 21:30 EST
+# **Last Updated:** 06/05/2026 21:49 EDT
 """
 wiki-lint.py — Mechanical lint checks for the AI Effectiveness Wiki.
 
