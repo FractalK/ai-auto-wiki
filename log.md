@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-05
 last_entry: 2026-06-05
-entry_count: 123
+entry_count: 124
 ---
+
+## [2026-06-05 PT] session-stats | ingest (continuation — 4-source batch execution)
+Queue size at session start: 4 staged files
+Documents attempted: 4
+Documents completed: 4
+Session limit hit: no
+Time window: off-peak
+Source type mix: publication-article: 3, industry-blog: 1
+Approx tokens (from /cost): not available (continuation session after context compaction)
+Notes: All 4 sources committed and pushed. OC-1 (ai-governance-policy pause claim) and OC-2 (anthropic-claude-mythos-preview NSA embed claim) deferred — Key Claim additions pending overcap forced choices. ai-alignment.md existing 7-claim overcap deferred to lint (OC-3). Teaching Index regenerated: 66 pages indexed.
 
 ## [2026-06-05 PT] session-stats | ingest
 Queue size at session start: 2 staged files
