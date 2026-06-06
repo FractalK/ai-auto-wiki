@@ -2,7 +2,7 @@
 type: tool
 title: Claude Mythos Preview
 created: 2026-04-22
-updated: 2026-06-04
+updated: 2026-06-05
 summary: Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 status: emerging
 vendor: Anthropic
@@ -77,10 +77,10 @@ In June 2026, the Financial Times reported (via The Guardian) that Anthropic eng
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
 | Mythos Preview achieved 83.1% on CyberGym (vulnerability reproduction benchmark) compared to 66.6% for Opus 4.6, the largest recorded capability gap on a cybersecurity benchmark between two consecutive Anthropic models. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
-| Mythos Preview autonomously identified zero-day vulnerabilities in every major operating system and web browser, including a 27-year-old OpenBSD flaw and a 16-year-old FFmpeg vulnerability missed by five million automated test runs, without human steering. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
-| Mythos Preview achieved 93.9% on SWE-bench Verified, a 13.1 percentage point improvement over Opus 4.6, with the performance margin holding after excluding problems showing signs of memorization. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
+| Mythos Preview autonomously identified zero-day vulnerabilities across every major operating system and browser — including a 27-year-old OpenBSD flaw and a 16-year-old FFmpeg vulnerability missed by five million automated test runs — while achieving 93.9% on SWE-bench Verified (13.1pp above Opus 4.6), with both capabilities deriving from the same underlying software reasoning strengths. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
 | Anthropic trained Claude Mythos Preview with direct feedback from mechanistic interpretability findings, using identified circuit-level patterns associated with problematic behaviors to shape the model during training. | [[2026-mindstudio-claude-mythos-alignment-paradox]] | 2026-04-10 | current | 1 | false |
 | Anthropic does not plan to make Mythos Preview generally available; public deployment requires new cybersecurity safeguards that Anthropic plans to test first on an upcoming Claude Opus model. | [[2026-anthropic-project-glasswing]] | 2026-04-07 | current | 2 | false |
+| Anthropic engineers are reportedly embedded inside the National Security Agency helping use Claude Mythos for offensive cybersecurity operations, per Financial Times reporting (via The Guardian), despite an ongoing legal dispute with the Pentagon over use of Anthropic tools. | [[2026-guardian-anthropic-pause-option]] | 2026-06-05 | current | 1 | false |
 
 ## Teaching Notes
 
