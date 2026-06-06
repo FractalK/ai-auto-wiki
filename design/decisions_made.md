@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 06/05/2026 21:49 EDT
+**Last Updated:** 06/05/2026 22:15 EDT
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4809,3 +4809,30 @@ See rationale above. All three alternatives rejected on the grounds that they ei
 - wiki-lint.py change is additive — new `agent_review` item type `key_claims_overcap` with `claims_summary` field. Existing agent_review consumers are unaffected.
 
 **References:** CLAUDE.md Section 6.1, OPERATIONS.md Section 11.4 Step L11 + Phase 3 step 6a, ingest-ui-implementation-plan.md Section 2, FRIC-047, LL-046
+
+---
+
+## DM-116 | PDF QUALITY PRE-CHECK SCOPE: YIELD AND HEADING METRICS ONLY
+
+- **Date:** 2026-06-05
+- **Status:** ACTIVE
+
+**Decision:**
+The `assess_extraction_quality()` function implemented in P4 of the pdf_to_markdown.py improvement batch measures two things: (1) average characters per page (text yield), and (2) count of spans exceeding FONT_SIZE_H1 threshold (heading candidates). It does not inspect span-level text for encoding artifacts such as word concatenation (missing inter-word spaces), fragmented Unicode, or column-layout splitting. The threshold for "in-context" recommendation is chars/page < 200; below that, the document is likely scanned or image-based. Above 200, the function recommends "script" regardless of text quality.
+
+**Context:**
+The Biodefense in the Intelligence Age PDF (9 pages, OpenAI, June 2026) passed the pre-check with a "SCRIPT" recommendation (2,139 chars/page avg, 9 heading candidates in 3 pages). Diagnostic inspection revealed that justified-text encoding in this PDF produced concatenated spans — words joined without inter-word spaces (e.g., "Thepaceofscientificdiscoveryisaccelerating"). This would have produced unusable output if the script had been run. The pre-check did not detect it because total character count is unaffected by the absence of spaces.
+
+**Rationale:**
+Extending the pre-check to detect concatenation artifacts is the correct fix (see carry-forward Item 2). The scope decision here — yield + headings only for the initial implementation — was made because (a) in-context processing was always planned for all three documents in this session, (b) a more complex pre-check was out of scope for the P4 item as originally specified, and (c) the gap was identified at session close. The gap is real but the consequence was zero: the in-context path was taken regardless.
+
+**Alternatives Considered:**
+Inline regex-based concatenation detection (ratio of words without spaces), OpenCV/OCR-based scan detection, full per-page text extraction with whitespace analysis. The first is the right approach for the next implementation pass; the others are out of scope for a lightweight pre-check.
+
+**Consequences to Watch:**
+- The pre-check is advisory, not a gate — even if it recommends "script," the operator or agent can override. The false-positive in this session was caught by the diagnostic step, which is the intended fallback.
+- The improvement agenda (carry-forward Item 2) should add a concatenation detection heuristic: measure the ratio of runs of non-whitespace characters above a length threshold (e.g., >25 chars with no space) to total words. A high ratio signals justified-text encoding artifacts.
+- The improvement should also incorporate page-count awareness: if the document is ≤ 10 pages AND fully renderable in context, recommend "in-context" regardless of text quality, since in-context is both feasible and artifact-free for short documents.
+
+**References:** pdf_to_markdown.py P4, LL-048, carry-forward Item 2
+

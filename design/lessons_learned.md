@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 06/05/2026 21:49 EDT
+**Last Updated:** 06/05/2026 22:15 EDT
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1518,3 +1518,25 @@ All nine affected files corrected to `06/05/2026 21:49 EDT` (system-verified Eas
 When recording a Last Updated timestamp, always perform the conversion explicitly: run `TZ='America/New_York' date` rather than `date`, which returns UTC. The EDT/EST label should match what `TZ='America/New_York' date` reports — EDT during summer, EST during winter. The session instructions say "EST" colloquially but the correct label varies by season; use whatever the system reports for America/New_York. Never use UTC time as a proxy for Eastern time.
 
 **References:** LL-044, session instructions (Last Updated line rule)
+
+---
+
+## LL-048 | PRE-CHECK STATIC METRICS DO NOT DETECT SPAN-LEVEL ENCODING ARTIFACTS
+
+- **Date:** 2026-06-05
+- **Context:** pdf_to_markdown.py P4 quality pre-check implementation; conversion of Biodefense in the Intelligence Age (OpenAI, June 2026).
+
+**Problem:**
+The `assess_extraction_quality()` function recommended "script" for the Biodefense PDF (2,139 chars/page avg, 9 heading candidates). Diagnostic inspection revealed severe word concatenation throughout the document — words joined without inter-word spaces due to justified-text PDF encoding. Running the script would have produced garbled output. The pre-check passed the document because total character count is unaffected by absent whitespace: concatenated words count the same as properly spaced words.
+
+**Root Cause:**
+The pre-check design measured text quantity (chars/page) and structural signal (heading-size spans), both of which are insensitive to inter-word spacing. PDF text extraction via PyMuPDF faithfully reproduces what the PDF encodes at the span level — if the PDF encodes "Thequickbrownfox" as one span token, that is what fitz returns, and it counts as 18 characters of apparently good text yield. No downstream metric in the current pre-check catches this.
+
+**Fix Applied:**
+None yet — session ended before the pre-check could be improved. The false positive was caught manually via the `--diagnose` flag, which was already part of the workflow. No garbled output was produced because in-context processing was used for all three documents regardless of pre-check recommendation.
+
+**Implication Going Forward:**
+The pre-check should add a concatenation detection heuristic: sample the extracted text and measure the proportion of "long runs" — sequences of non-whitespace characters above a threshold length (e.g., ≥ 20 characters with no internal space). A high proportion of such runs (e.g., >15% of all tokens) is a reliable signal of justified-text encoding artifacts. Additionally, the pre-check should incorporate page-count awareness: documents ≤ 10 pages that are fully rendered in context should be recommended "in-context" regardless of other metrics, since in-context processing is both feasible and artifact-free for short documents. See DM-116 and carry-forward Item 2.
+
+**References:** DM-116, pdf_to_markdown.py `assess_extraction_quality`, carry-forward Item 2
+
