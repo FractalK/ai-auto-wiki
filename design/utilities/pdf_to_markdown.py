@@ -9,18 +9,27 @@ academic papers.
 
 USAGE:
 ------
-1. Edit parameters below (INPUT_PDF, OUTPUT_MD, TITLE_LINE, PUB_DATE)
-2. Run: python3 pdf_to_markdown.py
-3. Check output markdown in OUTPUT_MD
+Option A — CLI (preferred):
+    python3 pdf_to_markdown.py --input /path/to/file.pdf --output /path/to/out.md \\
+        --title "# Document Title" --date "Month DD, YYYY" \\
+        --org "Organization" --doi "https://doi.org/..."
+
+Option B — Edit parameters below, then:
+    python3 pdf_to_markdown.py
+
+Diagnostic mode (inspect font sizes before converting):
+    python3 pdf_to_markdown.py --diagnose [--input /path/to/file.pdf]
 
 REQUIREMENTS:
 - pymupdf (fitz): pip install pymupdf --break-system-packages -q
 
 OUTPUT:
 - Markdown file with metadata header, h2/h3/h4 hierarchy, smart text joining
-- Skips bare page numbers and unicode artifacts
+- Skips bare page numbers, pg. N footers, and unicode artifacts
 - Detects and converts bullets (● and ○)
+- Detects exhibit/figure labels and renders as bold standalone lines
 - Prevents excessive line breaks in body text
+- Rejoins hyphenated line-breaks (academic column layouts)
 
 FONT SIZE THRESHOLDS (adjustable):
 - h1 (##):  size >= 15.5
@@ -29,15 +38,16 @@ FONT SIZE THRESHOLDS (adjustable):
 - h4 (#####): size >= 11.5 + bold
 - body: default
 
-If output is garbled, run diagnostic_font_sizes() to inspect actual font sizes.
+If output is garbled, run with --diagnose to inspect actual font sizes.
 """
 
+import argparse
 import fitz
 import re
 import sys
 
 # ══════════════════════════════════════════════════════════════════════════════
-# PARAMETERS — EDIT THESE FOR EACH DOCUMENT
+# PARAMETERS — EDIT THESE FOR EACH DOCUMENT (used when CLI args not supplied)
 # ══════════════════════════════════════════════════════════════════════════════
 
 INPUT_PDF = '/mnt/user-data/uploads/FILENAME.pdf'
@@ -59,12 +69,52 @@ FONT_SIZE_H2 = 13.5  # h3 in markdown (### Subtitle)
 FONT_SIZE_H3 = 12.5  # h4 in markdown (#### Subsubtitle)
 FONT_SIZE_H4 = 11.5  # h5 in markdown (##### Minor heading, requires bold)
 
-PAGE_NUMBER_REGEX = r'^\d{1,4}$'  # matches 1–4 digit bare page numbers
+# Skip patterns: bare page numbers and pg. N style footers
+SKIP_PATTERNS = [
+    r'^\d{1,4}$',          # bare page numbers: 1, 42, 1234
+    r'^pg\.\s*\d+$',       # pg. N style footers (e.g. MIT NANDA report)
+]
+
+# Exhibit/figure label pattern: render as bold standalone line
+EXHIBIT_LABEL_REGEX = r'^(Exhibit|Figure|Table|Chart):?\s'
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FUNCTIONS
 # ══════════════════════════════════════════════════════════════════════════════
+
+def parse_args():
+    """
+    Parse CLI arguments. All are optional; unset args fall back to top-of-file
+    parameter constants, preserving the edit-source workflow.
+
+    Usage examples:
+        python3 pdf_to_markdown.py --input doc.pdf --output out.md --title "# My Doc"
+        python3 pdf_to_markdown.py --diagnose --input doc.pdf
+        python3 pdf_to_markdown.py  # uses top-of-file constants
+    """
+    parser = argparse.ArgumentParser(
+        description="Convert a PDF to clean wiki-ready markdown."
+    )
+    parser.add_argument("--input", help="Path to input PDF file")
+    parser.add_argument("--output", help="Path to output markdown file")
+    parser.add_argument("--title", help="Document title line (e.g. '# My Title')")
+    parser.add_argument("--date", help="Publication date string")
+    parser.add_argument("--org", help="Organization name")
+    parser.add_argument("--doi", help="DOI or URL")
+    parser.add_argument(
+        "--diagnose",
+        action="store_true",
+        help="Print font sizes for the first N pages and exit",
+    )
+    parser.add_argument(
+        "--sample-pages",
+        type=int,
+        default=5,
+        help="Number of pages to sample in diagnostic/quality-check mode (default: 5)",
+    )
+    return parser.parse_args()
+
 
 def classify(size, bold):
     """Map font size + bold flag to heading level or body."""
@@ -81,8 +131,14 @@ def classify(size, bold):
 
 def should_join_text(last_line, new_text):
     """
-    Heuristic: join flowing body text. Don't join bullets, sentence-ending lines,
-    or text after headings.
+    Heuristic: determine how to join flowing body text.
+
+    Returns:
+        'hyphen'  — last_line ends with a mid-word hyphen; join without space
+        'join'    — normal flowing text; join with a space
+        False     — do not join; start a new line
+
+    Does NOT join across: bullets, sentence-ending lines, headings.
     """
     if not last_line or last_line.startswith('#'):
         return False
@@ -90,11 +146,86 @@ def should_join_text(last_line, new_text):
         return False
     if any(last_line.endswith(char) for char in [':', '.', '%', ')']):
         return False
-    return True
+
+    # Detect trailing hyphen indicating a mid-word line break (P3).
+    # Exclude "- " bullet markers and standalone dashes.
+    stripped = last_line.rstrip()
+    if stripped.endswith('-') and len(stripped) > 1 and stripped[-2] != ' ':
+        return 'hyphen'
+
+    return 'join'
+
+
+def assess_extraction_quality(input_path, sample_pages=3):
+    """
+    Quick quality pre-check: sample the first N pages to determine whether
+    the script path or in-context processing is more appropriate.
+
+    Returns:
+        tuple[str, str]: ("script"|"in-context", reason string)
+
+    Usage example:
+        recommendation, reason = assess_extraction_quality("paper.pdf")
+        print(f"Recommended: {recommendation} — {reason}")
+    """
+    try:
+        doc = fitz.open(input_path)
+    except Exception as e:
+        return ("in-context", f"Cannot open PDF: {e}")
+
+    total_chars = 0
+    heading_candidates = 0
+    pages_sampled = min(sample_pages, len(doc))
+
+    for page_num in range(0, pages_sampled):  # Start from page 0 (cover included)
+        page = doc[page_num]
+        blocks = page.get_text("dict")["blocks"]
+        for b in blocks:
+            if b.get("type") != 0:
+                continue
+            for line in b.get("lines", []):
+                spans = line.get("spans", [])
+                if not spans:
+                    continue
+                text = ' '.join(s['text'] for s in spans).strip()
+                total_chars += len(text)
+                max_size = max(s['size'] for s in spans)
+                if max_size >= FONT_SIZE_H1:
+                    heading_candidates += 1
+
+    doc.close()
+
+    avg_chars = total_chars / pages_sampled if pages_sampled > 0 else 0
+
+    if avg_chars < 200:
+        return (
+            "in-context",
+            f"Low text yield: {avg_chars:.0f} chars/page avg on {pages_sampled} pages "
+            f"(threshold: 200). PDF may be scanned or image-based.",
+        )
+    if heading_candidates == 0:
+        return (
+            "script",
+            f"No heading-size text found in {pages_sampled} pages — "
+            f"headings may use body-size fonts. Script will run but consider "
+            f"adjusting FONT_SIZE_H1/H2/H3 thresholds after --diagnose.",
+        )
+    return (
+        "script",
+        f"Good text yield: {avg_chars:.0f} chars/page avg, "
+        f"{heading_candidates} heading candidate(s) in {pages_sampled} pages.",
+    )
 
 
 def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
     """Main extraction pipeline."""
+
+    # P4 — Quality pre-check advisory (non-blocking)
+    recommendation, reason = assess_extraction_quality(input_path)
+    print(f"Quality pre-check: [{recommendation.upper()}] {reason}")
+    if recommendation == "in-context":
+        print("  Note: consider using in-context processing instead of this script.")
+
     try:
         doc = fitz.open(input_path)
     except Exception as e:
@@ -121,8 +252,10 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
                 text = ' '.join(s['text'] for s in spans)
                 text = text.replace('\u200b', '').replace('\ufeff', '').strip()
 
-                # Skip bare page numbers and empty lines
-                if not text or re.match(PAGE_NUMBER_REGEX, text):
+                # Skip empty lines and matched skip patterns (P2: pg. N footers)
+                if not text:
+                    continue
+                if any(re.match(pattern, text) for pattern in SKIP_PATTERNS):
                     continue
 
                 # Classify by font size and bold
@@ -148,11 +281,23 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
                 elif cls == 'h4':
                     md_lines.append(f'\n##### {text}\n')
                 elif cls in ('body', 'bullet'):
-                    if prev_class in ('h1', 'h2', 'h3', 'h4'):
+                    # P5 — Exhibit/figure label: render as bold standalone line
+                    if re.match(EXHIBIT_LABEL_REGEX, text):
+                        md_lines.append(f'\n**{text}**\n')
+                        prev_class = 'exhibit'
+                        continue
+
+                    if prev_class in ('h1', 'h2', 'h3', 'h4', 'exhibit'):
                         md_lines.append(text)
                     else:
-                        # Smart joining for flowing body text
-                        if md_lines and should_join_text(md_lines[-1], text):
+                        # P3 — Smart joining with hyphen-break detection
+                        join_result = should_join_text(
+                            md_lines[-1] if md_lines else '', text
+                        )
+                        if join_result == 'hyphen':
+                            # Strip trailing hyphen and join without space
+                            md_lines[-1] = md_lines[-1].rstrip()[:-1] + text
+                        elif join_result == 'join':
                             md_lines[-1] = md_lines[-1] + ' ' + text
                         else:
                             md_lines.append(text)
@@ -200,7 +345,7 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
 def diagnostic_font_sizes(input_path, sample_pages=5):
     """
     Inspect font sizes in PDF to diagnose classification issues.
-    Run this if output appears garbled.
+    Run this if output appears garbled (via --diagnose flag).
     """
     try:
         doc = fitz.open(input_path)
@@ -211,10 +356,12 @@ def diagnostic_font_sizes(input_path, sample_pages=5):
     print(f"\nDiagnostic: Font Sizes in {input_path}")
     print("=" * 80)
 
-    for page_num in range(1, min(sample_pages + 1, len(doc))):
+    # P6 — Start from page 0 (cover page); note decorative font sizes expected
+    for page_num in range(0, min(sample_pages, len(doc))):
         page = doc[page_num]
         blocks = page.get_text("dict")["blocks"]
-        print(f"\n--- Page {page_num + 1} ---")
+        note = " [cover — font sizes may be decorative]" if page_num == 0 else ""
+        print(f"\n--- Page {page_num + 1}{note} ---")
         for b in blocks:
             if b.get("type") != 0:
                 continue
@@ -239,23 +386,33 @@ def diagnostic_font_sizes(input_path, sample_pages=5):
 # ══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == '__main__':
-    # Check for diagnostic flag
-    if '--diagnose' in sys.argv:
-        diagnostic_font_sizes(INPUT_PDF)
+    args = parse_args()
+
+    # Resolve effective parameters: CLI args override top-of-file constants
+    effective_input = args.input or INPUT_PDF
+    effective_output = args.output or OUTPUT_MD
+    effective_title = args.title or TITLE_LINE
+    effective_date = args.date or PUB_DATE
+    effective_org = args.org or ORGANIZATION
+    effective_doi = args.doi or DOI_OR_URL
+
+    # Diagnostic mode
+    if args.diagnose:
+        diagnostic_font_sizes(effective_input, sample_pages=args.sample_pages)
         sys.exit(0)
 
-    # Validate parameters
-    if INPUT_PDF == '/mnt/user-data/uploads/FILENAME.pdf':
-        print("ERROR: INPUT_PDF parameter not set. Edit script and set INPUT_PDF path.")
+    # Validate: fail fast if INPUT_PDF placeholder was not overridden
+    if effective_input == '/mnt/user-data/uploads/FILENAME.pdf':
+        print("ERROR: INPUT_PDF parameter not set. Use --input or edit INPUT_PDF in script.")
         sys.exit(1)
 
     # Run extraction
     extract_pdf(
-        input_path=INPUT_PDF,
-        output_path=OUTPUT_MD,
-        title_line=TITLE_LINE,
-        pub_date=PUB_DATE,
-        org=ORGANIZATION,
-        doi=DOI_OR_URL,
+        input_path=effective_input,
+        output_path=effective_output,
+        title_line=effective_title,
+        pub_date=effective_date,
+        org=effective_org,
+        doi=effective_doi,
         extra=ADDITIONAL_METADATA,
     )
