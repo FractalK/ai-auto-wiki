@@ -4,8 +4,26 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-05
 last_entry: 2026-06-05
-entry_count: 124
+entry_count: 127
 ---
+
+## [2026-06-05 PT] session-stats | ingest
+Queue size at session start: 3 staged files
+Documents attempted: 3
+Documents completed: 2
+Session limit hit: yes (context compaction between decision form and execution; resumed in continuation session)
+Time window: off-peak
+Source type mix: vendor-content: 1, white-paper: 1, out-of-scope: 1
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: Source 3 (pEVAC-PS Phase I Trial) out of scope per Choice 6:B — primary content is clinical trial data; AI connection insufficient for wiki scope. Teaching Index regenerated.
+
+## [2026-06-05] ingest | Environmental Cost of AI's Energy Use (UNU-INWEH)
+Added: [[2026-unu-inweh-ai-environmental-cost]]. Updated: [[ai-compute-and-infrastructure]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 ([[2026-unu-inweh-ai-environmental-cost]], [[ai-environmental-impact]], [[ai-environmental-impact-pitfalls]]).
+
+## [2026-06-05] ingest | Biodefense in the Intelligence Age (OpenAI)
+Added: [[2026-openai-biodefense-intelligence-age]]. Updated: [[ai-biosecurity]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[openai-gpt-rosalind]], [[2026-openai-biodefense-intelligence-age]]).
 
 ## [2026-06-05 PT] session-stats | ingest (continuation — 4-source batch execution)
 Queue size at session start: 4 staged files

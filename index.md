@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*159 pages. Last updated: 2026-06-05.*
+*164 pages. Last updated: 2026-06-05.*
 
 ---
 
@@ -58,6 +58,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-medicine]] — The application of AI to medicine spans molecular biology, clinical workflows, and patient engagement — characterized by strong benchmark performance on isolated tasks, widespread adoption of narrow workflow tools (especially ambient documentation), and a persistent gap between simulated evaluations and real-patient evidence, with only 2.4% of FDA-authorized AI devices supported by randomized controlled trial data.
 - [[ai-efficiency-trap]] — The paradox in which AI productivity tools compress task time and produce higher performance expectations rather than reduced workload, creating a four-stage organizational cycle — initial gains, managerial recalibration, dependency acceleration, and expectation lock-in — that erodes worker agency and generates collectively unsustainable productivity standards across industries.
 - [[ai-compute-and-infrastructure]] — The hardware, data center, and energy systems underlying large-scale AI development, characterized by 3.3x annual compute capacity growth concentrated in a supply chain with a single critical dependency — TSMC — alongside sharply rising training emissions and wide inference energy variance, offset by a more than 99% decline in GPU computation cost since 2006.
+- [[ai-environmental-impact]] — The carbon, water, and land footprints of AI training and inference at scale — characterized by inference accounting for 80–90% of total energy use, five-orders-of-magnitude variation in task energy intensity, and the Jevons Paradox reversing efficiency gains through consumption growth.
 - [[ai-research-ecosystem]] — The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 - [[ai-trustworthiness]] — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
 - [[prompt-engineering]] — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
@@ -82,6 +83,7 @@ professional roles, see the [[teaching-index]].
 - [[thomson-reuters-ask-practical-law-ai]] — Thomson Reuters's AI assistant for practical law questions, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab in 2024, comparable to Lexis+ AI.
 - [[openai-gpt-5-5]] — OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 - [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
+- [[openai-gpt-rosalind]] — OpenAI's frontier reasoning model for biology, drug discovery, and translational medicine, announced April 2026 and deployed exclusively via the Rosalind Biodefense trusted-access pathway for vetted institutions. *(All current information is vendor-sourced.)*
 - [[openai-codex]] — OpenAI's AI-powered coding assistant desktop application for macOS and Windows, featuring background computer use, cross-session automations with scheduling, cross-session memory, an in-app browser for localhost development, image generation, and 90+ plugin integrations across the software development lifecycle.
 - [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
 - [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
@@ -157,6 +159,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-aclu-facial-recognition-wrongful-arrests]] — Lauren Yu, Nathan Freed Wessler (ACLU), 2026-04-14, institutional
 - [[2026-guardian-anthropic-pause-option]] — Aisha Down (The Guardian), 2026-06-05, practitioner
 - [[2026-anthropic-recursive-self-improvement]] — Anthropic Institute (Marina Favaro, Jack Clark et al.), 2026-06-04, institutional
+- [[2026-openai-biodefense-intelligence-age]] — OpenAI, 2026-06, practitioner (vendor-content)
+- [[2026-unu-inweh-ai-environmental-cost]] — Aczel, Chamanara, Matin et al. (UNU-INWEH), 2026, institutional
 
 ## Comparisons
 
@@ -188,6 +192,7 @@ professional roles, see the [[teaching-index]].
 - [[enterprise-ai-adoption-pitfalls]] — parent: enterprise-ai-adoption
 - [[facial-recognition-technology-pitfalls]] — parent: facial-recognition-technology
 - [[recursive-self-improvement-pitfalls]] — parent: recursive-self-improvement
+- [[ai-environmental-impact-pitfalls]] — parent: ai-environmental-impact
 
 ## Teaching
 

@@ -2,15 +2,16 @@
 type: topic
 title: AI Compute and Infrastructure
 created: 2026-05-20
-updated: 2026-05-20
+updated: 2026-06-05
 summary: The hardware, data center, energy systems, and capital flows underlying large-scale AI development — characterized by 3.3x annual compute capacity growth, a single-foundry supply chain dependency on TSMC, \$581 billion in global corporate AI investment in 2025, and a more than 99% decline in GPU computation cost since 2006 that enables continued scaling despite rising per-run energy requirements.
 status: developing
-source_count: 1
+source_count: 2
 last_assessed: 2026-05-20
 related_topics:
   - "[[ai-research-ecosystem]]"
   - "[[ai-capability-benchmarking]]"
   - "[[ai-governance-policy]]"
+  - "[[ai-environmental-impact]]"
 technical_depth: practitioner
 ---
 
@@ -76,3 +77,7 @@ Leading hyperscalers have more than doubled their capital expenditures since Cha
 | Anthropic annualized revenue | \$19B | Company disclosure or established media; directional estimate | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | OpenAI annual compute spend | \$16.3B | Rented cloud capacity; Epoch AI tracking | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | Anthropic annual compute spend | \$8.3B | Rented cloud capacity; Epoch AI tracking | 2025 | [[2026-stanford-hai-ai-index]] | current |
+| Global data center electricity consumption | 448 TWh | All facilities globally; IEA and industry estimates | 2025 | [[2026-unu-inweh-ai-environmental-cost]] | current |
+| AI workload share of data center electricity | ~20% (~93 TWh) | AI workloads only; projected to reach 40% by 2030 | 2025 | [[2026-unu-inweh-ai-environmental-cost]] | current |
+| Projected data center electricity consumption | >945 TWh | If current trends hold; ~3% of projected global electricity | 2030 | [[2026-unu-inweh-ai-environmental-cost]] | current |
+| GPT-4 training energy | 50–70 GWh | Independent analyses; 100-day training run | 2023 | [[2026-unu-inweh-ai-environmental-cost]] | current |
