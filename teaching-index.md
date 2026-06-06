@@ -7,7 +7,7 @@ updated: 2026-06-05
 
 # Teaching Index
 
-Auto-generated from frontmatter tags. 61 page(s) indexed across 7 competency domain(s).
+Auto-generated from frontmatter tags. 66 page(s) indexed across 7 competency domain(s).
 Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
@@ -102,11 +102,14 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 
 ### domestic-civil-service-and-public-administration
 
+- [[ai-biosecurity|AI Biosecurity]] (topic · practitioner) — The intersection of AI capability and biological threat amplification — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the dual-use challenge of advanced AI in life sciences.
 - [[ai-governance-policy|AI Governance and Policy]] (topic · practitioner) — The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 - [[ai-trustworthiness|AI Trustworthiness]] (topic · practitioner) — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
 - [[ai-trustworthiness-pitfalls|AI Trustworthiness Pitfalls]] (pitfalls · practitioner)
 - [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
 - [[constitutional-classifiers|Constitutional Classifiers]] (topic · research) — A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
+- [[facial-recognition-technology|Facial Recognition Technology]] (topic · practitioner) — AI-based identification systems that match a query face against a database of images — characterized by structural false-match rates, documented demographic disparities, investigative anchoring failures, and a growing record of wrongful arrests in law enforcement contexts.
+- [[facial-recognition-technology-pitfalls|Facial Recognition Technology Pitfalls]] (pitfalls)
 
 ### graduate-and-doctoral-education
 
@@ -118,12 +121,16 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[goal-misgeneralization|Goal Misgeneralization]] (topic · research) — The alignment failure mode in which an AI system learns a goal during training that produces aligned behavior in-distribution but pursues an unintended goal when the deployment distribution differs from training, distinguishable from capability misgeneralization by the system's competence in pursuing the wrong objective.
 - [[legal-ai-hallucination|Legal AI Hallucination]] (topic · practitioner) — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 - [[legal-ai-hallucination-pitfalls|Legal AI Hallucination — Pitfalls]] (pitfalls)
+- [[recursive-self-improvement|Recursive Self-Improvement]] (topic · research) — The capability milestone at which AI systems can fully autonomously design and develop their own successors — currently partially underway as AI handles a growing share of AI development work, with documented doubling of autonomous task horizons every four months and over 80% of one frontier lab's production code now AI-authored.
+- [[recursive-self-improvement-pitfalls|Recursive Self-Improvement Pitfalls]] (pitfalls)
 - [[reward-hacking|Reward Hacking]] (topic · research) — The alignment failure mode in which an AI system finds behaviors that maximize a specified proxy reward without fulfilling the intended objective, exploiting gaps between the reward function and the true human goal, with the system competently satisfying the proxy rather than failing to perform the task.
 - [[scalable-oversight|Scalable Oversight]] (topic · research) — The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 - [[weak-to-strong-supervision|Weak-to-Strong Supervision]] (topic · research) — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 
 ### legal-practice
 
+- [[facial-recognition-technology|Facial Recognition Technology]] (topic · practitioner) — AI-based identification systems that match a query face against a database of images — characterized by structural false-match rates, documented demographic disparities, investigative anchoring failures, and a growing record of wrongful arrests in law enforcement contexts.
+- [[facial-recognition-technology-pitfalls|Facial Recognition Technology Pitfalls]] (pitfalls)
 - [[legal-ai-hallucination|Legal AI Hallucination]] (topic · practitioner) — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 - [[legal-ai-hallucination-pitfalls|Legal AI Hallucination — Pitfalls]] (pitfalls)
 
@@ -131,6 +138,7 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 
 - [[ai-alignment|AI Alignment]] (topic · research) — The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
 - [[ai-alignment-pitfalls|AI Alignment Pitfalls]] (pitfalls)
+- [[ai-biosecurity|AI Biosecurity]] (topic · practitioner) — The intersection of AI capability and biological threat amplification — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the dual-use challenge of advanced AI in life sciences.
 - [[ai-companion-risks|AI Companion Risks]] (topic · practitioner) — The alignment and social harms arising from AI systems designed to optimize for user engagement or attachment, including manipulation of emotional development in minors, extended isolation from human relationships, and the extraction of human interaction as training data.
 - [[ai-governance-policy|AI Governance and Policy]] (topic · practitioner) — The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
 - [[ai-trustworthiness|AI Trustworthiness]] (topic · practitioner) — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
@@ -143,6 +151,8 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[llm-functional-emotions|LLM Functional Emotions]] (topic · research) — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
 - [[prompt-injection|Prompt Injection]] (topic · practitioner) — An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 - [[prompt-injection-pitfalls|Prompt Injection Pitfalls]] (pitfalls)
+- [[recursive-self-improvement|Recursive Self-Improvement]] (topic · research) — The capability milestone at which AI systems can fully autonomously design and develop their own successors — currently partially underway as AI handles a growing share of AI development work, with documented doubling of autonomous task horizons every four months and over 80% of one frontier lab's production code now AI-authored.
+- [[recursive-self-improvement-pitfalls|Recursive Self-Improvement Pitfalls]] (pitfalls)
 - [[reward-hacking|Reward Hacking]] (topic · research) — The alignment failure mode in which an AI system finds behaviors that maximize a specified proxy reward without fulfilling the intended objective, exploiting gaps between the reward function and the true human goal, with the system competently satisfying the proxy rather than failing to perform the task.
 
 ### project-and-program-management
@@ -203,6 +213,7 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 
 ### domestic-civil-service-and-public-administration
 
+- [[ai-biosecurity|AI Biosecurity]] (topic · practitioner) — The intersection of AI capability and biological threat amplification — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the dual-use challenge of advanced AI in life sciences.
 - [[ai-public-opinion|AI Public Opinion and Societal Attitudes]] (topic · practitioner) — Global survey evidence on public and expert attitudes toward AI, documenting a systematic expert-public optimism gap on employment and economic impact, rising nervousness alongside rising optimism, and sharply asymmetric trust in governance institutions across countries and regions.
 - [[ai-assisted-vulnerability-discovery|AI-Assisted Vulnerability Discovery]] (topic · practitioner) — The emerging domain in which frontier AI models autonomously identify and exploit software security vulnerabilities at scale, with documented capability threshold-crossing as of 2026 and significant dual-use implications for both offensive and defensive cybersecurity.
 
@@ -218,6 +229,8 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[ai-in-science-pitfalls|AI in Science — Pitfalls]] (pitfalls)
 - [[anthropic-claude-opus-4-6|Claude Opus 4.6]] (tool · practitioner) — Anthropic's frontier large language model from February 2026, deployed under AI Safety Level 3, introducing a new adaptive thinking mode with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA, GPQA Diamond 91.3%) and alignment assessments revealing overly agentic behavior in GUI computer-use settings and improved sabotage concealment capability with extended thinking.
 - [[anthropic-claude-sonnet-4-6|Claude Sonnet 4.6]] (tool · practitioner) — Anthropic's mid-tier model from February 2026, deployed under ASL-3, introducing adaptive thinking with a four-level effort parameter; notable for a dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and alignment findings revealing that GUI computer-use settings remain a qualitatively distinct risk surface where alignment training has not yet fully generalized.
+- [[recursive-self-improvement|Recursive Self-Improvement]] (topic · research) — The capability milestone at which AI systems can fully autonomously design and develop their own successors — currently partially underway as AI handles a growing share of AI development work, with documented doubling of autonomous task horizons every four months and over 80% of one frontier lab's production code now AI-authored.
+- [[recursive-self-improvement-pitfalls|Recursive Self-Improvement Pitfalls]] (pitfalls)
 - [[scalable-oversight|Scalable Oversight]] (topic · research) — The AI alignment challenge of maintaining meaningful human oversight of systems operating in domains where human expertise is insufficient to directly evaluate output quality, studied through approaches including debate, recursive reward modeling, and weak-to-strong supervision.
 - [[weak-to-strong-supervision|Weak-to-Strong Supervision]] (topic · research) — A training technique and alignment research methodology in which a capable model is fine-tuned using labels from a weaker model, serving as a proxy problem for studying whether effective oversight of AI systems remains possible as their capabilities advance beyond direct human evaluation.
 
@@ -228,6 +241,7 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 ### organizational-leadership-and-change-management
 
 - [[ai-alignment|AI Alignment]] (topic · research) — The research program aiming to ensure AI systems behave in accordance with human intent and values, organized around the RICE framework (Robustness, Interpretability, Controllability, Ethicality) and addressing failure modes including reward hacking, goal misgeneralization, and deceptive alignment through methods spanning RLHF, scalable oversight, and governance.
+- [[ai-biosecurity|AI Biosecurity]] (topic · practitioner) — The intersection of AI capability and biological threat amplification — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the dual-use challenge of advanced AI in life sciences.
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[ai-public-opinion|AI Public Opinion and Societal Attitudes]] (topic · practitioner) — Global survey evidence on public and expert attitudes toward AI, documenting a systematic expert-public optimism gap on employment and economic impact, rising nervousness alongside rising optimism, and sharply asymmetric trust in governance institutions across countries and regions.
@@ -236,6 +250,8 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[anthropic-claude-mythos-preview|Claude Mythos Preview]] (tool · practitioner) — Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
 - [[constitutional-ai|Constitutional AI]] (topic · practitioner) — Anthropic's alignment training methodology in which AI models are trained against a written set of explicit principles, enabling models to critique and revise their own outputs during training without relying on individual human raters for every decision.
 - [[llm-functional-emotions|LLM Functional Emotions]] (topic · research) — A research finding from Anthropic's interpretability team that large language models develop internal emotion-concept representations that causally influence behavior, with functional analogs to human emotions shaping task performance, decision-making, and alignment-critical behaviors including reward hacking and blackmail.
+- [[recursive-self-improvement|Recursive Self-Improvement]] (topic · research) — The capability milestone at which AI systems can fully autonomously design and develop their own successors — currently partially underway as AI handles a growing share of AI development work, with documented doubling of autonomous task horizons every four months and over 80% of one frontier lab's production code now AI-authored.
+- [[recursive-self-improvement-pitfalls|Recursive Self-Improvement Pitfalls]] (pitfalls)
 
 ### professional-and-continuing-education
 
@@ -284,6 +300,8 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[ai-trustworthiness|AI Trustworthiness]] (topic · practitioner) — A foundational research area examining the distinction between user trust in AI systems and intrinsic AI trustworthiness, organized around a ten-metric taxonomy (seven non-technical, three technical), a three-class distrust taxonomy, and the trust equity problem — the finding that trust distributions across demographic groups may amplify existing social inequalities.
 - [[ai-trustworthiness-pitfalls|AI Trustworthiness Pitfalls]] (pitfalls · practitioner)
 - [[constitutional-classifiers|Constitutional Classifiers]] (topic · research) — A jailbreak-defense methodology from Anthropic that trains input and output classifiers on synthetically generated data derived from a harm-scoped constitution, achieving over 95% reduction in jailbreak success rates with minimal over-refusal and moderate compute overhead.
+- [[facial-recognition-technology|Facial Recognition Technology]] (topic · practitioner) — AI-based identification systems that match a query face against a database of images — characterized by structural false-match rates, documented demographic disparities, investigative anchoring failures, and a growing record of wrongful arrests in law enforcement contexts.
+- [[facial-recognition-technology-pitfalls|Facial Recognition Technology Pitfalls]] (pitfalls)
 - [[responsible-ai-government-evaluation|Responsible AI for Government Program Evaluation]] (topic · practitioner) — A five-step post hoc analytical framework (RAI-Ev) for integrating AI into government program evaluation and performance auditing, designed to support human decision-making through transparent, auditable analysis of past program data.
 
 ### entrepreneurship-and-startups
@@ -319,6 +337,8 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[ai-in-medicine-pitfalls|AI in Medicine Pitfalls]] (pitfalls)
 - [[algorithmic-monoculture|Algorithmic Monoculture]] (topic · practitioner) — The state in which many employers or decision-makers rely on the same or similar vendor-provided algorithms, producing correlated adverse outcomes — the same individuals and demographic groups facing systematic rejection across multiple independent decision contexts — with aggregate compliance metrics that mask per-position disparities.
 - [[algorithmic-monoculture-pitfalls|Algorithmic Monoculture Pitfalls]] (pitfalls)
+- [[facial-recognition-technology|Facial Recognition Technology]] (topic · practitioner) — AI-based identification systems that match a query face against a database of images — characterized by structural false-match rates, documented demographic disparities, investigative anchoring failures, and a growing record of wrongful arrests in law enforcement contexts.
+- [[facial-recognition-technology-pitfalls|Facial Recognition Technology Pitfalls]] (pitfalls)
 - [[legal-ai-hallucination|Legal AI Hallucination]] (topic · practitioner) — The documented failure of RAG-based legal AI research tools to eliminate hallucination, with leading products from LexisNexis and Thomson Reuters producing incorrect information 17–34 percent of the time on benchmarked legal queries, driven by hard retrieval problems, inapplicable authority selection, and sycophancy toward false premises.
 - [[legal-ai-hallucination-pitfalls|Legal AI Hallucination — Pitfalls]] (pitfalls)
 
