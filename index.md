@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*167 pages. Last updated: 2026-06-09.*
+*168 pages. Last updated: 2026-06-09.*
 
 ---
 
@@ -67,6 +67,7 @@ professional roles, see the [[teaching-index]].
 - [[enterprise-ai-adoption]] — The organizational challenge of converting GenAI pilots into deployed workflows with measurable business value, characterized by a "GenAI Divide" in which 95% of organizations show zero P&L ROI while 5% extract millions — with adoption failures driven primarily by learning-incapable tools and organizational design failures rather than model limitations.
 - [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
+- [[ai-economic-impact]] — A measurement framework and empirical findings on AI's economic footprint, documenting real-world task horizons (50% success at 3.5 hours for API, ~19 hours for Claude.ai), effective AI coverage across occupations weighted by task time and success rate (49% of jobs at ≥25% task penetration), and revised productivity estimates of 1.0–1.2 percentage points annual labor productivity growth once task reliability is factored in.
 
 ## Tools
 
@@ -164,6 +165,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-unu-inweh-ai-environmental-cost]] — Aczel, Chamanara, Matin et al. (UNU-INWEH), 2026, institutional
 - [[2026-google-notebooklm-agentic-capabilities]] — Trond Wuellner, Google Blog, 2026-06-08, practitioner
 - [[2025-openai-cyber-resilience-safeguards]] — OpenAI, 2025-12-10, practitioner
+- [[2026-anthropic-economic-index-primitives]] — Appel, Massenkoff, McCrory et al. (Anthropic), 2026-01-15, institutional
 
 ## Comparisons
 

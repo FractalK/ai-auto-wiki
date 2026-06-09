@@ -2,15 +2,16 @@
 type: topic
 title: AI Workforce Complementarity
 created: 2026-05-18
-updated: 2026-06-04
+updated: 2026-06-09
 summary: A research framework identifying five human capability groups resistant to AI automation (the EPOCH framework), backed by regression analysis of O*NET data showing EPOCH-intensive occupations experienced significantly stronger employment growth from 2015–2023 (β=0.132/SD, p<0.01) and that EPOCH scores accurately predict BLS employment projections through 2034.
 status: developing
-source_count: 4
+source_count: 5
 last_assessed: 2026-06-04
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-in-higher-education]]"
   - "[[ai-agentic-workflows]]"
+  - "[[ai-economic-impact]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness
@@ -92,6 +93,9 @@ At the macro level, U.S. productivity growth reached 2.7% in 2025 — nearly dou
 | Organizations expecting AI-driven workforce reduction | ~33% | McKinsey survey; 35% at orgs with >\$1B revenue | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | Workers wanting AI to automate specific tasks | 46.1% of surveyed tasks | 844 occupational tasks surveyed; Shao et al. 2026 | 2026 | [[2026-stanford-hai-ai-index]] | current |
 | Software developer employment (ages 22–25) | –20% from 2022 peak | By September 2025; Brynjolfsson et al. 2025 ADP data | 2025-09 | [[2026-stanford-hai-ai-index]] | current |
+| Effective AI coverage — jobs with ≥25% task penetration | 49% | Weighted by task time and success rate; Claude.ai data; Jan 2026 report (up from 36% in prior Anthropic work) | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
+| Implied annual labor productivity gain (reliability-adjusted) | 1.0–1.2 pp/year | Claude.ai: 1.2pp; API: 1.0pp; task speedups discounted by success rate; vs. 1.8pp unadjusted | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
+| Education years — Claude-covered vs. all tasks | 14.4 years (covered) vs. 13.2 years (all) | Net deskilling: Claude covers systematically higher-education tasks; O*NET task embeddings | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
 
 ## Key Claims
 

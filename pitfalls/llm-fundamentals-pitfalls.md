@@ -2,11 +2,11 @@
 type: pitfalls
 title: LLM Fundamentals Pitfalls
 created: 2026-04-26
-updated: 2026-05-18
+updated: 2026-06-09
 parent_entity: "[[topics/llm-fundamentals]]"
 parent_type: topic
 status: current
-failure_mode_count: 9
+failure_mode_count: 10
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -20,6 +20,7 @@ contributing_sources:
   - "[[2026-google-prompt-injection-wild]]"
   - "[[2025-mit-sloan-ai-complement-workers]]"
   - "[[2026-stanford-hai-ai-index]]"
+  - "[[2026-anthropic-economic-index-primitives]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -54,6 +55,12 @@ Base models (pretrained but not instruction-tuned) are not assistants and have n
 **Source:** [[2025-mit-sloan-ai-complement-workers]]
 
 Statistical learning systems — including all current LLMs — fail predictably at four boundary conditions: (1) biased training data, where historical data misrepresents the target population and the model perpetuates or amplifies the bias; (2) small sample sizes, where insufficient data makes inference unreliable; (3) extrapolation beyond training range, where the model is asked to reason about conditions far outside its training distribution; and (4) moral dilemma resolution, where no statistical best answer exists because outcomes are contested by stakeholders. These are structural properties of the underlying learning paradigm, not bugs to be patched in future releases. Workflows that present AI tools with tasks sitting at these boundaries — rare event prediction, novel domain generalization, or high-stakes ethical adjudication — should not expect reliable outputs without substantial human judgment applied to the result.
+
+### Task Reliability Degradation on Complex Tasks
+**Status:** active<br>
+**Source:** [[2026-anthropic-economic-index-primitives]]
+
+LLMs show sharp reliability degradation as task complexity and duration increase. The Anthropic Economic Index (January 2026) measures a real-world "task horizon" — the duration at which AI achieves a 50% success rate — of approximately 3.5 hours for API users (single-turn) and approximately 19 hours for Claude.ai multi-turn sessions, with the Claude.ai advantage attributable to iterative user correction across turns. Tasks exceeding these thresholds have sub-50% completion rates, making them unreliable for unsupervised deployment without human checkpoints. This limitation is not specific to a single model version: the same success-rate degradation curve appears in controlled benchmarks (METR, 2025) across model generations, with each new generation shifting the curve rather than eliminating it.
 
 ## Usage Antipatterns
 

@@ -17,6 +17,9 @@ Non-autoregressive generation for speech models | https://arxiv.org/abs/2603.083
 Pre-deployment auditing can catch an overt saboteur (Treutlein et al., 2026) | https://alignment.anthropic.com/2026/auditing-overt-saboteur/ | industry-blog | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-claude-opus-4-6-system-card]], relevant to [[ai-alignment]]]
 SHADE-Arena: Evaluating sabotage and monitoring in LLM agents (Kutasov et al., 2025) | https://arxiv.org/abs/2506.15740 | research-paper | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-claude-opus-4-6-system-card]], relevant to [[ai-alignment]]]
 Monitoring computer use via hierarchical summarization (Sumers et al., 2025) | https://alignment.anthropic.com/2025/summarization-for-monitoring/ | industry-blog | institutional | nominated: 2026-05-29 [nominated — cited by [[2026-claude-opus-4-6-system-card]], relevant to [[ai-agentic-workflows]]]
+Measuring AI Ability to Complete Long Tasks (Kwa et al., 2025) | https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/ | practitioner-reference | practitioner | nominated: 2026-06-09 [nominated — cited by [[2026-anthropic-economic-index-primitives]], relevant to [[ai-economic-impact]], [[llm-fundamentals]]]
+Expertise in the Age of AI (Autor & Thompson, 2025) | https://economics.mit.edu/sites/default/files/2025-06/Expertise-Autor-Thompson-20250618.pdf | research-paper | peer-reviewed | nominated: 2026-06-09 [nominated — cited by [[2026-anthropic-economic-index-primitives]], relevant to [[ai-economic-impact]], [[ai-workforce-complementarity]]]
+Technology Diffusion and Labor Markets (Kalanyi et al., 2025) | https://academic.oup.com/qje/article-abstract/140/2/1299/7959830 | research-paper | peer-reviewed | nominated: 2026-06-09 [nominated — cited by [[2026-anthropic-economic-index-primitives]], relevant to [[ai-economic-impact]]]
 
 
 
