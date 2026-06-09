@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Last Updated: 06/07/2026 20:13 EDT
 """
 PDF to Markdown Converter
 ========================
@@ -156,18 +157,42 @@ def should_join_text(last_line, new_text):
     return 'join'
 
 
-def assess_extraction_quality(input_path, sample_pages=3):
+def assess_extraction_quality(input_path, sample_pages=3, page_count=None):
     """
     Quick quality pre-check: sample the first N pages to determine whether
     the script path or in-context processing is more appropriate.
+
+    Checks run in order from cheapest to most expensive:
+      1. Page-count check — short documents are always routed to in-context,
+         which avoids any encoding artifacts without text extraction.
+      2. Concatenation check — detects justified-text encoding artifacts where
+         words are fused without inter-word spaces (long-run token heuristic).
+      3. Yield check — detects scanned/image-based PDFs with low text yield.
+
+    Args:
+        input_path:   Path to the PDF file.
+        sample_pages: Number of pages to sample for quality checks (default: 3).
+        page_count:   Total page count of the already-open document, if known.
+                      When provided, the page-count check runs without opening
+                      the file a second time. Pass None to skip this check.
 
     Returns:
         tuple[str, str]: ("script"|"in-context", reason string)
 
     Usage example:
-        recommendation, reason = assess_extraction_quality("paper.pdf")
+        recommendation, reason = assess_extraction_quality("paper.pdf", page_count=9)
         print(f"Recommended: {recommendation} — {reason}")
     """
+    # Check 1: Page-count awareness (cheapest — no file I/O if page_count provided).
+    # Short documents are fully renderable in context and artifact-free; route them
+    # to in-context regardless of other metrics.
+    if page_count is not None and page_count <= 10:
+        return (
+            "in-context",
+            f"Document is {page_count} pages — short enough for in-context processing, "
+            f"which avoids any encoding artifacts.",
+        )
+
     try:
         doc = fitz.open(input_path)
     except Exception as e:
@@ -175,6 +200,7 @@ def assess_extraction_quality(input_path, sample_pages=3):
 
     total_chars = 0
     heading_candidates = 0
+    all_tokens = []  # For concatenation check (Check 2)
     pages_sampled = min(sample_pages, len(doc))
 
     for page_num in range(0, pages_sampled):  # Start from page 0 (cover included)
@@ -187,14 +213,37 @@ def assess_extraction_quality(input_path, sample_pages=3):
                 spans = line.get("spans", [])
                 if not spans:
                     continue
-                text = ' '.join(s['text'] for s in spans).strip()
+                text = ' '.join(s['text'] for s in spans)
+                # Mirror extract_pdf unicode cleaning so the concatenation check
+                # reflects what the script will actually write, not raw encoding.
+                text = text.replace('\u200b', ' ').replace('\ufeff', '').strip()
                 total_chars += len(text)
+                all_tokens.extend(text.split())
                 max_size = max(s['size'] for s in spans)
                 if max_size >= FONT_SIZE_H1:
                     heading_candidates += 1
 
     doc.close()
 
+    # Check 2: Concatenation detection.
+    # Text is cleaned of zero-width spaces (mirroring extract_pdf) before
+    # tokenizing, so this check targets documents where words are genuinely
+    # fused with no separator at all — a different encoding failure from
+    # zero-width-space padding. Long-run token ratio > 10% indicates that
+    # extraction will produce garbled concatenated output even after cleanup.
+    # Threshold values: min token length = 20 chars, ratio = 0.10.
+    total_tokens = len(all_tokens)
+    if total_tokens > 0:
+        long_run_count = sum(1 for t in all_tokens if len(t) >= 20)
+        long_run_ratio = long_run_count / total_tokens
+        if long_run_ratio > 0.10:
+            return (
+                "in-context",
+                f"Possible word concatenation: {long_run_ratio:.0%} of tokens exceed "
+                f"20 chars (threshold: 10%). PDF may use justified-text encoding.",
+            )
+
+    # Check 3: Yield check.
     avg_chars = total_chars / pages_sampled if pages_sampled > 0 else 0
 
     if avg_chars < 200:
@@ -220,12 +269,6 @@ def assess_extraction_quality(input_path, sample_pages=3):
 def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
     """Main extraction pipeline."""
 
-    # P4 — Quality pre-check advisory (non-blocking)
-    recommendation, reason = assess_extraction_quality(input_path)
-    print(f"Quality pre-check: [{recommendation.upper()}] {reason}")
-    if recommendation == "in-context":
-        print("  Note: consider using in-context processing instead of this script.")
-
     try:
         doc = fitz.open(input_path)
     except Exception as e:
@@ -233,6 +276,13 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
         sys.exit(1)
 
     page_count = len(doc)
+
+    # P4 — Quality pre-check advisory (non-blocking).
+    # Pass page_count so the cheapest check (page-count) runs without re-opening.
+    recommendation, reason = assess_extraction_quality(input_path, page_count=page_count)
+    print(f"Quality pre-check: [{recommendation.upper()}] {reason}")
+    if recommendation == "in-context":
+        print("  Note: consider using in-context processing instead of this script.")
     print(f"Pages: {page_count}")
 
     md_lines = []
