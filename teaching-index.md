@@ -2,13 +2,13 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-06-05
+updated: 2026-06-09
 ---
 
 # Teaching Index
 
 Auto-generated from frontmatter tags. 67 page(s) indexed across 7 competency domain(s).
-Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py`.
+Last regenerated: 2026-06-09. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
 
@@ -436,13 +436,13 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 
 - [[ai-in-higher-education|AI in Higher Education]] (topic · foundational) — AI in education spans instructor frameworks for AI integration (Assign, Limit, Prohibit), documented adoption scale, K–12 curriculum and policy developments, and informal skill acquisition pathways. Globally, 80% of university students use generative AI for schoolwork while fewer than half of institutions have clear policies governing that use.
 - [[ai-assisted-skills-training|AI-Assisted Skills Training]] (topic · practitioner) — A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
-- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
+- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 - [[prompt-engineering|Prompt Engineering]] (topic · practitioner) — The research and practice discipline focused on designing, structuring, and phrasing natural language inputs to elicit desired outputs from large language models, encompassing techniques from zero-shot and few-shot prompting to structured multi-page instruction documents used in agentic delegation.
 
 ### journalism-and-media
 
-- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
+- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 
 ### non-profit-and-ngo-work
 
@@ -490,7 +490,7 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[ai-in-higher-education|AI in Higher Education]] (topic · foundational) — AI in education spans instructor frameworks for AI integration (Assign, Limit, Prohibit), documented adoption scale, K–12 curriculum and policy developments, and informal skill acquisition pathways. Globally, 80% of university students use generative AI for schoolwork while fewer than half of institutions have clear policies governing that use.
 - [[ai-assisted-skills-training|AI-Assisted Skills Training]] (topic · practitioner) — A research area in which large language models serve as role-playing practice partners and expert feedback mentors for developing professional social skills, using domain-expert-designed constitution rulesets to constrain LLM behavior toward pedagogically appropriate responses.
 - [[anthropic-claude|Claude (Anthropic)]] (tool · foundational) — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
-- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
+- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[jailbreaking|Jailbreaking]] (topic · practitioner) — Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 - [[llm-fundamentals-pitfalls|LLM Fundamentals Pitfalls]] (pitfalls)
@@ -509,12 +509,12 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 
 - [[anthropic-claude-opus-4-6|Claude Opus 4.6]] (tool · practitioner) — Anthropic's frontier large language model from February 2026, deployed under AI Safety Level 3, introducing a new adaptive thinking mode with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA, GPQA Diamond 91.3%) and alignment assessments revealing overly agentic behavior in GUI computer-use settings and improved sabotage concealment capability with extended thinking.
 - [[anthropic-claude-sonnet-4-6|Claude Sonnet 4.6]] (tool · practitioner) — Anthropic's mid-tier model from February 2026, deployed under ASL-3, introducing adaptive thinking with a four-level effort parameter; notable for a dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and alignment findings revealing that GUI computer-use settings remain a qualitatively distinct risk surface where alignment training has not yet fully generalized.
-- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
+- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[llm-wiki-pattern|LLM Wiki Pattern]] (topic · practitioner) — A knowledge management methodology in which a large language model incrementally builds and maintains a persistent, interlinked wiki from ingested sources, enabling pre-computed synthesis, incremental contradiction detection, and query responses without live document retrieval.
 
 ### journalism-and-media
 
-- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
+- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 
 ### organizational-leadership-and-change-management
 
@@ -566,5 +566,5 @@ Last regenerated: 2026-06-05. To regenerate: `python3 generate-teaching-index.py
 - [[ai-capability-benchmarking|AI Capability Benchmarking]] (topic · practitioner) — The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 - [[ai-capability-benchmarking-pitfalls|AI Capability Benchmarking Pitfalls]] (pitfalls)
 - [[anthropic-claude|Claude (Anthropic)]] (tool · foundational) — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
-- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with a Studio suite (Audio/Video Overviews, Mind Maps, Reports), note-taking assistance, and structured workflow support for single-project and multi-notebook research contexts.
+- [[google-notebooklm|Google NotebookLM]] (tool · foundational) — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[llm-fundamentals|LLM Fundamentals]] (topic · foundational) — The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.

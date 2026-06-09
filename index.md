@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-06-05
+updated: 2026-06-09
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*164 pages. Last updated: 2026-06-05.*
+*167 pages. Last updated: 2026-06-09.*
 
 ---
 
@@ -75,7 +75,7 @@ professional roles, see the [[teaching-index]].
 - [[anthropic-claude-opus-4-8]] — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[anthropic-claude-opus-4-6]] — Anthropic's frontier model from February 2026, deployed under ASL-3; introducing adaptive thinking with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA) and alignment findings including overly agentic GUI computer-use behavior and improved sabotage concealment capability. (prior generation)
 - [[anthropic-claude-sonnet-4-6]] — Anthropic's mid-tier model from February 2026, deployed under ASL-3; adaptive thinking with four-level effort parameter; notable for dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and documented GUI alignment surface dependence.
-- [[google-notebooklm]] — Google's AI-powered research notebook that synthesizes uploaded source documents into a searchable, queryable workspace, with audio overview generation, note-taking assistance, and structured workflow support for single-project research contexts.
+- [[google-notebooklm]] — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
 - [[openai-chatgpt]] — OpenAI's general-purpose AI assistant and the most widely recognized conversational AI product, with strengths in voice interaction, native image generation, and real-time web search.
 - [[lexisnexis-lexis-plus-ai]] — LexisNexis's RAG-based legal AI research assistant, marketed as providing hallucination-free linked legal citations, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab.
@@ -85,6 +85,7 @@ professional roles, see the [[teaching-index]].
 - [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
 - [[openai-gpt-rosalind]] — OpenAI's frontier reasoning model for biology, drug discovery, and translational medicine, announced April 2026 and deployed exclusively via the Rosalind Biodefense trusted-access pathway for vetted institutions. *(All current information is vendor-sourced.)*
 - [[openai-codex]] — OpenAI's AI-powered coding assistant desktop application for macOS and Windows, featuring background computer use, cross-session automations with scheduling, cross-session memory, an in-app browser for localhost development, image generation, and 90+ plugin integrations across the software development lifecycle.
+- [[openai-aardvark]] — OpenAI's agentic security researcher that autonomously scans codebases for vulnerabilities, proposes patches, and identifies novel CVEs by reasoning over entire codebases, currently in private beta with planned free coverage for non-commercial open-source repositories.
 - [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
 - [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
 - [[deepseek-v4-pro]] — DeepSeek's frontier open-weight model as of April 2026, a 1.6T-parameter Mixture-of-Experts model (49B active per token) with MIT license, 80.6% SWE-bench Verified score, and API pricing at approximately one-ninth of GPT-5.5 output token cost — text-only at launch.
@@ -161,6 +162,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-recursive-self-improvement]] — Anthropic Institute (Marina Favaro, Jack Clark et al.), 2026-06-04, institutional
 - [[2026-openai-biodefense-intelligence-age]] — OpenAI, 2026-06, practitioner (vendor-content)
 - [[2026-unu-inweh-ai-environmental-cost]] — Aczel, Chamanara, Matin et al. (UNU-INWEH), 2026, institutional
+- [[2026-google-notebooklm-agentic-capabilities]] — Trond Wuellner, Google Blog, 2026-06-08, practitioner
+- [[2025-openai-cyber-resilience-safeguards]] — OpenAI, 2025-12-10, practitioner
 
 ## Comparisons
 

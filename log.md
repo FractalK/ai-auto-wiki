@@ -2,10 +2,46 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-05
-last_entry: 2026-06-05
-entry_count: 127
+updated: 2026-06-09
+last_entry: 2026-06-09
+entry_count: 132
 ---
+
+## [2026-06-09 EDT] session-stats | ingest
+Queue size at session start: 3 staged files
+Documents attempted: 3
+Documents completed: 2 (Source 3 aborted — exact URL duplicate of [[2026-anthropic-teaching-claude-why]] ingested 2026-06-04)
+Session limit hit: yes (context compaction between decision form and execution; resumed in continuation session)
+Time window: off-peak
+Source type mix: vendor-content: 2, duplicate-abort: 1
+Approx tokens (from /cost): not available (continuation session after compaction)
+Notes: CTRD-002 and CTRD-003 opened on google-notebooklm; overcap warnings on google-notebooklm (6 Key Claims) and ai-assisted-vulnerability-discovery (6 Key Claims) — to be resolved at next lint pass. Teaching Index regeneration pending.
+
+## [2026-06-09] ingest | Strengthening cyber resilience as AI capabilities advance
+Added: [[2025-openai-cyber-resilience-safeguards]]. Updated: [[ai-assisted-vulnerability-discovery]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 ([[openai-aardvark]], [[2025-openai-cyber-resilience-safeguards]]).
+
+## [2026-06-09] contradiction-flag | Google NotebookLM
+Page: [[google-notebooklm]]
+Claim: Effective NotebookLM use requires front-loading sources before querying
+Contesting source: [[2026-google-notebooklm-agentic-capabilities]] (practitioner, weight=1)
+Existing support score: 2
+Resolution path: human-review
+Contradiction ID: CTRD-003
+Override window closes: 2026-06-16
+
+## [2026-06-09] contradiction-flag | Google NotebookLM
+Page: [[google-notebooklm]]
+Claim: NotebookLM lacks spreadsheet and database support
+Contesting source: [[2026-google-notebooklm-agentic-capabilities]] (practitioner, weight=1)
+Existing support score: 1
+Resolution path: human-review
+Contradiction ID: CTRD-002
+Override window closes: 2026-06-16
+
+## [2026-06-09] ingest | Do better research with NotebookLM
+Added: [[2026-google-notebooklm-agentic-capabilities]]. Updated: [[google-notebooklm]]. Contradictions flagged: 2.
+Auto-resolved: 0. New pages created: 1 ([[2026-google-notebooklm-agentic-capabilities]]).
 
 ## [2026-06-05 PT] session-stats | ingest
 Queue size at session start: 3 staged files
