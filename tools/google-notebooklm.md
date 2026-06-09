@@ -52,12 +52,6 @@ professional_contexts:
 technical_depth: foundational
 teaching_notes_reviewed: 2026-04-30
 open_contradictions:
-  - id: "CTRD-002"
-    claim_summary: "NotebookLM lacks spreadsheet and database support"
-    contesting_source: "[[2026-google-notebooklm-agentic-capabilities]]"
-    flagged_date: "2026-06-09"
-    override_window_closes: "2026-06-16"
-    path: "human-review"
   - id: "CTRD-003"
     claim_summary: "Effective NotebookLM use requires front-loading sources before querying"
     contesting_source: "[[2026-google-notebooklm-agentic-capabilities]]"
@@ -105,7 +99,7 @@ For projects spanning multiple knowledge domains or accumulating data over time,
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
 | NotebookLM supports up to 50 sources per notebook on the free tier (300 on Pro), with a maximum of 500,000 words per source, and creates a functional research workspace in under one minute using only a Google account. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | current | 2 | false |
-| NotebookLM lacks API access, cross-notebook connections, spreadsheet/database support, and user-controllable mind-map capabilities — AI-generated mind maps are read-only outputs with no import, export, or editing of map files — constraining its use to single-project, single-session research contexts. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] [minority view] | 2026-04-03 | contested [CTRD-002] | 1 | false |
+| NotebookLM lacks API access, cross-notebook connections, and user-controllable mind-map capabilities — AI-generated mind maps are read-only outputs with no import, export, or editing of map files — constraining its use to single-project, single-session research contexts. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] [minority view] | 2026-04-03 | current | 1 | false |
 | Effective NotebookLM use requires front-loading sources before querying, using specific multi-turn question sequences, explicitly saving responses to notes before session end (chat history is not preserved between sessions), and independently verifying all citations before academic or professional use. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | contested [CTRD-003] | 2 | false |
 | NotebookLM's Studio tab generates Audio Overviews (podcast-style synthesis), Video Overviews (visual summaries with source-grounded graphics), Mind Maps (interactive concept visualization), and Reports (briefing documents, study guides, timelines, and quizzes), all appropriate for passive reinforcement and learning synthesis but not for citable academic reference. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2025-08 | current | 2 | false |
 | In multi-tool AI workflows, NotebookLM functions most reliably as a stable knowledge container for content that remains consistent across tasks, with time-sensitive or evolving material introduced at the session level; separating notebooks by knowledge domain preserves reliability and simplifies file management over time. | [[2026-question-forward-gemini-notebooklm-workflow]] | 2026-03-04 | current | 1 | false |

@@ -4,8 +4,17 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-09
 last_entry: 2026-06-09
-entry_count: 132
+entry_count: 133
 ---
+
+## [2026-06-09] contradiction-resolved | Google NotebookLM
+Page: [[google-notebooklm]]
+Contradiction ID: CTRD-002
+Claim: NotebookLM lacks spreadsheet and database support (sub-claim of Claim 2)
+Resolution path: human-review
+Resolution: confirmed
+Human action: confirmed in session 2026-06-09
+Final claim status: current (claim text updated in place; spreadsheet/database limitation removed as superseded by June 2026 export format expansion)
 
 ## [2026-06-09 EDT] session-stats | ingest
 Queue size at session start: 3 staged files
