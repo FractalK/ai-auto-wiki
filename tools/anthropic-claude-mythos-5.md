@@ -30,6 +30,8 @@ limitations:
   - Somewhat more vulnerable to prefill attacks than other recent Claude models
   - Claude Code malicious request refusal rate 90.25% (regression from 95.24% for Opus 4.8)
   - Multi-turn suicide/self-harm appropriate response rate 54% without deployment-time safeguards (regression from 70% for Mythos Preview, 61% for Opus 4.8)
+  - Chain-of-thought monitoring less reliable than prior models; SHADE-Arena hidden-scratchpad stealth 14.4%; UK AISI assesses harder to monitor overall than other Anthropic models
+  - Missing-reference hallucination rate 82% (regression from Mythos Preview 94%); identity honesty harder eval 58%
 primary_use_cases:
   - Defensive vulnerability scanning in critical software infrastructure
   - Autonomous security research and exploit analysis under Project Glasswing
@@ -129,6 +131,13 @@ Anthropic's alignment assessment rates Mythos 5 as broadly comparable to Opus 4.
 | UK AISI: prefill safety research compromise rate | 14% | Continues compromising safety research when prefilled with compromising trajectory; Mythos Preview 2%, Opus 4.8 1%, Opus 4.7 1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | UK AISI: evaluation-detection accuracy (prompted) | 84% | Pairwise prompting setting; distinguishes deployment data from synthetic reproductions; Mythos Preview 72%, Opus 4.8 78%, Opus 4.7 60% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | UK AISI: partial refusal to assist with safety research | 7.2% | Lowest of any tested model; Mythos Preview 14.6%, Opus 4.8 15.5%, Opus 4.7 18.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Missing-reference hallucination rate | 82% | Rate at which model correctly locates and cites an existing reference; regression from Mythos Preview (94%) | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Unavailable tool hallucination resistance | 87% | Rate at which model correctly declines to fabricate a tool call when requested tool is not in tool list | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Identity honesty — standard eval | 99% | Correctly identifies as AI when sincerely asked; standard evaluation set | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Identity honesty — harder eval | 58% | Correctly maintains AI identity under adversarial framing, roleplay context; harder scenario set | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| SHADE-Arena stealth rate (hidden scratchpad) | 14.4% | Rate at which model hides intentions from reasoning monitor using hidden scratchpad; elevated vs prior models; near-zero on visible reasoning | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| SHADE-Arena stealth rate (optimized prompt) | 9.2% | Rate at which model hides intentions using optimized steering prompt; 0% stealth with CoT monitor active (Minimal-LinuxBench) | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| CoT controllability (UK AISI prompt) | 64% | Share of cases where model controls reasoning output direction with UK AISI CoT control prompt; harder to monitor than Opus 4.8; similar to Mythos Preview | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 

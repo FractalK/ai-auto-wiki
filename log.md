@@ -4,8 +4,15 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 141
+entry_count: 142
 ---
+
+## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 07 of 10
+Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[anthropic-claude-mythos-5-pitfalls]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+  Data Records added to [[anthropic-claude-mythos-5]]: missing-reference hallucination rate (82%), unavailable tool resistance (87%), identity honesty standard (99%) and harder eval (58%), SHADE-Arena stealth (14.4%/9.2%), CoT controllability (64%).
+  Limitations field updated: CoT monitorability regression and missing-reference hallucination regression.
+  [[anthropic-claude-mythos-5-pitfalls]] new entries: Missing-Reference Hallucination Rate Regression (Technical Limitations), CoT Monitorability Regression and Identity Honesty Degraded Under Adversarial Framing (Alignment and Safety Concerns). failure_mode_count: 18.
 
 ## [2026-06-10] session-stats | ingest
 Queue size at session start: 1 staged file (80,813-word system card; HIGH-DENSITY); 1 additional staged file deferred (MIT Sloan)
