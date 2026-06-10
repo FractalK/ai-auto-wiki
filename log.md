@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 147
+entry_count: 148
 ---
+
+## [2026-06-10 PT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: yes (context compaction between pre-flight and execution; resumed in continuation session)
+Time window: peak
+Source type mix: research-paper: 1
+Approx tokens (from /cost): not available (two-session ingest)
+Notes: Pre-flight completed in prior session; execution (Steps 10–22) completed in continuation session after context compaction.
 
 ## [2026-06-10] ingest | When combinations of humans and AI are useful: A systematic review and meta-analysis
 Added: [[2024-vaccaro-human-ai-synergy-meta-analysis]]. Updated: (none — new pages only). Contradictions flagged: 0.
