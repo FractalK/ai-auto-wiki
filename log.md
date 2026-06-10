@@ -4,8 +4,13 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 144
+entry_count: 145
 ---
+
+## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 10 of 10
+Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: (none). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+  Part 10 is the appendix: welfare interview Q&A table (supporting detail for Section 7 / Part 08 findings) and HLE blocklist. No new wiki content warranted — appendix confirms existing captures; no new Key Claims, Data Records, or pitfall entries.
 
 ## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 09 of 10
 Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[anthropic-claude-fable-5]], [[anthropic-claude-fable-5-pitfalls]]. Contradictions flagged: 0.
