@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 145
+entry_count: 146
 ---
+
+## [2026-06-10 PT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 1 (10-part decomposition; Parts 01–06 processed in prior session)
+Documents completed: 1 (Parts 07–10 processed this session)
+Session limit hit: yes (context compaction between Parts 09 and 10; resumed in continuation session)
+Time window: peak
+Source type mix: vendor-content: 1
+Approx tokens (from /cost): ~large (two-session ingest; no /cost total available)
+Notes: Parts 07–09 processed in first session half; Part 10 (appendix-only, no wiki content) and housekeeping in continuation session. failure_mode_count reconciliation applied at Part 07: manifest frontmatter count (14) was off by 1 from actual entry count (15); corrected before adding new entries.
 
 ## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 10 of 10
 Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: (none). Contradictions flagged: 0.
