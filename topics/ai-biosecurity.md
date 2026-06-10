@@ -2,11 +2,11 @@
 type: topic
 title: AI Biosecurity
 created: 2026-06-05
-updated: 2026-06-09
+updated: 2026-06-10
 summary: "The intersection of AI capability and biological security — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the deployment of trusted-access AI programs for proactive biodefense and pandemic preparedness."
 status: developing
 source_count: 3
-last_assessed: 2026-06-09
+last_assessed: 2026-06-10
 related_topics:
   - "[[ai-governance-policy]]"
   - "[[ai-alignment]]"
@@ -54,6 +54,8 @@ This trusted-access approach attempts to preserve asymmetric access — giving d
 Anthropic's June 2026 system card for Claude Mythos 5 and Claude Fable 5 provides the most detailed published RSP-framework evaluation of a frontier model's biosecurity risk to date. Mythos 5 is assessed as CB-1 — capable of meaningfully uplifting well-resourced threat actors with basic technical backgrounds on the synthesis of non-novel chemical or biological weapons — and is treated with full ASL-3 protections: real-time classifier guards, access controls, a bug bounty program, rapid-response options for jailbreaks, and model weight security controls.
 
 The CB-2 assessment — whether Mythos 5 can substitute for world-leading specialists in the end-to-end design and deployment of novel chemical or biological weapons — is assessed as negative, but Anthropic describes this as the least clear judgment it has made for any model evaluated to date. The evidence pulls in both directions. The beneficial red-teaming tabletop exercise, in which six PhD-level biologists were paired with dedicated LLM experts, produced the strongest CB-2 signal: generalist biology PhD teams outperformed teams that included plant pathology world-leading experts, with expert graders estimating that the composite teams produced 40–95 working days of work (average 72.5 days) in 16 hours. The primary factors cited for the CB-2 threshold not being crossed are weak open-ended ideation (reliable recombination of published knowledge but rarely genuinely novel approaches) and poor strategic judgment (executing plans containing flaws the model itself detected).
+
+Chemical weapons evaluations run alongside the biological assessments show a similar profile. Expert red-teamers rated chemical uplift at or near specialist-level (occasionally approaching world-leading expertise) in three concentrated areas: selection of candidate agents balancing multiple properties, following standard operating procedures with corrective actions for known failure points, and acquisition and OPSEC planning covering blind spots a scientific expert would miss. A separate exercise with non-expert PhD participants revealed moderate uplift, with the model substituting for missing expertise across plausible attack pathways — though these remained constrained by unvalidated physics and scaling bottlenecks the model could not close. As with biology, Mythos 5 performed poorly at ideation and exploratory tasks and presented derived quantities (whether sourced, interpolated, or invented) with equal confidence; independent verification was required to separate reliable outputs from speculation.
 
 This assessment establishes that the CB-1/CB-2 framework — designed to categorize AI biosecurity risk in Anthropic's Responsible Scaling Policy — is no longer producing clearly binary determinations. The gap between "does not cross CB-2" and "near the CB-2 border" is now explicitly smaller than for any prior model, and Anthropic states the catastrophic risk from novel biological weapon production is "low, but higher than for any previous model, and with significant uncertainty."
 

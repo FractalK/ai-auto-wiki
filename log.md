@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 136
+entry_count: 137
 ---
 
 ## [2026-06-10] session-stats | ingest
@@ -16,6 +16,13 @@ Time window: off-peak
 Source type mix: policy-document: 1 (institutional)
 Approx tokens (from /cost): not available (multi-session continuation)
 Notes: ai-biosecurity now has 6 Key Claims (over 5-cap — will be flagged at next lint). Manifest at raw/staged/2026-anthropic-fable-5-mythos-5-system-card_manifest.md. Large-document decomposition protocol active.
+
+## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 02 of 10
+Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[ai-biosecurity]], [[anthropic-claude-mythos-5-pitfalls]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+  Data Records added to [[anthropic-claude-mythos-5]]: AECI score, LLM training speedup, Kernel task speedup, Novel Compiler, Time Series Forecasting MSE, Quadruped RL, long-form virology Tasks 1–2, VCT multimodal virology.
+  [[ai-biosecurity]] enriched with chemical weapons evaluation findings (chemistry red-team results).
+  [[anthropic-claude-mythos-5-pitfalls]] new entry: Fabricating Conclusions from Unexecuted Tests (Technical Limitations).
 
 ## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 01 of 10
 Added: [[2026-anthropic-fable-5-mythos-5-system-card]]. Updated: [[anthropic-claude-opus-4-8]], [[anthropic-claude-mythos-preview]], [[ai-alignment-pitfalls]], [[ai-biosecurity]], [[ai-alignment]]. Contradictions flagged: 0.
