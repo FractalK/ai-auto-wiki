@@ -20,6 +20,8 @@ Monitoring computer use via hierarchical summarization (Sumers et al., 2025) | h
 Measuring AI Ability to Complete Long Tasks (Kwa et al., 2025) | https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/ | practitioner-reference | practitioner | nominated: 2026-06-09 [nominated — cited by [[2026-anthropic-economic-index-primitives]], relevant to [[ai-economic-impact]], [[llm-fundamentals]]]
 Expertise in the Age of AI (Autor & Thompson, 2025) | https://economics.mit.edu/sites/default/files/2025-06/Expertise-Autor-Thompson-20250618.pdf | research-paper | peer-reviewed | nominated: 2026-06-09 [nominated — cited by [[2026-anthropic-economic-index-primitives]], relevant to [[ai-economic-impact]], [[ai-workforce-complementarity]]]
 Technology Diffusion and Labor Markets (Kalanyi et al., 2025) | https://academic.oup.com/qje/article-abstract/140/2/1299/7959830 | research-paper | peer-reviewed | nominated: 2026-06-09 [nominated — cited by [[2026-anthropic-economic-index-primitives]], relevant to [[ai-economic-impact]]]
+Experimental evidence on the productivity effects of generative AI (Noy & Zhang, 2023) | https://www.science.org/doi/10.1126/science.adh2586 | research-paper | peer-reviewed | nominated: 2026-06-10 [nominated — cited by [[2024-vaccaro-human-ai-synergy-meta-analysis]], relevant to [[human-ai-collaboration]], [[ai-workforce-complementarity]]]
+Human-computer collaboration for skin cancer recognition (Tschandl et al., 2020) | Nature Medicine 26:1229-1234 — URL to resolve | research-paper | peer-reviewed | nominated: 2026-06-10 [nominated — cited by [[2024-vaccaro-human-ai-synergy-meta-analysis]], relevant to [[human-ai-collaboration]]]
 
 
 
