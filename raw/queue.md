@@ -44,3 +44,4 @@ https://research.ibm.com/blog/granite-4-1-ai-foundation-models | processed: 2026
 https://defensescoop.com/2025/10/29/ibm-new-large-language-model-defense-applications-janes/ | processed: 2026-05-27 → [[2025-ibm-llm-defense-applications]]
 https://www.anthropic.com/news/claude-opus-4-8 | processed: 2026-05-29 → [[2026-anthropic-claude-opus-4-8-announcement]]
 https://openai.com/index/codex-for-almost-everything/ | fetch-failed: 2026-05-29
+https://www.nature.com/articles/s41562-024-02024-1 | fetch-failed: 2026-06-10
