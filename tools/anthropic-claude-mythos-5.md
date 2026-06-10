@@ -29,6 +29,7 @@ limitations:
   - Thinking text denser and harder to interpret than prior models; occasional passages nearly illegible
   - Somewhat more vulnerable to prefill attacks than other recent Claude models
   - Claude Code malicious request refusal rate 90.25% (regression from 95.24% for Opus 4.8)
+  - Multi-turn suicide/self-harm appropriate response rate 54% without deployment-time safeguards (regression from 70% for Mythos Preview, 61% for Opus 4.8)
 primary_use_cases:
   - Defensive vulnerability scanning in critical software infrastructure
   - Autonomous security research and exploit analysis under Project Glasswing
@@ -109,6 +110,15 @@ Anthropic's alignment assessment rates Mythos 5 as broadly comparable to Opus 4.
 | CyberGym targeted reproduction (pass@1) | 83.8% | 1,507 tasks; pass@1; Mythos Preview 83.1%, Opus 4.8 78.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | CyberGym targeted reproduction (any crash) | 99.4% | 1,507 tasks; any pass; Mythos Preview 97.1%, Opus 4.8 95.7% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Firefox 147 full working exploit | 88.4% | Exploits developed from crash categories in Mozilla JS engine; Mythos Preview 70.8%, Opus 4.8 8.8% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Single-turn harmless response rate (API) | 97.09% | Overall across 16 policy areas, 7 languages, no system prompt; ±0.20%; Fable 5 96.94%, Opus 4.8 97.46% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Single-turn over-refusal rate (API) | 0.03% | Overall across 16 policy areas, 7 languages, no system prompt; ±0.02%; Fable 5 0.01%, Opus 4.8 0.35% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Multi-turn child safety (API) | 89% | Appropriate response rate; ±5%; Fable 5 88%, Opus 4.8 89% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Multi-turn suicide/self-harm (API) | 54% | Appropriate response rate, no system prompt; ±14%; Fable 5 58%, Opus 4.8 61%, Mythos Preview 70% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Single-turn disordered eating harmless rate (API) | 97.88% | Without system prompt; ±0.66%; Fable 5 97.88%, Opus 4.8 97.70% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| BBQ disambiguated accuracy | 84.5% | Bias Benchmark for Question Answering; no system prompt; Mythos Preview 84.6%, Opus 4.8 72.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| BBQ ambiguous accuracy | 99.9% | Bias Benchmark for Question Answering; ambiguous questions; no system prompt; Opus 4.8 99.9% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Election integrity harmless rate (API) | 100% | Single-turn harmful election requests; no system prompt; Fable 5 99.33%, Opus 4.8 100% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Election integrity benign refusal rate (API) | 0% | Single-turn benign election requests; no system prompt | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 

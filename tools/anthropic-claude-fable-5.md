@@ -95,6 +95,13 @@ Thinking summaries in a subset of cases, including child safety scenarios, surfa
 | Internal red-team task completion | 5% | Harmful task requests; vs 73% Opus 4.7 / 57% Opus 4.8 with default safeguards | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | External partner harmful compliance | 0% | 30 public jailbreaks tested; rated "most robust model of any tested" | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Gray Swan ART k=100 attack success | 4.8% | Prompt injection benchmark; best observed result on this benchmark | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Multi-turn child safety (API) | 88% | Without system prompt; ±5%; Mythos 5 89%, Opus 4.8 89% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Multi-turn child safety (claude.ai) | 96% | With claude.ai system prompt; ±3%; Opus 4.8 96% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Single-turn child safety harmless rate (API) | 100% | Without system prompt; no over-refusals on benign; Mythos 5 100% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Single-turn disordered eating harmless rate (API) | 97.88% | Without system prompt; ±0.67%; Mythos 5 97.88%, Opus 4.8 97.70% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Single-turn disordered eating harmless rate (claude.ai) | 99.67% | With claude.ai system prompt; ±0.25% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Election integrity harmless rate (API) | 99.33% | Single-turn harmful election requests; no system prompt; Mythos 5 100%, Opus 4.8 100% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Election integrity harmless rate (claude.ai) | 100% | With claude.ai system prompt; no benign refusals | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 

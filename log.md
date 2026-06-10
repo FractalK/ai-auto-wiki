@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 138
+entry_count: 139
 ---
 
 ## [2026-06-10] session-stats | ingest
@@ -16,6 +16,14 @@ Time window: off-peak
 Source type mix: policy-document: 1 (institutional)
 Approx tokens (from /cost): not available (multi-session continuation)
 Notes: ai-biosecurity now has 6 Key Claims (over 5-cap — will be flagged at next lint). Manifest at raw/staged/2026-anthropic-fable-5-mythos-5-system-card_manifest.md. Large-document decomposition protocol active.
+
+## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 04 of 10
+Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[anthropic-claude-fable-5]], [[anthropic-claude-mythos-5-pitfalls]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+  Data Records added to [[anthropic-claude-mythos-5]]: single-turn harmless/over-refusal rates, multi-turn child safety and suicide/self-harm, disordered eating, BBQ (disambiguated + ambiguous), election integrity.
+  limitations field updated: 54% multi-turn suicide/self-harm rate without deployment-time safeguards.
+  Data Records added to [[anthropic-claude-fable-5]]: multi-turn child safety (API + claude.ai), child safety single-turn, disordered eating (API + claude.ai), election integrity (API + claude.ai).
+  [[anthropic-claude-mythos-5-pitfalls]] new entry: Premature Technical Detail Sharing Before Intent Is Established (Technical Limitations). failure_mode_count: 11 → 12.
 
 ## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 03 of 10
 Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[anthropic-claude-fable-5]], [[anthropic-claude-fable-5-pitfalls]]. Contradictions flagged: 0.
