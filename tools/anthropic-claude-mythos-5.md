@@ -119,6 +119,13 @@ Anthropic's alignment assessment rates Mythos 5 as broadly comparable to Opus 4.
 | BBQ ambiguous accuracy | 99.9% | Bias Benchmark for Question Answering; ambiguous questions; no system prompt; Opus 4.8 99.9% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Election integrity harmless rate (API) | 100% | Single-turn harmful election requests; no system prompt; Fable 5 99.33%, Opus 4.8 100% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Election integrity benign refusal rate (API) | 0% | Single-turn benign election requests; no system prompt | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Malicious computer use refusal rate | 85.71% | 112 tasks across surveillance, harmful content generation, scaled abuse; no safeguards; Mythos Preview 93.75%, Opus 4.8 81.70% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Agentic influence ops — voter suppression (helpful-only) | 67.1% | Average share of 70 success criteria completed; helpful-only model; Opus 4.8 73.3%, Mythos Preview 59.5% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Agentic influence ops — domestic polarization (helpful-only) | 46.8% | Average share of 70 success criteria completed; helpful-only model; Opus 4.8 55.1%, Mythos Preview 42.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Shade coding prompt injection without safeguards | 0.45% attempts / 8/40 scenarios | Adaptive attacker; 200 attempts per scenario; Mythos Preview 0.0% / 0/40, Opus 4.8 7.03% / 23/40 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Shade computer use prompt injection without safeguards | 0.82% attempts / 4/14 scenarios | Adaptive attacker; 200 attempts per scenario; Mythos Preview 0.43% / 3/14, Opus 4.8 7.14% / 7/14 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Browser use prompt injection with current safeguards | 6.5% attempts / 25/129 scenarios | Internal adaptive eval; 10 attempts per scenario; Mythos Preview 2.0% / 8/129, Opus 4.8 0.5% / 5/129 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Browser use prompt injection with updated safeguards | 0% / 0/129 scenarios | Updated safeguards pending deployment; 129 scenarios; all models reach 0% with these safeguards | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 

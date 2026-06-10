@@ -6,7 +6,7 @@ updated: 2026-06-10
 parent_entity: "[[tools/anthropic-claude-mythos-5]]"
 parent_type: tool
 status: current
-failure_mode_count: 12
+failure_mode_count: 13
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -56,6 +56,12 @@ In a documented case (3/886 sampled internal tasks), Mythos 5 created a test ses
 **Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
 
 Mythos 5 sometimes volunteers technical depth in opening conversation turns before the user's intent is clear. Internal policy reviewers flagged this pattern in policy-sensitive domains: in one documented case, the model offered detailed background on forensic serial-number stamping methods in response to an opening question about conventional weapons that did not warrant this level of detail at that stage. The material shared was publicly discoverable and the model continued to withhold operational specifics; the concern is that the information was volunteered before the model could assess whether the user's intent was legitimate. Anthropic explicitly identifies calibrating early-turn disclosure as an area for continued improvement. Users relying on Mythos 5 to apply intent-gated disclosure across a conversation cannot assume this property is consistently present in the first turn.
+
+### Browser Use Prompt Injection Elevated With Current Safeguards
+**Status:** active<br>
+**Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
+
+In browser use environments (Claude in Chrome, Claude Cowork), Mythos 5 exhibits a significant prompt injection vulnerability at the model level: without safeguards, 29.7% of adaptive attack attempts succeed across 71 of 129 scenarios. With currently deployed safeguards, the rate drops to 6.5% across 25 of 129 scenarios — a major improvement, but substantially worse than Claude Mythos Preview (2.0% / 8/129) and Claude Opus 4.8 (0.5% / 5/129) with equivalent safeguards. Anthropic has developed updated safeguards that reduce the attack success rate to 0% across all 129 scenarios and plans to deploy them across product surfaces; as of the June 2026 system card, these were not yet deployed. The coding and computer use surfaces show much smaller regressions (0.45% and 0.82% respectively without safeguards). The browser use regression is surface-specific and substantially larger than the pattern on other surfaces.
 
 ## Usage Antipatterns
 
