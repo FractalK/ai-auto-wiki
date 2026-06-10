@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 06/05/2026 22:15 EDT
+**Last Updated:** 06/09/2026 21:18 EDT
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1540,3 +1540,101 @@ The pre-check should add a concatenation detection heuristic: sample the extract
 
 **References:** DM-116, pdf_to_markdown.py `assess_extraction_quality`, carry-forward Item 2
 
+
+## LL-049 | ZW-SPACE ENCODING AND TRUE CONCATENATION ARE DISTINCT ARTIFACTS REQUIRING DIFFERENT DETECTION
+
+- **Date:** 2026-06-09
+- **Context:** Implementing the concatenation heuristic in `assess_extraction_quality()` and verifying it against the Biodefense PDF.
+
+**Problem:**
+The carry-forward specified a concatenation heuristic based on long-run token ratio. Initial implementation tokenized raw extracted text (no unicode cleaning). Verification revealed the Biodefense PDF's raw long-run ratio was ~8.5% — close to but under the 10% threshold, and inconsistent across sample sizes. Deeper inspection showed the artifact was not word concatenation (words fused with no separator) but zero-width space padding: words were separated by `\u200b` characters rather than regular spaces. Splitting on whitespace produced multi-sentence "tokens" because ZW-spaces are not whitespace characters. After cleaning `\u200b` → ` ` before tokenizing, the ratio dropped to ~0.1%.
+
+**Root Cause:**
+Two distinct PDF encoding pathologies were conflated:
+- **True concatenation:** Words fused with no separator at all (e.g., `Thequickbrownfox`). `extract_pdf()` cannot fix this; the output is garbled.
+- **ZW-space padding:** Words separated by `\u200b` rather than regular spaces. `extract_pdf()` already cleans this (`text.replace('\u200b', '')` → now `replace('\u200b', ' ')`); output is correct.
+
+The pre-check, if it had used raw text, would have produced unreliable results: misclassifying some ZW-space PDFs as concatenation artifacts and potentially missing genuinely concatenated documents depending on threshold tuning.
+
+**Fix Applied:**
+The concatenation heuristic was updated to apply the same `\u200b`/`\ufeff` cleaning as `extract_pdf()` before tokenizing. This makes the pre-check's view of text consistency with what the script will actually write — the correct design invariant. The heuristic now correctly detects only genuinely unfixable concatenation artifacts, not ZW-space artifacts that `extract_pdf()` handles cleanly.
+
+Additionally, `extract_pdf()` itself was updated to replace `\u200b` with a space (` `) rather than deleting it (`''`), ensuring word boundaries are preserved in the output even when ZW-space was the only separator.
+
+**Implication Going Forward:**
+When building text quality checks against PDF extraction output, always apply the same unicode cleaning that the extraction pipeline applies before comparing or measuring. A quality check that sees raw text will characterize encoding artifacts that the pipeline silently fixes, producing misleading recommendations. The invariant: **pre-check and extraction pipeline must share the same text normalization step.**
+
+**References:** DM-117, pdf_to_markdown.py `assess_extraction_quality`, LL-048
+
+---
+
+## LL-050 | FLAT-FONT-SIZE PDF SCHEMA MAKES SCRIPT PATH UNSUITABLE — DIAGNOSE BEFORE COMMITTING
+
+- **Date:** 2026-06-09
+- **Amended By:** LL-051
+- **Context:** Attempting to convert the Claude Fable 5 / Claude Mythos 5 System Card (319 pages) via the script path after the quality pre-check returned `[SCRIPT]`.
+
+**Problem:**
+`assess_extraction_quality()` returned `[SCRIPT] Good text yield: 1818 chars/page avg, 8 heading candidate(s) in 3 pages`. Running the `--diagnose` flag before execution revealed that all body text and all section headings use 11.0pt font, with only the cover-page title at 56.0pt and one 16.0pt bold heading on page 2. The script's heading thresholds (H1 ≥ 15.5, H2 ≥ 13.5, H3 ≥ 12.5) would produce zero headings for the entire 319-page document — the TOC structure is entirely invisible to font-size classification.
+
+**Root Cause:**
+The quality pre-check detected 8 "heading candidates" (spans ≥ 15.5pt) from the cover page (56.0pt title text). The cover-page cover detection note in `--diagnose` output explicitly warns that font sizes on the cover may be decorative — but the pre-check does not apply this caveat. The 8 heading candidates are all on page 1 (cover) and are not representative of the document body. Pages 2–6 show a completely flat 11.0pt schema with differentiation only by bold weight.
+
+**Fix Applied:**
+None to the script — the design is correct for its target document class. The fix was recognizing the pre-check's limitation at the `--diagnose` step (per the documented workflow: "run `--diagnose` to inspect font sizes before converting") and routing the document to in-context processing.
+
+**Implication Going Forward:**
+The `--diagnose` step before conversion is not optional for unfamiliar documents — it is the correct gate, not the pre-check. The pre-check can produce false positives on documents with cover-page decorative titles that inflate heading candidate counts. The correct workflow is:
+1. Pre-check (`assess_extraction_quality`) for gross screening (scanned, very short, genuinely concatenated).
+2. `--diagnose` to validate thresholds before running the full conversion.
+3. If body text and headings share the same font size, route to in-context regardless of pre-check recommendation.
+
+The session instructions' quality gate description should be updated to make the `--diagnose` step explicit as a required intermediate step for any document being processed via the script path for the first time.
+
+**References:** pdf_to_markdown.py `--diagnose`, DM-117, session instructions quality gate
+
+---
+
+## LL-051 | DIAGNOSE SAMPLING HIT TOC ZONE — FALSE "FLAT SCHEMA" READING; DOCUMENT HAS PROPER BODY HIERARCHY
+
+- **Date:** 2026-06-09
+- **Context:** Post-diagnosis analysis of the Claude Fable 5 / Mythos 5 System Card after LL-050 concluded the schema was globally flat.
+
+**Problem:**
+LL-050 concluded the system card used a flat 11.0pt schema throughout and was unsuitable for the script path. This was incorrect. Further analysis (sampling body chapter pages directly, cross-referencing `doc.get_toc()` with raw fitz extraction on chapter-opening pages) revealed the document has a proper heading hierarchy in the body: L1 headings at 16.0pt bold, L2 at 14.0pt, L3 at 13.0pt — all above the script's current thresholds. Only L4 (11.0pt bold) and L5 (11.0pt non-bold) fall to body size.
+
+**Root Cause:**
+`--diagnose` with default `--sample-pages 6` sampled pages 1–6, which in this 319-page document are: cover (56.0pt decorative), executive summary (11.0pt dense body prose), and visible TOC pages (11.0pt flat, because the visible TOC renders all entries at body size regardless of the heading level they represent). Body chapter pages begin at page 11; none were sampled. The TOC zone's uniform 11.0pt gave a false reading of the body schema. LL-050's root cause diagnosis ("pages 2–6 show a completely flat 11.0pt schema") was accurate as a description of those pages but wrong as a characterization of the document.
+
+**Fix Applied:**
+None to the script yet — the correct fix is to make `--diagnose` body-aware (skip cover and TOC zone, sample from first body chapter page). This is carried forward as part of Item 2. The in-context conversion route chosen after LL-050 remains correct for now (L4/L5 still need the TOC-match feature). The decision to route to in-context was right for the wrong reason; no output was harmed.
+
+**Implication Going Forward:**
+`--diagnose` must not be run with the default page range on long documents without first identifying where the body begins. The cover and any visible TOC pages will always read flat regardless of the body schema. The correct procedure: identify the first body chapter page (from the embedded outline page numbers or by skimming the TOC) and sample pages from that point forward. Until `--diagnose` is fixed to auto-detect the body zone, supply `--sample-pages` with a count offset to skip front matter.
+
+The broader principle: **a sample is only representative if it covers the zone being characterized.** Front matter, TOC pages, and appendices can have radically different typographic properties from the body. A 6-page sample on a 319-page document is less than 2% coverage and likely hits only front matter.
+
+**References:** LL-050 (prior diagnosis, partially incorrect), DM-117, carry-forward Item 2 (`--diagnose` fix)
+
+---
+
+## LL-052 | TOC-ANCHORED HEADING EXTRACTION IMPLEMENTED — PRINTED TOC DUPLICATION IS EXPECTED BEHAVIOR
+
+- **Date:** 2026-06-09
+- **Context:** Implementing the TOC-anchored heading extraction feature (DM-118) in `pdf_to_markdown.py` and validating against system card PDFs.
+
+**Problem:**
+After implementing `build_toc_index()` and TOC-match classification in `extract_pdf()`, heading counts in the system card output were higher than the TOC entry count. For example, the Claude Fable 5 / Mythos 5 System Card has 9 unique L5 TOC titles, but the output contained 17 `######` headings. Similarly, L4 heading counts exceeded the 59 TOC L4 entries.
+
+**Root Cause:**
+Not a defect. TOC titles appear twice in Anthropic system cards: once in the printed visible TOC (pages 4–10 for the Fable 5 / Mythos 5 card), where they render as body-size text that matches the normalized TOC index, and once in the document body where they are the actual section headings. Both occurrences match the TOC index correctly. The duplication is inherent to documents that render their TOC inline on numbered pages rather than as a separate non-body section.
+
+**Fix Applied:**
+None — this is correct behavior. The printed TOC lines being classified as headings is acceptable: the rendered markdown will contain heading entries that correspond to the printed TOC, which does not harm the structural integrity of the output. The heading hierarchy is still correct everywhere the headings actually appear in body text.
+
+**Implication Going Forward:**
+When validating TOC-mode output against expected heading counts, compare against (TOC entries × 2) for documents with printed inline TOC pages, not against the raw TOC entry count. If the printed TOC headings in output markdown are undesirable, a future enhancement could detect TOC-zone pages by page range (from `doc.get_toc()` page numbers) and skip TOC-match classification on those pages. This is not currently implemented and is low priority — the output is structurally correct.
+
+**References:** DM-118, LL-050, LL-051, pdf_to_markdown.py `build_toc_index`
+
+---

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Last Updated: 06/07/2026 20:13 EDT
+# Last Updated: 06/09/2026 21:14 EDT
 """
 PDF to Markdown Converter
 ========================
@@ -25,21 +25,30 @@ REQUIREMENTS:
 - pymupdf (fitz): pip install pymupdf --break-system-packages -q
 
 OUTPUT:
-- Markdown file with metadata header, h2/h3/h4 hierarchy, smart text joining
+- Markdown file with metadata header, h2/h3/h4/h5/h6 hierarchy, smart text joining
 - Skips bare page numbers, pg. N footers, and unicode artifacts
 - Detects and converts bullets (● and ○)
 - Detects exhibit/figure labels and renders as bold standalone lines
 - Prevents excessive line breaks in body text
 - Rejoins hyphenated line-breaks (academic column layouts)
 
-FONT SIZE THRESHOLDS (adjustable):
+TOC-ANCHORED HEADING EXTRACTION:
+When the PDF contains an embedded outline (doc.get_toc() returns >= 10 entries),
+the script uses the outline as a heading lookup table. Before font-size classification,
+each line is checked against the normalized TOC index. On a match the heading level
+comes from the outline (L1-L5 → ##/###/####/#####/######), bypassing font-size
+thresholds entirely. This handles documents (e.g. Anthropic system cards) where
+L4/L5 headings are visually indistinguishable from body text by font size alone.
+TOC mode activates automatically; disable with --no-toc if it produces wrong output.
+
+FONT SIZE THRESHOLDS (adjustable, used when TOC mode is off or no match found):
 - h1 (##):  size >= 15.5
 - h2 (###): size >= 13.5
 - h3 (####): size >= 12.5
 - h4 (#####): size >= 11.5 + bold
 - body: default
 
-If output is garbled, run with --diagnose to inspect actual font sizes.
+If output is garbled, run with --diagnose to inspect actual font sizes and TOC entries.
 """
 
 import argparse
@@ -109,6 +118,11 @@ def parse_args():
         help="Print font sizes for the first N pages and exit",
     )
     parser.add_argument(
+        "--no-toc",
+        action="store_true",
+        help="Disable TOC-anchored heading extraction even when an outline is present",
+    )
+    parser.add_argument(
         "--sample-pages",
         type=int,
         default=5,
@@ -128,6 +142,55 @@ def classify(size, bold):
     if size >= FONT_SIZE_H4 and bold:
         return 'h4'
     return 'body'
+
+
+def build_toc_index(doc):
+    """
+    Build a normalized heading lookup table from the PDF's embedded outline.
+
+    Reads doc.get_toc(), filters blank/whitespace-only entries, and normalizes
+    each title (strip leading/trailing whitespace, collapse internal whitespace,
+    replace zero-width spaces with regular spaces — mirroring extract_pdf
+    unicode cleaning). Returns a dict mapping normalized_title → toc_level (1–5).
+
+    Returns an empty dict when:
+      - The document has no embedded outline (get_toc() returns []).
+      - Fewer than 10 non-blank entries remain after filtering (avoids false
+        activation on documents with only chapter-level bookmarks).
+
+    Args:
+        doc: An open fitz.Document object.
+
+    Returns:
+        dict[str, int]: Normalized title → TOC level (1–5). Empty if not usable.
+
+    Usage example:
+        doc = fitz.open("system_card.pdf")
+        toc_index = build_toc_index(doc)
+        if toc_index:
+            level = toc_index.get("2.1.2.1 On autonomy risks")
+    """
+    raw = doc.get_toc()
+    if not raw:
+        return {}
+
+    index = {}
+    for entry in raw:
+        lvl, raw_title, _page = entry
+        # Normalize: zero-width space → space, collapse whitespace, strip ends
+        norm = raw_title.replace('\u200b', ' ').replace('\ufeff', '')
+        norm = re.sub(r'\s+', ' ', norm).strip()
+        if norm:
+            index[norm] = lvl  # last entry wins on duplicate titles (rare)
+
+    if len(index) < 10:
+        return {}
+
+    return index
+
+
+# TOC level → markdown heading prefix (L1=##, L2=###, L3=####, L4=#####, L5=######)
+_TOC_LEVEL_PREFIX = {1: '##', 2: '###', 3: '####', 4: '#####', 5: '######'}
 
 
 def should_join_text(last_line, new_text):
@@ -266,8 +329,20 @@ def assess_extraction_quality(input_path, sample_pages=3, page_count=None):
     )
 
 
-def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
-    """Main extraction pipeline."""
+def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra, no_toc=False):
+    """Main extraction pipeline.
+
+    Args:
+        input_path:  Path to the input PDF file.
+        output_path: Path to write the output markdown file.
+        title_line:  Document title line (e.g. '# My Title').
+        pub_date:    Publication date string.
+        org:         Organization name (optional).
+        doi:         DOI or URL (optional).
+        extra:       Additional metadata lines (optional).
+        no_toc:      If True, disable TOC-anchored heading extraction even when
+                     the document has a usable embedded outline (default: False).
+    """
 
     try:
         doc = fitz.open(input_path)
@@ -284,6 +359,20 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
     if recommendation == "in-context":
         print("  Note: consider using in-context processing instead of this script.")
     print(f"Pages: {page_count}")
+
+    # TOC-anchored heading extraction: build index from embedded outline.
+    # Auto-activates when the document has >= 10 non-blank TOC entries and
+    # --no-toc is not set. L4/L5 headings that are indistinguishable from body
+    # text by font size alone are classified via TOC match only.
+    if no_toc:
+        toc_index = {}
+        print("TOC mode: DISABLED (--no-toc)")
+    else:
+        toc_index = build_toc_index(doc)
+        if toc_index:
+            print(f"TOC mode: ACTIVE ({len(toc_index)} entries in index)")
+        else:
+            print("TOC mode: OFF (no usable embedded outline)")
 
     md_lines = []
     prev_class = None
@@ -311,6 +400,20 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra):
                 # Classify by font size and bold
                 max_size = max(s['size'] for s in spans)
                 is_bold = any('Bold' in s.get('font', '') for s in spans)
+
+                # TOC-anchored classification: check normalized line text against
+                # the embedded outline index before falling back to font-size.
+                # On a match, the TOC level overrides font-size classification.
+                # L1-L5 TOC levels map to ##/###/####/#####/######.
+                if toc_index:
+                    norm_text = re.sub(r'\s+', ' ', text).strip()
+                    toc_level = toc_index.get(norm_text)
+                    if toc_level is not None:
+                        prefix = _TOC_LEVEL_PREFIX.get(toc_level, '######')
+                        md_lines.append(f'\n{prefix} {text}\n')
+                        prev_class = f'h{toc_level}'
+                        continue
+
                 cls = classify(max_size, is_bold)
 
                 # Convert bullets
@@ -396,6 +499,7 @@ def diagnostic_font_sizes(input_path, sample_pages=5):
     """
     Inspect font sizes in PDF to diagnose classification issues.
     Run this if output appears garbled (via --diagnose flag).
+    Also reports embedded outline (TOC) entry count and level distribution.
     """
     try:
         doc = fitz.open(input_path)
@@ -405,6 +509,29 @@ def diagnostic_font_sizes(input_path, sample_pages=5):
 
     print(f"\nDiagnostic: Font Sizes in {input_path}")
     print("=" * 80)
+
+    # Report TOC structure first so operator knows whether TOC mode will activate
+    toc_index = build_toc_index(doc)
+    raw_toc = doc.get_toc()
+    if not raw_toc:
+        print(f"\nTOC: No embedded outline found — TOC mode will be OFF")
+    else:
+        non_blank = sum(1 for e in raw_toc if re.sub(r'\s+', ' ', e[1].replace('\u200b', ' ')).strip())
+        level_dist = {}
+        for e in raw_toc:
+            norm = re.sub(r'\s+', ' ', e[1].replace('\u200b', ' ')).strip()
+            if norm:
+                level_dist[e[0]] = level_dist.get(e[0], 0) + 1
+        status = f"ACTIVE ({len(toc_index)} entries in index)" if toc_index else f"OFF ({non_blank} non-blank entries < 10 threshold)"
+        print(f"\nTOC: {len(raw_toc)} total entries, {non_blank} non-blank — mode will be {status}")
+        print(f"     Level distribution: {dict(sorted(level_dist.items()))}")
+        # Show a sample of L4/L5 entries if present
+        l4l5 = [(e[0], re.sub(r'\s+', ' ', e[1].replace('\u200b', ' ')).strip())
+                 for e in raw_toc if e[0] in (4, 5) and re.sub(r'\s+', ' ', e[1].replace('\u200b', ' ')).strip()]
+        if l4l5:
+            print(f"     L4/L5 sample (first 5):")
+            for lvl, title in l4l5[:5]:
+                print(f"       L{lvl}: {repr(title[:70])}")
 
     # P6 — Start from page 0 (cover page); note decorative font sizes expected
     for page_num in range(0, min(sample_pages, len(doc))):
@@ -465,4 +592,5 @@ if __name__ == '__main__':
         org=effective_org,
         doi=effective_doi,
         extra=ADDITIONAL_METADATA,
+        no_toc=args.no_toc,
     )

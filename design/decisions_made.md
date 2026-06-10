@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 06/05/2026 22:15 EDT
+**Last Updated:** 06/09/2026 20:28 EDT
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -4836,3 +4836,77 @@ Inline regex-based concatenation detection (ratio of words without spaces), Open
 
 **References:** pdf_to_markdown.py P4, LL-048, carry-forward Item 2
 
+
+## DM-117 | ASSESS_EXTRACTION_QUALITY: PAGE-COUNT GATE + CONCATENATION HEURISTIC WITH ZW-SPACE CLEANING
+
+- **Date:** 2026-06-09
+- **Status:** ACTIVE
+
+**Decision:**
+Two improvements to `assess_extraction_quality()` in `pdf_to_markdown.py` were implemented, closing the gaps identified in DM-116:
+
+(1) **Page-count gate (Gap B):** Added `page_count=None` parameter. When `page_count <= 10`, the function returns `("in-context", ...)` immediately, before any text extraction. The `extract_pdf()` caller opens the doc first, gets `len(doc)`, and passes it through, avoiding a redundant file open. Threshold: ≤ 10 pages.
+
+(2) **Concatenation heuristic (Gap A):** After sampling pages, all tokens (whitespace-split) are collected. Zero-width spaces (`\u200b`) and BOM (`\ufeff`) are cleaned before tokenizing — mirroring what `extract_pdf()` writes to disk — so the check targets documents where words are genuinely fused with no separator, not ZW-space-padded documents where the artifact is benign post-cleaning. If `long_run_ratio = len(tokens >= 20 chars) / total_tokens > 0.10`, returns `("in-context", ...)`.
+
+(3) **Check ordering:** Page-count (cheapest) → concatenation (requires text extraction) → yield (already present). This minimizes wasted work.
+
+**Context:**
+Implemented in response to DM-116 / LL-048 (carry-forward Item 2). Two test PDFs confirmed the implementation: Biodefense (9 pages) → `in-context` via page-count gate; UNU-INWEH (56 pages) → `script` via yield check. A supplementary diagnostic finding emerged during testing (see LL-049).
+
+**Rationale:**
+ZW-space cleaning before tokenizing is the correct design because the pre-check's purpose is to predict script output quality, not to characterize raw PDF encoding. If `extract_pdf()` will clean `\u200b` before writing, the pre-check should apply the same cleaning — otherwise the concatenation heuristic would misclassify ZW-space PDFs as concatenation artifacts when they are not. The Biodefense PDF demonstrated this: raw long-run ratio ~8.5%, cleaned ratio ~0.1%. Without the cleaning fix, the heuristic would have been unreliable at the 10% threshold.
+
+The 20-char / 10% threshold values were validated empirically against both test PDFs and are deliberately conservative (false negatives preferred over false positives — better to attempt script and fall back than to unnecessarily route long documents to in-context).
+
+**Alternatives Considered:**
+- Cleaning ZW-spaces in the pre-check only (not mirroring extract_pdf): rejected — creates asymmetry between what the pre-check sees and what the script produces.
+- Lower threshold (e.g., 5%): rejected — may produce false positives on documents with long URLs or chemical names in references.
+- Higher threshold (e.g., 15%): rejected — the Biodefense PDF raw ratio was ~8.5%, so a 15% threshold would miss genuinely concatenated documents that happen to have shorter artifacts.
+
+**Consequences to Watch:**
+- The concatenation check fires only when `page_count` is None or > 10. For ≤ 10-page documents, the page-count gate fires first and the concatenation check is never reached.
+- The pre-check remains advisory and non-blocking. Even with both improvements, an operator can proceed with script extraction for any document.
+- The `assess_extraction_quality()` function signature changed: `(input_path, sample_pages=3, page_count=None)`. Any future callers that pass positional arguments need to verify compatibility.
+
+**References:** DM-116, LL-048, LL-049, pdf_to_markdown.py `assess_extraction_quality`, carry-forward Item 2
+
+---
+
+## DM-118 | TOC-ANCHORED HEADING EXTRACTION: DESIGN CONFIRMED FOR pdf_to_markdown.py
+
+- **Date:** 2026-06-09
+- **Status:** ACTIVE
+
+**Decision:**
+The script improvement to handle L4–L5 headings in flat-font-size document zones will use `doc.get_toc()` (PyMuPDF's embedded PDF outline reader) as the primary heading lookup mechanism, not a bold-only heuristic or a numbered-pattern regex. The design is:
+
+(1) **`build_toc_index(doc)` function** — reads `doc.get_toc()`, filters blank entries, normalizes titles (strip whitespace, collapse internal spaces, apply `\u200b` cleaning), returns `dict[normalized_title → toc_level]`. Returns empty dict if fewer than 10 entries (avoids false activation on documents with minimal outlines).
+
+(2) **TOC-match classification in `extract_pdf()`** — before font-size `classify()`, check normalized line text against the TOC index. On match, emit heading at the TOC-specified level. On no match, fall through to existing font-size path. L1–L3 will be caught by font-size path regardless; the TOC match is additive confirmation and the sole path for L4–L5.
+
+(3) **Auto-enable with `--no-toc` override** — TOC mode auto-activates when `build_toc_index()` returns a non-empty index. A `--no-toc` flag disables it for edge cases.
+
+(4) **`--diagnose` fix (implement first)** — add body-page sampling: detect first body chapter page by skipping page 0 (cover) and pages where font-size variance across spans is near zero (TOC zone). Report `get_toc()` entry count in diagnostic output.
+
+**Context:**
+Confirmed by empirical analysis of the Claude Fable 5 / Mythos 5 System Card: `doc.get_toc()` returns 266 entries across 5 levels; L4/L5 titles match body text verbatim after whitespace normalization; L1–L3 already handled by font-size path. The document is not globally flat — `--diagnose` sampled the TOC zone and gave a false reading (see LL-050, LL-051). Implementation is gated on conversion findings (inline bold frequency, false-positive check) but the architecture is settled.
+
+**Rationale:**
+`doc.get_toc()` is the document's own authoritative structural index. Using it is more reliable than any heuristic (bold weight, line length, numbered pattern) because it is not derived from visual properties that vary across document styles. It generalizes to any PDF with a proper embedded outline — the most common case for professionally produced documents. The numbered-pattern heuristic is retained as a future fallback for documents without outlines, but is not part of this implementation.
+
+Bold-only heuristic was explicitly rejected as primary path because: (a) inline bold appears in body paragraphs and would require aggressive short-line + no-punctuation guards to avoid false positives; (b) L5 headings in this document are 11.0pt non-bold, so bold detection would miss an entire heading level; (c) the TOC is strictly more reliable.
+
+**Alternatives Considered:**
+- Bold-only heading mode with short-line guard: rejected as primary path (see rationale above); may be implemented later as fallback for outline-free documents
+- Numbered-pattern regex (`^\d+(\.\d+)*\s`): useful supplementary signal but insufficient alone — some headings are unnumbered (e.g., `Executive Summary`)
+- Visible TOC page parsing: rejected in favor of `doc.get_toc()` — parsing visible TOC text requires page-range detection and is fragile to layout variation; `get_toc()` reads the internal PDF outline directly
+
+**Consequences to Watch:**
+- TOC match is exact (after normalization). Any heading that differs between the outline and body text (hyphenation, line-break splitting across spans, footnote superscripts embedded in the title) will miss the match and fall through to font-size path. The system card sample showed no such artifacts, but other documents may have them.
+- `build_toc_index()` returns a dict keyed on normalized title text. If two headings have identical text (e.g., two sections both titled "Introduction"), the second will overwrite the first in the dict. The implication is that the heading level of a duplicate title will be the last TOC entry's level — usually harmless since duplicate headings at different levels are rare and the font-size path would produce the same level anyway.
+- Activation threshold of 10 entries is arbitrary. Documents with 5–9 outline entries (e.g., a short report with only chapter-level bookmarks) will not activate TOC mode. These documents likely don't need it — if they have so few headings, the font-size path should handle them. Threshold can be lowered if future documents warrant it.
+
+**References:** LL-050, LL-051, DM-117, carry-forward Item 2, pdf_to_markdown.py
+
+---
