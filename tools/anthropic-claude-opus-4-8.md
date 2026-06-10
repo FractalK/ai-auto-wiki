@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.8
 created: 2026-05-29
-updated: 2026-06-04
+updated: 2026-06-09
 summary: Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 status: active
 vendor: Anthropic
@@ -27,9 +27,12 @@ primary_use_cases:
   - Code review, generation, and long-horizon coding agents
   - Legal and financial document analysis
   - Multi-agent orchestration via Claude Code
-source_count: 2
+source_count: 3
+prior_generation: true
+succeeded_by: "[[tools/anthropic-claude-fable-5]]"
 last_assessed: 2026-06-04
 related_tools:
+  - "[[anthropic-claude-fable-5]]"
   - "[[anthropic-claude-opus-4-7]]"
   - "[[anthropic-claude-mythos-preview]]"
 related_topics:

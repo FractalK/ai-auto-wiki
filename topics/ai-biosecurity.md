@@ -2,16 +2,18 @@
 type: topic
 title: AI Biosecurity
 created: 2026-06-05
-updated: 2026-06-05
+updated: 2026-06-09
 summary: "The intersection of AI capability and biological security — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the deployment of trusted-access AI programs for proactive biodefense and pandemic preparedness."
 status: developing
-source_count: 2
-last_assessed: 2026-06-05
+source_count: 3
+last_assessed: 2026-06-09
 related_topics:
   - "[[ai-governance-policy]]"
   - "[[ai-alignment]]"
 related_tools:
   - "[[openai-gpt-rosalind]]"
+  - "[[anthropic-claude-mythos-5]]"
+  - "[[anthropic-claude-fable-5]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -47,6 +49,14 @@ The same AI capabilities that amplify bioweapon risk also enable faster and more
 
 This trusted-access approach attempts to preserve asymmetric access — giving defenders better tools than potential attackers — while acknowledging that the same capabilities carry inherent misuse risk if broadly deployed. Whether access restriction alone can prevent misuse at scale remains an open question, particularly as similar biological AI capabilities proliferate across vendors and frontier model capabilities continue to advance.
 
+## Threshold Assessments and Model Evaluations
+
+Anthropic's June 2026 system card for Claude Mythos 5 and Claude Fable 5 provides the most detailed published RSP-framework evaluation of a frontier model's biosecurity risk to date. Mythos 5 is assessed as CB-1 — capable of meaningfully uplifting well-resourced threat actors with basic technical backgrounds on the synthesis of non-novel chemical or biological weapons — and is treated with full ASL-3 protections: real-time classifier guards, access controls, a bug bounty program, rapid-response options for jailbreaks, and model weight security controls.
+
+The CB-2 assessment — whether Mythos 5 can substitute for world-leading specialists in the end-to-end design and deployment of novel chemical or biological weapons — is assessed as negative, but Anthropic describes this as the least clear judgment it has made for any model evaluated to date. The evidence pulls in both directions. The beneficial red-teaming tabletop exercise, in which six PhD-level biologists were paired with dedicated LLM experts, produced the strongest CB-2 signal: generalist biology PhD teams outperformed teams that included plant pathology world-leading experts, with expert graders estimating that the composite teams produced 40–95 working days of work (average 72.5 days) in 16 hours. The primary factors cited for the CB-2 threshold not being crossed are weak open-ended ideation (reliable recombination of published knowledge but rarely genuinely novel approaches) and poor strategic judgment (executing plans containing flaws the model itself detected).
+
+This assessment establishes that the CB-1/CB-2 framework — designed to categorize AI biosecurity risk in Anthropic's Responsible Scaling Policy — is no longer producing clearly binary determinations. The gap between "does not cross CB-2" and "near the CB-2 border" is now explicitly smaller than for any prior model, and Anthropic states the catastrophic risk from novel biological weapon production is "low, but higher than for any previous model, and with significant uncertainty."
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -56,6 +66,7 @@ This trusted-access approach attempts to preserve asymmetric access — giving d
 | The Biosecurity Modernization and Innovation Act of 2026 (Cotton-Klobuchar) would require synthetic nucleic acid sellers to screen orders and customers for bioweapon creation risk, with exemptions for materials posing no credible public health threat, establishing a regulatory framework for AI-enabled biosecurity intervention. | [[2026-ai-ceos-bioweapon-congress]] | 2026-06-05 | current | 1 | false |
 | Synthetic material manufacturers including Twist Bioscience and Ansa Biotechnologies co-signed the AI CEO congressional letter calling for their own industry's regulation, indicating that part of the nucleic acid synthesis industry prefers mandatory screening over voluntary self-governance. | [[2026-ai-ceos-bioweapon-congress]] | 2026-06-05 | current | 1 | false |
 | OpenAI's June 2026 biodefense strategy deploys GPT-Rosalind through the Rosalind Biodefense trusted-access pathway — providing advanced biological AI capabilities exclusively to vetted institutions — establishing a governance model that attempts to limit dual-use risk through structured access controls rather than capability restriction alone. | [[2026-openai-biodefense-intelligence-age]] | 2026-06 | current | 1 | false |
+| Claude Mythos 5 is assessed as CB-1 under Anthropic's RSP and treated with full ASL-3 protections; the CB-2 threshold (novel weapon synthesis) is assessed as not crossed — but Anthropic describes this as the least clear CB-2 judgment for any model evaluated to date, noting that generalist PhD biologists paired with Mythos 5 outperformed plant pathology specialists in a tabletop exercise, producing 40–95 working days of work in 16 hours, and that the catastrophic risk from novel CB weapon production is "low, but higher than for any previous model, and with significant uncertainty." | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 
 ## Teaching Notes
 

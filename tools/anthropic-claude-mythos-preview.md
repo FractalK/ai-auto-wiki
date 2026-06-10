@@ -2,9 +2,10 @@
 type: tool
 title: Claude Mythos Preview
 created: 2026-04-22
-updated: 2026-06-05
+updated: 2026-06-09
 summary: Anthropic's unreleased frontier model demonstrating threshold-crossing capability in autonomous software vulnerability discovery and software engineering, available in limited research preview to Project Glasswing partners and open-source maintainers.
-status: emerging
+status: deprecated
+superseded_by: "[[tools/anthropic-claude-mythos-5]]"
 vendor: Anthropic
 pricing_model: usage-based
 access_tier:
@@ -25,7 +26,7 @@ primary_use_cases:
   - Defensive vulnerability scanning in critical infrastructure
   - Autonomous security research and exploit analysis
   - Advanced software engineering and agentic coding tasks
-source_count: 5
+source_count: 6
 last_assessed: 2026-06-05
 related_topics:
   - "[[ai-assisted-vulnerability-discovery]]"

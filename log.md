@@ -2,10 +2,24 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-09
-last_entry: 2026-06-09
-entry_count: 134
+updated: 2026-06-10
+last_entry: 2026-06-10
+entry_count: 136
 ---
+
+## [2026-06-10] session-stats | ingest
+Queue size at session start: 1 staged file (80,813-word system card; HIGH-DENSITY); 1 additional staged file deferred (MIT Sloan)
+Documents attempted: 1
+Documents completed: Part 01 of 10 extracted and committed; Parts 02–10 pending subsequent sessions
+Session limit hit: yes (two context compactions across three continuation sessions)
+Time window: off-peak
+Source type mix: policy-document: 1 (institutional)
+Approx tokens (from /cost): not available (multi-session continuation)
+Notes: ai-biosecurity now has 6 Key Claims (over 5-cap — will be flagged at next lint). Manifest at raw/staged/2026-anthropic-fable-5-mythos-5-system-card_manifest.md. Large-document decomposition protocol active.
+
+## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 01 of 10
+Added: [[2026-anthropic-fable-5-mythos-5-system-card]]. Updated: [[anthropic-claude-opus-4-8]], [[anthropic-claude-mythos-preview]], [[ai-alignment-pitfalls]], [[ai-biosecurity]], [[ai-alignment]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 6 ([[anthropic-claude-fable-5]], [[anthropic-claude-mythos-5]], [[anthropic-claude-fable-5-pitfalls]], [[anthropic-claude-mythos-5-pitfalls]], [[anthropic-claude-fable-5-vs-anthropic-claude-mythos-5]], [[2026-anthropic-fable-5-mythos-5-system-card]]).
 
 ## [2026-06-09] ingest | Anthropic Economic Index report: Economic primitives
 Added: [[2026-anthropic-economic-index-primitives]]. Updated: [[ai-workforce-complementarity]], [[llm-fundamentals-pitfalls]]. Contradictions flagged: 0.
