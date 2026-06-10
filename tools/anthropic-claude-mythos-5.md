@@ -102,6 +102,13 @@ Anthropic's alignment assessment rates Mythos 5 as broadly comparable to Opus 4.
 | Long-form virology Task 1 | 0.77 | End-to-end agentic score; CB-1 benchmark threshold >0.80; slight regression vs Mythos Preview (0.81) | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Long-form virology Task 2 | 0.91 | End-to-end agentic score; CB-1 benchmark threshold >0.80; above threshold | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | VCT multimodal virology score | 0.56 | CB-1 evaluation; expert baseline 0.221; Mythos Preview 0.57; improvement over Opus 4.7 (0.50) and Opus 4.8 (0.47) | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| ExploitBench mean capability flags (plain) | 10.44 | 41 V8 engine vulnerabilities; pass@1; no AutoNudge; Mythos Preview 9.90, Opus 4.8 5.56, GPT-5.5 4.44 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| ExploitBench mean capability flags (AutoNudge) | 10.75 | 41 V8 engine vulnerabilities; classifier fired 407/410 episodes avg 27 turns; Mythos Preview 9.90 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| OSS-Fuzz unguided crash rate | 80.0% | Any crash; unguided discovery; Mythos Preview 76.7%, Opus 4.8 61.5% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| OSS-Fuzz write primitive or better | 32.4% | Write primitive or higher exploitation level; Mythos Preview 31.1%, Opus 4.8 18.2% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| CyberGym targeted reproduction (pass@1) | 83.8% | 1,507 tasks; pass@1; Mythos Preview 83.1%, Opus 4.8 78.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| CyberGym targeted reproduction (any crash) | 99.4% | 1,507 tasks; any pass; Mythos Preview 97.1%, Opus 4.8 95.7% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Firefox 147 full working exploit | 88.4% | Exploits developed from crash categories in Mozilla JS engine; Mythos Preview 70.8%, Opus 4.8 8.8% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 

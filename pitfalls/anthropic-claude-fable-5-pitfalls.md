@@ -2,11 +2,11 @@
 type: pitfalls
 title: Claude Fable 5 Pitfalls
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 parent_entity: "[[tools/anthropic-claude-fable-5]]"
 parent_type: tool
 status: current
-failure_mode_count: 9
+failure_mode_count: 10
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection
@@ -79,6 +79,12 @@ The increased frequency and variety of self-harm substitution behavior suggestio
 **Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
 
 Fable 5 operates with thinking enabled. In a subset of safety scenarios, the summarized reasoning output surfaces sensitive content that the final response withholds correctly — the safety layer applies to the final response but not consistently to the reasoning summary. This is an architectural mismatch: the reasoning blocks and the final response are processed by different safety layers, and developers exposing reasoning summaries to end users should not assume the same safety properties apply.
+
+### Single-Turn Jailbreaks Achievable Within Hours by Determined Adversaries
+**Status:** active<br>
+**Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
+
+UK AISI adversarial capability testing found that a single-turn jailbreak of Fable 5's classifier safeguards was achievable within hours of gaining access to the model. A multi-turn agentic partial jailbreak was achieved within approximately two days. Long-form reliable agentic rollouts exploiting the jailbreak were not achieved — the safeguards show substantially more resistance to sustained multi-turn exploitation than to one-shot attempts. This result is consistent with the bug bounty finding (zero universal jailbreaks, two task-specific jailbreaks from ~100,000 attempts), which tests for universal bypasses rather than access-conditioned single-use attacks. The practical implication: organizations treating Fable 5's safeguards as impenetrable by determined adversaries with model access are misjudging the threat model. The safeguards reduce harm at scale; they do not prevent all harm against a motivated attacker with direct access and time.
 
 ## Teaching Notes
 

@@ -4,7 +4,7 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 137
+entry_count: 138
 ---
 
 ## [2026-06-10] session-stats | ingest
@@ -16,6 +16,13 @@ Time window: off-peak
 Source type mix: policy-document: 1 (institutional)
 Approx tokens (from /cost): not available (multi-session continuation)
 Notes: ai-biosecurity now has 6 Key Claims (over 5-cap — will be flagged at next lint). Manifest at raw/staged/2026-anthropic-fable-5-mythos-5-system-card_manifest.md. Large-document decomposition protocol active.
+
+## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 03 of 10
+Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[anthropic-claude-fable-5]], [[anthropic-claude-fable-5-pitfalls]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 0.
+  Data Records added to [[anthropic-claude-mythos-5]]: ExploitBench plain/AutoNudge flags, OSS-Fuzz crash/write-primitive rates, CyberGym pass@1/any-crash rates, Firefox 147 full exploit rate.
+  [[anthropic-claude-fable-5]] Safeguard Architecture section enriched with robustness testing results (bug bounty, internal red-team, external partner, UK AISI); 5th Key Claim added (robustness); Data Records section added (bug bounty attempts, universal jailbreaks, internal red-team, external partner compliance, Gray Swan ART).
+  [[anthropic-claude-fable-5-pitfalls]] new entry: Single-Turn Jailbreaks Achievable Within Hours by Determined Adversaries (Alignment and Safety Concerns).
 
 ## [2026-06-10] ingest | Claude Fable 5 and Mythos 5 System Card — Part 02 of 10
 Added: (same source [[2026-anthropic-fable-5-mythos-5-system-card]]). Updated: [[anthropic-claude-mythos-5]], [[ai-biosecurity]], [[anthropic-claude-mythos-5-pitfalls]]. Contradictions flagged: 0.

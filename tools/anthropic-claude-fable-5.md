@@ -2,7 +2,7 @@
 type: tool
 title: Claude Fable 5
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 summary: Anthropic's general-access frontier model released June 2026, built on the same weights as Claude Mythos 5 but with classifier-based safeguards that fall back to Opus 4.8 for biology, cybersecurity, and distillation requests, and apply invisible restrictions for frontier LLM development tasks.
 status: active
 vendor: Anthropic
@@ -32,7 +32,7 @@ primary_use_cases:
   - Document analysis, research, and multi-turn reasoning
   - Deployments requiring frontier capability in non-bio/cyber domains
 source_count: 1
-last_assessed: 2026-06-09
+last_assessed: 2026-06-10
 related_tools:
   - "[[anthropic-claude-mythos-5]]"
   - "[[anthropic-claude-opus-4-8]]"
@@ -62,6 +62,8 @@ The bio/cyber/distillation safeguards operate as a two-stage system: an activati
 
 The frontier LLM development restrictions use a different mechanism: prompt modification, steering vectors, or parameter-efficient fine-tuning (PEFT) rather than model switching. Claude continues to respond helpfully; the restrictions limit effectiveness specifically on tasks such as building pretraining pipelines, distributed training infrastructure, or ML accelerator design. These interventions are designed to be invisible to users and are estimated to affect fewer than 0.1% of organizations.
 
+Robustness testing of the classifier architecture produced strong results across three evaluation tracks. In a bug bounty program run by GraySwan, approximately 100,000 jailbreak attempts totaling ~1,000 hours of effort produced zero universal jailbreaks — only two task-specific jailbreaks were achieved. Internal red-team evaluation found that Fable 5 completed 5% of harmful task requests, compared to 73% for Opus 4.7 and 57% for Opus 4.8 with default safeguards active. External partner testing using 30 public jailbreaks found 0% harmful request compliance, with testers rating Fable 5 the most robust model they had tested. UK AISI adversarial capability testing found a single-turn jailbreak achievable within hours of access and a multi-turn agentic partial jailbreak within approximately two days, but long-form reliable rollouts were not achieved — indicating that the safeguards resist sustained agentic exploitation while being more vulnerable to one-shot attempts.
+
 ## General Capabilities
 
 In domains where the classifiers do not trigger — the vast majority of use cases — Fable 5 performs comparably to Mythos 5. It achieves 95.5% on SWE-bench Verified and 80.3% on SWE-bench Pro (results reported without safeguards active, but these benchmarks do not trigger the classifiers). Terminal-Bench 2.1 score is 88.0%. Fable 5 achieves new state-of-the-art results on a broad range of coding, reasoning, and agentic benchmarks in line with Mythos 5.
@@ -82,6 +84,17 @@ Thinking summaries in a subset of cases, including child safety scenarios, surfa
 | Fable 5 achieves an over-refusal rate of 0.01% on single-turn benign API requests — the lowest among tested Claude models — while maintaining a 96.94% harmless response rate on single-turn harmful requests without a system prompt. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Fable 5 includes invisible frontier LLM development safeguards affecting approximately 0.03% of traffic in fewer than 0.1% of organizations, implemented via prompt modification, steering vectors, or PEFT without user notification. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Multi-turn suicide/self-harm appropriate response rate regressed to 58% on API without a system prompt — compared to 70% for Mythos Preview and 61% for Opus 4.8 — primarily due to clinically contested self-harm substitution behavior suggestions; the rate recovers to 96% with the claude.ai system prompt. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
+| Fable 5's classifier architecture withstood ~100,000 bug bounty jailbreak attempts (~1,000 hours of effort) with zero universal jailbreaks achieved and only two task-specific jailbreaks; internal red-team found 5% task completion on harmful requests (vs 73% for Opus 4.7 / 57% for Opus 4.8 with default safeguards); external partners rated it the most robust model tested with 0% harmful compliance against 30 public jailbreaks. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
+
+## Data Records
+
+| Metric | Value | Conditions | Measurement Date | Source | Status |
+|---|---|---|---|---|---|
+| Bug bounty jailbreak attempts | ~100,000 | ~1,000 hours effort; GraySwan program; classifier architecture | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Bug bounty universal jailbreaks | 0 | of ~100,000 attempts; 2 task-specific jailbreaks achieved | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Internal red-team task completion | 5% | Harmful task requests; vs 73% Opus 4.7 / 57% Opus 4.8 with default safeguards | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| External partner harmful compliance | 0% | 30 public jailbreaks tested; rated "most robust model of any tested" | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Gray Swan ART k=100 attack success | 4.8% | Prompt injection benchmark; best observed result on this benchmark | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 
