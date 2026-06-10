@@ -1,4 +1,5 @@
 ## [queued]
+https://www.nature.com/articles/s41562-024-02024-1
 ## [nominated]
 Should We Respect LLMs? A Cross-Lingual Study on the Influence of Prompt Politeness on LLM Performance | https://doi.org/10.18653/v1/2024.sicon-1.2 | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[prompt-engineering]]]
 Emergent Analogical Reasoning in Large Language Models | https://doi.org/10.1038/s41562-023-01659-w | research-paper | peer-reviewed | nominated: 2026-05-26 [nominated — cited by [[2025-dobariya-prompt-politeness-llm-accuracy]], relevant to [[llm-fundamentals]]]
