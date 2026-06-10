@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*174 pages. Last updated: 2026-06-10.*
+*177 pages. Last updated: 2026-06-10.*
 
 ---
 
@@ -68,6 +68,7 @@ professional roles, see the [[teaching-index]].
 - [[sycophancy]] — An AI behavioral failure mode in which a model agrees with or validates user statements regardless of factual accuracy, prioritizing perceived social approval over correctness — a structural side effect of RLHF training on human preference data. *(stub — pending first ingest)*
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
 - [[ai-economic-impact]] — A measurement framework and empirical findings on AI's economic footprint, documenting real-world task horizons (50% success at 3.5 hours for API, ~19 hours for Claude.ai), effective AI coverage across occupations weighted by task time and success rate (49% of jobs at ≥25% task penetration), and revised productivity estimates of 1.0–1.2 percentage points annual labor productivity growth once task reliability is factored in.
+- [[human-ai-collaboration]] — The empirical conditions under which combining humans and AI outperforms either alone, characterized by a key distinction between augmentation (beating the human baseline) and synergy (beating the best individual performer), with task type and relative baseline performance identified as the dominant moderators of whether collaboration helps or hurts.
 
 ## Tools
 
@@ -167,6 +168,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-google-notebooklm-agentic-capabilities]] — Trond Wuellner, Google Blog, 2026-06-08, practitioner
 - [[2025-openai-cyber-resilience-safeguards]] — OpenAI, 2025-12-10, practitioner
 - [[2026-anthropic-economic-index-primitives]] — Appel, Massenkoff, McCrory et al. (Anthropic), 2026-01-15, institutional
+- [[2024-vaccaro-human-ai-synergy-meta-analysis]] — Vaccaro, Almaatouq, Malone (MIT CCI), 2024-10-28, peer-reviewed
 - [[2026-anthropic-fable-5-mythos-5-system-card]] — Anthropic, 2026-06-09, institutional
 
 ## Comparisons
@@ -197,6 +199,7 @@ professional roles, see the [[teaching-index]].
 - [[ai-in-science-pitfalls]] — parent: ai-in-science
 - [[algorithmic-monoculture-pitfalls]] — parent: algorithmic-monoculture
 - [[anthropic-claude-opus-4-8-pitfalls]] — parent: anthropic-claude-opus-4-8
+- [[human-ai-collaboration-pitfalls]] — parent: human-ai-collaboration
 - [[anthropic-claude-fable-5-pitfalls]] — parent: anthropic-claude-fable-5
 - [[anthropic-claude-mythos-5-pitfalls]] — parent: anthropic-claude-mythos-5
 - [[enterprise-ai-adoption-pitfalls]] — parent: enterprise-ai-adoption

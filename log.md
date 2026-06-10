@@ -4,8 +4,14 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 146
+entry_count: 147
 ---
+
+## [2026-06-10] ingest | When combinations of humans and AI are useful: A systematic review and meta-analysis
+Added: [[2024-vaccaro-human-ai-synergy-meta-analysis]]. Updated: (none — new pages only). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 — [[human-ai-collaboration]], [[human-ai-collaboration-pitfalls]], [[2024-vaccaro-human-ai-synergy-meta-analysis]].
+  Teaching relevance applied: [[human-ai-collaboration]] (domains: practical-ai-use-and-interaction, output-verification-and-risk-assessment, tool-evaluation-and-selection); [[human-ai-collaboration-pitfalls]] (domains: output-verification-and-risk-assessment, practical-ai-use-and-interaction). Pitfalls page teaching relevance was not pre-flighted; applied during execution per TAGGING-SKILL.md Step 2 Criterion A.
+  Citation nominations added to queue.md [nominated]: Noy & Zhang (2023) Science and Tschandl et al. (2020) Nature Medicine.
 
 ## [2026-06-10 PT] session-stats | ingest
 Queue size at session start: 0
