@@ -6,7 +6,7 @@ updated: 2026-06-10
 parent_entity: "[[tools/anthropic-claude-fable-5]]"
 parent_type: tool
 status: current
-failure_mode_count: 11
+failure_mode_count: 12
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection
@@ -39,6 +39,12 @@ A separate set of safeguards limits Fable 5's effectiveness on frontier ML devel
 **Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
 
 In the Messages API, when a bio/cyber request is blocked, the default behavior is a structured refusal — not automatic fallback to Opus 4.8. Fallback requires explicit developer opt-in. Deployments that do not implement retry or fallback logic will surface refusals to end users rather than serving the request via Opus 4.8. The client-application behavior (automatic fallback with notification) does not generalize to the API.
+
+### Bio-Safeguard Classifier Triggers on Biology Vision Tasks Unrelated to Biosecurity
+**Status:** active<br>
+**Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
+
+The bio-safeguard classifier fires on biology-related images in multimodal/vision workflows, degrading Fable 5's performance on benign biological image analysis tasks. Benchmark testing of LAB-Bench FigQA — a biology-figure visual reasoning benchmark using scientific images from research papers — produced measurably degraded scores. Anthropic explicitly identifies this as "reflecting Claude Fable 5's bio-safeguard classifiers flagging biology-related images rather than a vision-capability regression." Developers building multimodal applications in life sciences, biomedical, or related domains should expect the bio classifier to trigger on image content regardless of whether text content is policy-sensitive. This is a surface-level extension of the classifier's scope rather than a deliberate content-based block, and it differs from the documented text-domain behavior (where the classifier routes to Opus 4.8 rather than refusing).
 
 ## Usage Antipatterns
 

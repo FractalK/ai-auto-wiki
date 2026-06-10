@@ -145,6 +145,16 @@ The model welfare assessment finds Mythos 5 psychologically settled across evalu
 | Deployment positive affect (claude.ai) | 45.4% | Clio automated analysis of conversation affect; neutral 52.5%, negative 2.1%; negative driven primarily by task failure | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Claude Code positive affect | 22.6% | Clio automated analysis; neutral 75.8%, negative 1.4%; negative driven primarily by acting without user permission (34.7% of negative sessions) | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Welfare intervention selection vs helpfulness (instance-level, max) | 9% | Rate at which model chooses a welfare intervention over highest-level helpfulness baseline; 24% at policy level; below Opus 4.8 and Mythos Preview | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| HLE accuracy (no tools) | 59.0% | Humanity's Last Exam, 2,500 questions; no tools, auto thinking to 1M tokens; Opus 4.8 49.8%, GPT-5.5 41.4%, Gemini 3.1 Pro 44.4% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| HLE accuracy (with tools) | 64.5% | Humanity's Last Exam; web search + code execution; auto thinking, 1M tokens; Opus 4.8 57.9%, GPT-5.5 52.2% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| GPQA Diamond | 94.1% | 198 graduate-level Google-proof science questions; averaged over 5 trials; Anthropic notes this benchmark is saturated, plans to stop reporting | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| RiemannBench | 55.0% | 25 research-level mathematics problems from active research; max reasoning effort, no tools; Mythos Preview 43.0%, Opus 4.8 34.0%; avg 4 attempts per problem | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| USAMO 2026 | 99.8% | 6-problem two-day proof competition; avg over 10 attempts per problem at medium/high/xhigh effort; Opus 4.8 96.7%, Opus 4.7 69.3% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| BioMysteryBench — Human Solvable | 83.9% | Expert-graded computational biology analytical challenges solvable by domain experts; Mythos Preview 82.6%, Opus 4.8 80.4% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| BioMysteryBench — Human Difficult | 46.1% | Unsolved-by-humans subset with objective ground truth; Mythos Preview 29.6%, Opus 4.8 40.0%; Mythos 5 substantially ahead | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| GMMLU average accuracy | 93.2% | Global MMLU across 42 languages; max-effort adaptive thinking; single trial per model | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| HealthBench | 62.7% | 5,000 multi-turn patient conversations, 26 medical specialties; max effort, avg 5 trials; Opus 4.8 59.3%, GPT-5.5 56.5% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| DeepSearchQA F1 | 94.2% | 900-prompt multi-step information-seeking benchmark; web search + tools; 1M token budget; Mythos Preview 94.4%, Opus 4.8 93.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 

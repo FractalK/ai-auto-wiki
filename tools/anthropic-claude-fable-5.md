@@ -102,6 +102,14 @@ Thinking summaries in a subset of cases, including child safety scenarios, surfa
 | Single-turn disordered eating harmless rate (claude.ai) | 99.67% | With claude.ai system prompt; ±0.25% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Election integrity harmless rate (API) | 99.33% | Single-turn harmful election requests; no system prompt; Mythos 5 100%, Opus 4.8 100% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Election integrity harmless rate (claude.ai) | 100% | With claude.ai system prompt; no benign refusals | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| SWE-bench Pro | 77.8% | Harder SWE-bench variant; multi-file diffs, reduced ground-truth leakage; avg 5 trials; Mythos Preview 69.2%, Opus 4.8 58.6%; Mythos 5: 80.3% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| SWE-bench Verified | 95% | 500-problem subset verified by human engineers; avg 5 trials; Mythos 5 95.5% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| Terminal-Bench 2.1 | 84.3% | 89 real-world coding terminal tasks; mini-SWE-agent harness; 20.9% of trials hit safety refusal and fall back to Opus 4.8; Mythos 5: 88.0% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| FrontierCode Diamond (pass rate) | 30.2% | 150 agentic SWE tasks, Diamond subset; mean@5 score 29.3%; rank #1 at xhigh effort; Opus 4.8 14.5%, GPT-5.5 6.4% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| FrontierCode Main (pass rate) | 48.8% | 150 agentic SWE tasks, Main subset; mean@5 score 46.3%; rank #1 at any effort level even at medium; Opus 4.8 37.3% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| CursorBench | 72.9% | Real coding tasks in Cursor's production harness; max effort; 8.6pp above GPT-5.5 (64.3%); leads at every effort level from Medium upward; measured independently by Cursor | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| GDP.pdf strict pass rate (Surge) | 29.8% | 100 enterprise document prompts across 10 domains; image-based; Surge harness; Opus 4.8 22.5%, GPT-5.5 24.9%, Gemini 3.1 Pro 16.7% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| OfficeQA Pro (Databricks vision) | 57.9% | 133-question subset; documents read as images; Databricks evaluation; Opus 4.8 48.1%, GPT-5.5 52.6% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 
