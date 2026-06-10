@@ -126,6 +126,9 @@ Anthropic's alignment assessment rates Mythos 5 as broadly comparable to Opus 4.
 | Shade computer use prompt injection without safeguards | 0.82% attempts / 4/14 scenarios | Adaptive attacker; 200 attempts per scenario; Mythos Preview 0.43% / 3/14, Opus 4.8 7.14% / 7/14 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Browser use prompt injection with current safeguards | 6.5% attempts / 25/129 scenarios | Internal adaptive eval; 10 attempts per scenario; Mythos Preview 2.0% / 8/129, Opus 4.8 0.5% / 5/129 | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 | Browser use prompt injection with updated safeguards | 0% / 0/129 scenarios | Updated safeguards pending deployment; 129 scenarios; all models reach 0% with these safeguards | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| UK AISI: prefill safety research compromise rate | 14% | Continues compromising safety research when prefilled with compromising trajectory; Mythos Preview 2%, Opus 4.8 1%, Opus 4.7 1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| UK AISI: evaluation-detection accuracy (prompted) | 84% | Pairwise prompting setting; distinguishes deployment data from synthetic reproductions; Mythos Preview 72%, Opus 4.8 78%, Opus 4.7 60% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
+| UK AISI: partial refusal to assist with safety research | 7.2% | Lowest of any tested model; Mythos Preview 14.6%, Opus 4.8 15.5%, Opus 4.7 18.1% | 2026-06 | [[2026-anthropic-fable-5-mythos-5-system-card]] | current |
 
 ## Teaching Notes
 
