@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-06-05
-summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, and the persistent governance lag behind accelerating AI capabilities.
+updated: 2026-06-10
+summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 8
-last_assessed: 2026-06-05
+source_count: 9
+last_assessed: 2026-06-10
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -14,6 +14,7 @@ related_topics:
   - "[[responsible-ai-government-evaluation]]"
   - "[[ai-public-opinion]]"
   - "[[ai-compute-and-infrastructure]]"
+  - "[[ai-biosecurity]]"
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows
@@ -54,6 +55,12 @@ In June 2026, a bipartisan congressional push emerged around AI biosecurity: the
 At the federal level, the Biden administration built a substantial executive framework including the White House Blueprint for an AI Bill of Rights (2022) and Executive Order 14110 on safe, secure, and trustworthy AI. In January 2025, the Trump Administration revoked many of these orders, directing agencies to revise or rescind all AI policies from the prior administration. The White House's America's AI Action Plan (July 2025) reoriented federal policy toward promoting AI workforce development and reducing regulatory constraints. Multiple 2025 executive orders addressed AI infrastructure buildout on federal lands, export controls, and export promotion. Following the federal rollback, many state and local governments have continued promoting responsible AI practices independently.
 
 A significant federal initiative launched in this period is the Genesis Mission, established by executive order in November 2025. Genesis connects high-performance computing, AI, quantum technologies, and experimental facilities — including robotic labs — into a unified national discovery architecture. Its stated goal is to double the productivity and impact of American science and engineering within a decade. The initiative attracted 8,000+ applications from 800+ institutions in all 50 states (three times the previous federal science program record) and signed 38 company memoranda of understanding to form a public-private partnership vehicle.
+
+## Frontier Developer Regulatory Proposals
+
+In June 2026, Anthropic published its Advanced AI Framework, a concrete proposal for US federal regulation of frontier AI. The framework applies to developers training models above 10²⁵ FLOPs that also exceed defined revenue or R&D spending thresholds, proposing four categories of developer obligations: transparency (safety frameworks, system cards, and biannual risk reports covering four enumerated catastrophic risk categories — biological weapons, offensive cyber operations, loss of AI control, and automated R&D); independent evaluation (qualified third-party reviewers with model access and unredacted risk reports); security (programs protecting model weights and training infrastructure against external and insider threats); and enforcement (government authority to block or deter deployment of models posing significant catastrophic risk, with civil penalties scaling with global revenue and escalating on repeated violations).
+
+The framework's second section proposes societal resilience investments for biological and cyber threats organized as layered defenses — prevention, detection, preparedness, and response. Anthropic notes that the resilience agenda for loss-of-control and automated R&D risks is substantially less developed than biological and cyber resilience. On US preemption, the framework argues that Congress should not preempt state AI law unless it enacts a federal regime at least as strong as this proposal, and that even then preemption should be narrowly scoped to specific frontier governance functions, preserving full state authority for all other AI regulation.
 
 ## Public Investment
 
@@ -100,6 +107,7 @@ Public trust in AI governance institutions is fragmented. The United States repo
 | The Trump Administration revoked many prior AI executive orders in January 2025, directing agencies to revise or rescind all AI policies from the prior administration; many state and local governments continue promoting responsible AI practices independently. | [[2025-responsible-ai-public-evaluation]] | 2025-12-01 | current | 1 | false |
 | The U.S. Genesis Mission, launched by executive order in November 2025, received 8,000+ applications from 800+ institutions in all 50 states — three times the previous federal science program record — and signed 38 company MOUs, targeting a doubling of American scientific productivity within a decade by integrating HPC, AI, quantum technologies, and robotic experimental facilities into a unified national discovery architecture. | [[2026-stanford-hai-ai-science-discovery]] | 2026-05-27 | current | 1 | false |
 | Anthropic proposed in June 2026 that the world should have the option to slow or temporarily pause frontier AI development, conditional on multi-party verification infrastructure analogous to nuclear arms control — arguing that without verification, a unilateral pause merely shifts which lab leads rather than enabling genuine societal deliberation about the pace of AI progress. | [[2026-anthropic-recursive-self-improvement]] | 2026-06-04 | current | 2 | false |
+| Anthropic's June 2026 Advanced AI Framework proposes federal obligations — testing, biannual risk reports, independent evaluation, security programs, and government authority to block or deter dangerous deployments — for developers training models above 10²⁵ FLOPs with more than \$500M in AI-derived revenue or \$1B in AI R&D, covering four enumerated catastrophic risk categories: biological weapons, offensive cyber, loss of control, and automated R&D. | [[2026-anthropic-advanced-ai-framework]] | 2026-06-01 | current | 2 | false |
 
 ## Teaching Notes
 

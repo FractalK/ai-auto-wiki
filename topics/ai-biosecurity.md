@@ -3,9 +3,9 @@ type: topic
 title: AI Biosecurity
 created: 2026-06-05
 updated: 2026-06-10
-summary: "The intersection of AI capability and biological security — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, and the deployment of trusted-access AI programs for proactive biodefense and pandemic preparedness."
+summary: "The intersection of AI capability and biological security — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, trusted-access AI programs for proactive biodefense, and government-level biological resilience infrastructure proposals."
 status: developing
-source_count: 3
+source_count: 4
 last_assessed: 2026-06-10
 related_topics:
   - "[[ai-governance-policy]]"
@@ -48,6 +48,10 @@ This bipartisan framing — industry asking to be regulated — is unusual for A
 The same AI capabilities that amplify bioweapon risk also enable faster and more effective biodefense. OpenAI's June 2026 announcement of GPT-Rosalind and the Rosalind Biodefense program represents one governance model for navigating this tension: deploying advanced biological AI exclusively through a trusted-access pathway that limits use to vetted government agencies, national laboratories, research universities, and nonprofit biosecurity organizations with demonstrated mission legitimacy and governance infrastructure. The program explicitly excludes support for gain-of-function research and requires expert human review of all model-supported scientific outputs.
 
 This trusted-access approach attempts to preserve asymmetric access — giving defenders better tools than potential attackers — while acknowledging that the same capabilities carry inherent misuse risk if broadly deployed. Whether access restriction alone can prevent misuse at scale remains an open question, particularly as similar biological AI capabilities proliferate across vendors and frontier model capabilities continue to advance.
+
+## Biological Resilience Agenda
+
+Anthropic's June 2026 Advanced AI Framework proposes a four-layer biological resilience architecture as the societal complement to developer-facing obligations. Prevention measures include modernizing biosafety and biosecurity standards to reflect synthetic biology and AI-assisted design tools (many existing standards predate these fields), extending enforceable oversight to privately funded research, requiring gene synthesis providers and benchtop synthesizer manufacturers to screen requested sequences for hazard potential, and building structured two-way intelligence-sharing channels between governments, AI developers, and biotechnology companies supported by legal safe harbors and antitrust carve-outs. Detection centers on pathogen-agnostic biosurveillance — systems designed to provide early warning independent of known pathogen libraries — combined with microbial forensics infrastructure for rapid attribution of biological incidents to enable deterrence. Preparedness and response measures include stockpiling pandemic-grade respiratory protection for the essential workforce, funding AI-accelerated countermeasure development and broad-spectrum antiviral research, building responsive manufacturing capacity for novel or engineered pathogens, and requiring binding after-action reviews with statutory deadlines following nationally significant biological incidents. The framework notes that these investments produce resilience value regardless of whether threats are AI-enabled, natural, or conventional — treating biological resilience infrastructure as durable policy rather than AI-specific response.
 
 ## Threshold Assessments and Model Evaluations
 

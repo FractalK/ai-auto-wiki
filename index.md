@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-06-09
+updated: 2026-06-10
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*177 pages. Last updated: 2026-06-10.*
+*178 pages. Last updated: 2026-06-10.*
 
 ---
 
@@ -170,6 +170,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-economic-index-primitives]] — Appel, Massenkoff, McCrory et al. (Anthropic), 2026-01-15, institutional
 - [[2024-vaccaro-human-ai-synergy-meta-analysis]] — Vaccaro, Almaatouq, Malone (MIT CCI), 2024-10-28, peer-reviewed
 - [[2026-anthropic-fable-5-mythos-5-system-card]] — Anthropic, 2026-06-09, institutional
+- [[2026-anthropic-advanced-ai-framework]] — Anthropic, 2026-06-01, institutional
 
 ## Comparisons
 
