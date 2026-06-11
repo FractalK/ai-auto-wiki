@@ -5,7 +5,7 @@ created: 2026-04-23
 updated: 2026-06-10
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 9
+source_count: 10
 last_assessed: 2026-06-10
 related_topics:
   - "[[ai-companion-risks]]"
@@ -60,7 +60,7 @@ A significant federal initiative launched in this period is the Genesis Mission,
 
 In June 2026, Anthropic published its Advanced AI Framework, a concrete proposal for US federal regulation of frontier AI. The framework applies to developers training models above 10²⁵ FLOPs that also exceed defined revenue or R&D spending thresholds, proposing four categories of developer obligations: transparency (safety frameworks, system cards, and biannual risk reports covering four enumerated catastrophic risk categories — biological weapons, offensive cyber operations, loss of AI control, and automated R&D); independent evaluation (qualified third-party reviewers with model access and unredacted risk reports); security (programs protecting model weights and training infrastructure against external and insider threats); and enforcement (government authority to block or deter deployment of models posing significant catastrophic risk, with civil penalties scaling with global revenue and escalating on repeated violations).
 
-The framework's second section proposes societal resilience investments for biological and cyber threats organized as layered defenses — prevention, detection, preparedness, and response. Anthropic notes that the resilience agenda for loss-of-control and automated R&D risks is substantially less developed than biological and cyber resilience. On US preemption, the framework argues that Congress should not preempt state AI law unless it enacts a federal regime at least as strong as this proposal, and that even then preemption should be narrowly scoped to specific frontier governance functions, preserving full state authority for all other AI regulation.
+The framework's second section proposes societal resilience investments for biological and cyber threats organized as layered defenses — prevention, detection, preparedness, and response. Anthropic notes that the resilience agenda for loss-of-control and automated R&D risks is substantially less developed than biological and cyber resilience. On US preemption, the framework argues that Congress should not preempt state AI law unless it enacts a federal regime at least as strong as this proposal, and that even then preemption should be narrowly scoped to specific frontier governance functions, preserving full state authority for all other AI regulation. Anthropic's public framing for why enforcement authority is now necessary points to Claude Mythos Preview's June 2026 discovery of thousands of high-severity vulnerabilities in every major operating system and browser — a demonstration that AI capability acceleration has outpaced what transparency requirements alone can govern. Alongside the Advanced AI Framework, Anthropic published a companion Economic Policy Framework addressing AI's broader economic impacts; together these constitute Anthropic's June 2026 policy agenda.
 
 ## Public Investment
 

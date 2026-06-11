@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*180 pages. Last updated: 2026-06-10.*
+*181 pages. Last updated: 2026-06-10.*
 
 ---
 
@@ -173,6 +173,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-fable-5-mythos-5-system-card]] — Anthropic, 2026-06-09, institutional
 - [[2026-anthropic-advanced-ai-framework]] — Anthropic, 2026-06-01, institutional
 - [[2026-google-gemma-4-12b-announcement]] — Olivier Lacombe (Google Blog), 2026-06-03, practitioner (vendor-content)
+- [[2026-anthropic-policy-ai-exponential]] — Anthropic, 2026-06, institutional
 
 ## Comparisons
 
