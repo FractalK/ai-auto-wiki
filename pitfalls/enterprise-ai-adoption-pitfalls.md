@@ -2,11 +2,11 @@
 type: pitfalls
 title: Enterprise AI Adoption Pitfalls
 created: 2026-06-05
-updated: 2026-06-05
+updated: 2026-06-10
 parent_entity: "[[topics/enterprise-ai-adoption]]"
 parent_type: topic
 status: current
-failure_mode_count: 5
+failure_mode_count: 6
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows
@@ -17,10 +17,17 @@ professional_contexts:
   - entrepreneurship-and-startups
 contributing_sources:
   - "[[2025-mit-nanda-genai-divide]]"
+  - "[[2026-msnow-zitron-ai-boom-collapse]]"
 teaching_notes_reviewed: 2026-06-05
 ---
 
 ## Technical Limitations
+
+### AI Vendor Pricing Sustainability Risk
+**Status:** active<br>
+**Source:** [[2026-msnow-zitron-ai-boom-collapse]]
+
+Current consumer and enterprise AI subscription prices are set substantially below the compute cost of delivering the service, creating subsidy-dependent economics that expose enterprise adopters to the risk of significant future price increases or product discontinuation. Court filings in the Anthropic Department of Defense dispute (June 2026) disclosed that Anthropic generated \$5 billion in lifetime revenue against \$10 billion in training and inference expenses through March 2026; researcher analysis cited in the same period estimates Claude Code generates \$8–13.50 in compute costs per \$1 of monthly subscription revenue. Organizations building workflows and processes around AI tools at current subscription price points should model scenarios in which prices rise substantially or the product changes — the adoption economics that make current AI deployments attractive may not persist if frontier AI labs need to close the gap between delivery costs and subscription revenue.
 
 ### Static tool syndrome
 **Status:** active<br>
