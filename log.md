@@ -4,8 +4,13 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 149
+entry_count: 150
 ---
+
+## [2026-06-10] ingest | Introducing Gemma 4 12B: a unified, encoder-free multimodal model
+Added: [[2026-google-gemma-4-12b-announcement]]. Updated: (none — new pages only). Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 2 — [[google-gemma-4-12b]], [[2026-google-gemma-4-12b-announcement]].
+  Teaching relevance: deferred per TAGGING-SKILL.md 5.1 — single vendor-content source, all Key Claims carry vendor-bias annotations.
 
 ## [2026-06-10] ingest | Anthropic's Advanced AI Framework
 Added: [[2026-anthropic-advanced-ai-framework]]. Updated: [[ai-governance-policy]], [[ai-biosecurity]], [[ai-governance-policy-pitfalls]]. Contradictions flagged: 0.

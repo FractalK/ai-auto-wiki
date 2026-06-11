@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*178 pages. Last updated: 2026-06-10.*
+*180 pages. Last updated: 2026-06-10.*
 
 ---
 
@@ -94,6 +94,7 @@ professional roles, see the [[teaching-index]].
 - [[deepseek-v4-pro]] — DeepSeek's frontier open-weight model as of April 2026, a 1.6T-parameter Mixture-of-Experts model (49B active per token) with MIT license, 80.6% SWE-bench Verified score, and API pricing at approximately one-ninth of GPT-5.5 output token cost — text-only at launch.
 - [[deepseek-v4-flash]] — DeepSeek's low-cost open-weight model as of April 2026, a 284B-parameter MoE model (13B active per token) with MIT license and \$0.14/\$0.28 per million token pricing — self-hostable on mid-size team infrastructure and text-only at launch.
 - [[google-gemini-3-5-flash]] — Google's frontier agentic model in the Flash speed tier, optimized for multi-step task execution, multi-agent coordination via the Antigravity harness, and coding workflows, with vendor-reported benchmark performance claimed to rival larger frontier models at lower latency and cost.
+- [[google-gemma-4-12b]] — Google's open-weight multimodal model requiring 16GB VRAM, featuring an encoder-free architecture that processes vision and audio inputs natively in the LLM backbone, released under Apache 2.0 for consumer and developer deployment.
 
 ## Sources
 
@@ -171,6 +172,7 @@ professional roles, see the [[teaching-index]].
 - [[2024-vaccaro-human-ai-synergy-meta-analysis]] — Vaccaro, Almaatouq, Malone (MIT CCI), 2024-10-28, peer-reviewed
 - [[2026-anthropic-fable-5-mythos-5-system-card]] — Anthropic, 2026-06-09, institutional
 - [[2026-anthropic-advanced-ai-framework]] — Anthropic, 2026-06-01, institutional
+- [[2026-google-gemma-4-12b-announcement]] — Olivier Lacombe (Google Blog), 2026-06-03, practitioner (vendor-content)
 
 ## Comparisons
 
