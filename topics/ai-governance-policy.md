@@ -5,7 +5,7 @@ created: 2026-04-23
 updated: 2026-06-10
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 10
+source_count: 11
 last_assessed: 2026-06-10
 related_topics:
   - "[[ai-companion-risks]]"
@@ -15,6 +15,7 @@ related_topics:
   - "[[ai-public-opinion]]"
   - "[[ai-compute-and-infrastructure]]"
   - "[[ai-biosecurity]]"
+  - "[[ai-labor-displacement-policy]]"
 teaching_relevance: true
 competency_domains:
   - ai-integration-in-organizational-workflows

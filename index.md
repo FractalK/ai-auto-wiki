@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*181 pages. Last updated: 2026-06-10.*
+*184 pages. Last updated: 2026-06-10.*
 
 ---
 
@@ -69,6 +69,7 @@ professional roles, see the [[teaching-index]].
 - [[red-teaming]] — An adversarial evaluation methodology in which an AI system is systematically tested for safety vulnerabilities, alignment failures, and exploitable failure modes through simulated attacks and structured edge-case probing, used both for pre-deployment safety assessment and to generate adversarial training data for alignment fine-tuning. *(stub — pending first ingest)*
 - [[ai-economic-impact]] — A measurement framework and empirical findings on AI's economic footprint, documenting real-world task horizons (50% success at 3.5 hours for API, ~19 hours for Claude.ai), effective AI coverage across occupations weighted by task time and success rate (49% of jobs at ≥25% task penetration), and revised productivity estimates of 1.0–1.2 percentage points annual labor productivity growth once task reliability is factored in.
 - [[human-ai-collaboration]] — The empirical conditions under which combining humans and AI outperforms either alone, characterized by a key distinction between augmentation (beating the human baseline) and synergy (beating the best individual performer), with task type and relative baseline performance identified as the dominant moderators of whether collaboration helps or hurts.
+- [[ai-labor-displacement-policy]] — The emerging policy framework for responding to AI-driven labor market disruption, centered on Anthropic's three-tier approach calibrating interventions to unemployment severity — from pre-distributive capital accounts and workforce training at baseline conditions, through expanded income support and retraining at recession-level disruption, to new tax bases and redistribution mechanisms if AI severs the link between work and income.
 
 ## Tools
 
@@ -174,6 +175,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-advanced-ai-framework]] — Anthropic, 2026-06-01, institutional
 - [[2026-google-gemma-4-12b-announcement]] — Olivier Lacombe (Google Blog), 2026-06-03, practitioner (vendor-content)
 - [[2026-anthropic-policy-ai-exponential]] — Anthropic, 2026-06, institutional
+- [[2026-anthropic-economic-policy-framework]] — Anthropic, 2026-06-01, institutional
+- [[2026-msnow-zitron-ai-boom-collapse]] — Ed Zitron / Chris Hayes (MS NOW), 2026-06-09, practitioner
 
 ## Comparisons
 
