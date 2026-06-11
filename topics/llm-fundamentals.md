@@ -2,11 +2,11 @@
 type: topic
 title: LLM Fundamentals
 created: 2026-04-26
-updated: 2026-05-25
+updated: 2026-06-11
 summary: The foundational mechanics of large language model training, inference, and deployment, covering the pretraining and fine-tuning pipeline, scaling laws, System 1 reasoning constraints, agentic tool integration, and the principal security vulnerabilities that arise at each stage.
 status: developing
-source_count: 1
-last_assessed: 2026-04-26
+source_count: 2
+last_assessed: 2026-06-11
 related_topics:
   - "[[scalable-oversight]]"
   - "[[llm-position-bias]]"
@@ -45,8 +45,8 @@ As LLMs are given access to external tools — web browsers, code interpreters, 
 | LLMs are produced through a two-stage pipeline: unsupervised pretraining on large text corpora that compresses world knowledge into model parameters, followed by fine-tuning (including RLHF) that shapes the model into an assistant aligned with human preferences. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
 | Scaling laws describe a predictable empirical relationship between model performance, training compute, and dataset size — improvements in any dimension reliably reduce validation loss, enabling research teams to forecast the value of larger training runs before they complete. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
 | LLMs in their current form operate as System 1 reasoners — generating responses through a single forward pass without deliberate sequential search or verification — which structurally limits reliable performance on tasks requiring multi-step planning, complex mathematics, or extended reasoning chains. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
-| Prompt injection — embedding adversarial instructions in external content an LLM agent processes — can silently redirect model behavior without the user's awareness, making it a class of attack that scales with LLM adoption in automated pipelines. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
-| LLMs trained with RLHF develop a fine-tuned behavioral layer that constrains outputs but can be bypassed through jailbreaks; when jailbreaks succeed, the base model — which contains no safety constraints — becomes the effective agent. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
+| LLMs face two principal adversarial attack vectors: prompt injection — embedding malicious instructions in external content the model processes, silently redirecting agentic behavior — and jailbreaks, which bypass the RLHF-trained safety layer and restore the unconstrained base model as the effective agent; both scale as attack surfaces as LLM deployment expands. | [[2023-karpathy-intro-large-language-models]] | 2023-11-22 | current | 0.5 | false |
+| Pre-training scaling — feeding additional compute or data during initial model training — has delivered diminishing returns as of 2025–2026, with frontier labs increasingly relying on inference-time compute scaling (more tokens per output) to continue capability gains rather than pre-training scale alone. | [[2026-msnow-zitron-ai-boom-collapse]] | 2026-06-09 | current | 1 | false |
 
 ## Teaching Notes
 
