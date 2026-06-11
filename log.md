@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-10
 last_entry: 2026-06-10
-entry_count: 151
+entry_count: 152
 ---
+
+## [2026-06-10 PT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: yes (context compaction mid-session; pre-flight completed in prior context window, execution completed in continuation session)
+Time window: peak
+Source type mix: policy-document: 1, vendor-content: 1, industry-blog: 1
+Approx tokens (from /cost): not available (multi-session ingest after compaction)
+Notes: Pre-flight form injected and presented to user; decision string 1:A received at start of execution session. All three sources processed in sequence with per-source commits.
 
 ## [2026-06-10] ingest | Policy on the AI Exponential
 Added: [[2026-anthropic-policy-ai-exponential]]. Updated: [[ai-governance-policy]] (incremental prose — Mythos capability context, Economic Policy Framework mention; source_count 9→10). Contradictions flagged: 0.
