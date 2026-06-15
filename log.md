@@ -4,8 +4,18 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-15
 last_entry: 2026-06-15
-entry_count: 161
+entry_count: 162
 ---
+
+## [2026-06-15 PT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: yes (context compaction between pre-flight and execution; resumed in continuation session)
+Time window: peak
+Source type mix: youtube-video: 1
+Approx tokens (from /cost): not available (two-session ingest after compaction)
+Notes: Decision string 1:A. Two failure modes added to ai-governance-policy-pitfalls. No contradictions. ai-governance-policy at 7 Key Claims overcap (pre-existing; deferred to next lint). Teaching Index regenerated: 74 pages indexed (unchanged count).
 
 ## [2026-06-15] ingest | Inside Anthropic, the $965 Billion AI Juggernaut | The Circuit
 Added: [[2026-bloomberg-anthropic-juggernaut-circuit]]. Updated: [[ai-governance-policy]] (source_count 14→15; US Federal Policy Evolution: Pentagon conflict and Iran war targeting paragraph), [[ai-labor-displacement-policy]] (source_count 1→2; intro: Amodei 50% reaffirmation added), [[ai-economic-impact]] (source_count 1→2; Deskilling Dynamics section: Anthropic growth metrics), [[anthropic-claude]] (source_count 1→2; intro: growth metrics; Claude Code: internal productivity), [[anthropic-claude-mythos-5]] (source_count 3→4), [[ai-governance-policy-pitfalls]] (failure_mode_count 7→9; two new failure modes in Alignment and Safety Concerns: AI-assisted targeting scale-up, Government demands to remove AI safety guardrails). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1.
