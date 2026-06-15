@@ -2,13 +2,13 @@
 type: teaching-index
 title: Teaching Index
 created: 2026-04-22
-updated: 2026-06-14
+updated: 2026-06-15
 ---
 
 # Teaching Index
 
 Auto-generated from frontmatter tags. 74 page(s) indexed across 7 competency domain(s).
-Last regenerated: 2026-06-14. To regenerate: `python3 generate-teaching-index.py`.
+Last regenerated: 2026-06-15. To regenerate: `python3 generate-teaching-index.py`.
 
 ## ai-integration-in-organizational-workflows
 

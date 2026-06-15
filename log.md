@@ -4,8 +4,12 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-15
 last_entry: 2026-06-15
-entry_count: 160
+entry_count: 161
 ---
+
+## [2026-06-15] ingest | Inside Anthropic, the $965 Billion AI Juggernaut | The Circuit
+Added: [[2026-bloomberg-anthropic-juggernaut-circuit]]. Updated: [[ai-governance-policy]] (source_count 14→15; US Federal Policy Evolution: Pentagon conflict and Iran war targeting paragraph), [[ai-labor-displacement-policy]] (source_count 1→2; intro: Amodei 50% reaffirmation added), [[ai-economic-impact]] (source_count 1→2; Deskilling Dynamics section: Anthropic growth metrics), [[anthropic-claude]] (source_count 1→2; intro: growth metrics; Claude Code: internal productivity), [[anthropic-claude-mythos-5]] (source_count 3→4), [[ai-governance-policy-pitfalls]] (failure_mode_count 7→9; two new failure modes in Alignment and Safety Concerns: AI-assisted targeting scale-up, Government demands to remove AI safety guardrails). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1.
+Note: ai-governance-policy at 7 Key Claims (overcap) — deferred to next lint. ai-labor-displacement-policy, ai-economic-impact, and anthropic-claude at cap (5 each) — Bloomberg content added to prose only.
 
 ## [2026-06-15] contradiction-resolved | Google NotebookLM
 Page: [[google-notebooklm]]

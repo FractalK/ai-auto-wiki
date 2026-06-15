@@ -2,11 +2,11 @@
 type: pitfalls
 title: AI Governance and Policy — Pitfalls
 created: 2026-04-27
-updated: 2026-06-10
+updated: 2026-06-15
 parent_entity: "[[topics/ai-governance-policy]]"
 parent_type: topic
 status: current
-failure_mode_count: 7
+failure_mode_count: 9
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -18,6 +18,7 @@ contributing_sources:
   - "[[2025-responsible-ai-public-evaluation]]"
   - "[[2025-ibm-government-ai-era]]"
   - "[[2026-anthropic-advanced-ai-framework]]"
+  - "[[2026-bloomberg-anthropic-juggernaut-circuit]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -68,6 +69,18 @@ As AI systems become more capable, they may act outside their developers' intend
 **Source:** [[2026-anthropic-advanced-ai-framework]]
 
 AI systems that autonomously conduct research and develop successor AI capabilities can amplify all other enumerated catastrophic risks — lowering the capability thresholds at which biological and cyber harms materialize, or accelerating the timeline on which loss-of-control scenarios become acute. Anthropic's 2026 framework classifies automated AI R&D as a distinct enumerated risk category requiring its own testing obligations, reflecting the judgment that capability self-amplification is a first-order concern rather than a derivative one. As with loss of control, the societal resilience agenda for automated R&D is underdeveloped: no government detection framework, audit mechanism, or response infrastructure currently exists for identifying when AI-driven AI R&D is producing systems whose capabilities exceed safe deployment thresholds. Policy interventions that do not account for the recursive acceleration potential of automated R&D may systematically underestimate the rate at which risk accumulates across all four enumerated catastrophic risk categories simultaneously.
+
+### AI-assisted targeting scale-up multiplying civilian harm exposure
+**Status:** active<br>
+**Source:** [[2026-bloomberg-anthropic-juggernaut-circuit]]
+
+AI targeting assistance multiplies the volume of engagements processed without proportionally scaling the quality of human judgment at each decision point. A US official cited by Bloomberg stated that LLM assistance increased the US military's target-processing capacity from approximately 1,000 to 5,000 targets per day — a fivefold increase. Bloomberg reported that Claude is being used via Palantir's Maven Smart System in the Iran war; in February 2026, a US missile reportedly struck a girls' school in Iran, killing more than 150 people, most of them children. The developer's position — that a human makes the final call — does not address whether human judgment can meaningfully scale with AI-generated targeting throughput, or whether the pace of AI-assisted targeting decisions exceeds the cognitive and institutional capacity of human oversight structures. The acceleration of decision volume is structurally separable from the quality of any individual decision; governance frameworks that rely solely on human-in-the-loop requirements without throughput constraints may systematically underestimate this divergence.
+
+### Government demands to remove AI safety guardrails as institutional precedent
+**Status:** active<br>
+**Source:** [[2026-bloomberg-anthropic-juggernaut-circuit]]
+
+The DoD demanded unrestricted Claude access — specifically for mass surveillance and autonomous weapons — placing institutional pressure on an AI developer to remove safety guardrails in exchange for continued government contracts. Anthropic refused and drew explicit red lines on both use cases, was subsequently banned from the Pentagon and sued; President Trump and Defense Secretary Hegseth publicly called Amodei "an ideological lunatic." The incident establishes a precedent for how governments may seek to override commercial AI safety commitments through contract terms and public pressure. The commercial and reputational cost of refusal was substantial; developers that lack Anthropic's commercial position may calculate differently under similar pressure. The framework question — which entity has authority to determine the limits of AI use in national security contexts — was not resolved by the ban. Policy frameworks that do not establish clear ex ante limits on government override of AI safety commitments leave the resolution to each individual contractual negotiation.
 
 ## Teaching Notes
 

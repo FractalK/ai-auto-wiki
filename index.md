@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*187 pages. Last updated: 2026-06-14.*
+*188 pages. Last updated: 2026-06-15.*
 
 ---
 
@@ -180,6 +180,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-google-ai-overviews-liability]] — Fernanda González (Wired), 2026-06-13, institutional
 - [[2026-white-house-anthropic-export-controls]] — Sophia Cai, Cheyenne Haslett (Business Insider / Politico), 2026-06-14, practitioner
 - [[2026-anthropic-fable-mythos-export-directive]] — Anthropic, 2026-06-12, practitioner (vendor-content)
+- [[2026-bloomberg-anthropic-juggernaut-circuit]] — Bloomberg Originals / The Circuit, 2026-06-10, practitioner
 
 ## Comparisons
 

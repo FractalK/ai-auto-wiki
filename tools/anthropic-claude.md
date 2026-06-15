@@ -2,7 +2,7 @@
 type: tool
 title: Claude (Anthropic)
 created: 2026-04-22
-updated: 2026-05-29
+updated: 2026-06-15
 summary: Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 status: active
 vendor: Anthropic
@@ -30,8 +30,8 @@ primary_use_cases:
   - Writing, drafting, and voice adaptation
   - Autonomous file processing workflows via Cowork
   - Structured reasoning and decision support
-source_count: 1
-last_assessed: 2026-04-22
+source_count: 2
+last_assessed: 2026-06-15
 related_tools:
   - "[[anthropic-claude-opus-4-8]]"
   - "[[openai-chatgpt]]"
@@ -50,7 +50,7 @@ technical_depth: foundational
 teaching_notes_reviewed: 2026-04-30
 ---
 
-Claude is Anthropic's general-purpose AI assistant, accessed through a browser interface, a desktop application (Mac and Windows), and an API. It operates through statistical pattern matching over large training datasets — predicting text continuations rather than retrieving facts — which means it produces confident-sounding output that may be incorrect, fabricated, or outdated. Understanding this underlying mechanism is the first step toward using Claude effectively.
+Claude is Anthropic's general-purpose AI assistant, accessed through a browser interface, a desktop application (Mac and Windows), and an API. It operates through statistical pattern matching over large training datasets — predicting text continuations rather than retrieving facts — which means it produces confident-sounding output that may be incorrect, fabricated, or outdated. Understanding this underlying mechanism is the first step toward using Claude effectively. By mid-2026, Anthropic's API volume had grown approximately 17x year-over-year and 80x annualized in Q1 2026, and the company became profitable for the first time.
 
 ## Access and Pricing
 
@@ -66,7 +66,7 @@ A key decision point is mode of access: the browser interface provides a standar
 
 **Cowork:** Claude's agentic operating mode. The user specifies a task and a target folder; Claude plans steps, reads relevant files, produces output files (PDFs, spreadsheets, presentations, HTML), and asks clarifying questions autonomously over minutes to hours. Designed for non-developers — no coding required. Effectiveness increases when the target folder includes context about the user's work style, prior outputs, and reusable templates.
 
-**Claude Code:** A terminal-based mode for developers to write, execute, and debug code. Not required for non-developers; Cowork covers the majority of file-handling use cases without it.
+**Claude Code:** A terminal-based mode for developers to write, execute, and debug code. As of mid-2026, Anthropic's engineering lead for Claude Code reported writing 100% of his code via Claude Code for more than six months, with the mode supporting parallel agent execution at scale. Not required for non-developers; Cowork covers the majority of file-handling use cases without it.
 
 ## Capabilities and Limitations
 

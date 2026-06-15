@@ -2,7 +2,7 @@
 type: tool
 title: Claude Mythos 5
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-15
 summary: Anthropic's most capable model as of June 2026, available only to Project Glasswing partners for defensive cybersecurity work; shares underlying weights with Claude Fable 5 but operates with cybersecurity safeguards removed, achieving new state-of-the-art scores across coding, reasoning, and exploit development benchmarks while being assessed as CB-1 on biosecurity risk and near the CB-2 threshold; access suspended alongside Fable 5 under June 2026 US export controls.
 status: emerging
 vendor: Anthropic
@@ -37,8 +37,8 @@ primary_use_cases:
   - Autonomous security research and exploit analysis under Project Glasswing
   - Advanced software engineering and agentic coding tasks
   - AI safety research and advanced alignment evaluation
-source_count: 3
-last_assessed: 2026-06-14
+source_count: 4
+last_assessed: 2026-06-15
 related_tools:
   - "[[anthropic-claude-fable-5]]"
   - "[[anthropic-claude-opus-4-8]]"

@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-06-14
+updated: 2026-06-15
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, AI developer liability precedents, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 14
-last_assessed: 2026-06-14
+source_count: 15
+last_assessed: 2026-06-15
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -54,6 +54,8 @@ In June 2026, a bipartisan congressional push emerged around AI biosecurity: the
 ## US Federal Policy Evolution
 
 At the federal level, the Biden administration built a substantial executive framework including the White House Blueprint for an AI Bill of Rights (2022) and Executive Order 14110 on safe, secure, and trustworthy AI. In January 2025, the Trump Administration revoked many of these orders, directing agencies to revise or rescind all AI policies from the prior administration. The White House's America's AI Action Plan (July 2025) reoriented federal policy toward promoting AI workforce development and reducing regulatory constraints. Multiple 2025 executive orders addressed AI infrastructure buildout on federal lands, export controls, and export promotion. Following the federal rollback, many state and local governments have continued promoting responsible AI practices independently.
+
+In 2025, Anthropic joined OpenAI, xAI, and Google in a \$200 million Pentagon contract framed as an opportunity to establish governance precedents for AI in national security contexts. Months later, the DoD demanded unrestricted Claude access for mass surveillance and autonomous weapons; Anthropic refused, drawing red lines on both use cases, and was subsequently banned from the Pentagon and sued. President Trump and Defense Secretary Pete Hegseth publicly criticized Amodei as "an ideological lunatic" for the refusal. Bloomberg separately reported that Claude is being used via Palantir's Maven Smart System in the Iran war, with a US official citing a fivefold increase in daily military targeting capacity (approximately 1,000 to 5,000 targets per day). A February 2026 strike reportedly killed more than 150 people at a girls' school in Iran, illustrating the governance stakes of AI-assisted targeting even under human-in-the-loop principles.
 
 In June 2026, the Trump administration imposed export controls on Anthropic's Fable 5 and Mythos 5 models, citing national security concerns about a reported non-universal jailbreak — a narrow, task-specific bypass of the model's safety classifiers. The 24-hour process involved Amazon CEO Andy Jassy raising concerns to the White House, senior officials including Treasury Secretary Scott Bessent and Commerce Secretary Howard Lutnick conducting calls with Anthropic CEO Dario Amodei, and an administration decision to impose export controls after Amodei declined to voluntarily withdraw the models. The export controls banned foreign national access and required Anthropic to suspend all user access for compliance. Anthropic publicly disputed the action as procedurally irregular and disproportionate, arguing non-universal jailbreaks are inherent to all current AI systems and the demonstrated capability existed in other deployed models. The incident marks the first documented use of US export control authority to mandate suspension of a commercially deployed frontier AI model outside a formal statutory process.
 

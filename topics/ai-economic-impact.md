@@ -2,11 +2,11 @@
 type: topic
 title: AI Economic Impact
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-15
 summary: A measurement framework and empirical findings on AI's economic footprint, documenting real-world task horizons (50% success at 3.5 hours for API, ~19 hours for Claude.ai), effective AI coverage across occupations weighted by task time and success rate (49% of jobs at ≥25% task penetration), and revised productivity estimates of 1.0–1.2 percentage points annual labor productivity growth once task reliability is factored in.
 status: developing
-source_count: 1
-last_assessed: 2026-06-09
+source_count: 2
+last_assessed: 2026-06-15
 related_topics:
   - "[[ai-workforce-complementarity]]"
   - "[[llm-fundamentals]]"
@@ -82,7 +82,7 @@ Further adjustment for task complementarity — where bottleneck tasks that AI c
 
 The tasks Claude covers in real usage require more education than the broader economy (mean 14.4 predicted years vs. 13.2 economy-wide). When AI-covered tasks are removed from occupational profiles, the remaining work has lower educational requirements across most occupations — a net deskilling effect concentrated in fields where AI handles the most skilled components: technical writers, travel agents, and some teaching professions. Occupations where AI covers routine administrative work while leaving high-judgment tasks intact (real estate managers, radiologists) experience upskilling.
 
-Geographic adoption remains strongly correlated with GDP per capita at both country and US state level. Within the US, state-level usage is converging at an estimated 2–5 years to parity — approximately 10x faster than the 50-year diffusion timescale for prior economically consequential technologies such as electricity and computers. Global country-level gaps show no such convergence pattern, remaining stable between August and November 2025.
+Geographic adoption remains strongly correlated with GDP per capita at both country and US state level. Within the US, state-level usage is converging at an estimated 2–5 years to parity — approximately 10x faster than the 50-year diffusion timescale for prior economically consequential technologies such as electricity and computers. Global country-level gaps show no such convergence pattern, remaining stable between August and November 2025. Consistent with these diffusion rates, Anthropic's own API volume grew approximately 17x year-over-year through June 2026, with Q1 2026 annualized growth of approximately 80x — business metrics that suggest the adoption curve is still in an accelerating phase rather than approaching saturation.
 
 ## Teaching Notes
 

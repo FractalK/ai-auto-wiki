@@ -2,11 +2,11 @@
 type: topic
 title: AI Labor Displacement Policy
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-15
 summary: The emerging policy framework for responding to AI-driven labor market disruption, centered on Anthropic's three-tier approach calibrating interventions to unemployment severity — from pre-distributive capital accounts and workforce training at baseline conditions, through expanded income support and retraining at recession-level disruption, to new tax bases and redistribution mechanisms if AI severs the link between work and income.
 status: developing
-source_count: 1
-last_assessed: 2026-06-10
+source_count: 2
+last_assessed: 2026-06-15
 related_topics:
   - "[[ai-economic-impact]]"
   - "[[ai-governance-policy]]"
@@ -23,7 +23,7 @@ technical_depth: foundational
 teaching_notes_reviewed: 2026-06-10
 ---
 
-AI's potential to displace workers at scale is the central concern in Anthropic's June 2026 Economic Policy Framework. The document opens with a values statement: Anthropic is not seeking job displacement, considers some displacement an intrinsic consequence of the technology it is building, and frames its responsibility as preparing for and responding to that displacement — not eliminating it. This positions the framework as a preparation document rather than a capabilities constraint. Early-stage evidence already shows entry-level workers in AI-exposed occupations facing weaker employment growth; economists' models range from modest productivity-driven growth to scenarios where output doubles but wages collapse.
+AI's potential to displace workers at scale is the central concern in Anthropic's June 2026 Economic Policy Framework. In a June 2026 public interview, Dario Amodei reaffirmed that he remains at the same order of concern as his prior estimate that AI could eliminate approximately 50% of all entry-level white collar jobs within one to five years — a figure he had declined to revise upward despite a year of rapid capability gains. He simultaneously proposed UBI and progressive taxation of AI companies as Tier 3-level mitigation measures if disruption reaches transformative scale. The document opens with a values statement: Anthropic is not seeking job displacement, considers some displacement an intrinsic consequence of the technology it is building, and frames its responsibility as preparing for and responding to that displacement — not eliminating it. This positions the framework as a preparation document rather than a capabilities constraint. Early-stage evidence already shows entry-level workers in AI-exposed occupations facing weaker employment growth; economists' models range from modest productivity-driven growth to scenarios where output doubles but wages collapse.
 
 The framework is organized around three tiers calibrated to unemployment severity, paired with three foundational preconditions that must be built before any tier's interventions can be deployed at scale. Each tier builds on the prior. Anthropic explicitly flags that some Tier 1 and Tier 2 tools appropriate for transitory disruption may entrench the link between income and employment in ways that make Tier 3 harder to navigate — and notes these tools may need to be phased out if conditions move toward Tier 3.
 
