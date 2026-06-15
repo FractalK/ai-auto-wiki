@@ -2,11 +2,11 @@
 type: topic
 title: AI Search Citation Accuracy
 created: 2026-04-25
-updated: 2026-04-30
-summary: The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements.
+updated: 2026-06-14
+summary: The systematic failure of generative AI search tools to accurately retrieve, identify, and attribute news content, documented across eight major platforms with collective error rates exceeding 60 percent and widespread URL fabrication, robots.txt violations, and ineffective content licensing arrangements — with legal liability for AI-generated false associations established by Munich Regional Court in June 2026.
 status: developing
-source_count: 1
-last_assessed: 2026-04-25
+source_count: 2
+last_assessed: 2026-06-14
 related_tools:
   - "[[openai-chatgpt]]"
 teaching_relevance: true
@@ -36,6 +36,8 @@ Multiple platforms also retrieved content in apparent violation of publishers' r
 
 For practitioners relying on AI search for research, journalism, or legal citation, these findings have direct implications: AI search output should not be treated as a reliable citation source without independent verification. The confidence of the AI response has no predictive value for accuracy. License deals and robots.txt controls both have limited effectiveness as content protection or quality assurance mechanisms.
 
+A June 2026 Munich Regional Court ruling added a legal dimension to the citation accuracy problem. The court found Google liable for false statements in its AI Overviews feature — specifically, associations between publishers and fraudulent practices not present in any linked source. The key distinction the court drew was between link aggregation (displaying third-party statements) and AI synthesis (generating new statements from combined sources). When the AI creates a false association by combining information from multiple documents, user-facing disclaimers acknowledging AI error potential do not eliminate developer liability, because no third party ever made the synthesized claim. For practitioners: verifying that a cited source is real is necessary but insufficient; the synthesized inference the AI draws from that source must also be independently verified.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -45,6 +47,7 @@ For practitioners relying on AI search for research, journalism, or legal citati
 | Content licensing deals between AI companies and news publishers did not reliably improve citation accuracy in tests conducted in February 2025, with ChatGPT correctly identifying only one of ten San Francisco Chronicle excerpts despite Hearst's content partnership with OpenAI. | [[2025-ai-search-citation-problem]] | 2025-03-05 | current | 0.5 | false |
 | More than half of Gemini and Grok 3 responses cited fabricated or broken URLs, with 154 of 200 Grok 3 citations leading to error pages even when the correct article was identified. | [[2025-ai-search-citation-problem]] | 2025-03-05 | current | 0.5 | false |
 | Multiple AI search platforms retrieved publisher content in apparent violation of robots.txt disallow rules, with Perplexity Pro correctly identifying nearly one-third of 90 excerpts from publishers that had explicitly blocked its crawler. | [[2025-ai-search-citation-problem]] | 2025-03-05 | current | 0.5 | false |
+| Munich Regional Court ruled in June 2026 that Google is liable for AI Overviews statements creating false associations between publishers and fraudulent practices not present in any source document — holding that AI search systems producing "independent, new, and substantial statements" lose the safe-harbor protections available to link aggregators, and that user disclaimers acknowledging AI error risk do not absolve developers of liability for AI-generated false synthetic claims. | [[2026-google-ai-overviews-liability]] | 2026-06-13 | current | 2 | false |
 
 ## Teaching Notes
 

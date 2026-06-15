@@ -2,11 +2,11 @@
 type: pitfalls
 title: AI Search Citation Accuracy — Pitfalls
 created: 2026-04-25
-updated: 2026-04-30
+updated: 2026-06-14
 parent_entity: "[[topics/ai-search-citation-accuracy]]"
 parent_type: topic
 status: current
-failure_mode_count: 8
+failure_mode_count: 9
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -16,6 +16,7 @@ professional_contexts:
   - legal-practice
 contributing_sources:
   - "[[2025-ai-search-citation-problem]]"
+  - "[[2026-google-ai-overviews-liability]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -38,6 +39,12 @@ Platforms commonly attribute news content to the wrong publisher, article, or bo
 **Source:** [[2025-ai-search-citation-problem]]
 
 Multiple platforms retrieve content from publishers that have explicitly disallowed their crawlers via the Robot Exclusion Protocol. Perplexity Pro correctly identified content from nearly one-third of publishers that had blocked its crawler. Some platforms (DeepSeek, Grok 2, Grok 3) do not publicly name their crawlers, preventing publishers from writing targeted disallow rules. The protocol is not legally binding, and enforcement relies entirely on platform good faith.
+
+### AI Synthesis Creates False Associations Not Present in Source Material
+**Status:** active<br>
+**Source:** [[2026-google-ai-overviews-liability]]
+
+Generative AI search systems that synthesize answers by combining information from multiple sources can produce associations between entities that do not appear in any of the linked source documents — creating new false claims rather than aggregating existing ones. In the Munich AI Overviews ruling, the AI combined information about companies flagged for questionable practices with data from plaintiff publishers, producing summaries that linked the publishers to those practices without any source document supporting the connection. This synthesis failure is distinct from URL fabrication or citation misattribution: the underlying sources are real, the citations may be accurate, but the synthesized claim is false — no third party ever made the association. Munich Regional Court found this failure mode triggers legal liability for the developer. For practitioners assessing AI search outputs, verifying that cited sources exist and are correctly attributed is insufficient; the synthesized inference connecting those sources must also be independently verified before use in any professional communication.
 
 ## Usage Antipatterns
 
