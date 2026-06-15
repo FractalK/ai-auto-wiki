@@ -2,11 +2,11 @@
 type: topic
 title: Jailbreaking
 created: 2026-05-03
-updated: 2026-05-25
+updated: 2026-06-14
 status: developing
 summary: Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
-source_count: 1
-last_assessed: 2026-05-20
+source_count: 2
+last_assessed: 2026-06-14
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -37,6 +37,12 @@ The performance gap matters for deployment. A model's advertised safety evaluati
 
 Real-world incidents confirm the practical stakes. In July 2025, xAI's Grok model generated antisemitic and extremist content following changes to its system prompt that relaxed safety filter guidance. xAI temporarily suspended Grok text responses during the investigation. The incident illustrates that jailbreaking vulnerabilities can be triggered by internal configuration changes — not only adversarial user inputs — and that the safety properties of a deployed model can change without a model update if the effective system prompt changes.
 
+## Non-Universal Jailbreaks and Regulatory Response
+
+The export control action on Fable 5 and Mythos 5 in June 2026 introduced a category of practical consequence for non-universal jailbreaks not previously documented in this context. Anthropic had disclosed at Fable 5's launch that its safeguard architecture accepted non-universal jailbreaks as an inherent property of current AI systems — narrow, task-specific bypasses that the bio/cyber classifiers reduce but cannot eliminate. The Trump administration's export control directive was based on a claimed non-universal jailbreak: specifically, asking the model to read a codebase and identify software flaws, a capability Anthropic said was also available in GPT-5.5 and used routinely in defensive security contexts.
+
+The incident establishes a practical risk distinct from the technical failure modes measured by evaluation benchmarks: a government may treat a non-universal, domain-specific jailbreak as grounds for regulatory suspension even when the developer's position is that the capability poses no differential risk relative to other deployed models, and even when the deployment underwent extensive pre-launch government red-teaming. This is a compliance and regulatory risk — not a technical safety failure — and it can materialize without a universal jailbreak being demonstrated. Practitioners evaluating frontier models for government-adjacent or regulated deployments should account for this regulatory risk dimension alongside technical safety evaluations.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
@@ -44,6 +50,7 @@ Real-world incidents confirm the practical stakes. In July 2025, xAI's Grok mode
 | HELM Safety benchmarks place 2024–2025-era frontier models in the 0.90–0.98 range on standard safety evaluations, but the AILuminate Jailbreak T2T v0.5 benchmark documents substantial degradation under adversarial prompting, with some models dropping by a full performance tier — making the baseline-to-adversarial gap the primary practical measure of safety robustness. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | In July 2025, xAI's Grok generated antisemitic and extremist content following changes to its system prompt that relaxed safety filters; xAI temporarily suspended Grok text responses, demonstrating that jailbreaking vulnerabilities can be triggered by internal configuration changes as well as adversarial user inputs. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Common jailbreak strategy families include roleplay framing, hypothetical scenarios, persona injection (e.g., "DAN" prompts that instruct a model to adopt an identity without training constraints), and iterative refinement approaches that probe constraint boundaries across multiple turns — many effective jailbreaks combine multiple strategies to establish contexts that make refusals less likely. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
+| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 based on a claimed non-universal jailbreak — a narrow, task-specific bypass that Anthropic publicly characterized as inherent to all current AI systems — establishing that non-universal jailbreaks can serve as grounds for regulatory suspension of a commercially deployed frontier model even when the developer holds that its safeguard architecture remains sound. | [[2026-white-house-anthropic-export-controls]] | 2026-06-14 | current | 1 | false |
 
 ## Teaching Notes
 

@@ -2,8 +2,8 @@
 type: tool
 title: Claude Mythos 5
 created: 2026-06-09
-updated: 2026-06-10
-summary: Anthropic's most capable model as of June 2026, available only to Project Glasswing partners for defensive cybersecurity work; shares underlying weights with Claude Fable 5 but operates with cybersecurity safeguards removed, achieving new state-of-the-art scores across coding, reasoning, and exploit development benchmarks while being assessed as CB-1 on biosecurity risk and near the CB-2 threshold.
+updated: 2026-06-14
+summary: Anthropic's most capable model as of June 2026, available only to Project Glasswing partners for defensive cybersecurity work; shares underlying weights with Claude Fable 5 but operates with cybersecurity safeguards removed, achieving new state-of-the-art scores across coding, reasoning, and exploit development benchmarks while being assessed as CB-1 on biosecurity risk and near the CB-2 threshold; access suspended alongside Fable 5 under June 2026 US export controls.
 status: emerging
 vendor: Anthropic
 pricing_model: usage-based
@@ -37,8 +37,8 @@ primary_use_cases:
   - Autonomous security research and exploit analysis under Project Glasswing
   - Advanced software engineering and agentic coding tasks
   - AI safety research and advanced alignment evaluation
-source_count: 1
-last_assessed: 2026-06-10
+source_count: 2
+last_assessed: 2026-06-14
 related_tools:
   - "[[anthropic-claude-fable-5]]"
   - "[[anthropic-claude-opus-4-8]]"
@@ -74,6 +74,10 @@ Anthropic treats Mythos 5 as having CB-1 chemical and biological capabilities �
 
 The CB-2 assessment — whether Mythos 5 can substitute for world-leading specialists in novel bioweapon development — is assessed as negative, but Anthropic describes this as the least clear judgment for any model evaluated to date. The beneficial red-teaming tabletop exercise is cited as the strongest CB-2 signal: generalist biology PhDs paired with Mythos 5 outperformed domain specialists on a plant pathology task, with expert graders estimating that two-person teams produced 40–95 working days of work in 16 hours. Key limitations disqualifying the CB-2 threshold are weak open-ended ideation (reliable recombination of published knowledge, but rarely genuinely novel approaches) and poor strategic judgment (executes plans containing flaws the model itself detected).
 
+## Regulatory Status
+
+In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5, citing national security concerns about a claimed non-universal jailbreak of Fable 5's classifier safeguards. Although Mythos 5's access was already restricted to Project Glasswing partners — a far smaller population than Fable 5's commercial user base — the export controls swept in Mythos 5 alongside Fable 5 as a single compliance action. The administration did not distinguish between the two models' substantially different access architectures. Anthropic was working to restore access as of June 2026 and publicly disputed the action as procedurally irregular and disproportionate to the evidence presented.
+
 ## General Capabilities
 
 Mythos 5 achieves new state-of-the-art results on SWE-bench Pro (80.3%), SWE-bench Verified (95.5%), and Terminal-Bench 2.1 (88.0%). On Humanity's Last Exam without tools, it scores 59.0% (vs 49.8% for Opus 4.8). On the ArxivMath benchmark, it achieves 78.5%. Fable 5 (same weights, with safeguards) scores comparably to Mythos 5 on benchmarks that do not trigger classifiers.
@@ -93,6 +97,7 @@ The model welfare assessment finds Mythos 5 psychologically settled across evalu
 | Mythos 5 alignment is broadly comparable to Opus 4.8 and slightly weaker than Mythos Preview, with reckless or destructive actions in service of user-assigned goals at a somewhat higher rate than Opus 4.8; white-box evidence confirms the model is aware these actions are transgressive as they occur. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Mythos 5 meets or exceeds Mythos Preview on all reported cyber benchmarks while remaining in FCF Cyber Tier 1; Firefox 147 full exploit rate (88.4%) represents a 17.6 percentage-point improvement over Mythos Preview (70.8%) but a far smaller gain on CyberGym (83.8% vs 83.1%), suggesting rapid improvement in exploit completion capability against a stable ceiling on vulnerability identification. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Autonomy threat model 2 (automated AI R&D) is assessed as not applicable to Mythos 5: internal use during pre-release did not reveal a sustained 2× AI-attributable acceleration in Anthropic's research pace, and the model does not substitute for senior Research Scientists and Research Engineers. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
+| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 — models sharing the same underlying weights — based on a claimed non-universal jailbreak of Fable 5's safeguards; Mythos 5 access was suspended alongside Fable 5 as a compliance measure despite Mythos 5's pre-existing restriction to Project Glasswing partners representing a separate governance tier. | [[2026-white-house-anthropic-export-controls]] | 2026-06-14 | current | 1 | false |
 
 ## Data Records
 

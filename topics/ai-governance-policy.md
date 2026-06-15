@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-06-10
-summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, and the persistent governance lag behind accelerating AI capabilities.
+updated: 2026-06-14
+summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, AI developer liability precedents, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 11
-last_assessed: 2026-06-10
+source_count: 13
+last_assessed: 2026-06-14
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -55,6 +55,8 @@ In June 2026, a bipartisan congressional push emerged around AI biosecurity: the
 
 At the federal level, the Biden administration built a substantial executive framework including the White House Blueprint for an AI Bill of Rights (2022) and Executive Order 14110 on safe, secure, and trustworthy AI. In January 2025, the Trump Administration revoked many of these orders, directing agencies to revise or rescind all AI policies from the prior administration. The White House's America's AI Action Plan (July 2025) reoriented federal policy toward promoting AI workforce development and reducing regulatory constraints. Multiple 2025 executive orders addressed AI infrastructure buildout on federal lands, export controls, and export promotion. Following the federal rollback, many state and local governments have continued promoting responsible AI practices independently.
 
+In June 2026, the Trump administration imposed export controls on Anthropic's Fable 5 and Mythos 5 models, citing national security concerns about a reported non-universal jailbreak — a narrow, task-specific bypass of the model's safety classifiers. The 24-hour process involved Amazon CEO Andy Jassy raising concerns to the White House, senior officials including Treasury Secretary Scott Bessent and Commerce Secretary Howard Lutnick conducting calls with Anthropic CEO Dario Amodei, and an administration decision to impose export controls after Amodei declined to voluntarily withdraw the models. The export controls banned foreign national access and required Anthropic to suspend all user access for compliance. Anthropic publicly disputed the action as procedurally irregular and disproportionate, arguing non-universal jailbreaks are inherent to all current AI systems and the demonstrated capability existed in other deployed models. The incident marks the first documented use of US export control authority to mandate suspension of a commercially deployed frontier AI model outside a formal statutory process.
+
 A significant federal initiative launched in this period is the Genesis Mission, established by executive order in November 2025. Genesis connects high-performance computing, AI, quantum technologies, and experimental facilities — including robotic labs — into a unified national discovery architecture. Its stated goal is to double the productivity and impact of American science and engineering within a decade. The initiative attracted 8,000+ applications from 800+ institutions in all 50 states (three times the previous federal science program record) and signed 38 company memoranda of understanding to form a public-private partnership vehicle.
 
 ## Frontier Developer Regulatory Proposals
@@ -74,6 +76,8 @@ Despite regulatory uncertainty, government AI adoption is accelerating. A 2025 I
 ## Responsible AI Gap
 
 Documented AI incidents rose 55% in 2025 to 362 globally, with the OECD AIM dashboard recording a peak of 435 in a single month (January 2026). Responsible AI benchmark reporting by frontier model developers remains inconsistent: nearly all leading developers report on capability benchmarks, but RAI benchmark reporting is substantially spottier. Empirical research also documented that improving one responsible AI dimension — such as safety — can degrade another, such as accuracy. The 2026 AI Index documents a global average RAI maturity score of 2.3 out of 4. The primary barriers to RAI adoption are knowledge gaps (59% of organizations), budget constraints (48%), and regulatory uncertainty (41%).
+
+A June 2026 Munich Regional Court ruling established a preliminary liability precedent for AI-generated false associations. The court found Google liable for AI Overviews summaries that linked publishers to fraudulent practices not present in any linked source document, holding that AI systems generating new synthetic statements from aggregated sources cannot invoke safe-harbor protections available to link-based aggregators. User-facing disclaimers acknowledging AI error potential were found insufficient to transfer liability. The decision is preliminary and subject to appeal, but it signals a legal framework — AI as author of synthetic claims, not neutral intermediary — that could extend to other AI systems that generate associations not directly traceable to source material.
 
 ## Public Trust
 
@@ -109,6 +113,8 @@ Public trust in AI governance institutions is fragmented. The United States repo
 | The U.S. Genesis Mission, launched by executive order in November 2025, received 8,000+ applications from 800+ institutions in all 50 states — three times the previous federal science program record — and signed 38 company MOUs, targeting a doubling of American scientific productivity within a decade by integrating HPC, AI, quantum technologies, and robotic experimental facilities into a unified national discovery architecture. | [[2026-stanford-hai-ai-science-discovery]] | 2026-05-27 | current | 1 | false |
 | Anthropic proposed in June 2026 that the world should have the option to slow or temporarily pause frontier AI development, conditional on multi-party verification infrastructure analogous to nuclear arms control — arguing that without verification, a unilateral pause merely shifts which lab leads rather than enabling genuine societal deliberation about the pace of AI progress. | [[2026-anthropic-recursive-self-improvement]] | 2026-06-04 | current | 2 | false |
 | Anthropic's June 2026 Advanced AI Framework proposes federal obligations — testing, biannual risk reports, independent evaluation, security programs, and government authority to block or deter dangerous deployments — for developers training models above 10²⁵ FLOPs with more than \$500M in AI-derived revenue or \$1B in AI R&D, covering four enumerated catastrophic risk categories: biological weapons, offensive cyber, loss of control, and automated R&D. | [[2026-anthropic-advanced-ai-framework]] | 2026-06-01 | current | 2 | false |
+| Munich Regional Court ruled in June 2026 that Google is liable for false statements generated by AI Overviews, establishing that AI systems producing new synthetic claims from aggregated sources cannot claim safe-harbor protections available to link aggregators — a preliminary legal precedent with potential implications for all AI search and summarization systems that generate statements not directly traceable to source documents. | [[2026-google-ai-overviews-liability]] | 2026-06-13 | current | 2 | false |
+| In June 2026, the Trump administration imposed export controls on Anthropic's Fable 5 and Mythos 5 models based on a reported non-universal jailbreak — a narrow, task-specific bypass — representing the first documented use of US export control authority to mandate suspension of a commercially deployed frontier AI model outside a formal statutory process with defined evidentiary standards. | [[2026-white-house-anthropic-export-controls]], [[2026-anthropic-fable-mythos-export-directive]] | 2026-06-14 | current | 2 | false |
 
 ## Teaching Notes
 

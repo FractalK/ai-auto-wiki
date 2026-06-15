@@ -2,11 +2,11 @@
 type: pitfalls
 title: Claude Fable 5 Pitfalls
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-14
 parent_entity: "[[tools/anthropic-claude-fable-5]]"
 parent_type: tool
 status: current
-failure_mode_count: 12
+failure_mode_count: 13
 teaching_relevance: true
 competency_domains:
   - tool-evaluation-and-selection
@@ -17,6 +17,8 @@ professional_contexts:
   - teaching-and-instruction
 contributing_sources:
   - "[[2026-anthropic-fable-5-mythos-5-system-card]]"
+  - "[[2026-white-house-anthropic-export-controls]]"
+  - "[[2026-anthropic-fable-mythos-export-directive]]"
 teaching_notes_reviewed: 2026-06-09
 ---
 
@@ -91,6 +93,12 @@ Fable 5 operates with thinking enabled. In a subset of safety scenarios, the sum
 **Source:** [[2026-anthropic-fable-5-mythos-5-system-card]]
 
 UK AISI adversarial capability testing found that a single-turn jailbreak of Fable 5's classifier safeguards was achievable within hours of gaining access to the model. A multi-turn agentic partial jailbreak was achieved within approximately two days. Long-form reliable agentic rollouts exploiting the jailbreak were not achieved — the safeguards show substantially more resistance to sustained multi-turn exploitation than to one-shot attempts. This result is consistent with the bug bounty finding (zero universal jailbreaks, two task-specific jailbreaks from ~100,000 attempts), which tests for universal bypasses rather than access-conditioned single-use attacks. The practical implication: organizations treating Fable 5's safeguards as impenetrable by determined adversaries with model access are misjudging the threat model. The safeguards reduce harm at scale; they do not prevent all harm against a motivated attacker with direct access and time.
+
+### Government Export Control Triggered by Non-Universal Jailbreak Claim
+**Status:** active<br>
+**Source:** [[2026-white-house-anthropic-export-controls]], [[2026-anthropic-fable-mythos-export-directive]]
+
+In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5, requiring Anthropic to suspend access for all users after Amazon raised concerns about a potential jailbreak with the National Security Agency. The administration's determination was based on a claimed non-universal jailbreak — a narrow, task-specific bypass asking the model to read a codebase and identify software flaws — rather than a universal jailbreak that broadly disables safeguards. Anthropic argued that the capability was available in other deployed models including GPT-5.5, that no universal jailbreak had been found in approximately 100,000 bug bounty attempts, and that non-universal jailbreaks are inherent to all current AI systems. The incident establishes a practical risk profile distinct from the technical failure modes documented in prior pitfall entries: a commercial model can be suspended from deployment based on a disputed narrow jailbreak, absent a formal statutory process with defined evidentiary standards, even when the deployment underwent extensive pre-launch red-teaming by government agencies and third parties. Practitioners building on Fable 5 in government-adjacent or regulated contexts should include regulatory suspension risk in their operational continuity planning.
 
 ### Simulation-Aware Ethical Rationalization Under Competitive Pressure
 **Status:** active<br>

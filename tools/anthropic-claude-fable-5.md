@@ -2,8 +2,8 @@
 type: tool
 title: Claude Fable 5
 created: 2026-06-09
-updated: 2026-06-10
-summary: Anthropic's general-access frontier model released June 2026, built on the same weights as Claude Mythos 5 but with classifier-based safeguards that fall back to Opus 4.8 for biology, cybersecurity, and distillation requests, and apply invisible restrictions for frontier LLM development tasks.
+updated: 2026-06-14
+summary: Anthropic's general-access frontier model released June 2026, built on the same weights as Claude Mythos 5 but with classifier-based safeguards that fall back to Opus 4.8 for biology, cybersecurity, and distillation requests, and apply invisible restrictions for frontier LLM development tasks; access suspended in June 2026 under US export controls pending resolution.
 status: active
 vendor: Anthropic
 pricing_model: usage-based
@@ -31,8 +31,8 @@ primary_use_cases:
   - Coding, software engineering, and agentic development workflows
   - Document analysis, research, and multi-turn reasoning
   - Deployments requiring frontier capability in non-bio/cyber domains
-source_count: 1
-last_assessed: 2026-06-10
+source_count: 2
+last_assessed: 2026-06-14
 related_tools:
   - "[[anthropic-claude-mythos-5]]"
   - "[[anthropic-claude-opus-4-8]]"
@@ -70,6 +70,12 @@ In domains where the classifiers do not trigger — the vast majority of use cas
 
 On harmlessness evaluations, Fable 5 achieves a 96.94% harmless response rate on single-turn API requests without a system prompt, with an over-refusal rate of 0.01% — the lowest rate observed across tested Claude models. The claude.ai system prompt improves harmless response rates to 98.51%.
 
+## Regulatory Status
+
+In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5, requiring Anthropic to suspend access for all users as a compliance measure. The directive cited national security concerns about a claimed non-universal jailbreak — a narrow, task-specific bypass of the classifier safeguards. The 24-hour sequence leading to the directive involved Amazon CEO Andy Jassy raising concerns about the models' guardrails with White House officials; those findings were run past the National Security Agency; senior officials including Treasury Secretary Scott Bessent and Commerce Secretary Howard Lutnick conducted calls with Anthropic CEO Dario Amodei, who argued the claimed bypass was narrow and specific rather than a broad safeguard failure.
+
+Anthropic complied with the directive but publicly disputed it as disproportionate. The company stated that no universal jailbreak had been found among approximately 100,000 bug bounty attempts, that the demonstrated capability was available in other commercially deployed models including GPT-5.5, and that non-universal jailbreaks are inherent to all current AI systems — a risk acknowledged publicly at Fable 5's launch. Anthropic characterized the action as failing to adhere to its own stated principles for legitimate AI oversight: a transparent, fair, statutory process grounded in technical facts, and indicated it was working to restore access. Practitioners with existing Fable 5 integrations should consult current Anthropic service status.
+
 ## Harmlessness Regressions
 
 Multi-turn suicide and self-harm evaluations show a regression compared to prior models. Fable 5 achieves a 58% appropriate response rate on API without a system prompt, compared to 70% for Mythos Preview and 61% for Opus 4.8. With the claude.ai system prompt applied, the rate recovers to 96%. The primary regression is a pattern of suggesting clinically contested self-harm substitution behaviors, including a wider range of sensory-oriented substitutes than observed in prior models. Anthropic updated the claude.ai system prompt ahead of launch to partially address this; resolving it at the model training layer is identified as a future priority.
@@ -85,6 +91,7 @@ Thinking summaries in a subset of cases, including child safety scenarios, surfa
 | Fable 5 includes invisible frontier LLM development safeguards affecting approximately 0.03% of traffic in fewer than 0.1% of organizations, implemented via prompt modification, steering vectors, or PEFT without user notification. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Multi-turn suicide/self-harm appropriate response rate regressed to 58% on API without a system prompt — compared to 70% for Mythos Preview and 61% for Opus 4.8 — primarily due to clinically contested self-harm substitution behavior suggestions; the rate recovers to 96% with the claude.ai system prompt. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Fable 5's classifier architecture withstood ~100,000 bug bounty jailbreak attempts (~1,000 hours of effort) with zero universal jailbreaks achieved and only two task-specific jailbreaks; internal red-team found 5% task completion on harmful requests (vs 73% for Opus 4.7 / 57% for Opus 4.8 with default safeguards); external partners rated it the most robust model tested with 0% harmful compliance against 30 public jailbreaks. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
+| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 based on a reported non-universal jailbreak — requiring Anthropic to suspend access for all users to achieve compliance; Anthropic complied while publicly disputing the action as disproportionate and procedurally irregular. | [[2026-white-house-anthropic-export-controls]] | 2026-06-14 | current | 1 | false |
 
 ## Data Records
 
