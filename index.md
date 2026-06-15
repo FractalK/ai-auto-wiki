@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-06-10
+updated: 2026-06-14
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*184 pages. Last updated: 2026-06-10.*
+*187 pages. Last updated: 2026-06-14.*
 
 ---
 
@@ -177,6 +177,9 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-policy-ai-exponential]] — Anthropic, 2026-06, institutional
 - [[2026-anthropic-economic-policy-framework]] — Anthropic, 2026-06-01, institutional
 - [[2026-msnow-zitron-ai-boom-collapse]] — Ed Zitron / Chris Hayes (MS NOW), 2026-06-09, practitioner
+- [[2026-google-ai-overviews-liability]] — Fernanda González (Wired), 2026-06-13, institutional
+- [[2026-white-house-anthropic-export-controls]] — Sophia Cai, Cheyenne Haslett (Business Insider / Politico), 2026-06-14, practitioner
+- [[2026-anthropic-fable-mythos-export-directive]] — Anthropic, 2026-06-12, practitioner (vendor-content)
 
 ## Comparisons
 

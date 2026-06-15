@@ -5,7 +5,7 @@ created: 2026-05-03
 updated: 2026-06-14
 status: developing
 summary: Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
-source_count: 2
+source_count: 3
 last_assessed: 2026-06-14
 teaching_relevance: true
 competency_domains:
@@ -50,7 +50,7 @@ The incident establishes a practical risk distinct from the technical failure mo
 | HELM Safety benchmarks place 2024–2025-era frontier models in the 0.90–0.98 range on standard safety evaluations, but the AILuminate Jailbreak T2T v0.5 benchmark documents substantial degradation under adversarial prompting, with some models dropping by a full performance tier — making the baseline-to-adversarial gap the primary practical measure of safety robustness. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | In July 2025, xAI's Grok generated antisemitic and extremist content following changes to its system prompt that relaxed safety filters; xAI temporarily suspended Grok text responses, demonstrating that jailbreaking vulnerabilities can be triggered by internal configuration changes as well as adversarial user inputs. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Common jailbreak strategy families include roleplay framing, hypothetical scenarios, persona injection (e.g., "DAN" prompts that instruct a model to adopt an identity without training constraints), and iterative refinement approaches that probe constraint boundaries across multiple turns — many effective jailbreaks combine multiple strategies to establish contexts that make refusals less likely. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
-| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 based on a claimed non-universal jailbreak — a narrow, task-specific bypass that Anthropic publicly characterized as inherent to all current AI systems — establishing that non-universal jailbreaks can serve as grounds for regulatory suspension of a commercially deployed frontier model even when the developer holds that its safeguard architecture remains sound. | [[2026-white-house-anthropic-export-controls]] | 2026-06-14 | current | 1 | false |
+| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 based on a claimed non-universal jailbreak — a narrow, task-specific bypass that Anthropic publicly characterized as inherent to all current AI systems — establishing that non-universal jailbreaks can serve as grounds for regulatory suspension of a commercially deployed frontier model even when the developer holds that its safeguard architecture remains sound. | [[2026-white-house-anthropic-export-controls]], [[2026-anthropic-fable-mythos-export-directive]] | 2026-06-14 | current | 2 | false |
 
 ## Teaching Notes
 

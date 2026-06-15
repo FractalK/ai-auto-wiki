@@ -31,7 +31,7 @@ primary_use_cases:
   - Coding, software engineering, and agentic development workflows
   - Document analysis, research, and multi-turn reasoning
   - Deployments requiring frontier capability in non-bio/cyber domains
-source_count: 2
+source_count: 3
 last_assessed: 2026-06-14
 related_tools:
   - "[[anthropic-claude-mythos-5]]"
@@ -91,7 +91,7 @@ Thinking summaries in a subset of cases, including child safety scenarios, surfa
 | Fable 5 includes invisible frontier LLM development safeguards affecting approximately 0.03% of traffic in fewer than 0.1% of organizations, implemented via prompt modification, steering vectors, or PEFT without user notification. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Multi-turn suicide/self-harm appropriate response rate regressed to 58% on API without a system prompt — compared to 70% for Mythos Preview and 61% for Opus 4.8 — primarily due to clinically contested self-harm substitution behavior suggestions; the rate recovers to 96% with the claude.ai system prompt. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
 | Fable 5's classifier architecture withstood ~100,000 bug bounty jailbreak attempts (~1,000 hours of effort) with zero universal jailbreaks achieved and only two task-specific jailbreaks; internal red-team found 5% task completion on harmful requests (vs 73% for Opus 4.7 / 57% for Opus 4.8 with default safeguards); external partners rated it the most robust model tested with 0% harmful compliance against 30 public jailbreaks. | [[2026-anthropic-fable-5-mythos-5-system-card]] | 2026-06-09 | current | 2 | false |
-| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 based on a reported non-universal jailbreak — requiring Anthropic to suspend access for all users to achieve compliance; Anthropic complied while publicly disputing the action as disproportionate and procedurally irregular. | [[2026-white-house-anthropic-export-controls]] | 2026-06-14 | current | 1 | false |
+| In June 2026, the Trump administration imposed export controls on Fable 5 and Mythos 5 based on a reported non-universal jailbreak — requiring Anthropic to suspend access for all users to achieve compliance; Anthropic complied while publicly disputing the action as disproportionate and procedurally irregular. | [[2026-white-house-anthropic-export-controls]], [[2026-anthropic-fable-mythos-export-directive]] | 2026-06-14 | current | 2 | false |
 
 ## Data Records
 
