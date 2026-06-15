@@ -2,7 +2,7 @@
 type: tool
 title: Google NotebookLM
 created: 2026-04-22
-updated: 2026-06-09
+updated: 2026-06-15
 summary: Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 status: active
 vendor: Google
@@ -51,13 +51,6 @@ professional_contexts:
   - teaching-and-instruction
 technical_depth: foundational
 teaching_notes_reviewed: 2026-04-30
-open_contradictions:
-  - id: "CTRD-003"
-    claim_summary: "Effective NotebookLM use requires front-loading sources before querying"
-    contesting_source: "[[2026-google-notebooklm-agentic-capabilities]]"
-    flagged_date: "2026-06-09"
-    override_window_closes: "2026-06-16"
-    path: "human-review"
 ---
 
 NotebookLM is a Google product that creates a bounded AI workspace around a user-supplied set of documents. Unlike general-purpose AI assistants, NotebookLM confines its responses to the source material the user provides — it will not draw on general web knowledge unless the user adds web pages as explicit sources. This constraint is its primary value proposition for research and study use cases: answers are traceable to specific documents, and hallucinations from out-of-scope knowledge are structurally reduced. The June 2026 upgrade to Gemini 3.5 with a cloud computer and code execution adds agentic research capabilities while preserving the core source-attribution architecture.
@@ -66,7 +59,7 @@ NotebookLM is a Google product that creates a bounded AI workspace around a user
 
 Creating a NotebookLM notebook requires a Google account and takes under one minute. Source types include PDFs, Google Docs, web pages, YouTube videos (via transcript extraction), and plain text files. The free tier accepts up to 50 sources with a maximum of 500,000 words per source; the Pro tier raises this to 300 sources with additional customization for output format and response style.
 
-Prior to the June 2026 upgrade, effective use followed a front-loading principle — adding all relevant sources before querying produced the most coherent results, and adding sources after establishing an analytical pattern forced re-synthesis. The June 2026 release introduces source discovery from open-ended questions via Google Search, allowing users to begin with loose ideas and build the source repository through the chat interface without pre-loading sources. The front-loading guidance as applied to prior versions is currently contested pending assessment of the new source-discovery workflow's capabilities. Users retain explicit control over which sources are added to a notebook — the source discovery feature proposes sources but does not add them automatically.
+Prior to the June 2026 upgrade, effective use followed a front-loading principle — adding all relevant sources before querying produced the most coherent results, and adding sources after establishing an analytical pattern forced re-synthesis. The June 2026 release introduces source discovery from open-ended questions via Google Search, allowing users to begin with loose ideas and build the source repository through the chat interface without pre-loading sources. The front-loading guidance applies to prior versions only — for the June 2026 release, starting with loose ideas and iteratively building the source set through the chat interface is a supported and effective workflow pattern. Users retain explicit control over which sources are added to a notebook — the source discovery feature proposes sources but does not add them automatically.
 
 Sources should be chosen with intent: research papers, lecture slides, meeting transcripts, and technical documentation work well. Conversely, sources that are very short, highly redundant with each other, or unstructured reduce synthesis quality without adding substantive coverage.
 
@@ -100,7 +93,7 @@ For projects spanning multiple knowledge domains or accumulating data over time,
 |---|---|---|---|---|---|
 | NotebookLM supports up to 50 sources per notebook on the free tier (300 on Pro), with a maximum of 500,000 words per source, and creates a functional research workspace in under one minute using only a Google account. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | current | 2 | false |
 | NotebookLM lacks API access, cross-notebook connections, and user-controllable mind-map capabilities — AI-generated mind maps are read-only outputs with no import, export, or editing of map files — constraining its use to single-project, single-session research contexts. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] [minority view] | 2026-04-03 | current | 1 | false |
-| Effective NotebookLM use requires front-loading sources before querying, using specific multi-turn question sequences, explicitly saving responses to notes before session end (chat history is not preserved between sessions), and independently verifying all citations before academic or professional use. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2026-04-03 | contested [CTRD-003] | 2 | false |
+| Effective NotebookLM use employs specific multi-turn question sequences, explicitly saves responses to notes before session end (chat history is not preserved between sessions), and independently verifies citations before academic or professional use; the June 2026 upgrade introduced source discovery via Google Search, allowing users to build the source repository through the chat interface rather than pre-loading all sources before querying. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]], [[2026-google-notebooklm-agentic-capabilities]] | 2026-06-08 | current | 3 | false |
 | NotebookLM's Studio tab generates Audio Overviews (podcast-style synthesis), Video Overviews (visual summaries with source-grounded graphics), Mind Maps (interactive concept visualization), and Reports (briefing documents, study guides, timelines, and quizzes), all appropriate for passive reinforcement and learning synthesis but not for citable academic reference. | [[2026-atlas-notebooklm-usage-guide]], [[2025-huang-notebooklm-thirty-minutes]] | 2025-08 | current | 2 | false |
 | In multi-tool AI workflows, NotebookLM functions most reliably as a stable knowledge container for content that remains consistent across tasks, with time-sensitive or evolving material introduced at the session level; separating notebooks by knowledge domain preserves reliability and simplifies file management over time. | [[2026-question-forward-gemini-notebooklm-workflow]] | 2026-03-04 | current | 1 | false |
 | NotebookLM's June 2026 upgrade introduces Gemini 3.5 with a secure cloud computer, code execution, and 100+ curated software skills for complex analysis, along with source discovery from open-ended questions via Google Search and new export formats including PDF, PPTX, Excel, CSV, SVG, and JSON. | [[2026-google-notebooklm-agentic-capabilities]] | 2026-06-08 | current | 1 | false |

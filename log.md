@@ -2,10 +2,20 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-14
-last_entry: 2026-06-14
-entry_count: 159
+updated: 2026-06-15
+last_entry: 2026-06-15
+entry_count: 160
 ---
+
+## [2026-06-15] contradiction-resolved | Google NotebookLM
+Page: [[google-notebooklm]]
+Contradiction ID: CTRD-003
+Claim: Effective NotebookLM use requires front-loading sources before querying
+Contesting source: [[2026-google-notebooklm-agentic-capabilities]] (practitioner, weight=1)
+Resolution path: human-review
+Resolution: confirmed
+Human action: CTRD-003:confirm received 2026-06-15
+Final claim status: current (updated in place — front-loading requirement removed; source discovery capability added as co-citation; support score 2→3)
 
 ## [2026-06-14 PT] session-stats | ingest
 Queue size at session start: 3 staged files
