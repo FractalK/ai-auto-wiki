@@ -2,16 +2,18 @@
 type: topic
 title: AI Workforce Complementarity
 created: 2026-05-18
-updated: 2026-06-09
+updated: 2026-06-16
 summary: A research framework identifying five human capability groups resistant to AI automation (the EPOCH framework), backed by regression analysis of O*NET data showing EPOCH-intensive occupations experienced significantly stronger employment growth from 2015–2023 (β=0.132/SD, p<0.01) and that EPOCH scores accurately predict BLS employment projections through 2034.
 status: developing
-source_count: 5
-last_assessed: 2026-06-04
+source_count: 6
+last_assessed: 2026-06-16
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-in-higher-education]]"
   - "[[ai-agentic-workflows]]"
   - "[[ai-economic-impact]]"
+related_tools:
+  - "[[anthropic-claude-code]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness
@@ -96,12 +98,16 @@ At the macro level, U.S. productivity growth reached 2.7% in 2025 — nearly dou
 | Effective AI coverage — jobs with ≥25% task penetration | 49% | Weighted by task time and success rate; Claude.ai data; Jan 2026 report (up from 36% in prior Anthropic work) | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
 | Implied annual labor productivity gain (reliability-adjusted) | 1.0–1.2 pp/year | Claude.ai: 1.2pp; API: 1.0pp; task speedups discounted by success rate; vs. 1.8pp unadjusted | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
 | Education years — Claude-covered vs. all tasks | 14.4 years (covered) vs. 13.2 years (all) | Net deskilling: Claude covers systematically higher-education tasks; O*NET task embeddings | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
+| Verified success gap — software vs. other occupations (code-producing sessions) | 5pp | 34% (software) vs. 29% (non-software); every occupation within 7pp of software engineers | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Session value growth (agentic coding — average) | +27% | Oct 2025 to Apr 2026; estimated from freelance marketplace comparison | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Session value growth — building tasks | +43% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Average Claude Code usage per user | ~20 hours/week | Hours Claude Code actively running; ~235,000 users | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
-| The EPOCH framework identifies five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) as the domains where human-AI complementarity is strongest, and provides three task-level metrics — EPOCH index, risk-of-substitution score, and potential-for-augmentation score — for analyzing AI adoption impact at the task level rather than by job category. | [[2025-mit-sloan-ai-complement-workers]], [[2025-loaiza-rigobon-epoch-complementarity]] | 2025-10-01 | current | 1.5 | false |
+| The EPOCH framework identifies five human capability groups (Empathy, Presence/Networking, Opinion/Judgment/Ethics, Creativity, Hope/Vision/Leadership) as the domains where human-AI complementarity is strongest, and provides three task-level metrics for analyzing AI adoption impact; analysis of 400,000 agentic coding sessions corroborates the EPOCH emphasis on domain expertise over occupational category — every major occupation succeeds at rates within 7 percentage points of software engineers, and domain expertise (not coding proficiency) is the primary predictor of session quality. | [[2025-mit-sloan-ai-complement-workers]], [[2025-loaiza-rigobon-epoch-complementarity]], [[2026-anthropic-agentic-coding-returns-expertise]] | 2026-06-16 | current | 4 | false |
 | Regression analysis of O*NET task data shows new tasks emerging in 2024 score 0.256 standard deviations higher on the EPOCH scale than retired tasks (p<0.01), and high-EPOCH tasks increased in frequency between 2016 and 2024 — providing direct empirical evidence that labor market task turnover is selecting toward EPOCH-intensive capabilities as AI adoption expands. | [[2025-loaiza-rigobon-epoch-complementarity]] | 2025-10-01 | current | 1 | false |
 | Occupations with higher EPOCH scores experienced significantly stronger employment growth from 2015 to 2023 (β=0.132 per SD, ~12,000 additional jobs, p<0.01), extending to 2025 hiring trends and BLS projections through 2034 (β=0.114, p<0.01), while high-automation-risk occupations showed consistent employment declines (β=−0.219 historically, ~20,000 fewer jobs; β=−0.155 in BLS projections) — consistent with a durable structural shift toward human-complementary work. | [[2025-loaiza-rigobon-epoch-complementarity]] | 2025-10-01 | current | 1 | false |
 | AI tools perform poorly on four statistical boundary conditions — biased training data, small sample sizes, extrapolation beyond training range, and moral dilemma resolution — defining the task boundaries where human judgment remains structurally essential regardless of model capability. | [[2025-mit-sloan-ai-complement-workers]], [[2025-loaiza-rigobon-epoch-complementarity]] | 2025-10-01 | current | 1.5 | false |

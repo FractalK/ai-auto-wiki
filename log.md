@@ -2,10 +2,26 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-15
-last_entry: 2026-06-15
-entry_count: 162
+updated: 2026-06-16
+last_entry: 2026-06-16
+entry_count: 165
 ---
+
+## [2026-06-16 PT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 2
+Documents completed: 2
+Session limit hit: yes (context compaction mid-execution; resumed across multiple continuation sessions)
+Time window: peak
+Source type mix: white-paper: 1, research-paper: 1
+Approx tokens (from /cost): not available (multi-session ingest after compaction)
+Notes: Two sources processed. New tool page created: anthropic-claude-code. Seven topics updated: ai-governance-policy, ai-compute-and-infrastructure, ai-research-ecosystem, human-ai-collaboration, ai-workforce-complementarity, ai-agentic-workflows, ai-economic-impact. Pitfalls updated: ai-governance-policy-pitfalls (3 new failure modes). No contradictions flagged. Teaching Index regenerated. ai-governance-policy at 7 Key Claims overcap (pre-existing; deferred to next lint).
+
+## [2026-06-16] ingest | Returns to Expertise in Agentic AI Coding
+Added: [[2026-anthropic-agentic-coding-returns-expertise]]. Created: [[anthropic-claude-code]] (new tool page). Updated: [[human-ai-collaboration]] (source_count 1→2; Claim 5 co-sourced, support score 1.5→3.5; Data Records: 8 new rows; Process Design section expanded), [[ai-workforce-complementarity]] (source_count 5→6; Claim 1 co-sourced, support score 1.5→4; Data Records: 4 new rows), [[ai-agentic-workflows]] (source_count 8→9; Claim 4 co-sourced, support score 1→3; Data Records: 4 new rows), [[ai-economic-impact]] (source_count 2→3; Productivity Estimates section: session value paragraph; Data Records: 4 new rows). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 2 (source + tool).
+
+## [2026-06-16] ingest | Two Scenarios for US-China AI Leadership
+Added: [[2026-anthropic-two-scenarios-ai-leadership]]. Updated: [[ai-governance-policy]] (source_count 15→16; US-China AI Competition section added; Data Records: 5 new rows), [[ai-compute-and-infrastructure]] (source_count 2→3; Hardware and Supply Chain section expanded; Data Records: 2 new rows), [[ai-research-ecosystem]] (source_count 3→4; Model Landscape section: PRC labs safety evaluation gap paragraphs), [[ai-governance-policy-pitfalls]] (failure_mode_count 9→12; 3 new failure modes: export control loopholes, distillation attacks, CBRN safety deficit). Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1 (source).
 
 ## [2026-06-15 PT] session-stats | ingest
 Queue size at session start: 0

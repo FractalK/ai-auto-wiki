@@ -2,15 +2,17 @@
 type: topic
 title: Human-AI Collaboration
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-16
 summary: The empirical conditions under which combining humans and AI outperforms either alone, characterized by a key distinction between augmentation (beating the human baseline) and synergy (beating the best individual performer), with task type and relative baseline performance identified as the dominant moderators of whether collaboration helps or hurts.
 status: developing
-source_count: 1
-last_assessed: 2026-06-10
+source_count: 2
+last_assessed: 2026-06-16
 related_topics:
   - "[[ai-workforce-complementarity]]"
   - "[[ai-agentic-workflows]]"
   - "[[llm-fundamentals]]"
+related_tools:
+  - "[[anthropic-claude-code]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction
@@ -36,6 +38,14 @@ Measuring whether a human-AI system outperforms humans alone is a different ques
 | Human-AI synergy — creation tasks | g = 0.19 (95% CI −0.09 to 0.48, ns) | n = 34 effect sizes; open-ended response tasks; not statistically significant | 2024-10 | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | current |
 | Human-AI synergy — human outperforms AI alone | g = 0.46 (95% CI 0.28 to 0.66) | n = 127 effect sizes; cases where human alone > AI alone | 2024-10 | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | current |
 | Human-AI synergy — AI outperforms human alone | g = −0.54 (95% CI −0.71 to −0.37) | n = 251 effect sizes; cases where AI alone > human alone | 2024-10 | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | current |
+| Planning decisions made by user (agentic coding) | ~70% | Average across ~400,000 Claude Code sessions; Oct 2025–Apr 2026 | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Execution decisions made by Claude (agentic coding) | ~80% | Average across sessions | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Claude actions per prompt — expert users | 12 | Geometric mean; agentic coding sessions | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Claude actions per prompt — novice users | 5 | Geometric mean; same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Verified success rate — novice sessions | 15% | Judged successful + at least one hard verifiable signal | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Verified success rate — intermediate through expert sessions | 28–33% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Abandoned session rate — novice (when hitting trouble) | 19% | Failed + zero lines of code written | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Abandoned session rate — intermediate through expert (when hitting trouble) | 5–7% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 
 ## Key Claims
 
@@ -45,7 +55,7 @@ Measuring whether a human-AI system outperforms humans alone is a different ques
 | Task type significantly moderates human-AI synergy (p = 0.006): decision tasks — the dominant paradigm in the human-AI literature — produce consistent performance losses (g = −0.27), while creation tasks trend toward gains (g = 0.19), with the difference between task types statistically significant despite the small creation-task sample size. | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | 2024-10-28 | current | 1.5 | false |
 | Relative baseline performance is the strongest moderator of human-AI synergy (F = 81.79, p < 0.001): when humans outperform AI alone, combinations achieve substantial synergy (g = 0.46); when AI outperforms humans alone, combinations produce significant losses (g = −0.54), indicating humans accurately calibrate trust only when they are the more capable performer. | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | 2024-10-28 | current | 1.5 | false |
 | AI explanations and AI confidence scores do not significantly moderate human-AI synergy or augmentation across 300+ experimental effect sizes, challenging the widespread assumption in the explainable AI field that transparency features improve human-AI system performance. | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | 2024-10-28 | current | 1.5 | false |
-| Task division — explicitly assigning different subtasks to the human or AI partner based on relative capability — shows positive average synergy (g = 0.22) in the small set of experiments testing this design; only 3 of 106+ studies in the meta-analysis used structured subtask delegation, making it the most promising and least-studied lever for human-AI performance improvement. | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | 2024-10-28 | current | 1.5 | false |
+| Task division — explicitly assigning different subtasks to the human or AI partner based on relative capability — shows positive average synergy (g = 0.22) in limited experiments (3 of 106+ studies); large-scale agentic coding data from 400,000 real sessions corroborates this, showing the natural division is human planning (~70% of planning decisions) with AI execution (~80% of execution decisions), and that domain expertise determines how much autonomous work the AI does per instruction. | [[2024-vaccaro-human-ai-synergy-meta-analysis]], [[2026-anthropic-agentic-coding-returns-expertise]] | 2026-06-16 | current | 3.5 | false |
 
 ## What Drives Synergy — and What Doesn't
 
@@ -68,6 +78,8 @@ Both failure modes are calibration problems rather than directional biases. The 
 ## Process Design as the Underexplored Lever
 
 Only 3 of 106+ experiments in the meta-analysis studied task division — the explicit assignment of different subtasks to the human or AI based on which partner performs better at each. These experiments found positive average synergy (g = 0.22), though the result was not statistically significant given the small sample. The authors argue that designing innovative processes for how to combine humans and AI may be as important as the technology itself: synergy requires that humans be better at some parts of the task, AI be better at other parts, and the system correctly allocate subtasks to the stronger partner.
+
+Large-scale agentic coding data from approximately 400,000 real Claude Code sessions (Hitzig et al. 2026) provides the most direct real-world evidence for this mechanism. The natural division that emerges in practice — users making approximately 70% of planning decisions and Claude making approximately 80% of execution decisions — shows that task division structures itself spontaneously when users bring domain expertise. Domain expertise amplifies the benefit: expert users generate 12 Claude actions per prompt versus 5 for novice users, consistent with the prediction that synergy scales with the human's relative competence at strategic and planning work. Every major occupation succeeds within 7 percentage points of software engineers in code-producing sessions, indicating the benefit is available across domains rather than restricted to technical users. See [[anthropic-claude-code]] for the full session dataset.
 
 ## Scope and Limitations
 

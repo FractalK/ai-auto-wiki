@@ -2,16 +2,18 @@
 type: topic
 title: AI Economic Impact
 created: 2026-06-09
-updated: 2026-06-15
+updated: 2026-06-16
 summary: A measurement framework and empirical findings on AI's economic footprint, documenting real-world task horizons (50% success at 3.5 hours for API, ~19 hours for Claude.ai), effective AI coverage across occupations weighted by task time and success rate (49% of jobs at ≥25% task penetration), and revised productivity estimates of 1.0–1.2 percentage points annual labor productivity growth once task reliability is factored in.
 status: developing
-source_count: 2
-last_assessed: 2026-06-15
+source_count: 3
+last_assessed: 2026-06-16
 related_topics:
   - "[[ai-workforce-complementarity]]"
   - "[[llm-fundamentals]]"
   - "[[recursive-self-improvement]]"
   - "[[ai-governance-policy]]"
+related_tools:
+  - "[[anthropic-claude-code]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness
@@ -51,6 +53,10 @@ Understanding AI's economic impact requires measurement frameworks that account 
 | Education years — Claude-covered vs. all tasks | 14.4 years (covered) vs. 13.2 years (all) | Predicted from O*NET task embeddings; vs. economy-wide average | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
 | Claude.ai use case distribution | 46% work, 19% coursework, 35% personal | November 2025 sample; Claude.ai Free/Pro/Max | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
 | US state AUI convergence estimate | 2–5 years to parity | β̂ ≈ 0.76–0.89 quarterly convergence; high uncertainty from 3-month observation window | 2025-11 | [[2026-anthropic-economic-index-primitives]] | current |
+| Average agentic coding session value growth | +27% | Oct 2025 to Apr 2026; ~400,000 Claude Code sessions; estimated from freelance marketplace comparison | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Session value growth — building tasks | +43% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Session value growth — operating tasks | +34% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Session value growth — fixing tasks | +32% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 
 ## The Economic Primitives Framework
 
@@ -77,6 +83,8 @@ High task coverage does not imply high impact. A job where Claude covers 90% of 
 Prior Anthropic research estimated widespread AI adoption could increase annual US labor productivity growth by 1.8 percentage points over the next decade. The January 2026 report revises this by multiplying task-level time savings by task-specific success rates before aggregating. This reliability adjustment reduces the implied annual productivity gain from 1.8 to 1.2 percentage points for Claude.ai usage and 1.0 percentage points for API traffic.
 
 Further adjustment for task complementarity — where bottleneck tasks that AI cannot speed up constrain occupation-level productivity — reduces estimates to 0.6–0.9 percentage points under moderate complement assumptions. These adjusted ranges remain economically significant. A sustained 1.0 percentage point annual productivity increase for a decade would return US productivity growth to rates last seen in the late 1990s.
+
+Tracking task value at the session level provides a complementary window on these dynamics. Analysis of approximately 400,000 Claude Code sessions (Oct 2025–Apr 2026) finds that the estimated economic value of the average session rose approximately 27% over seven months — with building-type sessions increasing approximately 43% — measured by comparison to freelance job posting rates. This session-level appreciation is consistent with both model improvement and the expertise development documented in the same dataset, supporting the J-curve trajectory projected in the reliability-adjusted macroeconomic estimates above. See [[anthropic-claude-code]] for the full session dataset.
 
 ## Deskilling Dynamics and Geographic Diffusion
 

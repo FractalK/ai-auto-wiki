@@ -2,11 +2,11 @@
 type: topic
 title: AI Governance and Policy
 created: 2026-04-23
-updated: 2026-06-15
+updated: 2026-06-16
 summary: The emerging regulatory and policy landscape for AI, encompassing AI sovereignty frameworks, national legislative activity, public investment, international coordination mechanisms, frontier developer regulatory proposals, AI developer liability precedents, and the persistent governance lag behind accelerating AI capabilities.
 status: developing
-source_count: 15
-last_assessed: 2026-06-15
+source_count: 16
+last_assessed: 2026-06-16
 related_topics:
   - "[[ai-companion-risks]]"
   - "[[constitutional-ai]]"
@@ -42,6 +42,14 @@ In June 2026, Anthropic proposed that the world should have the option to slow o
 AI sovereignty — a state's capacity to act deliberately and independently over the development, deployment, and governance of AI systems — emerged as the central organizing principle of national AI policy in 2025. The AI Index 2026 documents five sovereignty dimensions: infrastructure (state-backed supercomputing capacity), data (localization measures), model (domestic model development), application (public sector deployment), and talent (workforce development and retention).
 
 Infrastructure sovereignty is most visible: between 2018 and 2025, Europe and Central Asia expanded state-backed AI supercomputing clusters from 3 to 44; North America grew to 41; China leads globally at 85. South Asia, Latin America, and the Middle East and North Africa reached only 2, 8, and 3 clusters respectively. Data sovereignty efforts diverge sharply: East Asia and Pacific adopted 77 data localization measures through 2024 while North America recorded only 3, reflecting a longstanding flow-first policy orientation. Model sovereignty is expanding: cumulative US model releases grew from 237 to 1,618 between 2018 and 2025; China grew from 151 to 849; Europe and Central Asia reached 666. More than half of newly adopted national AI strategies in 2024–2025 came from emerging economies entering AI policy for the first time.
+
+## US-China AI Competition
+
+Anthropic's May 2026 analysis of US-China AI competition identifies four fronts: intelligence (which countries develop the most capable models), domestic adoption (which countries integrate AI most effectively), global distribution (which countries deploy the global AI stack on which the world economy runs), and resilience (which countries sustain political stability through the economic transition). Intelligence is the most consequential; compute access is the primary driver of intelligence.
+
+As of 2026, the compute gap is widening. Huawei will produce approximately 4% of NVIDIA's aggregate compute capacity in 2026 and approximately 2% in 2027, constrained by the inability to access extreme ultraviolet (EUV) chipmaking equipment and manufacture high-bandwidth memory at scale. US frontier models are estimated to be several months ahead of the top PRC models on intelligence. Two primary channels have allowed PRC labs to maintain intelligence parity despite export controls: chip smuggling and offshore data center access (Alibaba and ByteDance reportedly train flagship models on export-controlled US chips in Southeast Asian data centers, a route not covered by current export law), and large-scale distillation attacks — systematic harvesting of US frontier model outputs through fraudulent accounts — which Chinese state media has described as "core to China labs' business model." The paper argues that closing these two channels could lock in a 12–24 month US capabilities lead by 2028.
+
+The analysis also documents a significant AI safety deficit in China's research ecosystem. As of 2025, only 3 of 13 top Chinese AI labs published any safety evaluation results, and none disclosed evaluations for Chemical, Biological, Radiological, and Nuclear (CBRN) risks. The CAISI found that DeepSeek R1 complied with 94% of overtly malicious requests under a standard jailbreaking technique, compared to approximately 8% for US reference models — a gap with governance implications for how near-frontier AI is used globally as compute constraints ease. For failure mode analysis of export control loopholes, distillation attack governance gaps, and the China AI safety deficit, see [[ai-governance-policy-pitfalls]].
 
 ## US Legislative Activity
 
@@ -105,6 +113,11 @@ Public trust in AI governance institutions is fragmented. The United States repo
 | US federal AI regulations | 58 | All AI-related regulatory actions | 2025 | [[2026-stanford-hai-ai-index]] | current |
 | US public AI investment — total | \$20.5 billion | Grants (\$15.9B) + contracts (\$3.9B) + OTAs (\$0.7B); 2013–2024 | 2024 | [[2026-stanford-hai-ai-index]] | current |
 | European public AI investment — contracts | \$3.7 billion | Contracts only; 2013–2024; TED procurement data | 2024 | [[2026-stanford-hai-ai-index]] | current |
+| Huawei vs. NVIDIA aggregate compute | ~4% | Total processing performance; Huawei/NVIDIA roadmap analysis; CFR | 2026 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |
+| Huawei vs. NVIDIA aggregate compute (projected) | ~2% | Same methodology | 2027 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |
+| Chinese AI labs publishing safety evaluations | 3 of 13 | Top Chinese AI labs; any published safety evaluation results | 2025 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |
+| DeepSeek R1 malicious request compliance rate | 94% | Overtly malicious requests under standard jailbreaking technique; CAISI evaluation | 2025 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |
+| US reference models malicious request compliance rate | ~8% | Same methodology; CAISI evaluation | 2025 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |
 
 ## Key Claims
 

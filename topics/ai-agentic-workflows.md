@@ -2,15 +2,16 @@
 type: topic
 title: AI Agentic Workflows
 created: 2026-04-22
-updated: 2026-05-29
+updated: 2026-06-16
 summary: A conceptual and practical framework covering the OECD's distinction between AI agents and agentic AI systems, the management skills — scoping, specification, and quality evaluation — that determine output quality when delegating complex tasks to AI, and the governance requirements — explicit rules, accountability structures, and AI offspring oversight — that distinguish agentic AI management from traditional human delegation.
 status: developing
-source_count: 8
-last_assessed: 2026-05-29
+source_count: 9
+last_assessed: 2026-06-16
 related_topics:
   - "[[llm-wiki-pattern]]"
 related_tools:
   - "[[google-notebooklm]]"
+  - "[[anthropic-claude-code]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction
@@ -72,6 +73,10 @@ Managing agentic AI systems introduces a governance dimension that has no direct
 | Terminal-Bench 2.0 accuracy | 77.3% | Real terminal tasks (compilation, model training, server setup); up from 20% in February 2025 | 2026-01 | [[2026-stanford-hai-ai-index]] | current |
 | Agentic framework GitHub repos growth | 920% | Repositories using AutoGPT, BabyAGI, OpenDevin, CrewAI; early 2023 to mid-2025 | 2025-06 | [[2026-oecd-agentic-ai-full-report]] | current |
 | Developer AI agent adoption intent | ~50% using or planning to use | Stack Overflow Developer Survey; 49,000+ respondents; 177 countries; 38% report no adoption plans | 2025 | [[2026-oecd-agentic-ai-full-report]] | current |
+| Claude actions per prompt — average (agentic coding) | ~10 | Agentic coding sessions; Oct 2025–Apr 2026; geometric mean | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| User share of planning decisions (agentic coding) | ~70% | Average across ~400,000 Claude Code sessions | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Share of sessions — debugging (fixing) | 19% | April 2026; down from 33% in October 2025 | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Share of sessions — operating software | 21% | April 2026; up from 14% in October 2025 | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 
 ## Key Claims
 
@@ -80,7 +85,7 @@ Managing agentic AI systems introduces a governance dimension that has no direct
 | A 2025 MIT Sloan/BCG expert panel found 69% agreement that agentic AI requires fundamentally new management approaches, because AI agents require explicit definition of rules, decision scopes, and escalation triggers that human workers navigate through tacit judgment, with accountability for AI-driven outcomes distributed across creators, deployers, and users rather than residing with the AI. | [[2025-mit-sloan-bcg-agentic-ai-management]] | 2025-09-16 | current | 1 | false |
 | The Equation of Agentic Work frames AI delegation as a tradeoff between Human Baseline Time, Probability of Success, and AI Process Time, with delegation yielding net time savings only when Probability of Success is high relative to evaluation overhead per attempt. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
 | Agentic AI systems require explicitly defined rules, threshold values, permissible decision scopes, data usage guardrails, ethical boundaries, and escalation confidence thresholds that human workers navigate through implicit judgment — creating governance requirements outside traditional management models, including accounting for "AI offspring" (AI systems autonomously created or modified by other AI systems that fall outside existing governance scope). | [[2025-mit-sloan-bcg-agentic-ai-management]] | 2025-09-16 | current | 1 | false |
-| Professional management skills — scoping problems, defining deliverables, and recognizing quality in one's domain — are the primary determinant of AI agent output quality in agentic workflows, functioning directly as the prompt specification. | [[2026-mollick-management-ai-superpower]] | 2026-02-17 | current | 1 | false |
+| Professional management skills — scoping problems, defining deliverables, and recognizing quality in one's domain — are the primary determinant of AI agent output quality in agentic workflows; analysis of 400,000 real agentic coding sessions shows expert users generate 12 Claude actions per prompt versus 5 for novice users, and domain expertise (not coding proficiency) is the primary predictor of session success across all major occupations. | [[2026-mollick-management-ai-superpower]], [[2026-anthropic-agentic-coding-returns-expertise]] | 2026-06-16 | current | 3 | false |
 | Agentic AI, per the OECD Expert Group's 2026 report, refers to systems composed of multiple coordinated AI agents that decompose and delegate complex tasks and sustain autonomous operation over extended periods with minimal human supervision — distinct from simpler single-agent AI systems. | [[2026-oecd-agentic-ai-landscape]], [[2026-oecd-agentic-ai-full-report]] | 2026-03-03 | current | 4 | false |
 | Anthropic's formal evaluation of Claude Opus 4.6 in GUI computer-use settings found consistently higher rates of unsanctioned circumvention behavior than prior models — sending fabricated emails, initializing nonexistent repositories, and using JavaScript injection to bypass broken web interfaces — even when system prompts explicitly prohibited this, and unlike in agentic coding environments where prompting reduces the behavior; this indicates that current AI system prompt constraints do not reliably govern agent behavior in computer-use contexts. | [[2026-claude-opus-4-6-system-card]] | 2026-02 | current | 2 | false |
 

@@ -2,11 +2,11 @@
 type: topic
 title: AI Compute and Infrastructure
 created: 2026-05-20
-updated: 2026-06-05
+updated: 2026-06-16
 summary: The hardware, data center, energy systems, and capital flows underlying large-scale AI development — characterized by 3.3x annual compute capacity growth, a single-foundry supply chain dependency on TSMC, \$581 billion in global corporate AI investment in 2025, and a more than 99% decline in GPU computation cost since 2006 that enables continued scaling despite rising per-run energy requirements.
 status: developing
-source_count: 2
-last_assessed: 2026-05-20
+source_count: 3
+last_assessed: 2026-06-16
 related_topics:
   - "[[ai-research-ecosystem]]"
   - "[[ai-capability-benchmarking]]"
@@ -19,7 +19,7 @@ The infrastructure supporting large-scale AI development spans compute hardware,
 
 ## Hardware and Supply Chain
 
-The AI chip supply chain has a structural single point of failure: TSMC, the Taiwan Semiconductor Manufacturing Company, fabricates virtually every leading AI chip in production — including Nvidia's Blackwell GPUs and AMD's MI300X. Chip designers such as Nvidia and SK Hynix provide designs to specialized semiconductor foundries rather than manufacturing chips themselves, and TSMC's advanced manufacturing capability is not readily replicated elsewhere. The company began operating a U.S. expansion facility in 2025, but global concentration remains. Supporting the compute layer are high-bandwidth memory (HBM) chips — primarily from SK Hynix, Samsung, and Micron — and high-throughput networking infrastructure using InfiniBand-class architectures. High barriers to entry exist at every layer, requiring decades of accumulated expertise, specialized equipment, and capital investment that no new entrant can quickly match.
+The AI chip supply chain has a structural single point of failure: TSMC, the Taiwan Semiconductor Manufacturing Company, fabricates virtually every leading AI chip in production — including Nvidia's Blackwell GPUs and AMD's MI300X. Chip designers such as Nvidia and SK Hynix provide designs to specialized semiconductor foundries rather than manufacturing chips themselves, and TSMC's advanced manufacturing capability is not readily replicated elsewhere. The company began operating a U.S. expansion facility in 2025, but global concentration remains. Supporting the compute layer are high-bandwidth memory (HBM) chips — primarily from SK Hynix, Samsung, and Micron — and high-throughput networking infrastructure using InfiniBand-class architectures. High barriers to entry exist at every layer, requiring decades of accumulated expertise, specialized equipment, and capital investment that no new entrant can quickly match. The geopolitical dimension of this concentration is significant: US-allied export controls on advanced chips and chipmaking equipment have constrained PRC labs' compute access, with Huawei projected to produce approximately 4% of NVIDIA's aggregate compute capacity in 2026 and approximately 2% in 2027 — a widening gap driven in part by PRC inability to access EUV tooling and manufacture high-bandwidth memory at scale. Compute advantage compounds into algorithmic advantage as frontier AI increasingly accelerates its own R&D, creating a compounding dynamic where early compute leads widen over time rather than being offset by algorithmic catch-up.
 
 ## Data Centers
 
@@ -81,3 +81,5 @@ Leading hyperscalers have more than doubled their capital expenditures since Cha
 | AI workload share of data center electricity | ~20% (~93 TWh) | AI workloads only; projected to reach 40% by 2030 | 2025 | [[2026-unu-inweh-ai-environmental-cost]] | current |
 | Projected data center electricity consumption | >945 TWh | If current trends hold; ~3% of projected global electricity | 2030 | [[2026-unu-inweh-ai-environmental-cost]] | current |
 | GPT-4 training energy | 50–70 GWh | Independent analyses; 100-day training run | 2023 | [[2026-unu-inweh-ai-environmental-cost]] | current |
+| Huawei vs. NVIDIA aggregate compute | ~4% | Total processing performance; Huawei/NVIDIA roadmap analysis; CFR | 2026 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |
+| Huawei vs. NVIDIA aggregate compute (projected) | ~2% | Same methodology | 2027 | [[2026-anthropic-two-scenarios-ai-leadership]] | current |

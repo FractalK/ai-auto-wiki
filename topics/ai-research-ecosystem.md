@@ -2,11 +2,11 @@
 type: topic
 title: AI Research Ecosystem
 created: 2026-05-20
-updated: 2026-05-27
+updated: 2026-06-16
 summary: The global landscape of AI model production, academic publications, patents, open-source development, and technical talent, characterized by increasing industry concentration and geographic competition — with China leading in publication volume and patent grants, the U.S. retaining influence leadership and notable model production, and talent inflows to the U.S. declining sharply while gender representation has stagnated across all countries since 2010.
 status: developing
-source_count: 3
-last_assessed: 2026-05-27
+source_count: 4
+last_assessed: 2026-06-16
 related_topics:
   - "[[ai-compute-and-infrastructure]]"
   - "[[ai-capability-benchmarking]]"
@@ -20,7 +20,7 @@ The global AI research ecosystem spans model development, academic publication, 
 
 Industry produced 91.2% of notable AI models in 2025, with academic contributions dropping to just 2 models. The United States led with 59 notable models released, followed by China (35) and South Korea (8). Within industry, OpenAI (20), Google (14), and Alibaba (11) were the top producers for 2025. Over the decade since 2014, Google has produced the largest cumulative notable model count (193), followed by Meta (87) and OpenAI (60).
 
-As industry's share of model production has grown, transparency has decreased. The most capable frontier developers — OpenAI, Anthropic, and Google — no longer publicly disclose parameter counts, training dataset sizes, or training duration. 81 of 102 notable models released in 2025 were made available without their training code, compared to just 4 with open-source code. This growing opacity limits external researchers' ability to reproduce results, audit development, or validate safety claims. API-only releases have become the most common access type (47 of 102 models in 2025), with open-weights unrestricted releases as the second most common.
+As industry's share of model production has grown, transparency has decreased. The most capable frontier developers — OpenAI, Anthropic, and Google — no longer publicly disclose parameter counts, training dataset sizes, or training duration. 81 of 102 notable models released in 2025 were made available without their training code, compared to just 4 with open-source code. This growing opacity limits external researchers' ability to reproduce results, audit development, or validate safety claims. API-only releases have become the most common access type (47 of 102 models in 2025), with open-weights unrestricted releases as the second most common. A parallel shift is underway in China's AI ecosystem: top PRC labs appear to be moving away from open-weight releases toward proprietary closed models, reversing an earlier pattern in which Chinese labs competed partly through open-source releases. This transition, if sustained, would reduce the external visibility into Chinese AI capability development that open-weight releases had previously enabled. Additionally, only 3 of 13 top Chinese AI labs published any safety evaluation results as of 2025, and none disclosed CBRN-risk evaluations — a transparency gap with implications for international safety coordination.
 
 ## Publications and Research Output
 

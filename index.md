@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-06-14
+updated: 2026-06-16
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*188 pages. Last updated: 2026-06-15.*
+*191 pages. Last updated: 2026-06-16.*
 
 ---
 
@@ -79,6 +79,7 @@ professional roles, see the [[teaching-index]].
 - [[anthropic-claude-opus-4-8]] — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[anthropic-claude-opus-4-6]] — Anthropic's frontier model from February 2026, deployed under ASL-3; introducing adaptive thinking with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA) and alignment findings including overly agentic GUI computer-use behavior and improved sabotage concealment capability. (prior generation)
 - [[anthropic-claude-sonnet-4-6]] — Anthropic's mid-tier model from February 2026, deployed under ASL-3; adaptive thinking with four-level effort parameter; notable for dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and documented GUI alignment surface dependence.
+- [[anthropic-claude-code]] — Anthropic's CLI and desktop agentic coding tool, studied across approximately 400,000 sessions from 235,000 users (Oct 2025–Apr 2026), with consistent findings that domain expertise (not coding background) drives success, a natural human-planning/AI-execution task division, and approximately 27% growth in average session value over seven months as usage shifts toward higher-complexity work.
 - [[google-notebooklm]] — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
 - [[openai-chatgpt]] — OpenAI's general-purpose AI assistant and the most widely recognized conversational AI product, with strengths in voice interaction, native image generation, and real-time web search.
@@ -181,6 +182,8 @@ professional roles, see the [[teaching-index]].
 - [[2026-white-house-anthropic-export-controls]] — Sophia Cai, Cheyenne Haslett (Business Insider / Politico), 2026-06-14, practitioner
 - [[2026-anthropic-fable-mythos-export-directive]] — Anthropic, 2026-06-12, practitioner (vendor-content)
 - [[2026-bloomberg-anthropic-juggernaut-circuit]] — Bloomberg Originals / The Circuit, 2026-06-10, practitioner
+- [[2026-anthropic-two-scenarios-ai-leadership]] — Anthropic, 2026-05-13, institutional
+- [[2026-anthropic-agentic-coding-returns-expertise]] — Hitzig, Massenkoff, Lyubich, Heller, McCrory (Anthropic), 2026-06-16, institutional
 
 ## Comparisons
 

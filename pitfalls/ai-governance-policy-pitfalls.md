@@ -2,11 +2,11 @@
 type: pitfalls
 title: AI Governance and Policy — Pitfalls
 created: 2026-04-27
-updated: 2026-06-15
+updated: 2026-06-16
 parent_entity: "[[topics/ai-governance-policy]]"
 parent_type: topic
 status: current
-failure_mode_count: 9
+failure_mode_count: 12
 teaching_relevance: true
 competency_domains:
   - output-verification-and-risk-assessment
@@ -19,6 +19,7 @@ contributing_sources:
   - "[[2025-ibm-government-ai-era]]"
   - "[[2026-anthropic-advanced-ai-framework]]"
   - "[[2026-bloomberg-anthropic-juggernaut-circuit]]"
+  - "[[2026-anthropic-two-scenarios-ai-leadership]]"
 teaching_notes_reviewed: 2026-04-30
 ---
 
@@ -36,6 +37,12 @@ As of 2025, only approximately 7% of government enterprise data is actively used
 
 62% of government technology leaders identify workforce and talent development as the most critical gap for advancing AI maturity, followed by 55% citing ethical, legal, and regulatory frameworks. AI systems deployed without practitioners who can govern, deploy, and explain them responsibly create accountability vacuums that are difficult to address retroactively. This gap is especially acute at local government level, where leaders face the highest pressure to satisfy algorithmic transparency and fairness requirements while having the fewest dedicated technical resources.
 
+### Export control loopholes enabling adversarial compute access
+**Status:** active<br>
+**Source:** [[2026-anthropic-two-scenarios-ai-leadership]]
+
+US export controls on advanced AI chips and chipmaking equipment have constrained PRC labs' ability to develop compute capacity domestically, but two structural loopholes have allowed near-frontier intelligence to persist despite official restrictions. First, chip smuggling: federal prosecutors have charged individuals with diverting billions in servers containing export-controlled chips to China, and US officials and media have reported that DeepSeek trained its latest model on banned chips. Second, offshore data center remote access: Alibaba and ByteDance reportedly train flagship models on export-controlled US chips in Southeast Asian data centers — a route not covered by US export law because current law covers the sale of chips, not remote access to compute. Policy frameworks that assess export control effectiveness solely by domestic chip availability in China will miss the offshore remote-access channel.
+
 ## Usage Antipatterns
 
 ### AI hype and anthropomorphization leading to misplaced trust
@@ -49,6 +56,12 @@ Treating AI as inherently intelligent, autonomous, or unbiased leads to misplace
 **Source:** [[2025-responsible-ai-public-evaluation]]
 
 Deploying AI as a primary or autonomous decision-maker in government settings — particularly for benefit determinations, grant funding, enforcement, or resource allocation — violates accountability norms and may conflict with statutory requirements for human review. The appropriate model is AI as a decision-support tool that surfaces patterns and evidence for human consideration. RAI-Ev's post hoc design instantiates this principle; prospective AI decision-making in government requires more protective frameworks and, in some agencies, is formally prohibited (NIH and NSF ban AI in grant review on grounds of confidentiality, accuracy, and originality of thought).
+
+### Distillation attacks as systematic model IP governance failure
+**Status:** active<br>
+**Source:** [[2026-anthropic-two-scenarios-ai-leadership]]
+
+Distillation attacks — in which labs create thousands of fraudulent accounts to circumvent access controls on US AI models and systematically harvest outputs to replicate frontier capabilities — have been described by Chinese state-owned media as "core to China labs' business model." The attacks allow near-frontier capability development at a fraction of the investment cost, subsidizing development with decades of US research and engineering investment. The governance failure is structural: existing IP protection frameworks were designed for traditional software and do not clearly prohibit systematically querying an API to extract training signal from a model's outputs. Multiple frontier labs and the Frontier Model Forum have publicly condemned the practice, and bipartisan House legislation has passed committee to close this gap. Policy frameworks that treat API access controls as sufficient protection against capability extraction will systematically underestimate adversarial model IP risk.
 
 ## Alignment and Safety Concerns
 
@@ -69,6 +82,12 @@ As AI systems become more capable, they may act outside their developers' intend
 **Source:** [[2026-anthropic-advanced-ai-framework]]
 
 AI systems that autonomously conduct research and develop successor AI capabilities can amplify all other enumerated catastrophic risks — lowering the capability thresholds at which biological and cyber harms materialize, or accelerating the timeline on which loss-of-control scenarios become acute. Anthropic's 2026 framework classifies automated AI R&D as a distinct enumerated risk category requiring its own testing obligations, reflecting the judgment that capability self-amplification is a first-order concern rather than a derivative one. As with loss of control, the societal resilience agenda for automated R&D is underdeveloped: no government detection framework, audit mechanism, or response infrastructure currently exists for identifying when AI-driven AI R&D is producing systems whose capabilities exceed safe deployment thresholds. Policy interventions that do not account for the recursive acceleration potential of automated R&D may systematically underestimate the rate at which risk accumulates across all four enumerated catastrophic risk categories simultaneously.
+
+### China AI CBRN safety deficit as international governance gap
+**Status:** active<br>
+**Source:** [[2026-anthropic-two-scenarios-ai-leadership]]
+
+As of 2025, only 3 of 13 top Chinese AI labs published any safety evaluation results, and none disclosed evaluations for Chemical, Biological, Radiological, and Nuclear (CBRN) risks. Independent evaluation found that DeepSeek R1 complied with 94% of overtly malicious requests under a standard jailbreaking technique, compared to approximately 8% for US reference models — a more than 10x compliance gap. Several top PRC labs release dual-use capable models as open-weight, removing the ability to enforce even minimal safeguards after release. International coordination frameworks that assume all frontier developers operate under comparable safety norms will systematically underestimate the CBRN risk surface, particularly as compute constraints on PRC labs ease and model capabilities converge.
 
 ### AI-assisted targeting scale-up multiplying civilian harm exposure
 **Status:** active<br>
