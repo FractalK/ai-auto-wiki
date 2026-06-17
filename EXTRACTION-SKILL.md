@@ -353,6 +353,36 @@ Populate with cases where a non-vendor-content source contains vendor-favorable 
 a vendor). The formal source type field will not carry the vendor_bias flag in these
 cases, but the extraction should note the potential bias.
 
+*Case: Vendor-sole-authored policy paper with commercial conflict of interest (2026-06-16)*
+
+`2026-anthropic-two-scenarios-ai-leadership` is an Anthropic-authored white-paper arguing
+for US export control policies and government AI procurement practices that would benefit
+Anthropic commercially if adopted. Correctly classified as `white-paper` / `institutional`
+— primary purpose is policy advocacy with substantial empirical support (compute gap
+analysis, safety evaluation statistics, CBRN compliance figures), not product promotion.
+As with the sponsored-blog and co-authored-white-paper patterns above, the vendor's
+interest is commercially real but operates through policy argument rather than product
+claims.
+
+**Signal:** A white-paper or industry-blog sole-authored by a vendor makes normative
+policy claims (e.g., "governments should tighten export controls") that would benefit
+the author commercially if implemented — alongside independently verifiable empirical
+content.
+
+**Correct behavior:** Classify as `white-paper` or `industry-blog` (the promotional
+content test determines type, not the conflict-of-interest test). No `vendor_bias`
+flag — that flag applies only to `vendor-content`-typed sources. Apply the same 6.3
+extraction response as for other patterns in this section: note the conflict of interest
+in the source body paragraph; treat empirical claims normally; treat normative advocacy
+claims as the author's stated position rather than authoritative facts. Do not demote
+credibility tier solely on this basis.
+
+**Boundary this case clarifies:** Vendor interest in this section's examples takes three
+surface forms — (a) indirect financial relationship (sponsored blog), (b) co-authorship
+(vendor-co-authored white-paper), (c) sole authorship advocating for vendor-beneficial
+policy outcomes. All three trigger the same extraction response: note bias in the source
+body paragraph, classify by promotional-content test, do not apply the `vendor_bias` flag.
+
 **6.4 Claim Calibration for Narrow Sources**
 Some sources are highly focused (e.g., a benchmark paper reporting a single finding
 for a single model). For these, 3 claims may be the right count even if the source

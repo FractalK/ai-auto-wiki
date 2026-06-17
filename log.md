@@ -4,8 +4,11 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-06-16
 last_entry: 2026-06-16
-entry_count: 165
+entry_count: 166
 ---
+
+## [2026-06-16] skill-enrichment | EXTRACTION-SKILL.md § 6.3
+Case: Anthropic-authored white-paper arguing for export control policies beneficial to Anthropic's commercial position — classified as white-paper/institutional (not vendor-content), but commercial conflict of interest present; extends the 6.3 pattern to cover sole-authored policy advocacy alongside the existing sponsored-blog and co-authored-white-paper examples.
 
 ## [2026-06-16 PT] session-stats | ingest
 Queue size at session start: 0
