@@ -2,13 +2,23 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-16
+updated: 2026-06-23
 last_entry: 2026-06-23
-entry_count: 169
+entry_count: 170
 ---
 
 ## [2026-06-16] skill-enrichment | EXTRACTION-SKILL.md § 6.3
 Case: Anthropic-authored white-paper arguing for export control policies beneficial to Anthropic's commercial position — classified as white-paper/institutional (not vendor-content), but commercial conflict of interest present; extends the 6.3 pattern to cover sole-authored policy advocacy alongside the existing sponsored-blog and co-authored-white-paper examples.
+
+## [2026-06-23 PT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 3
+Documents completed: 3
+Session limit hit: yes (context compaction mid-session; resumed in continuation session)
+Time window: off-peak
+Source type mix: vendor-content: 1, policy-document: 1, industry-blog: 1
+Approx tokens (from /cost): not available (two-session ingest after compaction)
+Notes: All 3 staged documents completed. New source pages: 2026-openai-daybreak-security-tools, 2026-five-eyes-ai-cybersecurity-statement, 2026-anthropic-project-fetch-phase-two. New tool pages: openai-gpt-5-5-cyber, openai-codex-security. Updated existing tool page: anthropic-claude-opus-4-7 (pre-existing; human override in decision string). Updated existing tool pages: openai-aardvark, openai-gpt-5-5. Updated topic pages: ai-assisted-vulnerability-discovery, ai-governance-policy (new competency domain + contexts from choice 7), human-ai-collaboration, ai-agentic-workflows. ai-governance-policy teaching_notes_reviewed updated (choice 7 served as ingest-time currency confirmation). Five pages at Key Claims overcap after ingest: ai-assisted-vulnerability-discovery (7), ai-governance-policy (6), anthropic-claude-opus-4-7 (6), human-ai-collaboration (6), ai-agentic-workflows (6) — deferred to next lint. No contradictions flagged. Teaching Index regenerated: 75 pages indexed, 7 domains.
 
 ## [2026-06-16 PT] session-stats | ingest
 Queue size at session start: 0
