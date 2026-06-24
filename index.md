@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*191 pages. Last updated: 2026-06-16.*
+*196 pages. Last updated: 2026-06-23.*
 
 ---
 
@@ -88,8 +88,10 @@ professional roles, see the [[teaching-index]].
 - [[thomson-reuters-ask-practical-law-ai]] — Thomson Reuters's AI assistant for practical law questions, independently benchmarked at a greater than 17 percent error rate on open-ended legal queries by Stanford RegLab in 2024, comparable to Lexis+ AI.
 - [[openai-gpt-5-5]] — OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 - [[openai-gpt-5-5-pro]] — OpenAI's highest-capability variant of GPT-5.5, differentiated by stronger performance on web research, frontier mathematics, and scientific benchmarks at substantially higher pricing, available to Pro, Business, and Enterprise users.
+- [[openai-gpt-5-5-cyber]] — OpenAI's specialized cybersecurity variant of GPT-5.5, with more permissive response behavior for authorized security work and state-of-the-art performance on CyberGym (85.6%), ExploitGym, and SEC-bench Pro, released in continued limited access to verified defenders through the Daybreak initiative.
 - [[openai-gpt-rosalind]] — OpenAI's frontier reasoning model for biology, drug discovery, and translational medicine, announced April 2026 and deployed exclusively via the Rosalind Biodefense trusted-access pathway for vetted institutions. *(All current information is vendor-sourced.)*
 - [[openai-codex]] — OpenAI's AI-powered coding assistant desktop application for macOS and Windows, featuring background computer use, cross-session automations with scheduling, cross-session memory, an in-app browser for localhost development, image generation, and 90+ plugin integrations across the software development lifecycle.
+- [[openai-codex-security]] — OpenAI's developer-facing vulnerability management plugin integrating into Codex workflows for automated scanning, threat modeling, patch generation, and validation across existing codebases, positioned as the standard defensive security starting point for most organizations within Daybreak.
 - [[openai-aardvark]] — OpenAI's agentic security researcher that autonomously scans codebases for vulnerabilities, proposes patches, and identifies novel CVEs by reasoning over entire codebases, currently in private beta with planned free coverage for non-commercial open-source repositories.
 - [[ibm-granite-4-1]] — IBM open-weight model family spanning language (3B/8B/30B), vision, speech, safety moderation, and multilingual embedding; Apache 2.0; designed for enterprise instruction following and token efficiency over reasoning performance.
 - [[ibm-defense-model]] — IBM Granite-based LLM fine-tuned on Janes open-source defense intelligence data for air-gapped and classified deployment; decision-support for operational planning and defense industrial base strategy; emerging status.
@@ -184,6 +186,9 @@ professional roles, see the [[teaching-index]].
 - [[2026-bloomberg-anthropic-juggernaut-circuit]] — Bloomberg Originals / The Circuit, 2026-06-10, practitioner
 - [[2026-anthropic-two-scenarios-ai-leadership]] — Anthropic, 2026-05-13, institutional
 - [[2026-anthropic-agentic-coding-returns-expertise]] — Hitzig, Massenkoff, Lyubich, Heller, McCrory (Anthropic), 2026-06-16, institutional
+- [[2026-openai-daybreak-security-tools]] — OpenAI, 2026-06-21, practitioner (vendor-content)
+- [[2026-five-eyes-ai-cybersecurity-statement]] — Five Eyes agencies (ASD, CSE, GCSB, NCSC-UK, NSA, CISA), 2026-06-22, institutional
+- [[2026-anthropic-project-fetch-phase-two]] — Ilie, Freeman, Troy (Anthropic), 2026-06-18, institutional
 
 ## Comparisons
 
