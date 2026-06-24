@@ -2,7 +2,7 @@
 type: tool
 title: GPT-5.5
 created: 2026-04-30
-updated: 2026-06-04
+updated: 2026-06-23
 summary: OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 status: active
 vendor: OpenAI
@@ -29,10 +29,11 @@ primary_use_cases:
   - Knowledge work automation across professional domains
   - Scientific data analysis and research assistance
   - Computer use and multi-tool workflow automation
-source_count: 3
-last_assessed: 2026-05-18
+source_count: 4
+last_assessed: 2026-06-23
 related_tools:
   - "[[openai-gpt-5-5-pro]]"
+  - "[[openai-gpt-5-5-cyber]]"
   - "[[anthropic-claude-opus-4-7]]"
   - "[[openai-chatgpt]]"
 technical_depth: practitioner
@@ -83,3 +84,6 @@ OpenAI states that GPT-5.5 was co-designed and trained with NVIDIA GB200 and GB3
 | Terminal-Bench 2.0 | 82.7% | Vendor-reported; evaluation methodology not independently verified | 2026-04 | [[2026-openai-gpt-5-5-announcement]] | current |
 | SWE-Bench Pro (Public) | 58.6% | Vendor-reported; OpenAI notes Anthropic has cited evidence of memorization in Claude's score on this benchmark | 2026-04 | [[2026-openai-gpt-5-5-announcement]] | current |
 | ARC-AGI-2 (Verified) | 85.0% | Vendor-reported | 2026-04 | [[2026-openai-gpt-5-5-announcement]], [[2026-vellum-llm-leaderboard]] | current |
+| CyberGym | 81.8% | Single-model evaluation; baseline comparison for GPT-5.5-Cyber; vendor-reported | 2026-06 | [[2026-openai-daybreak-security-tools]] | current |
+| ExploitGym | 25.95% | Agent converts known vulnerabilities to working exploits achieving unauthorized code execution; baseline comparison; vendor-reported | 2026-06 | [[2026-openai-daybreak-security-tools]] | current |
+| SEC-bench Pro | 63.1% | Long-horizon vulnerability discovery and proof-of-concept generation; baseline comparison for GPT-5.5-Cyber; vendor-reported | 2026-06 | [[2026-openai-daybreak-security-tools]] | current |
