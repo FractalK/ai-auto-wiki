@@ -2,17 +2,18 @@
 type: topic
 title: Human-AI Collaboration
 created: 2026-06-10
-updated: 2026-06-16
+updated: 2026-06-23
 summary: The empirical conditions under which combining humans and AI outperforms either alone, characterized by a key distinction between augmentation (beating the human baseline) and synergy (beating the best individual performer), with task type and relative baseline performance identified as the dominant moderators of whether collaboration helps or hurts.
 status: developing
-source_count: 2
-last_assessed: 2026-06-16
+source_count: 3
+last_assessed: 2026-06-23
 related_topics:
   - "[[ai-workforce-complementarity]]"
   - "[[ai-agentic-workflows]]"
   - "[[llm-fundamentals]]"
 related_tools:
   - "[[anthropic-claude-code]]"
+  - "[[anthropic-claude-opus-4-7]]"
 teaching_relevance: true
 competency_domains:
   - practical-ai-use-and-interaction
@@ -46,6 +47,11 @@ Measuring whether a human-AI system outperforms humans alone is a different ques
 | Verified success rate — intermediate through expert sessions | 28–33% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 | Abandoned session rate — novice (when hitting trouble) | 19% | Failed + zero lines of code written | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 | Abandoned session rate — intermediate through expert (when hitting trouble) | 5–7% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| Task time — 4 robotics tasks, Claude Opus 4.7 (autonomous) | 9 min 35 sec | Claude Code; adaptive thinking, max effort; 3-trial average; Project Fetch Phase 2 | 2026-06 | [[2026-anthropic-project-fetch-phase-two]] | current |
+| Task time — 4 robotics tasks, Team Claude | 181 min | Human team with Claude access; August 2024 baseline; Project Fetch Phase 1 | 2024-08 | [[2026-anthropic-project-fetch-phase-two]] | current |
+| Task time — 4 robotics tasks, Team Claude-less | 361 min | Human team without AI; August 2024 baseline; Project Fetch Phase 1 | 2024-08 | [[2026-anthropic-project-fetch-phase-two]] | current |
+| Code volume — Claude Opus 4.7 (autonomous) | 1,045 lines | Project Fetch Phase 2; comparable or better task success than human teams | 2026-06 | [[2026-anthropic-project-fetch-phase-two]] | current |
+| Code volume — Team Claude | 10,309 lines | Project Fetch Phase 1 (August 2024); Claude-assisted human team | 2024-08 | [[2026-anthropic-project-fetch-phase-two]] | current |
 
 ## Key Claims
 
@@ -56,6 +62,7 @@ Measuring whether a human-AI system outperforms humans alone is a different ques
 | Relative baseline performance is the strongest moderator of human-AI synergy (F = 81.79, p < 0.001): when humans outperform AI alone, combinations achieve substantial synergy (g = 0.46); when AI outperforms humans alone, combinations produce significant losses (g = −0.54), indicating humans accurately calibrate trust only when they are the more capable performer. | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | 2024-10-28 | current | 1.5 | false |
 | AI explanations and AI confidence scores do not significantly moderate human-AI synergy or augmentation across 300+ experimental effect sizes, challenging the widespread assumption in the explainable AI field that transparency features improve human-AI system performance. | [[2024-vaccaro-human-ai-synergy-meta-analysis]] | 2024-10-28 | current | 1.5 | false |
 | Task division — explicitly assigning different subtasks to the human or AI partner based on relative capability — shows positive average synergy (g = 0.22) in limited experiments (3 of 106+ studies); large-scale agentic coding data from 400,000 real sessions corroborates this, showing the natural division is human planning (~70% of planning decisions) with AI execution (~80% of execution decisions), and that domain expertise determines how much autonomous work the AI does per instruction. | [[2024-vaccaro-human-ai-synergy-meta-analysis]], [[2026-anthropic-agentic-coding-returns-expertise]] | 2026-06-16 | current | 3.5 | false |
+| In a June 2026 controlled experiment (Project Fetch Phase 2), Claude Opus 4.7 autonomously completed robotics programming and sensor integration tasks 37x faster than a human team without AI and 18x faster than a human team with Claude assistance, producing 1,045 lines of code versus the Claude-assisted team's 10,309 — while failing at closed-loop physical control tasks (autonomous beach ball retrieval) that practiced humans could perform — illustrating that the autonomous AI threshold has been crossed for structured programming tasks but not yet for real-time perception-feedback-action loops. | [[2026-anthropic-project-fetch-phase-two]] | 2026-06-18 | current | 2 | false |
 
 ## What Drives Synergy — and What Doesn't
 

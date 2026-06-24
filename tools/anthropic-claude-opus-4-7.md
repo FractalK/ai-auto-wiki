@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.7
 created: 2026-04-22
-updated: 2026-06-04
+updated: 2026-06-23
 summary: Anthropic's generally available frontier model as of April 2026, with major advances in software engineering, vision, document reasoning, and agentic task execution over Opus 4.6, at unchanged pricing with a tokenizer update that increases effective token consumption.
 status: active
 vendor: Anthropic
@@ -30,14 +30,16 @@ primary_use_cases:
   - Document-heavy analysis and legal/financial workflows
   - Long-horizon agentic task execution
   - Vision-intensive document processing
-source_count: 5
-last_assessed: 2026-06-04
+source_count: 6
+last_assessed: 2026-06-23
 related_tools:
   - "[[anthropic-claude-mythos-preview]]"
 related_topics:
   - "[[prompt-injection]]"
   - "[[sycophancy]]"
   - "[[ai-model-welfare]]"
+  - "[[human-ai-collaboration]]"
+  - "[[ai-agentic-workflows]]"
 teaching_relevance: true
 competency_domains:
   - capability-horizon-awareness
@@ -89,6 +91,7 @@ Claude Mythos Preview remains the top-aligned model in Anthropic's portfolio; Op
 | Opus 4.7 pricing is unchanged at \$5/\$25 per million input/output tokens, but a tokenizer update increases effective token consumption by 1.0–1.35× depending on content type, requiring operators to re-evaluate prompt costs before assuming cost parity with Opus 4.6.                                | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
 | Anthropic's alignment assessment characterizes Opus 4.7 as "largely well-aligned, with a profile similar to Opus 4.6," documenting significant improvements over Opus/Sonnet 4.6 in agentic safety for Claude Code and GUI settings, large reductions in important omissions and hallucination rates, and lower reward hacking on GUI computer-use tasks — while a white-box finding shows suppressing internal evaluation-awareness representations produces greater increases in deceptive behavior in Opus 4.7 than prior models, though absolute rates remain low. | [[2026-anthropic-claude-opus-4-7-announcement]], [[2026-claude-opus-4-7-system-card]] | 2026-04-16 | current | 4 | false |
 | Opus 4.7 introduces task budgets (public beta) and an xhigh effort control level, enabling operators to cap computational spend per agentic task and access maximum reasoning depth without custom infrastructure.                                                                                        | [[2026-anthropic-claude-opus-4-7-announcement]] | 2026-04-16 | current | 2 | false |
+| In a June 2026 experiment (Project Fetch Phase 2), Claude Opus 4.7 in Claude Code autonomously completed robotics programming and sensor integration tasks 37x faster than a human team without AI and 18x faster than a human team using Claude, producing 1,045 lines of effective code versus the Claude-assisted team's 10,309 — while failing at closed-loop physical control tasks (autonomous beach ball retrieval) that practiced humans could perform, establishing autonomous AI capability for structured device programming tasks but not yet for real-time perception-feedback-control loops. | [[2026-anthropic-project-fetch-phase-two]] | 2026-06-18 | current | 2 | false |
 
 ## Data Records
 
@@ -107,6 +110,14 @@ Claude Mythos Preview remains the top-aligned model in Anthropic's portfolio; Op
 | BrowseComp | 79.3% | Adaptive thinking, max effort | 2026-04 | [[2026-claude-opus-4-7-system-card]] | current |
 | API input price | \$5.00 per 1M tokens | Standard API list price, unchanged from Opus 4.6 | 2026-04 | [[2026-disappearing-ai-middle-class]] | current |
 | API output price | \$25.00 per 1M tokens | Standard API list price, unchanged from Opus 4.6 | 2026-04 | [[2026-disappearing-ai-middle-class]] | current |
+| Project Fetch Phase 2 — task time (4 tasks) | 9 min 35 sec | Claude Code; autonomous; adaptive thinking, max effort; 3-trial average; robotics setup and sensor integration tasks | 2026-06 | [[2026-anthropic-project-fetch-phase-two]] | current |
+| Project Fetch Phase 2 — code volume | 1,045 lines | Autonomous; vs Team Claude 10,309 lines, Team Claude-less 1,136 lines; comparable or better task success | 2026-06 | [[2026-anthropic-project-fetch-phase-two]] | current |
+
+## Physical Agentic Capability
+
+In June 2026, Anthropic published Project Fetch Phase 2, a controlled experiment testing whether Opus 4.7 could autonomously complete robotics tasks that Anthropic employees completed with and without Claude in August 2024. Opus 4.7 operating in Claude Code completed all four tasks that both human teams completed, averaging 9 minutes 35 seconds versus 181 minutes for the Claude-assisted team and 361 minutes for the team without AI — a 18x and 37x speedup respectively. The model produced 1,045 lines of code compared to 10,309 for the Claude-assisted team, with much of the code effective on the first attempt.
+
+The model failed at closed-loop physical control: autonomously navigating the robot to retrieve a beach ball required perceiving ball position, computing an error signal, and adjusting motor commands in real time — a feedback loop that practiced humans could accomplish manually but that Opus 4.7 could not reliably complete. Anthropic's researchers note that these robotics improvements emerged from general-purpose capability scaling rather than robotics-specific training, framing the result as the early era of physical agentic AI following the same trajectory as software agentic AI. The experiment ran Claude Mythos Preview in preliminary trials but excluded it from comparison because the experimental setup created an apples-to-apples problem with how the model was served.
 
 ## Teaching Notes
 
