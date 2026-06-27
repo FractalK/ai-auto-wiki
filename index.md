@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*196 pages. Last updated: 2026-06-23.*
+*197 pages. Last updated: 2026-06-27.*
 
 ---
 
@@ -189,6 +189,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-openai-daybreak-security-tools]] — OpenAI, 2026-06-21, practitioner (vendor-content)
 - [[2026-five-eyes-ai-cybersecurity-statement]] — Five Eyes agencies (ASD, CSE, GCSB, NCSC-UK, NSA, CISA), 2026-06-22, institutional
 - [[2026-anthropic-project-fetch-phase-two]] — Ilie, Freeman, Troy (Anthropic), 2026-06-18, institutional
+- [[2026-anthropic-economic-index-cadences]] — Massenkoff, Lyubich, Sacher et al. (Anthropic), 2026-06-26, institutional
 
 ## Comparisons
 

@@ -2,10 +2,14 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-23
-last_entry: 2026-06-23
-entry_count: 170
+updated: 2026-06-27
+last_entry: 2026-06-27
+entry_count: 171
 ---
+
+## [2026-06-27] ingest | Anthropic Economic Index report: Cadences
+Added: [[2026-anthropic-economic-index-cadences]]. Updated: [[topics/ai-economic-impact]], [[topics/ai-public-opinion]], [[tools/anthropic-claude-code]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1 (source).
+Note: ai-economic-impact Key Claims — retired Claim 5 (geographic adoption, already in prose and Data Records) to free slot for new cadences KC (labor-augmenting token-wage pattern). ai-public-opinion — retired Claim 5 (compound expert-forecast claim, already in Data Records) to free slot for new cadences KC (automation-optimism correlation). anthropic-claude-code — Data Records and prose only; no Key Claims changes. Teaching notes updated: ai-economic-impact, ai-public-opinion (new dimension in both cases). Data Records sections on all three pages now at or above ~20-row readability threshold — recommend page split review at next lint pass.
 
 ## [2026-06-16] skill-enrichment | EXTRACTION-SKILL.md § 6.3
 Case: Anthropic-authored white-paper arguing for export control policies beneficial to Anthropic's commercial position — classified as white-paper/institutional (not vendor-content), but commercial conflict of interest present; extends the 6.3 pattern to cover sole-authored policy advocacy alongside the existing sponsored-blog and co-authored-white-paper examples.

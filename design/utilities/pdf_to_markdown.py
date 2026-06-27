@@ -1,33 +1,59 @@
 #!/usr/bin/env python3
-# Last Updated: 06/09/2026 21:14 EDT
+# Last Updated: 06/27/2026 17:26 EDT
 """
 PDF to Markdown Converter
 ========================
 
 Converts multi-page PDFs to clean markdown using font-size-based heading classification
-and smart text joining. Validated on Anthropic system cards, Nature articles, and 
-academic papers.
+and smart text joining. Validated on Anthropic system cards, Nature articles, 
+academic papers, and Anthropic Economic Index reports.
 
 USAGE:
 ------
-Option A — CLI (preferred):
+Option A — CLI, single line (most reliable — safe against shell paste artifacts):
+    python3 pdf_to_markdown.py --input /path/to/file.pdf --output /path/to/out.md --title "# Document Title" --date "Month DD, YYYY" --org "Organization" --doi "https://doi.org/..."
+
+Option A, multi-line form (readable, but fragile when pasted into some shells —
+e.g. zsh treats each line as a separate command if a trailing space follows the
+backslash, producing "command not found: --title"-style errors; verify no
+trailing whitespace survives the paste before using this form):
     python3 pdf_to_markdown.py --input /path/to/file.pdf --output /path/to/out.md \\
         --title "# Document Title" --date "Month DD, YYYY" \\
         --org "Organization" --doi "https://doi.org/..."
 
-Option B — Edit parameters below, then:
+Option B — Edit parameters below, then (recommended for repeated repo use,
+since it has no shell-paste failure mode at all):
     python3 pdf_to_markdown.py
 
 Diagnostic mode (inspect font sizes before converting):
     python3 pdf_to_markdown.py --diagnose [--input /path/to/file.pdf]
 
 REQUIREMENTS:
-- pymupdf (fitz): pip install pymupdf --break-system-packages -q
+- pymupdf: pip install pymupdf --break-system-packages -q
+  (omit --break-system-packages outside a PEP 668 externally-managed
+  environment, e.g. a plain pyenv/venv setup — it's a no-op there but some
+  pip versions may not recognize it)
+
+IMPORT NOTE — fitz/pymupdf namespace collision:
+PyMuPDF's legacy import name is `fitz`, but there is also a separate,
+unrelated, unmaintained PyPI package literally named `fitz` (last released
+2017) that squats on the same import name. If that package was ever
+`pip install`ed directly into this environment, `import fitz` resolves to
+it instead of PyMuPDF, producing a confusing multi-frame ImportError several
+layers deep (typically ending in "No module named 'frontend'" or a
+StaticFiles directory error). This script avoids the collision entirely by
+using `import pymupdf as fitz` below — the rest of the script's `fitz.*`
+calls are unaffected, and this resolves correctly regardless of whether the
+colliding `fitz` package is also installed, as long as `pymupdf` itself is.
+If `pymupdf` is not installed at all, this import now fails with a clean
+`ModuleNotFoundError: No module named 'pymupdf'` instead of the confusing
+nested traceback.
 
 OUTPUT:
 - Markdown file with metadata header, h2/h3/h4/h5/h6 hierarchy, smart text joining
 - Skips bare page numbers, pg. N footers, and unicode artifacts
-- Detects and converts bullets (● and ○)
+- Skips repeated running headers/footers (e.g. document title repeated on every page)
+- Detects and converts bullets (●, ○, and •)
 - Detects exhibit/figure labels and renders as bold standalone lines
 - Prevents excessive line breaks in body text
 - Rejoins hyphenated line-breaks (academic column layouts)
@@ -41,6 +67,18 @@ thresholds entirely. This handles documents (e.g. Anthropic system cards) where
 L4/L5 headings are visually indistinguishable from body text by font size alone.
 TOC mode activates automatically; disable with --no-toc if it produces wrong output.
 
+RUNNING HEADER/FOOTER DETECTION:
+Many reports repeat the document title or section name on every page, at a font
+size below all heading thresholds — these are page-position artifacts, not
+content, and SKIP_PATTERNS (which only matches generic page-number shapes) does
+not catch them because they are document-specific text, not a fixed pattern.
+Before extraction, a pre-pass scans all pages and flags any line of text, at or
+below RUNNING_HEADER_MAX_FONT_SIZE, that recurs verbatim on at least
+RUNNING_HEADER_MIN_FRACTION of pages. Flagged text is skipped during extraction
+instead of being concatenated into body paragraphs. Reported in --diagnose
+output; disable with --no-header-strip if it produces a false positive (e.g. a
+short phrase that is legitimately repeated content rather than a header/footer).
+
 FONT SIZE THRESHOLDS (adjustable, used when TOC mode is off or no match found):
 - h1 (##):  size >= 15.5
 - h2 (###): size >= 13.5
@@ -52,7 +90,7 @@ If output is garbled, run with --diagnose to inspect actual font sizes and TOC e
 """
 
 import argparse
-import fitz
+import pymupdf as fitz
 import re
 import sys
 
@@ -88,6 +126,12 @@ SKIP_PATTERNS = [
 # Exhibit/figure label pattern: render as bold standalone line
 EXHIBIT_LABEL_REGEX = r'^(Exhibit|Figure|Table|Chart):?\s'
 
+# Running header/footer detection (P7): a line at or below this font size that
+# recurs verbatim on at least this fraction of pages is treated as a repeated
+# page header/footer and skipped, rather than concatenated into body text.
+RUNNING_HEADER_MAX_FONT_SIZE = 10.0
+RUNNING_HEADER_MIN_FRACTION = 0.4
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FUNCTIONS
@@ -121,6 +165,11 @@ def parse_args():
         "--no-toc",
         action="store_true",
         help="Disable TOC-anchored heading extraction even when an outline is present",
+    )
+    parser.add_argument(
+        "--no-header-strip",
+        action="store_true",
+        help="Disable running header/footer detection (e.g. if it produces a false positive)",
     )
     parser.add_argument(
         "--sample-pages",
@@ -193,6 +242,71 @@ def build_toc_index(doc):
 _TOC_LEVEL_PREFIX = {1: '##', 2: '###', 3: '####', 4: '#####', 5: '######'}
 
 
+def detect_running_headers(doc, min_fraction=RUNNING_HEADER_MIN_FRACTION,
+                            max_font_size=RUNNING_HEADER_MAX_FONT_SIZE):
+    """
+    Detect repeated running headers/footers: low-font-size lines that recur
+    verbatim across a large fraction of pages.
+
+    Running headers/footers (e.g. a document title repeated on every page)
+    are page-position artifacts, not content. SKIP_PATTERNS cannot catch them
+    because their text is document-specific, not a fixed shape like a page
+    number — detecting them requires comparing text *across* pages rather
+    than matching a single page in isolation.
+
+    Each page contributes at most one count per distinct text (a header
+    that happens to render as two adjacent spans on one page is not double
+    counted), so the fraction reflects page coverage, not raw occurrences.
+
+    Args:
+        doc:           An open fitz.Document object.
+        min_fraction:  Minimum fraction of pages a line must appear on
+                       (verbatim, after the same unicode cleaning extract_pdf
+                       applies) to be flagged as a running header/footer.
+        max_font_size: Only lines at or below this font size are eligible —
+                       this excludes repeated body content (e.g. a section
+                       title that legitimately recurs) which is typically
+                       set at body size or larger, not header/footer size.
+
+    Returns:
+        set[str]: Normalized line texts to skip during extraction. Empty if
+        no text meets the recurrence threshold.
+
+    Usage example:
+        doc = fitz.open("report.pdf")
+        running_headers = detect_running_headers(doc)
+        if running_headers:
+            print(f"Will skip: {running_headers}")
+    """
+    page_count = len(doc)
+    counts = {}
+
+    for page in doc:
+        seen_this_page = set()
+        blocks = page.get_text("dict")["blocks"]
+        for b in blocks:
+            if b.get("type") != 0:
+                continue
+            for line in b.get("lines", []):
+                spans = line.get("spans", [])
+                if not spans:
+                    continue
+                text = ' '.join(s['text'] for s in spans)
+                # Mirror the main loop's exact cleaning (empty-string deletion,
+                # not space substitution) so this set matches what `text` will
+                # actually equal at the `text in running_headers` check below.
+                text = text.replace('\u200b', '').replace('\ufeff', '').strip()
+                if not text or text in seen_this_page:
+                    continue
+                max_size = max(s['size'] for s in spans)
+                if max_size <= max_font_size:
+                    counts[text] = counts.get(text, 0) + 1
+                    seen_this_page.add(text)
+
+    threshold = max(2, int(page_count * min_fraction))
+    return {text for text, count in counts.items() if count >= threshold}
+
+
 def should_join_text(last_line, new_text):
     """
     Heuristic: determine how to join flowing body text.
@@ -206,7 +320,7 @@ def should_join_text(last_line, new_text):
     """
     if not last_line or last_line.startswith('#'):
         return False
-    if last_line.endswith('\n') or new_text.startswith('- '):
+    if last_line.endswith('\n') or new_text.lstrip().startswith('- '):
         return False
     if any(last_line.endswith(char) for char in [':', '.', '%', ')']):
         return False
@@ -329,19 +443,23 @@ def assess_extraction_quality(input_path, sample_pages=3, page_count=None):
     )
 
 
-def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra, no_toc=False):
+def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra,
+                 no_toc=False, no_header_strip=False):
     """Main extraction pipeline.
 
     Args:
-        input_path:  Path to the input PDF file.
-        output_path: Path to write the output markdown file.
-        title_line:  Document title line (e.g. '# My Title').
-        pub_date:    Publication date string.
-        org:         Organization name (optional).
-        doi:         DOI or URL (optional).
-        extra:       Additional metadata lines (optional).
-        no_toc:      If True, disable TOC-anchored heading extraction even when
-                     the document has a usable embedded outline (default: False).
+        input_path:      Path to the input PDF file.
+        output_path:     Path to write the output markdown file.
+        title_line:      Document title line (e.g. '# My Title').
+        pub_date:        Publication date string.
+        org:             Organization name (optional).
+        doi:             DOI or URL (optional).
+        extra:           Additional metadata lines (optional).
+        no_toc:          If True, disable TOC-anchored heading extraction even
+                         when the document has a usable embedded outline
+                         (default: False).
+        no_header_strip: If True, disable running header/footer detection
+                         (default: False).
     """
 
     try:
@@ -374,8 +492,26 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra, 
         else:
             print("TOC mode: OFF (no usable embedded outline)")
 
+    # Running header/footer detection (P7): flag repeated low-font-size lines
+    # that recur across pages so they're skipped rather than concatenated
+    # into body text. Runs unless --no-header-strip is set.
+    if no_header_strip:
+        running_headers = set()
+        print("Header-strip mode: DISABLED (--no-header-strip)")
+    else:
+        running_headers = detect_running_headers(doc)
+        if running_headers:
+            preview = list(running_headers)[:3]
+            print(f"Header-strip mode: ACTIVE ({len(running_headers)} pattern(s) "
+                  f"detected): {preview}")
+        else:
+            print("Header-strip mode: OFF (no repeated header/footer text found)")
+
     md_lines = []
     prev_class = None
+    pending_bullet = None  # P8b: set when a bullet glyph rendered as its own
+                            # line/span, with the bullet's text following as
+                            # a separate line — see detection block below.
 
     for page_num, page in enumerate(doc):
         blocks = page.get_text("dict")["blocks"]
@@ -395,6 +531,23 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra, 
                 if not text:
                     continue
                 if any(re.match(pattern, text) for pattern in SKIP_PATTERNS):
+                    continue
+                # Skip detected running headers/footers (P7)
+                if running_headers and text in running_headers:
+                    continue
+
+                # Standalone bullet-glyph line (P8b): some PDFs render the
+                # bullet glyph as its own line/span, with the bullet's text
+                # following as a separate line — a distinct pattern from the
+                # inline "•\tlabel: text" spans handled below. A bare glyph
+                # carries no font-size signal of its own, so this must be
+                # caught before classification; the next non-empty line
+                # consumes the pending marker (see below).
+                if text in ('•', '●'):
+                    pending_bullet = '- '
+                    continue
+                if text == '○':
+                    pending_bullet = '  - '
                     continue
 
                 # Classify by font size and bold
@@ -416,13 +569,31 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra, 
 
                 cls = classify(max_size, is_bold)
 
-                # Convert bullets
-                if text.startswith('● ') or text.startswith('●\t'):
+                # Convert bullets (P8: "•" added alongside "●" — this also
+                # prevents run-on joining, since should_join_text's existing
+                # guard checks for the "- " prefix this assigns)
+                if (text.startswith('● ') or text.startswith('●\t')
+                        or text.startswith('• ') or text.startswith('•\t')):
                     text = '- ' + text[2:].strip()
                     cls = 'bullet'
                 elif text.startswith('○ ') or text.startswith('○\t'):
                     text = '  - ' + text[2:].strip()
                     cls = 'bullet'
+                elif pending_bullet and cls == 'body':
+                    # P8b: this line is the content half of a standalone
+                    # bullet-glyph marker seen on the previous line — apply
+                    # the prefix now and force a new markdown line.
+                    text = pending_bullet + text
+                    cls = 'bullet'
+                elif pending_bullet:
+                    # The line following a bare bullet glyph turned out to be
+                    # a heading, not body text — almost certainly malformed
+                    # source structure. Drop the stale marker rather than
+                    # carrying it forward onto unrelated later content.
+                    pending_bullet = None
+
+                if cls == 'bullet':
+                    pending_bullet = None
 
                 # Build markdown
                 if cls == 'h1':
@@ -533,6 +704,17 @@ def diagnostic_font_sizes(input_path, sample_pages=5):
             for lvl, title in l4l5[:5]:
                 print(f"       L{lvl}: {repr(title[:70])}")
 
+    # Report running header/footer detection so operator can sanity-check
+    # before conversion (mirrors TOC reporting above).
+    running_headers = detect_running_headers(doc)
+    if running_headers:
+        print(f"\nRunning headers/footers: {len(running_headers)} pattern(s) detected "
+              f"(will be skipped during extraction):")
+        for h in list(running_headers)[:5]:
+            print(f"     {repr(h[:80])}")
+    else:
+        print(f"\nRunning headers/footers: none detected")
+
     # P6 — Start from page 0 (cover page); note decorative font sizes expected
     for page_num in range(0, min(sample_pages, len(doc))):
         page = doc[page_num]
@@ -593,4 +775,5 @@ if __name__ == '__main__':
         doi=effective_doi,
         extra=ADDITIONAL_METADATA,
         no_toc=args.no_toc,
+        no_header_strip=args.no_header_strip,
     )

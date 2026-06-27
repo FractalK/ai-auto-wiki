@@ -2,7 +2,7 @@
 type: tool
 title: Anthropic Claude Code
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-27
 summary: Anthropic's CLI and desktop agentic coding tool, studied across approximately 400,000 sessions from 235,000 users (Oct 2025–Apr 2026), with consistent findings that domain expertise (not coding background) drives success, a natural human-planning/AI-execution task division, and approximately 27% growth in average session value over seven months as usage shifts toward higher-complexity work.
 status: active
 vendor: Anthropic
@@ -24,8 +24,8 @@ primary_use_cases:
   - Debugging and code review
   - Data analysis and document generation
   - Orchestration of automated pipelines
-source_count: 1
-last_assessed: 2026-06-16
+source_count: 2
+last_assessed: 2026-06-27
 related_topics:
   - "[[ai-agentic-workflows]]"
   - "[[human-ai-collaboration]]"
@@ -77,12 +77,20 @@ Claude Code is Anthropic's agentic coding tool available as a CLI, Claude.ai int
 | Session value growth — fixing tasks | +32% | Same methodology | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 | Verified success gap — software vs. other occupations | 5pp | 34% (software) vs. 29% (non-software); code-producing sessions; every occupation within 7pp | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
 | Average Claude Code usage | 20 hours/week | Hours Claude Code actively running; not hands-on time; ~235,000 users | 2026-04 | [[2026-anthropic-agentic-coding-returns-expertise]] | current |
+| AI autonomy gap — Claude Code vs. chat/Cowork (average) | 0.37 points | 1–5 autonomy scale; 26 of 31 output types; Apr–Jun 2026; chat & Cowork vs. Claude Code surface | 2026-06 | [[2026-anthropic-economic-index-cadences]] | current |
+| AI autonomy gap — Sonnet-model-controlled (Claude Code vs. chat/Cowork) | 0.26 points | Same scale; subset of Sonnet-served conversations only; demonstrates surface effect independent of model choice | 2026-06 | [[2026-anthropic-economic-index-cadences]] | current |
+| Opus serving share — Claude Code | 54% | Share of Claude Code conversations served by Opus; Apr–Jun 2026 | 2026-06 | [[2026-anthropic-economic-index-cadences]] | current |
+| Opus serving share — chat/Cowork | 10% | Share of chat and Cowork conversations served by Opus; same period | 2026-06 | [[2026-anthropic-economic-index-cadences]] | current |
+| Median human prompts per blog/article — Claude Code | 1 | Conversations producing blog post or article output; median human turns; Apr–Jun 2026 | 2026-06 | [[2026-anthropic-economic-index-cadences]] | current |
+| Median human prompts per blog/article — chat/Cowork | 13 | Same output type; chat or Cowork surface; same period | 2026-06 | [[2026-anthropic-economic-index-cadences]] | current |
 
 ## The Division of Labor in Practice
 
 The most consistent finding across the 400,000-session study is a stable natural division of labor: humans direct planning (approximately 70% of planning decisions) and Claude handles execution (approximately 80% of execution decisions). This division is not enforced by the tool's design — it emerges from how users and the agent interact. Users set goals, define scope, and evaluate outcomes; Claude selects files to edit, writes code, chooses commands, and iterates toward the user's specification.
 
 Domain expertise amplifies this division. Expert users issue more precise instructions, enabling Claude to operate with longer autonomous chains before requiring course correction. The result is higher output per prompt (12 actions and 3,200 words for expert versus 5 actions and 600 words for novice), not because the expert works more slowly, but because their precision allows Claude to confidently extend its execution chains. This pattern holds within every work mode and every task value band, ruling out task selection as a confound.
+
+A June 2026 companion analysis from the Anthropic Economic Index compares autonomy levels across product surfaces, finding that Claude Code elicits higher AI autonomy than chat or Cowork across 26 of 31 output types — an average 0.37-point gap on the 1–5 autonomy scale. The gap persists at 0.26 points when controlling for model (comparing only Sonnet-served conversations), indicating that the product surface itself — not the underlying model — is the primary driver. The mechanism is both compositional and behavioral: a blog post produced on chat involves a median of 13 rounds of back-and-forth, while the same output on Claude Code involves a median of 1 human prompt. Claude Code's structural design as an agentic tool fundamentally changes the degree to which users delegate, independent of which Claude model underlies the session.
 
 ## Work Mode Evolution
 

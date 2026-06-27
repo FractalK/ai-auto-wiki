@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 06/09/2026 21:18 EDT
+**Last Updated:** 06/27/2026 17:26 EDT
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1636,5 +1636,70 @@ None — this is correct behavior. The printed TOC lines being classified as hea
 When validating TOC-mode output against expected heading counts, compare against (TOC entries × 2) for documents with printed inline TOC pages, not against the raw TOC entry count. If the printed TOC headings in output markdown are undesirable, a future enhancement could detect TOC-zone pages by page range (from `doc.get_toc()` page numbers) and skip TOC-match classification on those pages. This is not currently implemented and is low priority — the output is structurally correct.
 
 **References:** DM-118, LL-050, LL-051, pdf_to_markdown.py `build_toc_index`
+
+---
+
+## LL-053 | RUNNING HEADERS ARE A DISTINCT PDF ARTIFACT CLASS FROM PAGE FOOTERS — NEEDS FREQUENCY-BASED DETECTION, NOT FIXED PATTERNS
+
+- **Date:** 2026-06-27
+- **Context:** Converting the Anthropic Economic Index ("Cadences") report and validating the script's output before staging for ingest.
+
+**Problem:**
+The repeated page header ("Anthropic Economic Index report: Cadences") was extracted as ordinary body text on every page and fused into surrounding paragraphs — e.g. "...lower baseline rates of personal use. 3 Anthropic Economic Index report: Cadences Request clusters..." — because its font size (8.0pt) fell below all heading thresholds and it didn't match `SKIP_PATTERNS` (which only covers bare page numbers and "pg. N" footers).
+
+**Root Cause:**
+`SKIP_PATTERNS` encodes fixed regex shapes for known footer conventions seen in prior documents (the MIT NANDA report's "pg. N"). It has no mechanism for detecting a document-specific running header/footer whose text is unknown in advance — that requires comparing text across pages, not matching a single page in isolation.
+
+**Fix Applied:**
+Added `detect_running_headers()` to `pdf_to_markdown.py`: a pre-pass that flags any line of text, at or below a low font-size threshold (`RUNNING_HEADER_MAX_FONT_SIZE`, default 10.0pt), that recurs verbatim on at least `RUNNING_HEADER_MIN_FRACTION` (default 40%) of pages, and skips it during extraction. Reported in `--diagnose` output (mirroring TOC reporting) and during conversion. Disable with `--no-header-strip` if the heuristic misfires.
+
+**Implication Going Forward:**
+Fixed-pattern skip rules (`SKIP_PATTERNS`) are appropriate for footer conventions with a known, generic shape (page numbers, "pg. N"). Document-specific running headers/footers — which repeat the document's own title or section name — cannot be caught by a fixed pattern and require frequency-based detection across the page set. When diagnosing a future garbled or polluted conversion, check whether the artifact is a single-page anomaly (fixed-pattern fixable) or a cross-page repetition (frequency-detection fixable) before deciding where to patch.
+
+**References:** FRIC-048, pdf_to_markdown.py `detect_running_headers`
+
+---
+
+## LL-054 | NARROW BULLET-GLYPH ALLOWLISTS FAIL SILENTLY AND COMPOUND WITH JOIN LOGIC
+
+- **Date:** 2026-06-27
+- **Context:** Same Economic Index conversion validation; "•" bullets discovered unconverted, with one cluster joined into a single run-on line.
+
+**Problem:**
+The script's bullet detection only recognized "●"/"○" (U+25CF/U+25CB). This document uses "•" (U+2022), in two different rendering patterns: (1) glyph and text combined in one span ("•\tDirective: ..."), and (2) the glyph alone on its own line, with the text following as a separate line/span. Pattern (1) left literal "•" prefixes in the output instead of markdown "- " syntax. The same gap had a second, less obvious effect: because unconverted bullets never received the "- " prefix, `should_join_text()`'s existing bullet-join guard (which checks `new_text.startswith('- ')`) never triggered, so five consecutive footnote bullet items were silently joined into one run-on paragraph — a content-structure defect, not just a formatting one. Pattern (2) failed differently: a bare glyph carries no font-size signal of its own and was joined onto its following text line by the generic join heuristic before any bullet check ever saw the combined text.
+
+**Root Cause:**
+The bullet-glyph allowlist was built against the documents validated during initial script development and was never revisited against the broader set of Unicode bullet characters in common use, or against the second rendering pattern (glyph-only line, text on a separate line) that some PDF generators produce.
+
+**Fix Applied:**
+Two changes to `pdf_to_markdown.py`: (1) added "•"/"•\t" to the existing bullet-detection conditional alongside "●" — this alone also fixes the run-on-joining problem, since `should_join_text()` already checks for the "- " prefix this assignment produces. (2) Added standalone-glyph-line handling: a line whose entire (stripped) text is just a bullet glyph sets a `pending_bullet` marker; the next body-classified line consumes it, applying the prefix and forcing a new markdown line rather than letting it join. While implementing this, also widened `should_join_text()`'s existing bullet-join guard from `new_text.startswith('- ')` to `new_text.lstrip().startswith('- ')`, since the original check did not recognize indented sub-bullets ("  - ") — a latent gap discovered during this fix, not previously triggered because no prior document exercised the "○" sub-bullet path through this exact check.
+
+**Implication Going Forward:**
+When a glyph-based detection rule feeds a downstream heuristic that checks for the rule's *output* marker (here: the "- " prefix) rather than the input condition, an incomplete input allowlist produces a second, less obvious failure mode beyond the obvious one — fixing the input case alone can silently fix the downstream symptom too, but only if the output marker is actually what the input case produces. When validating a glyph-detection fix, check both how the glyph renders inline and whether it can render as a standalone marker on its own line — these are different code paths requiring different handling, and a document can use both patterns for different list types in the same body.
+
+**References:** FRIC-049, pdf_to_markdown.py bullet detection block, `should_join_text`
+
+---
+
+## LL-055 | LOCAL CLI EXECUTION FAILED ON TWO ENVIRONMENT-LAYER ISSUES THE SANDBOX NEVER EXPOSES
+
+- **Date:** 2026-06-27
+- **Context:** Operator attempted to run `pdf_to_markdown.py` from the wiki repo's local command line (macOS, zsh, pyenv Python 3.11.10) against the same PDF already validated in this session's sandbox, and hit two failures that never surfaced here.
+
+**Problem:**
+Two distinct failures, neither related to the script's conversion logic: (1) `import fitz` crashed seven stack frames deep, ultimately on `ModuleNotFoundError: No module named 'frontend'` / a Starlette `StaticFiles` directory error; (2) the documented multi-line CLI example, pasted into zsh, produced `command not found: --title` and `command not found: --org`.
+
+**Root Cause:**
+(1) There is a separate, unmaintained, unrelated PyPI package literally named `fitz` (last released 2017) that squats on the same import name PyMuPDF uses. If that package was ever `pip install`ed directly into the local environment — an easy mistake, since the import statement is `import fitz` — it shadows PyMuPDF, and the resulting traceback gives no indication that the actual problem is a package-name collision. This is a long-standing, currently-documented PyMuPDF issue (confirmed via PyMuPDF's own installation docs), not specific to this operator's setup. (2) The documented CLI example used backslash line-continuation; zsh treats each subsequent line as its own command if a trailing space survives after the backslash (a common artifact of pasting from a chat/markdown code block), so `--title` and `--org` were each interpreted as standalone (nonexistent) commands rather than continuation arguments.
+
+Both failures are specific to *this script's actual execution environment* (a real local shell against a real pip installation) and could not have been caught by the design-project sandbox, which has neither a pre-existing `fitz` package conflict nor a real interactive shell with paste behavior to exercise. This is a structural limitation of validating CLI tooling from within this project: correctness here proves the conversion logic works, not that the script is portable to an arbitrary local environment.
+
+**Fix Applied:**
+(1) Changed the script's import from `import fitz` to `import pymupdf as fitz` — PyMuPDF's own documented workaround. This resolves correctly regardless of whether the colliding `fitz` package is also installed, as long as `pymupdf` itself is; if `pymupdf` is missing entirely, the import now fails with a clean `ModuleNotFoundError: No module named 'pymupdf'` instead of the confusing nested traceback. Verified byte-identical output against the same PDF before and after the change — zero behavioral regression. (2) Updated the module docstring's USAGE section to lead with the single-line CLI form (safe against paste artifacts), retained the multi-line form with an explicit warning about the trailing-whitespace pitfall, and called out Option B (edit top-of-file constants, run with no CLI args) as the more reliable choice for repeated repo use.
+
+**Implication Going Forward:**
+When a script is developed and validated entirely within this design-project sandbox but is meant to run in the operator's actual local environment, treat "it works here" as validating logic only, not portability. Before considering a script-delivery session complete, check for at least these two environment-layer risk classes even when not prompted: (1) known namespace/package-name collisions for any third-party import the script relies on — prefer the unambiguous full package name over a short alias-prone one where the library supports it; (2) shell-paste fragility in any documented multi-line CLI example — prefer single-line examples as the primary documented form, with multi-line shown only as a secondary, explicitly-flagged convenience.
+
+**References:** FRIC-050, pdf_to_markdown.py import statement, USAGE docstring
 
 ---

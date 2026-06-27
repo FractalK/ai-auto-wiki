@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 06/05/2026 21:49 EDT
+**Last Updated:** 06/27/2026 17:26 EDT
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -1020,3 +1020,42 @@ fields.
 - **Verdict:** Confirmed weakness — Step L11 detected Key Claims count overcap but classified it as informational, with no downstream resolution path. The three-page threshold for systemic drift forced choices excluded per-page overcap from forced-choice treatment. The result was an indefinitely recurring flag with no operator action possible.
 - **Fix plan:** (1) `CLAUDE.md` Section 6.1: added Key Claims overcap resolution options — Consolidate, Defer 3 passes, Accept as-is — with agent behavior for each, including `claims_cap_deferred` and `claims_cap_override` frontmatter fields. (2) `OPERATIONS.md` Step L11: added overcap forced choice block exempt from the three-page threshold, with consolidation candidate identification logic and skip conditions for deferred/overridden pages. Added Phase 3 execution steps 6a (all three resolution paths) and deferral counter decrement. Added overcap status lines to informational summary and lint log entry format. Updated Phase 2 choices ordering. (3) `ingest-ui-implementation-plan.md` Section 2: added Lint Step L11 (overcap) card to single-select catalog.
 - **Resolved:** 2026-06-05
+
+---
+
+## FRIC-048 | RUNNING HEADERS NOT DETECTED — REPEATED PAGE-HEADER TEXT POLLUTES BODY OUTPUT
+
+- **Date:** 2026-06-27
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** `pdf_to_markdown.py` — `extract_pdf()` main extraction loop; no running-header detection mechanism existed.
+- **Symptom:** Converting the Anthropic Economic Index report ("Cadences," 33 pages) produced output where the repeated page header ("Anthropic Economic Index report: Cadences," font size 8.0pt, present on every page) was extracted as body text and concatenated mid-sentence into surrounding paragraphs roughly 30 times throughout the document, requiring manual post-processing to remove before staging.
+- **Verdict:** Confirmed weakness — the script's font-size classification and `SKIP_PATTERNS` only filter bare page numbers and "pg. N" footers (P2). Running headers/footers with substantive repeated text and low font size fall through to body classification with no detection mechanism. This is a distinct artifact class from anything in the existing P1–P6 backlog.
+- **Fix plan:** Added `detect_running_headers()` — a pre-pass that counts identical, low-font-size (≤10pt) line texts across pages and flags any text appearing on at least 40% of pages as a running header/footer to skip during extraction. Reported in `--diagnose` output (mirroring TOC reporting) and printed as a stripped-pattern summary during conversion. Added `--no-header-strip` override flag for cases where the heuristic misfires.
+- **Resolved:** 2026-06-27
+
+---
+
+## FRIC-049 | BULLET DETECTION LIMITED TO ●/○ — OTHER GLYPHS UNCONVERTED AND TRIGGER RUN-ON PARAGRAPH JOINING
+
+- **Date:** 2026-06-27
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** `pdf_to_markdown.py` — `extract_pdf()` bullet detection block; `should_join_text()`.
+- **Symptom:** The same Economic Index conversion left "•" (U+2022) bulleted list items as literal "• text" prose instead of markdown "- " syntax, in two distinct rendering patterns (glyph+text in one span; glyph alone on its own line with text following separately). The second symptom compounded the first: because unconverted bullets don't start with "- ", `should_join_text()`'s existing bullet-join guard never triggered, so five consecutive footnote bullet items were joined onto a single run-on line.
+- **Verdict:** Confirmed weakness — the bullet glyph allowlist was too narrow for documents using the standard Unicode bullet "•," and for PDFs that render a bullet glyph as a standalone line/span distinct from its text. The failure compounds with the join logic rather than degrading gracefully.
+- **Fix plan:** (1) Added "•"/"•\t" to the existing bullet detection conditional alongside "●" — this single change also fixes the run-on-joining symptom, since `should_join_text()` already checks for the "- " prefix this assigns. (2) Added a `pending_bullet` marker mechanism to handle the standalone-glyph-line pattern: a line that is just a bare bullet glyph sets the marker; the next body-classified line consumes it (forced new line, not joined); a heading-classified line drops the stale marker rather than carrying it forward onto unrelated later content. (3) Widened `should_join_text()`'s bullet-join guard to `new_text.lstrip().startswith('- ')` so indented sub-bullets ("  - ", from "○") are also protected — a latent gap found while implementing (2).
+- **Resolved:** 2026-06-27
+
+---
+
+## FRIC-050 | LOCAL CLI EXECUTION BLOCKED BY FITZ/PYMUPDF PACKAGE COLLISION AND ZSH PASTE FRAGILITY
+
+- **Date:** 2026-06-27
+- **Status:** closed
+- **Phase:** Post-setup
+- **Document implicated:** `pdf_to_markdown.py` — import statement; module docstring USAGE section.
+- **Symptom:** Operator could not run the script from the wiki repo's local command line (macOS, zsh, pyenv Python 3.11.10). `import fitz` failed with a multi-frame traceback ending in `ModuleNotFoundError: No module named 'frontend'` / a Starlette `StaticFiles` error. Separately, the documented multi-line CLI example produced `zsh: command not found: --title` and `zsh: command not found: --org` when pasted.
+- **Verdict:** Confirmed weakness — two distinct environment-layer gaps, neither catchable from within the design-project sandbox: (1) the script imported the PyPI package by its collision-prone legacy name (`fitz`) rather than its unambiguous full name (`pymupdf`), so a separately-installed, unrelated, unmaintained package named `fitz` silently shadowed PyMuPDF with no diagnostic indication of the actual cause; (2) the documented CLI usage example used backslash line-continuation, which several shells (zsh among them) break on trailing whitespace after the backslash — a common paste artifact — with no warning in the docs and no single-line alternative shown.
+- **Fix plan:** (1) Changed the import to `import pymupdf as fitz`, sidestepping the collision regardless of what else is installed; verified byte-identical conversion output before/after on the validated PDF. (2) Rewrote the USAGE docstring to lead with a single-line CLI example, kept the multi-line form with an explicit trailing-whitespace warning, and surfaced the no-CLI-args constant-editing option (Option B) as the preferred path for repeated repo use, since it has no shell-paste failure mode.
+- **Resolved:** 2026-06-27
