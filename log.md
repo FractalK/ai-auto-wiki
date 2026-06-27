@@ -7,6 +7,16 @@ last_entry: 2026-06-27
 entry_count: 171
 ---
 
+## [2026-06-27 17:47 EDT] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: no
+Time window: off-peak
+Source type mix: white-paper: 1
+Approx tokens (from /cost): unknown (context compaction occurred; /cost not available)
+Notes: context compaction mid-session; full revalidation pass conducted after compaction before Phase 2 execution; pre-flight revised from 2 KCs to 1 KC on ai-economic-impact (autonomy-gap claim re-routed to Data Records on anthropic-claude-code); consolidation plan dropped (single slot retirement sufficient).
+
 ## [2026-06-27] ingest | Anthropic Economic Index report: Cadences
 Added: [[2026-anthropic-economic-index-cadences]]. Updated: [[topics/ai-economic-impact]], [[topics/ai-public-opinion]], [[tools/anthropic-claude-code]]. Contradictions flagged: 0. Auto-resolved: 0. New pages created: 1 (source).
 Note: ai-economic-impact Key Claims — retired Claim 5 (geographic adoption, already in prose and Data Records) to free slot for new cadences KC (labor-augmenting token-wage pattern). ai-public-opinion — retired Claim 5 (compound expert-forecast claim, already in Data Records) to free slot for new cadences KC (automation-optimism correlation). anthropic-claude-code — Data Records and prose only; no Key Claims changes. Teaching notes updated: ai-economic-impact, ai-public-opinion (new dimension in both cases). Data Records sections on all three pages now at or above ~20-row readability threshold — recommend page split review at next lint pass.
