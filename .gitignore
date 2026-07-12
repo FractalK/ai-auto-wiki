@@ -13,6 +13,10 @@ replit.nix
 # Exclude Obsidian's default save location to reduce friction and mistakes
 Clippings/
 
+# Exclude Python's compiled files
+*.pyc
+*.pyd
+
 # Wiki: exclude source files — potentially large or copyright-restricted
 raw/staged/
 raw/processed/
