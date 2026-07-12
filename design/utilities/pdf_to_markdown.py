@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Last Updated: 06/27/2026 17:26 EDT
+# Last Updated: 06/30/2026 20:14 EDT
 """
 PDF to Markdown Converter
 ========================
@@ -53,6 +53,8 @@ OUTPUT:
 - Markdown file with metadata header, h2/h3/h4/h5/h6 hierarchy, smart text joining
 - Skips bare page numbers, pg. N footers, and unicode artifacts
 - Skips repeated running headers/footers (e.g. document title repeated on every page)
+- Skips printed/visible table-of-contents pages (title + page-number listings)
+  that would otherwise be double-classified as headings
 - Detects and converts bullets (●, ○, and •)
 - Detects exhibit/figure labels and renders as bold standalone lines
 - Prevents excessive line breaks in body text
@@ -78,6 +80,22 @@ RUNNING_HEADER_MIN_FRACTION of pages. Flagged text is skipped during extraction
 instead of being concatenated into body paragraphs. Reported in --diagnose
 output; disable with --no-header-strip if it produces a false positive (e.g. a
 short phrase that is legitimately repeated content rather than a header/footer).
+
+TOC-ECHO ZONE DETECTION:
+Documents with a printed/visible table of contents page (as distinct from the
+PDF's embedded outline) list every heading title as plain body-sized text next
+to a page number. TOC-anchored classification matches those printed listing
+lines against the outline index exactly as it matches the real headings,
+producing a dense, spurious run of heading-classified lines with no body
+content — see LL-052. Before extraction, a pre-pass (build_toc_page_index +
+detect_toc_zone_pages) compares each TOC-index text match against the page(s)
+the outline actually designates for that title (doc.get_toc()'s page field). A
+page that accumulates at least TOC_ZONE_MIN_MATCHES such mismatched
+("echo") occurrences is treated as a printed-TOC page and its entire content —
+not just the heading-matching lines — is skipped during extraction. Requires
+TOC mode to be active; reported in --diagnose output; disable with
+--no-toc-strip if it produces a false positive (reverts to the documented
+duplicate-heading behavior in LL-052).
 
 FONT SIZE THRESHOLDS (adjustable, used when TOC mode is off or no match found):
 - h1 (##):  size >= 15.5
@@ -132,6 +150,17 @@ EXHIBIT_LABEL_REGEX = r'^(Exhibit|Figure|Table|Chart):?\s'
 RUNNING_HEADER_MAX_FONT_SIZE = 10.0
 RUNNING_HEADER_MIN_FRACTION = 0.4
 
+# TOC-echo zone detection (P9): minimum number of TOC-index title matches a
+# single page must accumulate, where the match's page disagrees with the
+# title's outline-designated page, before that page is flagged as a printed
+# TOC listing and skipped entirely. Requiring a concentration of mismatches
+# (rather than flagging on a single mismatch) filters out isolated outline
+# page-number noise; a real content page essentially never contains several
+# distinct section titles that each belong elsewhere. Validated against the
+# Claude Sonnet 5 System Card (DM-122): printed TOC pages accumulated 36-37
+# mismatches each; every real content page had zero.
+TOC_ZONE_MIN_MATCHES = 5
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # FUNCTIONS
@@ -172,6 +201,12 @@ def parse_args():
         help="Disable running header/footer detection (e.g. if it produces a false positive)",
     )
     parser.add_argument(
+        "--no-toc-strip",
+        action="store_true",
+        help="Disable TOC-echo zone stripping (P9) even when TOC mode is active — "
+             "reverts to the documented duplicate-heading behavior (LL-052)",
+    )
+    parser.add_argument(
         "--sample-pages",
         type=int,
         default=5,
@@ -191,6 +226,29 @@ def classify(size, bold):
     if size >= FONT_SIZE_H4 and bold:
         return 'h4'
     return 'body'
+
+
+def _normalize_toc_title(raw_title):
+    """
+    Normalize a raw TOC entry title for matching against extracted body text.
+
+    Mirrors extract_pdf's unicode cleaning of body text: replaces zero-width
+    space and BOM with nothing, collapses internal whitespace, strips ends.
+    Shared by build_toc_index() and build_toc_page_index() so both indexes
+    normalize identically and can never drift apart on activation or matching.
+
+    Args:
+        raw_title: The raw title string from a doc.get_toc() entry.
+
+    Returns:
+        str: Normalized title, or '' if the entry was blank/whitespace-only.
+
+    Usage example:
+        _normalize_toc_title('  1.1  Training data\u200b ')
+        # -> '1.1 Training data'
+    """
+    norm = raw_title.replace('\u200b', ' ').replace('\ufeff', '')
+    return re.sub(r'\s+', ' ', norm).strip()
 
 
 def build_toc_index(doc):
@@ -224,11 +282,8 @@ def build_toc_index(doc):
         return {}
 
     index = {}
-    for entry in raw:
-        lvl, raw_title, _page = entry
-        # Normalize: zero-width space → space, collapse whitespace, strip ends
-        norm = raw_title.replace('\u200b', ' ').replace('\ufeff', '')
-        norm = re.sub(r'\s+', ' ', norm).strip()
+    for lvl, raw_title, _page in raw:
+        norm = _normalize_toc_title(raw_title)
         if norm:
             index[norm] = lvl  # last entry wins on duplicate titles (rare)
 
@@ -236,6 +291,59 @@ def build_toc_index(doc):
         return {}
 
     return index
+
+
+def build_toc_page_index(doc):
+    """
+    Build a normalized title → set(designated pages) lookup from the PDF's
+    embedded outline, for TOC-echo zone detection (P9).
+
+    Unlike build_toc_index() (title → level, used for heading classification),
+    this retains every page a title is designated to appear on, so a duplicate
+    title (e.g. two sections both titled "Introduction") keeps all of its valid
+    pages instead of one overwriting another — avoiding the duplicate-title
+    caveat build_toc_index() already documents (DM-118 Consequences to Watch)
+    from compounding into a false TOC-echo flag on a legitimate duplicate.
+
+    Activates under the same condition as build_toc_index() (>= 10 non-blank
+    normalized titles), so the two indexes are always in sync on whether
+    TOC-anchored features are usable for a given document — a title present in
+    one is present in the other, even if that title has no valid page entry
+    (e.g. a malformed outline entry with page 0) and therefore maps to an empty
+    set here.
+
+    Args:
+        doc: An open fitz.Document object.
+
+    Returns:
+        dict[str, set[int]]: Normalized title → set of 1-indexed pages the
+        outline designates for that title. Empty if not usable (mirrors
+        build_toc_index()'s empty-dict conditions).
+
+    Usage example:
+        doc = fitz.open("system_card.pdf")
+        page_index = build_toc_page_index(doc)
+        if page_index:
+            valid_pages = page_index.get("2.1.2.1 On autonomy risks", set())
+    """
+    raw = doc.get_toc()
+    if not raw:
+        return {}
+
+    titles = set()
+    page_index = {}
+    for _lvl, raw_title, page in raw:
+        norm = _normalize_toc_title(raw_title)
+        if not norm:
+            continue
+        titles.add(norm)
+        if page and page > 0:
+            page_index.setdefault(norm, set()).add(page)
+
+    if len(titles) < 10:
+        return {}
+
+    return page_index
 
 
 # TOC level → markdown heading prefix (L1=##, L2=###, L3=####, L4=#####, L5=######)
@@ -305,6 +413,78 @@ def detect_running_headers(doc, min_fraction=RUNNING_HEADER_MIN_FRACTION,
 
     threshold = max(2, int(page_count * min_fraction))
     return {text for text, count in counts.items() if count >= threshold}
+
+
+def detect_toc_zone_pages(doc, toc_page_index, min_matches=TOC_ZONE_MIN_MATCHES):
+    """
+    Detect pages that are a printed/visible table of contents rather than
+    real body content (P9 — TOC-echo zone).
+
+    TOC-anchored heading classification matches body text against outline
+    titles by text alone, so a document's own printed TOC page — which lists
+    every title as plain text next to a page number — matches the same index
+    entries the real headings do (see LL-052). This produces a dense, spurious
+    run of heading-classified lines with no body content between them.
+
+    This distinguishes the two occurrences using data already present in the
+    outline: each title has one or more pages doc.get_toc() designates as its
+    real location. A line matching a known title on a page NOT among that
+    title's designated pages is an echo, not the real heading. A page is
+    flagged as a TOC zone — and its entire content skipped, not just the
+    heading-matching lines — only once it accumulates at least `min_matches`
+    such echo occurrences. Requiring a concentration of mismatches (rather
+    than flagging on a single one) filters out isolated outline page-number
+    noise: a real content page essentially never contains several distinct
+    section titles that each belong on a different page.
+
+    Titles absent from `toc_page_index` (e.g. a malformed outline entry with
+    no valid page) never count as a match or a mismatch — unreliable page
+    metadata is excluded rather than treated as an automatic echo, so it
+    cannot cause a false suppression.
+
+    Args:
+        doc:             An open fitz.Document object.
+        toc_page_index:  dict[str, set[int]] from build_toc_page_index(). Pass
+                         an empty dict to disable detection (returns an empty
+                         set immediately without scanning any pages).
+        min_matches:     Minimum echo (mismatched) title matches a page must
+                         accumulate to be flagged as a TOC zone.
+
+    Returns:
+        set[int]: 0-indexed page numbers to skip entirely during extraction.
+        Empty if toc_page_index is empty or no page meets the threshold.
+
+    Usage example:
+        page_index = build_toc_page_index(doc)
+        zone_pages = detect_toc_zone_pages(doc, page_index)
+        if zone_pages:
+            print(f"Skipping {len(zone_pages)} printed-TOC page(s)")
+    """
+    if not toc_page_index:
+        return set()
+
+    zone_pages = set()
+    for page_num, page in enumerate(doc):
+        current_page = page_num + 1  # 1-indexed, matches get_toc()'s convention
+        mismatches = 0
+        blocks = page.get_text("dict")["blocks"]
+        for b in blocks:
+            if b.get("type") != 0:
+                continue
+            for line in b.get("lines", []):
+                spans = line.get("spans", [])
+                if not spans:
+                    continue
+                text = ' '.join(s['text'] for s in spans)
+                text = text.replace('\u200b', '').replace('\ufeff', '').strip()
+                norm = re.sub(r'\s+', ' ', text).strip()
+                valid_pages = toc_page_index.get(norm)
+                if valid_pages and current_page not in valid_pages:
+                    mismatches += 1
+        if mismatches >= min_matches:
+            zone_pages.add(page_num)
+
+    return zone_pages
 
 
 def should_join_text(last_line, new_text):
@@ -444,7 +624,7 @@ def assess_extraction_quality(input_path, sample_pages=3, page_count=None):
 
 
 def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra,
-                 no_toc=False, no_header_strip=False):
+                 no_toc=False, no_header_strip=False, no_toc_strip=False):
     """Main extraction pipeline.
 
     Args:
@@ -460,6 +640,8 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra,
                          (default: False).
         no_header_strip: If True, disable running header/footer detection
                          (default: False).
+        no_toc_strip:    If True, disable TOC-echo zone stripping (P9) even
+                         when TOC mode is active (default: False).
     """
 
     try:
@@ -507,6 +689,23 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra,
         else:
             print("Header-strip mode: OFF (no repeated header/footer text found)")
 
+    # TOC-echo zone detection (P9): identify pages holding a printed/visible
+    # table of contents, whose title-matching lines would otherwise be
+    # double-classified as headings (LL-052). Requires TOC mode active; runs
+    # unless --no-toc-strip is set.
+    toc_zone_pages = set()
+    if toc_index and not no_toc_strip:
+        toc_page_index = build_toc_page_index(doc)
+        toc_zone_pages = detect_toc_zone_pages(doc, toc_page_index)
+        if toc_zone_pages:
+            pages_1idx = sorted(p + 1 for p in toc_zone_pages)
+            print(f"TOC-zone strip: ACTIVE ({len(toc_zone_pages)} page(s) "
+                  f"skipped as printed TOC): {pages_1idx}")
+        else:
+            print("TOC-zone strip: ON (no printed-TOC pages detected)")
+    elif toc_index and no_toc_strip:
+        print("TOC-zone strip: DISABLED (--no-toc-strip)")
+
     md_lines = []
     prev_class = None
     pending_bullet = None  # P8b: set when a bullet glyph rendered as its own
@@ -514,6 +713,8 @@ def extract_pdf(input_path, output_path, title_line, pub_date, org, doi, extra,
                             # a separate line — see detection block below.
 
     for page_num, page in enumerate(doc):
+        if page_num in toc_zone_pages:
+            continue
         blocks = page.get_text("dict")["blocks"]
         for b in blocks:
             if b.get("type") != 0:
@@ -715,6 +916,20 @@ def diagnostic_font_sizes(input_path, sample_pages=5):
     else:
         print(f"\nRunning headers/footers: none detected")
 
+    # Report TOC-echo zone detection (P9) so operator can sanity-check before
+    # conversion (mirrors TOC and running-header reporting above).
+    toc_page_index_preview = build_toc_page_index(doc)
+    if toc_page_index_preview:
+        zone_pages_preview = detect_toc_zone_pages(doc, toc_page_index_preview)
+        if zone_pages_preview:
+            pages_1idx = sorted(p + 1 for p in zone_pages_preview)
+            print(f"\nTOC-echo zone: {len(zone_pages_preview)} page(s) will be "
+                  f"skipped as printed TOC: {pages_1idx}")
+        else:
+            print(f"\nTOC-echo zone: none detected")
+    else:
+        print(f"\nTOC-echo zone: N/A (TOC mode inactive)")
+
     # P6 — Start from page 0 (cover page); note decorative font sizes expected
     for page_num in range(0, min(sample_pages, len(doc))):
         page = doc[page_num]
@@ -776,4 +991,5 @@ if __name__ == '__main__':
         extra=ADDITIONAL_METADATA,
         no_toc=args.no_toc,
         no_header_strip=args.no_header_strip,
+        no_toc_strip=args.no_toc_strip,
     )
