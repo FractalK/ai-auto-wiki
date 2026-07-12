@@ -1,5 +1,5 @@
 # Information Needs
-**Last Updated:** 05/26/2026 22:00 EST
+**Last Updated:** 06/30/2026 20:14 EDT
 
 Authoritative repository of open questions, data gaps, and contradictions that must
 be resolved before dependent design or implementation work can proceed.
@@ -697,3 +697,63 @@ edit and a DM entry.
 —
 
 **References:** FRIC-037, OPERATIONS.md Section 11.2 (Step 0 high-density source handling)
+
+---
+
+## IN-021 — Decisions Made Mutability Rule vs. Entry Template Contradiction on Amendment Status
+
+- **ID:** IN-021
+- **Status:** CLOSED
+- **Priority:** P3
+- **Category:** Process
+- **Raised:** 2026-06-14
+- **Resolved:** 2026-06-30
+
+**Question / Gap / Contradiction:**
+When a `decisions_made.md` entry is amended, does the `Status` field flip from `ACTIVE` to
+`AMENDED` alongside the `Amended By: DM-NNN` line, or does `Status` remain `ACTIVE` with
+`Amended By` serving only as an informational pointer? The entry template's field comment
+(`Amended By: DM-NNN ← populate only if Status is AMENDED`) implied the former, but the
+prose mutability rule named only "add `Amended By: DM-NNN`" as the permitted in-place edit
+and never mentioned the Status field — a contradiction between template and prose. The gap
+was not hypothetical: DM-111 was left `Status: ACTIVE` after being amended by DM-120,
+diverging from three prior amendments (by DM-023, DM-039, DM-044) that had correctly set
+`Status: AMENDED`.
+
+**Why This Blocks Progress:**
+Did not block current operation — no dependent work was waiting on this. Left unresolved,
+it risked further inconsistent application on each new amendment, eroding the Status
+field's reliability as a signal of which entries stand exactly as written.
+
+**Resolution:**
+`Status: AMENDED` and `Amended By: DM-NNN` are set together as a single in-place edit;
+neither is populated without the other. DM-111 corrected to `Status: AMENDED`. The prose
+mutability rule rewritten to state the coupled edit explicitly rather than relying on the
+template's field comment alone. See DM-121.
+
+**References:** DM-111, DM-120, DM-121, LL-056
+
+---
+
+## IN-022 — P9 TOC-Zone Detection: Duplicate-Title Handling and Threshold Generalization Unconfirmed
+
+- **ID:** IN-022
+- **Status:** OPEN
+- **Priority:** P4
+- **Category:** Validation
+- **Raised:** 2026-06-30
+
+**Question / Gap / Contradiction:**
+`pdf_to_markdown.py`'s P9 TOC-echo zone detection (DM-122) was validated against a single document — the Claude Sonnet 5 System Card — with a wide margin (36-37 mismatched matches per printed-TOC page vs. zero on every real content page). Two aspects of the design are unconfirmed on real data:
+(1) `build_toc_page_index()`'s duplicate-title handling (storing a set of valid pages per title rather than overwriting, to avoid a false TOC-echo flag on a legitimately duplicated section title) — the validation document had zero duplicate titles, so this path is verified by code review only.
+(2) `TOC_ZONE_MIN_MATCHES = 5` generalization — validated with a wide margin on one document's structure; other Anthropic system cards or future PDF sources may produce a narrower margin.
+
+**Why This Blocks Progress:**
+Does not block current operation. `--no-toc-strip` provides a documented fallback (reverts to the pre-P9 duplication behavior, itself documented as harmless per LL-052) if either gap surfaces as a real defect on a future conversion.
+
+**Deliverable when resolved:** After 2-3 additional system card or TOC-bearing document conversions, confirm no duplicate-title false positive/negative and no threshold near-miss occurred. If confirmed clean, close with a note. If an issue surfaces, log the finding and adjust `TOC_ZONE_MIN_MATCHES` or the duplicate-title logic with a DM entry citing the specific document.
+
+**Resolution:**
+—
+
+**References:** DM-122, LL-052, LL-057, pdf_to_markdown.py `build_toc_page_index`, `detect_toc_zone_pages`

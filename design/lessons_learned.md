@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 06/27/2026 17:26 EDT
+**Last Updated:** 07/07/2026 17:06 EDT
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -1703,3 +1703,107 @@ When a script is developed and validated entirely within this design-project san
 **References:** FRIC-050, pdf_to_markdown.py import statement, USAGE docstring
 
 ---
+
+## LL-056 | A RULE STATED ONLY IN A TEMPLATE FIELD COMMENT DRIFTED ON THE FOURTH REAL APPLICATION
+
+- **Date:** 2026-06-30
+- **Context:** Resolving IN-021 — whether `decisions_made.md`'s `Status` field flips to `AMENDED` alongside the `Amended By` line.
+
+**Problem:**
+`decisions_made.md`'s entry template already specified the rule unambiguously, as a field comment: `Amended By: DM-NNN ← populate only if Status is AMENDED`. But the prose "Mutability rules" section at the top of the file — the part an operator or agent actually reads when performing an amendment — said only "add `Amended By: DM-NNN` to the original entry... this is the only permitted in-place edit," with no mention of the Status field. Three amendments (DM-023, DM-039, DM-044) happened to get it right anyway. The fourth (DM-111, amended by DM-120) did not: `Status` was left `ACTIVE` with `Amended By` populated, contradicting the template.
+
+**Root Cause:**
+The rule existed in exactly one place readable at the moment of authoring the template, and zero places readable at the moment of performing the actual edit. An agent amending an entry months later reads the prose mutability rule, not the template's field-level comment, to know what to do — and the prose rule was incomplete. This is the same failure shape as LL-035 (prohibition-verification-prescription: stating a rule once, without reinforcement at the point of execution, is insufficient), just occurring in this project's own governance log rather than in the wiki schema LL-035 was written about. Getting it right three times before drifting is itself informative: a rule that's "usually" followed from memory or convention, without being restated where the action is taken, will eventually be missed — and there's no mechanical check (lint, verify script, or otherwise) over this design-project's own governance files to catch it when it happens, unlike the wiki-side schema which has wiki-lint.py and wiki-verify.sh as a backstop.
+
+**Fix Applied:**
+Rewrote the prose mutability rule to state the Status flip and the Amended By line as a single coupled edit ("these two field changes together are the only permitted in-place edit; never edit one without the other"), rather than relying on the template's field comment to carry the full rule alone. Corrected DM-111 to `Status: AMENDED`. Logged as DM-121.
+
+**Implication Going Forward:**
+When a governing rule lives in two places in the same document — a prose policy section and a template's inline field annotations — treat that as a latent inconsistency risk even when the two currently agree, because only the prose section is consulted during routine execution. The template should illustrate the rule; the prose section must state it completely. This applies to any of this project's append-only logs (`decisions_made.md`, `info_needs.md`, `lessons_learned.md` itself) that pair a prose mutability-rules section with an entry template — worth a one-time audit for the same pattern rather than waiting for the next drift to surface it.
+
+**References:** IN-021, DM-111, DM-120, DM-121, LL-035
+
+---
+
+## LL-057 | A CARRY-FORWARD'S PROPOSED IMPLEMENTATION IS A STARTING HYPOTHESIS, NOT A LOCKED SPEC — CHECK GOVERNANCE HISTORY BEFORE BUILDING IT
+
+- **Date:** 2026-06-30
+- **Context:** Implementing P9 (TOC-echo stripping in `pdf_to_markdown.py`), proposed in the prior session's carry-forward as `detect_toc_echo_block()`, a consecutive-heading-run heuristic.
+
+**Problem:**
+The carry-forward's proposed implementation was reasonable on its face and came with its own calibration caveat already attached (false-positive risk on dense legitimate outline sections, flagged by the same session that wrote it). Building it as specified would have worked, but would have reproduced a shape-based heuristic when a more precise, root-cause mechanism was already on record.
+
+**Root Cause:**
+LL-052 (2026-06-09) — the entry that first diagnosed this exact symptom — already named the more precise fix as an explicit forward note: detect TOC-zone pages by page range from `doc.get_toc()`'s own page numbers, rather than inferring TOC-echo status from output shape. That note predates the carry-forward that proposed the run-length heuristic, but the carry-forward was drafted without cross-referencing it. A carry-forward prompt is written under the same time and context pressure as any other session output — it is not exempt from the possibility that a better answer already exists in the governance log.
+
+**Fix Applied:**
+Before implementing, read LL-052 and DM-118 (the entries that established TOC-anchored classification), found the unimplemented forward note, and built page-anchored zone detection instead — presented as an explicit deviation with alternatives and rationale before coding (not carried out silently). Validated against an operator-provided real document before delivery. Logged as DM-122.
+
+**Implication Going Forward:**
+When a carry-forward proposes a new mechanism to fix a known problem, treat the proposal as a hypothesis to verify against the full relevant governance history (`decisions_made.md` and `lessons_learned.md` entries on the same subsystem) before implementing it as specified — not as a locked spec to execute. Symmetrically, when drafting a carry-forward item that proposes a new implementation strategy, search the governance log for the problem's originating entry first; if it already contains a forward note naming a fix, cite it in the carry-forward rather than proposing an unrelated mechanism from scratch. Both sides of the carry-forward handoff — the session that writes it and the session that executes it — are responsible for this check.
+
+**References:** LL-052, DM-118, DM-122, carry-forward Item 1
+
+---
+
+## LL-058 | DELIVERY RULE APPLIES TO PROJECT INSTRUCTIONS EVEN WHEN ONLY A FRAGMENT IS IN CONTEXT — "CANNOT WRITE IT" IS NOT "CANNOT DELIVER A COMPLETE FILE"
+
+- **Date:** 2026-06-30
+- **Context:** Correcting the stale "Known improvement backlog" block in the Session Instructions.
+
+**Problem:**
+Asked to make the backlog block accurate, given only that block (not the full Session Instructions document) in context, Claude delivered a corrected inline snippet in chat plus a note that the fix fell "outside files Claude can edit" — without invoking the Delivery Rule's own stop-and-ask clause for the fact that only a fragment, not the full document, was available.
+
+**Root Cause:**
+Two distinct facts were conflated. (1) Claude has no write mechanism to the live Project Instructions setting — true, and worth stating plainly. (2) Claude cannot deliver a complete, reproducible file for the operator to paste in its place — false, and wrongly treated as equivalent to (1). The Delivery Rule requires the second regardless of the first; "I can't execute this update myself" does not license "so I'll give you a partial answer instead." The correct response to only having a fragment in context was to say so and ask whether to proceed with just the fragment or wait for the full document — the Delivery Rule already states this exact case: "uncertainty about whether unchanged content can be reproduced accurately is not a basis for partial delivery. It is a trigger to stop and ask."
+
+**Fix Applied:**
+None applied retroactively at the time — the operator supplied the full Session Instructions document in a later message and directed the corrected backlog language be treated as already applied (it was copied into the live setting independently). Logged here to prevent recurrence, and folded into Item 1 of the carry-forward (full assessment of the Session Instructions) as one of the catalogued violations that audit should account for.
+
+**Implication Going Forward:**
+When an update is due to a document Claude cannot directly write to (a project instructions setting, a third-party system, or any file outside Claude's write access), apply the Delivery Rule's ordinary test: is the current full content available in context to reproduce? If yes, deliver the complete file regardless of the write-access constraint. If no, stop and ask for it. Do not let "I can't execute this myself" quietly downgrade the deliverable to a reminder or inline fragment — those are two separate questions with two separate answers.
+
+**References:** Delivery Rule, this session's backlog-correction exchange, DM-111 (the other rule-drift instance surfaced this session)
+
+---
+
+## LL-059 | THE MOST-VIOLATED STATED RULE WAS THE MOST-REINFORCED ONE — SCOPE-BOUNDARY AMBIGUITY, NOT DOCUMENT LENGTH, WAS THE CAUSE
+
+- **Date:** 2026-07-01
+- **Context:** Auditing the Session Instructions (carry-forward Item 1), cataloguing every lessons_learned entry that violated a rule the document actually states.
+
+**Problem:**
+The working hypothesis carried into the audit was that the Session Instructions had grown long enough to dilute their own authority, causing rule violations. Acting on that hypothesis would have meant shortening the document as the fix for rule-adherence.
+
+**Root Cause:**
+The hypothesis did not survive contact with the evidence. Of 58 lessons-learned entries, ~23 record violations of a stated rule; the largest cluster (5) is the Delivery Rule — which is also the most-reinforced rule in the document (its own section, two anti-rationalization clauses, restated in the End-of-Chat Ritual and every carry-forward) and the last-positioned. A position- or length-driven dilution mechanism predicts the most-reinforced, last-read rule should be among the least-violated; the opposite was true. Inspecting each Delivery Rule violation showed a common shape: every one was a scope-boundary question (do the project instructions count? a carry-forward? a governance-log entry? a fragment-only-in-context? a file Claude cannot write to?), never a failure to recall the rule existed. The rule's edges, not its prominence or the document's length, were the failure surface.
+
+**Fix Applied:**
+Strengthened the Delivery Rule with an explicit scope enumeration and a default-to-full-file-when-unclear clause (DM-123), rather than shortening the document. Independent currency cuts (peak-hour material, the IN-001 gate, section compression) were made separately and justified as removing stale dead weight — not as a fix for rule-adherence.
+
+**Implication Going Forward:**
+When a rule is violated repeatedly, test the causal hypothesis before acting on it: cross-reference the violations against where the rule sits, how reinforced it is, and what specifically failed each time. A high-frequency rule whose violations cluster at its scope edges needs its boundary cases enumerated at the rule, not a shorter surrounding document. Do not attribute recurrence to document length without first ruling out the competing explanation — and note that a section being stale dead weight (worth cutting for currency) is a separate question from a section causing violations (which cutting would not fix).
+
+**References:** DM-123, LL-001, LL-004, LL-005, LL-021, LL-058
+
+
+---
+
+## LL-060 | GOVERNANCE ENTRIES CAN BE REFERENCED-BUT-ABSENT — APPEND-ONLY LOGS ARE NOT SELF-VERIFYING
+
+- **Date:** 2026-07-07
+- **Context:** An adversarial project assessment scanned decisions_made.md entry IDs and found the log jumped from DM-099 to DM-102, while DM-100 was cited as a live decision authority in implementation-friction.md (FRIC-044 references the inter-chunk pause "added per DM-100/FRIC-039").
+
+**Problem:**
+DM-100 (mandatory inter-chunk pause) and DM-101 (pause placement and standing-authorization prohibition) — both dated 2026-05-20, both governing active protocol behavior in OPERATIONS.md — were absent from decisions_made.md for approximately seven weeks. Downstream documents cited them as authorities during that entire period. Any session consulting the log to understand the inter-chunk pause's rationale, or auditing whether a proposed protocol change relitigated a settled question, would have found nothing.
+
+**Root Cause:**
+A delivery containing the two entries from the 2026-05-20 session was lost or never placed into project knowledge — the entries existed (the operator recovered them in full, with correct formatting and cross-references) but the updated log file they belonged to did not reach its destination. The gap then persisted because nothing checks the log's integrity: the append-only convention governs how entries are written, but no mechanism verifies that the ID sequence is continuous or that referenced entries exist. Append-only was implicitly trusted as self-verifying; it is not. Cross-reference checks in the End-of-Chat Ritual verify that documents agree with decisions logged *in the current session* — they cannot catch an entry that was never placed.
+
+**Fix Applied:**
+Operator located the original DM-100 and DM-101 entries; both were inserted verbatim into decisions_made.md at the DM-099/DM-102 junction (2026-07-07), status ACTIVE, no amendment flips. A governance self-lint script (design-project-backlog.md BL-D-02) was specified to mechanically check ID sequence continuity, status-field vocabulary conformance, amendment coupling, and Last Updated format across all four governance logs — the ID-continuity check would have caught this gap the day it occurred.
+
+**Implication Going Forward:**
+A referenced-but-absent log entry is a distinct governance defect class: more dangerous than a missing reference (which fails loudly when followed) because the citing documents look healthy and the gap is silent until someone follows the pointer. Mechanical integrity checks on governance logs are cheap and catch this class immediately; conventions about how logs are written do not substitute for verification that they were. Secondary implication: delivery placement is a failure point separate from delivery production — a correctly produced file that never reaches project knowledge fails identically to one never produced, and only an integrity check on the destination catches the difference.
+
+**References:** DM-100, DM-101, DM-126, FRIC-039, FRIC-040, FRIC-044, design-project-backlog.md BL-D-02

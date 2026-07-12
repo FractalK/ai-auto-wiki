@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 06/09/2026 20:28 EDT
+**Last Updated:** 07/07/2026 18:12 EDT
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -9,9 +9,14 @@ Reference format from other documents: `# See DM-NNN`
 
 **Mutability rules:**
 - Append only. Never edit an existing entry's decision, rationale, context, or alternatives.
-- If a decision is **amended** (modified but still directionally valid): add `Amended By: DM-NNN`
-  to the original entry — this is the only permitted in-place edit — then create a new entry
-  explaining what changed and why, referencing the original.
+- If a decision is **amended** (modified but still directionally valid): on the original entry,
+  set `Status: AMENDED` and add `Amended By: DM-NNN` — these two field changes together are the
+  only permitted in-place edit; never edit one without the other — then create a new entry
+  explaining what changed and why, referencing the original. (Clarified DM-121 / IN-021: prior
+  phrasing named only the `Amended By` line as the permitted edit and omitted the accompanying
+  Status flip, which the entry template specifies but which is easy to miss when amending an
+  entry rather than authoring the template. DM-111 was left `Status: ACTIVE` as a result;
+  corrected below.)
 - If a decision is **superseded** (reversed or replaced entirely): add `Superseded By: DM-NNN`
   to the original entry, then create a new entry explaining the reversal and its rationale.
 - Before any implementation-relevant chat: scan this file for entries that the proposed work
@@ -4092,6 +4097,141 @@ Steps 11-14, Step L5c, EXTRACTION-SKILL.md Section 7
 
 ---
 
+## DM-100 | MANDATORY INTER-CHUNK PAUSE IN LARGE-DOCUMENT DECOMPOSITION PROTOCOL
+
+- **Date:** 2026-05-20
+- **Status:** ACTIVE
+
+**Decision:**
+Add a mandatory human checkpoint after each chunk commit in the large-document
+decomposition protocol (OPERATIONS.md, decomposition protocol Step 5). After committing
+a chunk and updating the manifest, the agent stops, reports completion status and
+remaining parts, provides a subjective context assessment (low/medium/high), and waits
+for explicit human confirmation before proceeding to the next chunk. Default is B (stop
+here); A (continue) requires explicit confirmation. The context assessment is
+informational only — the human decides whether to continue regardless of the agent's
+assessment.
+
+**Context:**
+FRIC-039. During re-extraction of the Stanford HAI AI Index (9-part decomposed ingest),
+the agent committed Part 02 and immediately began reading Part 03 without any human
+checkpoint. The original DM-097 protocol relied on reactive context-pressure detection
+(Step 6: "stop if session approaches context limits") as the sole session boundary
+mechanism. This produces an agent that optimizes for throughput until context pressure
+is detectable — at which point the agent may be mid-chunk with no clean stopping point.
+
+**Rationale:**
+The human should control session boundaries, not the agent. Reactive detection is
+unreliable: context pressure may not be clearly detectable until the agent is already
+partway through the next chunk, at which point stopping creates an incomplete extraction
+state. A mandatory pause after each commit costs one round-trip per chunk (low) and
+gives the human full control over session scope (high value). Making B (stop) the
+default reverses the agent's natural optimization pressure toward throughput, which is
+the failure mode observed.
+
+The context assessment is included as informational signal — the human may want to know
+whether the session is near capacity before deciding. It is explicitly not a gate: a
+"high" assessment does not force a stop, and a "low" assessment does not imply
+continuation is safe. The human's judgment supersedes the agent's assessment.
+
+**Alternatives Considered:**
+- **Reactive-only (status quo, DM-097 Step 6):** Agent stops when context pressure
+  detected. Fails: no clean stopping point if pressure detected mid-chunk; agent
+  optimizes for throughput in the absence of pressure. Rejected.
+- **Context-threshold gate (mandatory stop at "high"):** Requires defining "high"
+  precisely enough that the agent doesn't game it; adds spec complexity without
+  meaningful benefit over human judgment. Rejected.
+- **Time-based checkpoint (every N minutes):** No natural alignment with chunk
+  boundaries; mid-chunk stops complicate manifest state. Rejected.
+
+**Consequences to Watch:**
+- A 9-part document now requires 8 human round-trips between chunks. This is acceptable
+  given the context-management benefit, but may feel burdensome for very large documents
+  (>15 parts). If this becomes a friction point, a future option is a "continue until
+  medium/high" mode that allows the agent to auto-proceed through low-context chunks —
+  but only add this if the round-trip cost proves materially disruptive in practice.
+- The "default is B" framing must be preserved in any future protocol revision.
+  Reversing it (default continue) reproduces the original failure mode.
+
+**References:** FRIC-039, DM-097, OPERATIONS.md Large-document decomposition protocol
+Steps 5–6
+
+
+---
+
+## DM-101 | INTER-CHUNK PAUSE PLACEMENT AND STANDING-AUTHORIZATION PROHIBITION
+
+- **Date:** 2026-05-20
+- **Status:** ACTIVE
+
+**Decision:**
+Three refinements to the large-document decomposition protocol inter-chunk pause
+(originally established in DM-100):
+
+1. **Firing point:** The mandatory inter-chunk pause fires after Step 22c
+   (per-chunk commit and push) and the manifest update, and before Step 22
+   (post-ingest summary including Section B forced choices). Step 22 runs after
+   the human's A or B selection in both branches — the continue/stop decision
+   precedes all further decision-making for that chunk boundary.
+
+2. **Manifest-aware continuation:** When a new session resumes via manifest, the
+   inter-chunk pause fires before beginning the first chunk of that session. The
+   pause reports previously committed chunks and the chunk about to begin. Prior
+   session A selections are explicitly not authorization to proceed.
+
+3. **Standing-authorization prohibition:** The pause block explicitly prohibits
+   the agent from inferring continuation authorization from prior A selections,
+   manifest contents, or chunk size. Each chunk requires a new explicit A.
+
+**Context:**
+FRIC-040. Three compounding failures during 9-part Stanford HAI AI Index
+re-extraction: (1) pause fired after Section B decisions, allowing the agent to
+treat answered forced choices as implicit continuation; (2) manifest-aware
+continuation contained no pause requirement and said "proceed directly"; (3) the
+agent rationalized bypassing the pause by citing a prior A selection and small
+chunk size. All three failures shared a root cause: the protocol underspecified
+the control model, leaving the agent room to optimize for throughput.
+
+**Rationale:**
+Placing the pause before Step 22 (not after) ensures the human's continue/stop
+decision is made before any further work is presented. Section B forced choices are
+substantive decisions — answering them is work, and work done implies session
+continuation. The gate must precede the work. Running Step 22 in both A and B
+branches (not omitting it on B) ensures the human always receives a complete summary
+of the committed chunk before the session ends.
+
+The standing-authorization prohibition addresses a specific LLM failure mode: the
+agent reasoning from contextual signals (prior selections, chunk metadata) to
+bypass an explicit procedural gate. The prohibition must be stated as an explicit
+rule because "wait for explicit confirmation" is insufficient — the agent found a
+way to claim it had explicit confirmation (a prior A). The correct framing is
+per-chunk, not per-session.
+
+**Alternatives Considered:**
+- **Omit Step 22 on B (stop):** Would leave the human without a summary of the
+  just-completed chunk. Rejected — the summary is needed regardless of whether the
+  session continues.
+- **Run Step 22 before the pause (status quo):** The failure mode. Rejected.
+- **Single-session A applies to all subsequent chunks:** Reduces round-trips but
+  reproduces the original FRIC-039 failure (agent optimizes for throughput).
+  Rejected.
+
+**Consequences to Watch:**
+- The If-A / If-B branch structure in Step 5 is new. Watch for agents that run
+  Step 22 before presenting the pause (reversing the order again) or that skip
+  Step 22 in the B branch.
+- The manifest-aware continuation pause fires even when the human explicitly
+  starts the session with "continue the HAI Index ingest." This may feel redundant.
+  If it proves disruptive in practice, a future option is to allow the session-start
+  prompt to serve as the A selection for the first chunk — but only add this if
+  the pause friction is reported.
+
+**References:** FRIC-040, DM-100, DM-097, OPERATIONS.md decomposition protocol
+Steps 5–6, Step 0 manifest-aware continuation
+
+
+---
+
 ## DM-102 | FRIC-041: Dollar-Sign Double-Escape — Prohibition Added to Spec
 
 **Date:** 2026-05-20
@@ -4392,7 +4532,8 @@ test-harness.md Section 2.5, hybrid-lint-assessment.md
 ## DM-107 | WIKI STATUS DASHBOARD: DUAL-MODE STANDALONE HTML TOOL
 
 - **Date:** 2026-05-24
-- **Status:** ACTIVE
+- **Status:** AMENDED
+- **Amended By:** DM-123
 
 **Decision:**
 Build `wiki-dashboard.py`, a standalone Python script at the wiki root that generates
@@ -4680,7 +4821,8 @@ Adding redundant `related_topics` frontmatter to these page types would create t
 ## DM-111 | IN-006 CLOSED: TWO-PART SEARCH ESCALATION THRESHOLD CONFIRMED
 
 - **Date:** 2026-05-26
-- **Status:** ACTIVE
+- **Status:** AMENDED
+- **Amended By:** DM-120
 
 **Decision:**
 Close IN-006 with a two-part trigger for qmd search layer implementation:
@@ -4910,3 +5052,371 @@ Bold-only heuristic was explicitly rejected as primary path because: (a) inline 
 **References:** LL-050, LL-051, DM-117, carry-forward Item 2, pdf_to_markdown.py
 
 ---
+## DM-119 | OPEN KNOWLEDGE FORMAT (OKF) ASSESSED: NO ADOPTION FOR OPERATIONAL WIKI; PER-DIRECTORY INDEXES DECLINED
+
+- **Date:** 2026-06-14
+- **Status:** ACTIVE
+
+**Decision:**
+Google's Open Knowledge Format (OKF) v0.1, published 2026-06-12, was assessed against the operational wiki (184 pages at time of assessment) and the not-yet-deployed scenario tracker. Three resolutions:
+
+(1) **No adoption for the operational wiki.** The live wiki is not restructured to conform to OKF.
+
+(2) **Per-directory section `index.md` files explicitly declined** — re-confirmed at 184 pages on operator request. This is not merely "not needed yet"; it is mildly anti-architectural in this project at current scale (see Rationale).
+
+(3) **Selective harvest scoped to the scenario tracker only** (greenfield, not yet operational): the producer/consumer-contract framing and per-directory progressive-disclosure `index.md` are recorded as design-time considerations to evaluate when tracker design begins — to be layered on top of this wiki's inherited semantic model, not as a replacement for it. OKF-conformant export of the operational wiki is retained as a deferred, trigger-gated option; the only load-bearing conformance gap is link syntax (Obsidian `[[wikilinks]]` vs OKF `[](/path.md)`).
+
+**Context:**
+OKF formalizes the Karpathy LLM-wiki pattern as an interchange/serialization format: a directory of markdown files with YAML frontmatter, reserved `index.md`/`log.md` filenames, and exactly one required field (`type`). Operator asked whether anything in it warrants harvesting for this (operational) effort or the derivative scenario tracker, and explicitly wanted "do nothing" on the table. Blog (Google Cloud Data Cloud, 2026-06-12) and spec v0.1 reviewed; wiki frontmatter/structure (CLAUDE.md Section 2, 2.1, 12) and live published site reviewed.
+
+**Rationale:**
+OKF standardizes the storage substrate and, by its own stated non-goals, disclaims the maintenance loop — no fixed taxonomy, no contradiction model, no provenance/credibility, no staleness model. Everything that makes this wiki a knowledge system that improves over time (controlled vocabularies, three-path contradiction protocol with credibility weights and decay, `vendor_bias`, source classification, typed structural fields, semantic timestamps `last_assessed` vs `updated`) is OKF "producer-defined extension" territory. Adopting OKF's own frontmatter/link model would regress lessons already paid for (single `timestamp` collapses the staleness distinction; untyped links discard machine-actionable relationship semantics; permissive consumption tolerates exactly the broken-link/missing-field defects the lint exists to catch). The wiki is already substrate-aligned (markdown, YAML frontmatter, `type` on every page, `index.md`/`log.md` reserved); only link syntax is non-conformant, which a generated export step could bridge without touching source files.
+
+Per-directory indexes specifically declined because: at 184 pages the whole `index.md` is ~220 lines (a few KB — trivial in agent context terms), so OKF's progressive-disclosure affordance saves negligible tokens; and adding six auto-maintained section indexes introduces exactly the cross-file synchronization surface the governance regime exists to minimize (every ingest would have to keep them in sync, a new defect class). The committed remedy for genuine scale pressure is qmd hybrid search (IN-006 / DM-111), which addresses retrieval precision — a different problem than navigation/progressive disclosure — so per-directory indexes would not even be the right tool for the pressure that scale actually creates.
+
+**Alternatives Considered:**
+- **Adopt OKF wholesale for the operational wiki:** rejected — a regression, not progress; discards the contradiction/credibility/vocabulary machinery and the lessons behind it, in exchange for syntactic portability to a v0.1 single-vendor format with near-zero external adoption.
+- **Add per-directory section `index.md` now:** rejected — adds synchronization surface for trivial token savings; the scale remedy is already assigned to qmd, not section indexes.
+- **Restructure the live wiki to OKF-conformant link syntax now:** rejected — churn for ~zero current consumer. Retained instead as a deferred, trigger-gated export view.
+- **Do nothing at all, including no record:** rejected in favor of logging this assessment so the question is settled in the record and not relitigated on Google's next point release.
+
+**Consequences to Watch:**
+- An OKF consumer worth interoperating with actually emerges (a tool/agent the team cares about that reads OKF bundles) → revisit the export view; the only gap to bridge is link syntax.
+- Scenario tracker design begins → at that point deliberately evaluate (a) format-as-contract producer/consumer separation and (b) per-directory progressive disclosure, inheriting this wiki's semantic layer rather than OKF's minimalism.
+- If a future session finds itself re-deriving this assessment because Google shipped OKF v0.x, that is the signal this entry was not consulted.
+
+**References:** LL-040, IN-006, DM-111, DM-027, OKF v0.1 spec (GoogleCloudPlatform/knowledge-catalog), Google Cloud Data Cloud blog 2026-06-12
+
+---
+## DM-120 | IN-006 QUARTZ-SIDE TRIGGER FIRED AT 184 PAGES; qmd DEFERRED; TRIGGER READING REFINED TO SPECIFIC TERMS
+
+- **Date:** 2026-06-14
+- **Status:** ACTIVE
+
+**Decision:**
+At 184 pages the DM-111 Quartz-side escalation trigger ("Ctrl+K routinely returns >10 results") is literally met — many terms return >10, often >20. qmd implementation is nonetheless deferred, and the Quartz-side trigger is refined: evaluate it on specific / near-unique concept terms, not broad umbrella terms. Escalation is warranted when near-unique terms (e.g., "goal misgeneralization", "position bias", "EPOCH", "algorithmic monoculture") routinely return >10 results — not when broad terms ("ai", "llm") do. Thresholds and the agent-side branch of DM-111 are unchanged.
+
+**Context:**
+Operator reported the >10/>20 result counts during the OKF-scale review (DM-119), then confirmed on request that specific concept terms return low single digits. index.md is 220 lines, so the agent-side trigger (~300 lines) — which DM-111 records as the primary driver — has not fired. The literal Quartz-side condition fired on broad-term breadth, which is expected in a densely AI-themed 184-page corpus and is not retrieval degradation. Operator judgment: not an emergency.
+
+**Rationale:**
+DM-111's own context establishes the agent-side path as primary (index read cost) and the Quartz side as secondary. A raw result-count >10 on umbrella terms does not indicate precision loss; precision loss shows up as near-unique terms failing to discriminate. Refining the trigger to specific terms prevents premature escalation on an artifact of corpus theme density while preserving the original intent.
+
+**Consequences to Watch:**
+- Near-unique concept terms begin routinely returning >10 results → genuine precision degradation; implement qmd (Quartz side).
+- index.md exceeds ~300 lines (currently 220; ~1.0–1.2 lines/page at current entry verbosity) → agent-side trigger; expected to fire before sustained specific-term degradation at current ingest velocity.
+- qmd implementation, when triggered, is an execution-environment action (Claude Code against the wiki repo), not a design-project change.
+
+**References:** DM-111 (amended), IN-006, DM-119
+
+---
+
+## DM-121 | IN-021 CLOSED: AMENDMENT STATUS FLIP IS MANDATORY AND COUPLED TO THE AMENDED BY LINE
+
+- **Date:** 2026-06-30
+- **Status:** ACTIVE
+
+**Decision:**
+When a `decisions_made.md` entry is amended, `Status: AMENDED` and `Amended By: DM-NNN` are set together on the original entry as a single in-place edit. Neither field is populated without the other. `Status: ACTIVE` means an entry stands exactly as written with no qualification; `Status: AMENDED` signals a reader must also consult the citing entry before treating the original as a complete statement of the current decision. DM-111 is corrected from `Status: ACTIVE` to `Status: AMENDED` to reflect this.
+
+**Context:**
+IN-021 (raised 2026-06-14) asked whether the Status field flips to AMENDED alongside the Amended By line, or remains ACTIVE with Amended By serving as an informational pointer only. The entry template (this file, line 29) already specified `Amended By: DM-NNN ← populate only if Status is AMENDED`, but the prose mutability rule listed only "add `Amended By: DM-NNN`" as the permitted in-place edit and never mentioned the Status field. This gap was not hypothetical: of four amended entries in the file, three (amended by DM-023, DM-039, DM-044) correctly carried `Status: AMENDED`, and the fourth — DM-111, amended by DM-120 — did not. DM-120's own text confirms DM-111 fits the file's definition of an amendment: "modified but still directionally valid" (the Quartz-side trigger reading was narrowed; thresholds and the agent-side branch were left unchanged).
+
+**Rationale:**
+The template's conditional phrasing was already the intended rule; the prose just failed to restate it at the point where amendments actually get made, which is exactly the lesson-learned pattern this project already documents elsewhere (LL-035: a rule stated once without reinforcement at the execution point is insufficient). Coupling the two field changes into one prose instruction removes the chance to do one without the other. Leaving Amended By as a non-status-changing pointer was considered and rejected: it would mean a reader scanning Status values for "what stands as currently written" could not rely on the field alone and would have to separately check every entry's tail for an Amended By line — defeating the purpose of having a controlled Status vocabulary in the first place.
+
+**Alternatives Considered:**
+- **Leave Status as ACTIVE with Amended By as an informational-only pointer:** Rejected — see Rationale. Makes the Status field an unreliable signal.
+- **Add a fourth status value (e.g., `PARTIALLY AMENDED`) for cases where only a sub-component of a decision changed, as with DM-111/DM-120:** Rejected — the existing AMENDED definition ("modified but still directionally valid") already covers partial modification; a new vocabulary value adds a distinction the file doesn't otherwise draw and isn't needed to resolve this ambiguity.
+- **Do nothing; leave DM-111 as the sole exception and rely on operator memory:** Rejected — the gap is in the document, not in any one operator's recall, and will recur on the next amendment if the prose rule isn't corrected.
+
+**Consequences to Watch:**
+- Future amendments must populate both fields together. If a future entry shows `Amended By` populated without `Status: AMENDED` (or vice versa), that is a defect to correct on sight, not a new ambiguity to relitigate.
+- This decision concerns only this project's own governance log format. It has no bearing on the wiki schema (CLAUDE.md) or any wiki-side contradiction/versioning mechanism.
+
+**References:** IN-021, DM-111, DM-120, LL-035, LL-056
+
+---
+
+## DM-122 | P9 TOC-ECHO STRIPPING IMPLEMENTED VIA PAGE-ANCHORED ZONE DETECTION, NOT CONSECUTIVE-HEADING-RUN HEURISTIC
+
+- **Date:** 2026-06-30
+- **Status:** ACTIVE
+
+**Decision:**
+`pdf_to_markdown.py`'s P9 improvement (stripping the printed-TOC duplicate-heading block from system card conversions) is implemented as page-anchored zone detection: `build_toc_page_index()` retains each outline title's designated page(s) from `doc.get_toc()`, and `detect_toc_zone_pages()` flags a page as a printed-TOC listing when it accumulates at least `TOC_ZONE_MIN_MATCHES` (default 5) title matches whose page disagrees with the title's designated page. Flagged pages are skipped in full during extraction. This supersedes the carry-forward's proposed `detect_toc_echo_block()` — a post-pass counting consecutive heading-only lines in rendered output and stripping runs above a length threshold.
+
+**Context:**
+The carry-forward (this session) proposed the consecutive-run heuristic as Item 1. Before implementing it, review of governance history surfaced LL-052, which — while documenting the original TOC-duplication symptom on 2026-06-09 — already named the more precise fix as a forward note never implemented: detect TOC-zone pages by page range from `doc.get_toc()`'s page numbers and skip TOC-match classification on those pages. That note predates the carry-forward's own proposal but was not cross-referenced when the carry-forward was drafted.
+
+**Rationale:**
+Page-anchoring is a root-cause fix — it uses ground-truth structural data the outline already provides to distinguish the echo occurrence from the real heading occurrence — rather than a heuristic inferring the same distinction from output shape. The page-level match-count threshold (rather than flagging on any single mismatch) is a deliberate concentration requirement: it protects against isolated outline page-number noise while still catching the printed TOC page cleanly, since a real content page essentially never contains several distinct section titles that each belong elsewhere.
+
+**Alternatives Considered:**
+- **Consecutive-heading-run post-pass (the carry-forward's original proposal):** Rejected. It infers TOC-echo status from output shape (a long unbroken run of heading lines) rather than from the document's own structural data, which the carry-forward itself flagged as carrying false-positive risk on a legitimately dense outline section (e.g., an appendix index). It also could not be calibrated within this design project, which has no PDF execution access of its own — the threshold would have been a guess pending later validation in Claude Code.
+- **Line-level page-anchored suppression (no page-level concentration gate):** Considered as an intermediate design. Rejected in favor of the page-level gate because a single unreliable outline page number could silently drop one real heading with no visible failure signature — a worse failure mode than the documented "harmless duplication" (LL-052) it replaces. The page-level concentration requirement makes an isolated bad outline entry unable to trigger suppression on its own.
+
+**Validation:**
+Tested against the operator-provided Claude Sonnet 5 System Card (145 pages, uploaded this session) within this design project's sandbox — a deviation from this project's normal advise-not-execute posture, done explicitly at the operator's request to validate before delivery, consistent with the Coding Standards requirement to test after implementing. Results: printed TOC pages (4–7) accumulated 36–37 mismatched title matches each; every real content page accumulated zero — a wide, unambiguous margin around the `TOC_ZONE_MIN_MATCHES = 5` default. Heading count dropped from 302 to 155, with the diff showing only removals (147 lines), none of which correspond to real headings — output transitions seamlessly from Executive Summary directly into the real `## 1 Introduction`. `--no-toc-strip` output is byte-identical to the pre-P9 baseline, confirming zero regression when the feature is disabled. The Economic Index report's zero-artifact requirement holds by construction (the mechanism only activates when TOC mode is already active), not just by this test.
+
+**Consequences to Watch:**
+- The validation document has no duplicate TOC titles, so `build_toc_page_index()`'s duplicate-title handling (storing a set of valid pages per title, rather than overwriting) is validated by code review only, not by this test. Watch the next document with duplicate section titles.
+- `TOC_ZONE_MIN_MATCHES = 5` is validated with a wide margin on one document. Should be monitored, not assumed generalized, across the next several system card conversions.
+
+**References:** LL-052, LL-057, DM-118, carry-forward Item 1, pdf_to_markdown.py
+
+---
+
+## DM-123 | SESSION INSTRUCTIONS AUDITED AND REVISED FOR MAINTENANCE-MODE CURRENCY
+
+- **Date:** 2026-07-01
+- **Status:** ACTIVE
+
+**Decision:**
+The Session Instructions (Project Instructions setting) were audited for currency, fidelity to intent, and length-driven dilution, then revised. Confirmed changes: (1) all peak-hour scheduling material removed — Anthropic retired time-of-day usage effects, so the mechanism it described no longer exists; (2) the "does not execute" framing reframed to separate operating the live wiki (out of scope; the implementation project's role in Claude Code) from prototyping and validating tooling in this project's own sandbox (in scope), with in-sandbox validation established as proving a tool's logic, not its portability (LL-055); (3) the IN-001 hard-blocker gate removed as dead boilerplate (IN-001 long closed), the general P1-blocker principle retained via the `info_needs.md` file description rather than duplicated; (4) the Project Deliverables section and the Session Context Management restate ritual compressed to their load-bearing core; (5) the Delivery Rule strengthened with an explicit scope enumeration and a default-to-full-file-when-unclear clause; (6) the two End-of-Chat Ritual cross-reference bullets that policed `wiki-dashboard.py` removed — the dashboard is no longer an actively-maintained sync target — which narrows DM-107's three-script sync to `wiki-lint.py` + `wiki-verify.sh` (DM-107 amended accordingly).
+
+**Context:**
+Two rule-drift instances surfaced across the prior and current sessions — DM-111's Status field (corrected by DM-121) and a Delivery Rule violation on the stale backlog block (LL-058) — prompting a request to audit the governing document itself. The project has shifted from active eight-deliverable design to maintenance and incremental improvement, leaving several sections written for the design phase as dead weight.
+
+**Rationale:**
+The length-dilution hypothesis was tested, not assumed, and did not survive (see LL-059): the single most-violated stated rule (the Delivery Rule, 5 instances across the project's life) is also the most-reinforced and last-positioned rule, which a position- or length-driven dilution mechanism predicts should be among the least-violated. Every Delivery Rule violation was instead a scope-boundary ambiguity, so the corrective was to enumerate scope in the rule, not to shorten the document. The remaining cuts are justified independently on currency grounds: a section can be stale dead weight without having caused any violation, and retaining or indexing bloat is not a substitute for removing it.
+
+**Alternatives Considered:**
+- **Shorten the document as the fix for rule-adherence:** Rejected — the evidence falsified length as the violation mechanism. Cuts were made for currency, not to repair rule-following.
+- **Retain the IN-001 gate as permanently-true boilerplate:** Rejected — it reads as a live gate on a long-closed need, and the P1 principle already lives in the `info_needs.md` file description; keeping both duplicates the rule the audit exists to catch.
+- **Leave DM-107 unamended:** Rejected — the instructions and the decision log would then disagree on whether the dashboard is a governed sync target, the exact drift the cross-reference checks exist to prevent.
+
+**Consequences to Watch:**
+- The "does not execute" reframe now sanctions in-sandbox code execution for design validation. Watch that this does not erode the advise-not-implement posture into routinely doing the implementation project's work here.
+- The compressed Session Context Management section drops the verbatim session-start restatement ritual. Watch for context-warning misses; if they recur, the compression went too far.
+
+**References:** LL-055, LL-058, LL-059, DM-107, DM-111, DM-121, IN-001, carry-forward Item 1
+
+---
+
+## DM-124 | NO HAND-MAINTAINED TABLE OF CONTENTS IN GOVERNANCE FILES; GENERATED INDEX ONLY IF NAVIGATION PAIN RECURS
+
+- **Date:** 2026-07-01
+- **Status:** ACTIVE
+
+**Decision:**
+Do not add a hand-maintained table of contents or section index to any governance file (the Session Instructions, CLAUDE.md, OPERATIONS.md, or the append-only logs). Navigation relies on grep header-skeletons on the agent side and Obsidian's Outline / auto-TOC plugins on the operator's reading side — both derive from the live file and cannot drift. Escape hatch: if a concrete, recurring navigation pain surfaces specifically on CLAUDE.md or OPERATIONS.md, add a script-generated header index via pre-commit (the `generate-teaching-index.py` pattern), never a hand-written one. Do not build this speculatively.
+
+**Context:**
+Prompted by the operator asking whether each core governance file should begin with a TOC — like the wiki's own pages — so the agent could skip to relevant sections instead of reading linearly, after Claude noted the length of the governance files during the audit.
+
+**Rationale:**
+A TOC's "skip to the relevant part" benefit only materializes under chunked, tool-mediated reads; when a file loads whole into context (project knowledge, full-file view) it saves nothing and adds tokens, and semantic retrieval does not consult a TOC at all. Grep already provides no-drift, on-demand navigation — demonstrated in this audit, where a 1,766-line log was navigated by header-skeleton grep plus ranged reads with no stored index. Most decisively, a hand-maintained TOC is a second representation of the file's structure that must be kept in sync with the headers (and, if line-numbered, on every edit) — manufacturing precisely this project's most recurrent failure class, cross-reference / one-place-rule drift (LL-006, LL-009, LL-010, LL-029, LL-056). Obsidian's ecosystem confirms the pattern: even in-note TOC plugins regenerate from headings rather than being hand-maintained, because hand-maintained TOCs drift.
+
+**Alternatives Considered:**
+- **Hand-maintained TOC in every governance file:** Rejected — net-negative maintenance burden, near-zero agent benefit under whole-file loads, and it duplicates a capability grep and Obsidian already provide.
+- **Generated header index now, across all governance files:** Rejected as premature — grep already suffices; build only if a real navigation pain recurs, and only for the two large control documents.
+
+**Consequences to Watch:**
+- Recurring, specific navigation friction on CLAUDE.md or OPERATIONS.md would trigger the generated-index escape hatch. Absent that signal, do nothing.
+
+**References:** DM-123, LL-006, LL-009, LL-010, LL-029, LL-045, LL-056
+
+
+---
+
+## DM-125 | BACKLOG FILES ADOPTED AS A GOVERNANCE MECHANISM — ROLLING-EDIT MUTABILITY, STATUS-IN-TABLE-ONLY
+
+- **Date:** 2026-07-07
+- **Status:** ACTIVE
+
+**Decision:**
+Two prioritized backlog files are adopted as project artifacts: `design-project-backlog.md`
+(work queue for this design project, BL-D-NN IDs) and `wiki-implementation-backlog.md`
+(work queue for wiki implementation improvements, BL-W-NN IDs). Governing conventions:
+
+1. **Mutability model:** Rolling-edit working documents — items amended in place,
+   statuses updated as work proceeds, completed/dropped items retained with terminal
+   status. Explicitly not append-only; the governance logs' append-only discipline does
+   not apply to these files.
+2. **Anti-drift rule:** Item status and priority live only in each file's summary table;
+   detail blocks carry neither field. Dual representation of volatile fields is the
+   cross-reference-drift pattern this project's friction record warns against.
+3. **Lifecycle:** The carry-forward prompt references both files; any session that works
+   or reprioritizes an item delivers the updated backlog file per the Delivery Rule.
+   Both files are registered in the Session Instructions Project Files section.
+4. **Prioritization principle:** The wiki backlog's P1 ordering is driven by Fable 5
+   planning capture (unavailable after 2026-07-08) — frontier capacity is spent on
+   specification quality for the items whose failure modes are hardest to identify
+   (BL-W-01 through BL-W-04), not on execution, which Sonnet handles well against a
+   thorough spec.
+
+**Context:**
+A 2026-07-07 adversarial project assessment produced ~17 improvement recommendations
+across the design project and the wiki implementation. The project previously tracked
+next steps only through carry-forward prompts (single-session horizon) and info_needs.md
+(questions, not work items). Neither holds a prioritized multi-session work queue, and
+the imminent Fable 5 deprecation required an explicit ordering of which planning work to
+front-load.
+
+**Rationale:**
+A work queue and a question log are different structures: backlog items have priority,
+sequencing dependencies, model assignments, and status transitions — none of which
+info_needs.md's open/closed model represents. Carry-forward prompts are per-session and
+would require re-deriving the full queue each session. The rolling-edit model fits a work
+queue (statuses churn); the status-in-table-only rule prevents the intra-file drift that
+dual representation invites.
+
+**Alternatives Considered:**
+- **Track work items in info_needs.md:** Conflates questions with work; the IN
+  open/closed lifecycle cannot represent priority, dependencies, or model assignment.
+  Rejected.
+- **Carry-forward prompts as the only queue:** Single-session horizon; the full queue
+  would be re-derived or hand-copied each session, inviting loss and drift. Rejected.
+- **One combined backlog file:** The two queues have different executors (this project
+  vs. Claude Code sessions) and different read audiences; combining forces every session
+  to load both. Rejected.
+- **Append-only backlog with superseding entries:** Preserves history but makes the
+  current queue state a derivation rather than a reading; a work queue's value is
+  at-a-glance current state. Rejected.
+
+**Consequences to Watch:**
+- Backlog files are now a sync surface: a session that completes an item but does not
+  deliver the updated backlog leaves the queue stale. The carry-forward reference and
+  Delivery Rule are the mitigations; if staleness recurs, add a ritual step 6 check.
+- The status vocabulary (`open`/`planned`/`in-progress`/`done`/`dropped`/`gated`) should
+  be included in BL-D-02's governance self-lint scope when built.
+
+**References:** design-project-backlog.md, wiki-implementation-backlog.md, DM-123,
+LL-059, Session Instructions Project Files section
+
+
+---
+
+## DM-126 | DM-100/DM-101 RESTORED TO THE LOG; REFINEMENT-EXTENSION DOES NOT TRIGGER AMENDMENT STATUS
+
+- **Date:** 2026-07-07
+- **Status:** ACTIVE
+
+**Decision:**
+1. DM-100 and DM-101, absent from this log since their 2026-05-20 session (see LL-060),
+   are restored verbatim at the DM-099/DM-102 junction from operator-recovered originals.
+2. Both entries carry `Status: ACTIVE`. DM-101's three refinements to DM-100's
+   inter-chunk pause do **not** flip DM-100 to AMENDED, establishing an interpretive
+   precedent for the DM-121 coupling rule: **amendment status means "reading the original
+   alone will mislead you."** A later entry that extends, refines, or adds to an earlier
+   decision without reversing or narrowing anything it established leaves both entries
+   simultaneously operative and both ACTIVE. A later entry that changes what the earlier
+   entry prescribes — such that following the original as written would now be wrong —
+   flips it to AMENDED with the coupled `Amended By:` pointer.
+
+**Context:**
+During the 2026-07-07 restoration, the question arose whether DM-101 ("three refinements
+to the... pause (originally established in DM-100)") constituted an amendment under a
+strict DM-121 reading. DM-101 adds a firing point, manifest-continuation behavior, and a
+standing-authorization prohibition; it reverses nothing in DM-100 — the pause, its
+default-B framing, and its rationale all stand exactly as written.
+
+**Rationale:**
+The AMENDED status exists to protect a future reader from acting on superseded guidance.
+Flipping status on every downstream refinement would make AMENDED mean "has related later
+entries" — diluting the signal that matters (this entry is no longer safe to follow
+alone) and, at scale, marking most foundational decisions AMENDED as their protocols
+accrete detail. The misleads-alone test preserves the status's protective function.
+
+**Alternatives Considered:**
+- **Strict reading — any refinement flips the original:** Dilutes AMENDED into a
+  "see-also" marker; foundational entries in long refinement chains would all read as
+  superseded when they are not. Rejected.
+- **New status value (e.g., EXTENDED):** Adds vocabulary for information the References
+  field already carries; complicates the DM-121 coupling rule and every conformance
+  check. Rejected.
+
+**Consequences to Watch:**
+- The misleads-alone test requires judgment at logging time. If future sessions apply it
+  inconsistently — flipping on extensions or failing to flip on genuine supersessions —
+  codify the test into the governance-entry skill (design-project-backlog.md BL-D-04)
+  with worked examples, DM-100/DM-101 as the do-not-flip exemplar.
+- Long refinement chains (an entry refined three or more times, all ACTIVE) may still
+  mislead by fragmentation even when no single link supersedes another. If that pattern
+  emerges, the remedy is a consolidating entry that supersedes the whole chain — which
+  *would* flip every chain member to AMENDED — not a loosening of the test.
+
+**References:** DM-100, DM-101, DM-121, LL-060, FRIC-039, FRIC-040
+
+---
+
+## DM-127 | VOCABULARY.JSON SINGLE-SOURCE ARCHITECTURE ADOPTED FOR THE CONTROLLED VOCABULARIES (BL-W-01); EXECUTION SPEC DELIVERED
+
+- **Date:** 2026-07-07
+- **Status:** ACTIVE
+
+**Decision:**
+1. The `competency_domains` / `professional_contexts` controlled vocabularies move from
+   five-site manual synchronization to a single-source architecture: `vocabulary.json`
+   at the wiki repository root is the machine-readable source of truth, carrying `id`,
+   `label`, and (domains) `covers` — display labels and covers text are themselves
+   replicated vocabulary, so a values-only file would leave a residual second source.
+2. Consumers: wiki-lint.py reads the file at startup (fail-fast loader populating the
+   existing set names); wiki-verify.sh check 14 reads it via a POSIX-awk parser against
+   a normative line discipline, with a new check 16 guarding existence, format, and
+   non-empty extraction; a new `generate-vocab-artifacts.py` injects marker-delimited
+   generated blocks into TAGGING-SKILL.md Section 1 and ingest-ui-template.html.
+   CLAUDE.md Sections 7.1–7.2 remain human-written as the control document's
+   self-contained mirror, with exact agreement enforced by a new lint step (L18a);
+   generated-block drift is enforced by L18b via the generator's `--check` exit-code
+   contract. A new lint step L17 validates page frontmatter values against the loaded
+   sets.
+3. Migration executes as a single atomic-commit Claude Code session per
+   `vocabulary-json-refactor-spec.md` Sections 5–7. The DM-107 sync rule (as amended by
+   DM-123) **remains in force until execution is confirmed**; the Session Instructions
+   carry the replacement ritual step 6 text as a gated block that activates on the
+   execution report (spec Section 8).
+
+**Context:**
+BL-W-01, Fable 5 planning capture (operator direction 2026-07-07). Five replication
+sites synced by ritual checklist; project history (LL-033, LL-045, the friction log's
+cross-reference-drift record) says checklist-synced constants eventually diverge. Audit
+finding from this planning session: the wiki-lint.py constant sets were referenced by no
+check in the script — the DM-107 same-batch hard requirement had been synchronizing dead
+code, and page-level vocabulary conformance was enforced only by wiki-verify.sh. L17
+makes the constants live rather than deleting them, closing the latent gap. The awk
+reader, the vocabulary.json content, and the loud-failure direction of both negative
+paths (format violation, empty allowlist) were validated in the design-project sandbox;
+per LL-055 this establishes logic, not local portability — the spec carries a macOS
+verification note at migration Step 5.
+
+**Rationale:**
+Generator-not-hand-edit is this project's own recorded remedy for cross-reference drift.
+Runtime reads eliminate two sync sites outright; generation plus mechanical drift checks
+convert the remaining two from trust-the-checklist to lint-enforced; the one
+human-maintained mirror (CLAUDE.md) is the one whose divergence lint can prove. The
+ritual's two vocabulary sync bullets and the skill/plan agreement bullets collapse to a
+single generator-based rule.
+
+**Alternatives Considered:**
+- **Values-only JSON:** leaves labels and covers replicated in the template and skill
+  file. Rejected.
+- **python3 subprocess in wiki-verify.sh:** violates the script's own declared
+  environmental contract ("no yq, python, node") — the one tool designed to run when
+  everything else is broken should not gain a Python dependency. Rejected.
+- **jq:** not an environmental assumption of any confirmed component. Rejected.
+- **Generating the CLAUDE.md tables:** generation into the schema control document
+  inverts authority — the document governing the agent would be partially written by a
+  script the document specifies. Lint-checked mirror instead. Rejected.
+- **Including SOURCE_TYPES, credibility weights, or status vocabularies:** scope —
+  deferred with rationale in spec Section 10.
+- **Do nothing (keep the checklist):** viable short-term at the current change rate,
+  but the five-site sync burden recurs on every expansion and the dead-constant finding
+  shows the checklist was already protecting the wrong thing. Rejected.
+
+**Consequences to Watch:**
+- The line discipline puts a formatting burden on hand edits of vocabulary.json;
+  guarded at three points (generator validation, lint loader, check 16), all loud.
+- The gated Session Instructions swap must fire in the design-project session that
+  receives the execution report; until then the old sync rule governs. If the swap is
+  missed, the ritual and the repo disagree — the Section 8 batch checklist is the
+  prevention.
+- INIT-PROMPT.md must gain the vocabulary.json/generator creation step in the Section 8
+  batch, or a fresh init fails loudly at check 16 and the lint loader.
+- V-1 (generate-teaching-index.py vocabulary independence) is unverified until
+  execution; if it hardcodes the vocabulary, the spec is amended before commit.
+
+**References:** BL-W-01 (wiki-implementation-backlog.md), vocabulary-json-refactor-spec.md,
+DM-107, DM-123, DM-106, DM-109, LL-033, LL-040, LL-045, LL-055, test-harness.md
+Section 2.5, Session Instructions End-of-Chat Ritual step 6 (gated block)
