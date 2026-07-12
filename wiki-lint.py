@@ -26,6 +26,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 from collections import defaultdict
 from datetime import date, timedelta
@@ -95,33 +96,45 @@ SINGLETON_FILES = {
 # Skill files for L14 checks
 SKILL_FILES = ["EXTRACTION-SKILL.md", "TAGGING-SKILL.md", "CONTRADICTION-SKILL.md"]
 
-# Controlled vocabularies — CLAUDE.md Sections 7.1 and 7.2
-# MAINTENANCE: Update when vocabulary is extended via the procedure in OPERATIONS.md 11.6
-VALID_COMPETENCY_DOMAINS = {
-    "tool-evaluation-and-selection",
-    "practical-ai-use-and-interaction",
-    "ai-integration-in-organizational-workflows",
-    "output-verification-and-risk-assessment",
-    "ai-safety-and-alignment-literacy",
-    "capability-horizon-awareness",
-    "attribution-ip-and-professional-integrity",
-}
+# Controlled vocabularies — CLAUDE.md Sections 7.1 and 7.2 / vocabulary.json (DM-127)
+VOCABULARY_FILE = "vocabulary.json"
 
-VALID_PROFESSIONAL_CONTEXTS = {
-    "activism-and-civic-advocacy",
-    "non-profit-and-ngo-work",
-    "journalism-and-media",
-    "legal-practice",
-    "domestic-civil-service-and-public-administration",
-    "foreign-service-and-diplomacy",
-    "organizational-leadership-and-change-management",
-    "project-and-program-management",
-    "teaching-and-instruction",
-    "graduate-and-doctoral-education",
-    "professional-and-continuing-education",
-    "entrepreneurship-and-startups",
-    "software-and-ai-development",
-}
+
+def load_vocabulary():
+    """Load and validate vocabulary.json; exit fatally on any defect.
+
+    Returns the parsed dict. Fail-fast rationale: an absent or malformed
+    vocabulary file must never degrade into an empty allowlist that either
+    flags every page (noise) or passes every value (silent schema erosion).
+
+    Usage:
+        VOCABULARY = load_vocabulary()
+    """
+    if not os.path.exists(VOCABULARY_FILE):
+        sys.exit(f"FATAL: {VOCABULARY_FILE} not found at repo root. "
+                 "It is the controlled-vocabulary source of truth (DM-127).")
+    with open(VOCABULARY_FILE, encoding="utf-8") as f:
+        try:
+            vocab = json.load(f)
+        except json.JSONDecodeError as exc:
+            sys.exit(f"FATAL: {VOCABULARY_FILE} is not valid JSON: {exc}")
+    for key in ("competency_domains", "professional_contexts"):
+        entries = vocab.get(key)
+        if not isinstance(entries, list) or not entries:
+            sys.exit(f"FATAL: {VOCABULARY_FILE} key '{key}' missing or empty.")
+        for entry in entries:
+            if not re.fullmatch(r"[a-z0-9-]+", entry.get("id", "")):
+                sys.exit(f"FATAL: {VOCABULARY_FILE} '{key}' entry has a missing "
+                         f"or non-kebab-case id: {entry!r}")
+            if not entry.get("label"):
+                sys.exit(f"FATAL: {VOCABULARY_FILE} entry {entry.get('id')} "
+                         "is missing a label.")
+    return vocab
+
+
+VOCABULARY = load_vocabulary()
+VALID_COMPETENCY_DOMAINS = {e["id"] for e in VOCABULARY["competency_domains"]}
+VALID_PROFESSIONAL_CONTEXTS = {e["id"] for e in VOCABULARY["professional_contexts"]}
 
 # Valid status values by page type — CLAUDE.md Sections 5.2–5.6
 # MAINTENANCE: Update when status vocabulary changes for any page type
@@ -1329,6 +1342,45 @@ def check_L15_teaching_tagged_missing_fields(fm, page_slug, page_type):
         )
 
 
+def check_L17_vocabulary_conformance(fm, page_slug):
+    """
+    L17: page frontmatter vocabulary conformance (CLAUDE.md Sections 7.1-7.2, DM-127).
+
+    Every value in a page's competency_domains or professional_contexts field
+    must be a member of VALID_COMPETENCY_DOMAINS / VALID_PROFESSIONAL_CONTEXTS
+    (loaded from vocabulary.json). This duplicates wiki-verify.sh check 14 on
+    the Python side deliberately — verify is the operator-side guard, lint is
+    the agent-session guard.
+    """
+    for field, valid_set in (
+        ("competency_domains", VALID_COMPETENCY_DOMAINS),
+        ("professional_contexts", VALID_PROFESSIONAL_CONTEXTS),
+    ):
+        values = fm.get(field)
+        if not values:
+            continue
+        if isinstance(values, str):
+            values = [values]
+
+        for value in values:
+            if value not in valid_set:
+                add_finding(
+                    "L17", "forced-choice", page_slug,
+                    f"Invalid {field} value '{value}' on {page_slug}",
+                    {
+                        "page": page_slug,
+                        "field": field,
+                        "value": value,
+                        "criterion": "vocabulary_conformance",
+                        "options": {
+                            "A": "Correct to a valid value — agent proposes replacement",
+                            "B": "Operator supplies the correct value",
+                            "C": "Remove the value",
+                        },
+                    },
+                )
+
+
 def check_G1_wikilink_integrity(text, page_slug, valid_slugs):
     """
     G1: Check all wikilinks in page text against valid slug set.
@@ -2263,6 +2315,7 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
             check_L5c_data_records_freshness(body, page_slug)
             check_L8_pitfalls_maintenance(fm, body, page_slug)
             check_L15_teaching_tagged_missing_fields(fm, page_slug, page_type)
+            check_L17_vocabulary_conformance(fm, page_slug)
             check_G5_status_content_consistency(fm, body, page_slug, page_type, claims_rows)
             check_L11_schema_conformance(fm, body, page_slug, page_type, claims_rows, last_lint_date)
 
@@ -2570,6 +2623,143 @@ def check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path,
         )
 
 
+def check_L18a_claude_md_mirror_agreement(claude_md_text):
+    """
+    L18a: CLAUDE.md Sections 7.1/7.2 mirror agreement with vocabulary.json.
+
+    vocabulary.json is authoritative for vocabulary values, labels, and covers
+    text (DM-127). CLAUDE.md Sections 7.1-7.2 are a human-maintained mirror
+    kept for control-document readability — this check verifies exact
+    agreement in both directions: (a) id sets equal for both vocabularies;
+    (b) for competency_domains, the CLAUDE.md covers cell string-equals the
+    vocabulary.json covers value. Any mismatch is one informational finding.
+    """
+    if not claude_md_text:
+        add_finding(
+            "L18a", "informational", None,
+            "CLAUDE.md not found or unreadable — cannot verify vocabulary mirror agreement.",
+            {},
+        )
+        return
+
+    cd_section = re.search(
+        r"### 7\.1 Professional Competency Domains(.*?)### 7\.2 Professional Context Terms",
+        claude_md_text, re.DOTALL,
+    )
+    pc_section = re.search(
+        r"### 7\.2 Professional Context Terms(.*?)(?:### 7\.3|\Z)",
+        claude_md_text, re.DOTALL,
+    )
+    if not cd_section or not pc_section:
+        add_finding(
+            "L18a", "informational", None,
+            "CLAUDE.md Sections 7.1/7.2 not found in expected structure — "
+            "cannot verify vocabulary mirror agreement.",
+            {},
+        )
+        return
+
+    remediation = (
+        "edit the CLAUDE.md Section 7.1/7.2 mirror table or vocabulary.json so "
+        "they agree — vocabulary.json is authoritative for values."
+    )
+
+    claude_cd = dict(re.findall(r"\|\s*`([a-z0-9-]+)`\s*\|\s*([^|]+?)\s*\|", cd_section.group(1)))
+    claude_pc_ids = set(re.findall(r"\|\s*`([a-z0-9-]+)`\s*\|", pc_section.group(1)))
+
+    vocab_cd = {e["id"]: e["covers"] for e in VOCABULARY["competency_domains"]}
+    vocab_pc_ids = {e["id"] for e in VOCABULARY["professional_contexts"]}
+
+    for missing_id in sorted(set(claude_cd) - set(vocab_cd)):
+        add_finding(
+            "L18a", "informational", None,
+            f"competency_domains id '{missing_id}' present in CLAUDE.md Section 7.1 "
+            "but not in vocabulary.json",
+            {"id": missing_id, "field": "competency_domains", "side": "claude_md_only",
+             "remediation": remediation},
+        )
+    for missing_id in sorted(set(vocab_cd) - set(claude_cd)):
+        add_finding(
+            "L18a", "informational", None,
+            f"competency_domains id '{missing_id}' present in vocabulary.json "
+            "but not in CLAUDE.md Section 7.1",
+            {"id": missing_id, "field": "competency_domains", "side": "vocabulary_json_only",
+             "remediation": remediation},
+        )
+    for shared_id in sorted(set(claude_cd) & set(vocab_cd)):
+        if claude_cd[shared_id] != vocab_cd[shared_id]:
+            add_finding(
+                "L18a", "informational", None,
+                f"competency_domains '{shared_id}' covers text differs between "
+                "CLAUDE.md Section 7.1 and vocabulary.json",
+                {"id": shared_id, "field": "covers",
+                 "claude_md_value": claude_cd[shared_id],
+                 "vocabulary_json_value": vocab_cd[shared_id],
+                 "remediation": remediation},
+            )
+
+    for missing_id in sorted(claude_pc_ids - vocab_pc_ids):
+        add_finding(
+            "L18a", "informational", None,
+            f"professional_contexts id '{missing_id}' present in CLAUDE.md Section 7.2 "
+            "but not in vocabulary.json",
+            {"id": missing_id, "field": "professional_contexts", "side": "claude_md_only",
+             "remediation": remediation},
+        )
+    for missing_id in sorted(vocab_pc_ids - claude_pc_ids):
+        add_finding(
+            "L18a", "informational", None,
+            f"professional_contexts id '{missing_id}' present in vocabulary.json "
+            "but not in CLAUDE.md Section 7.2",
+            {"id": missing_id, "field": "professional_contexts", "side": "vocabulary_json_only",
+             "remediation": remediation},
+        )
+
+
+def check_L18b_generated_artifact_consistency():
+    """
+    L18b: generated-block agreement with vocabulary.json, via
+    `python3 generate-vocab-artifacts.py --check`.
+
+    Exit-code contract (vocabulary-json-refactor-spec.md Section 4.4 item 5):
+      0 — in sync: no finding.
+      1 — drift: informational finding with mandatory remediation.
+      2 — fatal: wiki-lint.py itself exits fatally, mirroring the loader's
+          fail-fast posture (missing/duplicated markers or invalid vocabulary.json).
+    """
+    script = "generate-vocab-artifacts.py"
+    if not os.path.exists(script):
+        sys.exit(
+            f"FATAL: {script} not found at repo root — cannot verify generated "
+            "vocabulary artifact consistency (DM-127)."
+        )
+
+    try:
+        result = subprocess.run(
+            [sys.executable, script, "--check"],
+            capture_output=True, text=True,
+        )
+    except OSError as exc:
+        sys.exit(f"FATAL: could not run {script} --check: {exc}")
+
+    if result.returncode == 0:
+        return
+    if result.returncode == 1:
+        add_finding(
+            "L18b", "informational", None,
+            "Generated vocabulary artifacts are out of sync with vocabulary.json.",
+            {
+                "stdout": result.stdout.strip(),
+                "remediation": "run python3 generate-vocab-artifacts.py and commit the regenerated files",
+            },
+        )
+        return
+    sys.exit(
+        f"FATAL: {script} --check exited {result.returncode} — vocabulary.json "
+        f"or a generated-block marker is invalid.\n{result.stderr.strip()}"
+    )
+
+
 # ─── Findings File Writer ─────────────────────────────────────────────────────
 
 def write_findings_file(wiki_stats):
@@ -2664,6 +2854,7 @@ def main():
     queue_text = read_file("raw/queue.md")
     log_text = read_file("log.md")
     wll_text = read_file("wiki-lessons-learned.md")
+    claude_md_text = read_file("CLAUDE.md")
 
     overview_fm, _ = parse_frontmatter(overview_text)
     last_lint_raw = overview_fm.get("last_lint")
@@ -2727,6 +2918,8 @@ def main():
     check_L7_concept_gaps(page_prose, index_slugs, valid_slugs)
     check_L9_decay_exempt(page_claims, source_info, log_text)
     check_L16_wikilink_proliferation(entity_pages_fm, valid_slugs, slug_to_path, page_prose)
+    check_L18a_claude_md_mirror_agreement(claude_md_text)
+    check_L18b_generated_artifact_consistency()
 
     # ── Build wiki_stats for findings file ─────────────────────────────────
     # (counts_by_type and total_indexed already computed above)

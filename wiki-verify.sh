@@ -18,6 +18,8 @@
 #   - Standard POSIX tools: grep, find, wc, awk, ls (no yq, python, node)
 #   - Executed from the wiki repository root (directory containing CLAUDE.md)
 #   - .git/ directory present (initialized git repository)
+#   - vocabulary.json present at repo root with the normative line discipline
+#     (vocabulary-json-refactor-spec.md Section 4.1, FD-1 through FD-6)
 #
 # Limitations:
 #   - YAML field checks use grep, not a YAML parser. Field presence is
@@ -29,6 +31,10 @@
 #   - "index.md" absence check emits WARN (not FAIL) because the string may
 #     legitimately appear in a comment explaining NOT to add it.
 #   - Pre-commit hook is inspected for expected content, not executed.
+#   - The vocabulary.json reader (load_vocab_allowlists, checks 14 and 16) is a
+#     format-disciplined line parser, not a JSON parser. It depends on the
+#     file's normative line discipline (one entry object per line, fixed key
+#     order) rather than general-purpose JSON syntax.
 
 # ─── Output helpers ──────────────────────────────────────────────────────────
 PASS_COUNT=0
@@ -88,6 +94,57 @@ check_yaml_value() {
         pass "$file: $field = $expected"
     else
         fail "$file: $field = '$val', expected '$expected'"
+    fi
+}
+
+# load_vocab_allowlists — read vocabulary.json into VALID_CD/VALID_PC once.
+# Populates: VALID_CD (array), VALID_PC (array), VJ_FILE_MISSING (0/1),
+# VJ_FORMAT_LINES (array of offending line numbers), VJ_FAIL (0/1 — set when
+# the file is missing, any line fails the format guard, or either extracted
+# list is empty). Pure data collection — no fail()/pass() calls here; check 14
+# and check 16 each interpret this recorded state through their own lens so
+# the awk pass runs exactly once (vocabulary-json-refactor-spec.md Section 4.3.2).
+load_vocab_allowlists() {
+    VOCAB_FILE="vocabulary.json"
+    VALID_CD=()
+    VALID_PC=()
+    VJ_FILE_MISSING=0
+    VJ_FORMAT_LINES=()
+    VJ_FAIL=0
+
+    if [ ! -f "$VOCAB_FILE" ]; then
+        VJ_FILE_MISSING=1
+        VJ_FAIL=1
+        return
+    fi
+
+    while IFS= read -r vj_line; do
+        case "$vj_line" in
+            cd:*)     VALID_CD[${#VALID_CD[@]}]="${vj_line#cd:}" ;;
+            pc:*)     VALID_PC[${#VALID_PC[@]}]="${vj_line#pc:}" ;;
+            FORMAT:*) VJ_FORMAT_LINES[${#VJ_FORMAT_LINES[@]}]="${vj_line#FORMAT:}"; VJ_FAIL=1 ;;
+        esac
+    done < <(awk '
+        /^  "competency_domains": \[$/    { list = "cd"; next }
+        /^  "professional_contexts": \[$/ { list = "pc"; next }
+        /^  \],?$/                        { list = "";   next }
+        list != "" {
+            if ($0 ~ /^    \{"id": "[a-z0-9-]+", "label": "[^"\\]+"(, "covers": "[^"\\]+")?\},?$/) {
+                id = $0
+                sub(/^    \{"id": "/, "", id)
+                sub(/".*$/, "", id)
+                print list ":" id
+            } else {
+                print "FORMAT:" NR
+            }
+        }
+    ' "$VOCAB_FILE")
+
+    if [ "${#VALID_CD[@]}" -eq 0 ]; then
+        VJ_FAIL=1
+    fi
+    if [ "${#VALID_PC[@]}" -eq 0 ]; then
+        VJ_FAIL=1
     fi
 }
 
@@ -578,36 +635,29 @@ printf "\n--- 14. Controlled vocabulary conformance (Section 7.1/7.2) ---\n"
 # Limitation: detects YAML block-list format only (  - value per line). A
 # flow-sequence value on the same line as the field key is not detected.
 #
-# MAINTENANCE: when a vocabulary term is added or removed in CLAUDE.md Sections
-# 7.1 or 7.2, update VALID_CD or VALID_PC below before the next session.
-# Failure to update causes false FAILs on every page using the new term.
-# See test-harness.md Section 2.5.
+# Allowlists are read from vocabulary.json (source of truth — DM-127) via
+# load_vocab_allowlists(), called once here; check 16 reports on the same
+# recorded parse rather than re-running it, so the awk pass runs exactly
+# once. The format discipline (one entry per line, fixed key order, no
+# backslashes or embedded quotes in values) is normative; see
+# vocabulary-json-refactor-spec.md Section 4.1. Any line inside either array
+# that does not match the entry pattern is a format violation (loud FAIL),
+# never a silent skip.
 
-VALID_CD=(
-    "tool-evaluation-and-selection"
-    "practical-ai-use-and-interaction"
-    "ai-integration-in-organizational-workflows"
-    "output-verification-and-risk-assessment"
-    "ai-safety-and-alignment-literacy"
-    "capability-horizon-awareness"
-    "attribution-ip-and-professional-integrity"
-)
+load_vocab_allowlists
 
-VALID_PC=(
-    "activism-and-civic-advocacy"
-    "non-profit-and-ngo-work"
-    "journalism-and-media"
-    "legal-practice"
-    "domestic-civil-service-and-public-administration"
-    "foreign-service-and-diplomacy"
-    "organizational-leadership-and-change-management"
-    "project-and-program-management"
-    "teaching-and-instruction"
-    "graduate-and-doctoral-education"
-    "professional-and-continuing-education"
-    "entrepreneurship-and-startups"
-    "software-and-ai-development"
-)
+if [ "$VJ_FILE_MISSING" = "1" ]; then
+    fail "vocabulary.json not found at repo root — controlled-vocabulary source of truth is missing"
+fi
+for vj_bad_line in "${VJ_FORMAT_LINES[@]}"; do
+    fail "vocabulary.json format violation at line $vj_bad_line — see format discipline in vocabulary-json-refactor-spec.md"
+done
+if [ "$VJ_FILE_MISSING" = "0" ] && [ "${#VALID_CD[@]}" -eq 0 ]; then
+    fail "vocabulary.json yielded an empty competency_domains allowlist — refusing to run conformance with an empty allowlist"
+fi
+if [ "$VJ_FILE_MISSING" = "0" ] && [ "${#VALID_PC[@]}" -eq 0 ]; then
+    fail "vocabulary.json yielded an empty professional_contexts allowlist — refusing to run conformance with an empty allowlist"
+fi
 
 vc_in_list() {
     local needle="$1"; shift
@@ -618,38 +668,44 @@ vc_in_list() {
 }
 
 VC_FAIL=0
-for d in topics tools sources comparisons pitfalls teaching; do
-    [ -d "$d" ] || continue
-    while IFS= read -r filepath; do
-        while IFS=: read -r vc_field vc_val; do
-            if [ "$vc_field" = "competency_domains" ]; then
-                if ! vc_in_list "$vc_val" "${VALID_CD[@]}"; then
-                    fail "Invalid competency_domains value '$vc_val' in: $filepath"
-                    VC_FAIL=1
+if [ "$VJ_FAIL" = "1" ]; then
+    # Allowlists are unusable — skip the per-page loop; the FAILs already
+    # emitted above carry the failure (vocabulary-json-refactor-spec.md 4.3.1).
+    VC_FAIL=1
+else
+    for d in topics tools sources comparisons pitfalls teaching; do
+        [ -d "$d" ] || continue
+        while IFS= read -r filepath; do
+            while IFS=: read -r vc_field vc_val; do
+                if [ "$vc_field" = "competency_domains" ]; then
+                    if ! vc_in_list "$vc_val" "${VALID_CD[@]}"; then
+                        fail "Invalid competency_domains value '$vc_val' in: $filepath"
+                        VC_FAIL=1
+                    fi
+                elif [ "$vc_field" = "professional_contexts" ]; then
+                    if ! vc_in_list "$vc_val" "${VALID_PC[@]}"; then
+                        fail "Invalid professional_contexts value '$vc_val' in: $filepath"
+                        VC_FAIL=1
+                    fi
                 fi
-            elif [ "$vc_field" = "professional_contexts" ]; then
-                if ! vc_in_list "$vc_val" "${VALID_PC[@]}"; then
-                    fail "Invalid professional_contexts value '$vc_val' in: $filepath"
-                    VC_FAIL=1
-                fi
-            fi
-        done < <(awk '
-            /^---/               { delim++; if (delim >= 2) exit; next }
-            delim != 1           { next }
-            /^competency_domains:/    { in_cd=1; in_pc=0; next }
-            /^professional_contexts:/ { in_pc=1; in_cd=0; next }
-            /^[a-z_][a-z_-]*:/  { in_cd=0; in_pc=0; next }
-            (in_cd || in_pc) && /^[[:space:]]+-[[:space:]]/ {
-                val = $0
-                gsub(/^[[:space:]]+-[[:space:]]+/, "", val)
-                gsub(/^"/,  "", val)
-                gsub(/"[[:space:]]*$/, "", val)
-                gsub(/\r/, "", val)
-                print (in_cd ? "competency_domains" : "professional_contexts") ":" val
-            }
-        ' "$filepath")
-    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
-done
+            done < <(awk '
+                /^---/               { delim++; if (delim >= 2) exit; next }
+                delim != 1           { next }
+                /^competency_domains:/    { in_cd=1; in_pc=0; next }
+                /^professional_contexts:/ { in_pc=1; in_cd=0; next }
+                /^[a-z_][a-z_-]*:/  { in_cd=0; in_pc=0; next }
+                (in_cd || in_pc) && /^[[:space:]]+-[[:space:]]/ {
+                    val = $0
+                    gsub(/^[[:space:]]+-[[:space:]]+/, "", val)
+                    gsub(/^"/,  "", val)
+                    gsub(/"[[:space:]]*$/, "", val)
+                    gsub(/\r/, "", val)
+                    print (in_cd ? "competency_domains" : "professional_contexts") ":" val
+                }
+            ' "$filepath")
+        done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+    done
+fi
 
 if [ "$VC_FAIL" = "0" ]; then
     pass "All competency_domains and professional_contexts values match controlled vocabulary"
@@ -692,6 +748,64 @@ done
 
 if [ "$MTF_WARN" = "0" ]; then
     pass "All teaching-tagged pages have required competency_domains and professional_contexts fields"
+fi
+
+# ─── 16. vocabulary.json presence and format ────────────────────────────────
+printf "\n--- 16. vocabulary.json presence and format (DM-127) ---\n"
+# Reports on the same parse recorded by load_vocab_allowlists() in check 14
+# (called once, above) rather than re-running the awk pass — see
+# vocabulary-json-refactor-spec.md Section 4.3.2. Distinct from check 14:
+# this check validates vocabulary.json as a well-formed artifact in its own
+# right (existence, schema_version marker, format discipline, non-empty
+# lists, no duplicate ids), independent of whether any page frontmatter
+# currently uses these values.
+
+V16_FAIL=0
+
+if [ "$VJ_FILE_MISSING" = "1" ]; then
+    fail "vocabulary.json not found at repo root"
+    V16_FAIL=1
+else
+    if ! grep -q '"schema_version"' "$VOCAB_FILE" 2>/dev/null; then
+        fail "vocabulary.json missing schema_version field"
+        V16_FAIL=1
+    fi
+
+    if [ "${#VJ_FORMAT_LINES[@]}" -gt 0 ]; then
+        for vj_bad_line in "${VJ_FORMAT_LINES[@]}"; do
+            fail "vocabulary.json format violation at line $vj_bad_line"
+        done
+        V16_FAIL=1
+    fi
+
+    if [ "${#VALID_CD[@]}" -eq 0 ]; then
+        fail "vocabulary.json competency_domains list is empty"
+        V16_FAIL=1
+    fi
+    if [ "${#VALID_PC[@]}" -eq 0 ]; then
+        fail "vocabulary.json professional_contexts list is empty"
+        V16_FAIL=1
+    fi
+
+    VJ_CD_DUPES=$(printf '%s\n' "${VALID_CD[@]}" | sort | uniq -d)
+    if [ -n "$VJ_CD_DUPES" ]; then
+        while IFS= read -r vj_dup; do
+            fail "vocabulary.json competency_domains contains duplicate id: $vj_dup"
+        done <<< "$VJ_CD_DUPES"
+        V16_FAIL=1
+    fi
+
+    VJ_PC_DUPES=$(printf '%s\n' "${VALID_PC[@]}" | sort | uniq -d)
+    if [ -n "$VJ_PC_DUPES" ]; then
+        while IFS= read -r vj_dup; do
+            fail "vocabulary.json professional_contexts contains duplicate id: $vj_dup"
+        done <<< "$VJ_PC_DUPES"
+        V16_FAIL=1
+    fi
+fi
+
+if [ "$V16_FAIL" = "0" ]; then
+    pass "vocabulary.json is present, well-formed, and free of duplicate ids"
 fi
 
 # ─── Summary ─────────────────────────────────────────────────────────────────

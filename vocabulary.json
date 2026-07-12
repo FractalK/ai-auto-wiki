@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "comment": "Single source of truth for the controlled vocabularies in CLAUDE.md Sections 7.1-7.2. Edit here, update the CLAUDE.md mirror tables, then run: python3 generate-vocab-artifacts.py. Line discipline is load-bearing for wiki-verify.sh: one entry object per line, keys in order id/label/covers, double quotes, no backslashes or embedded quotes in values.",
+  "competency_domains": [
+    {"id": "tool-evaluation-and-selection", "label": "Tool Evaluation and Selection", "covers": "Assessing and choosing AI tools for specific use cases"},
+    {"id": "practical-ai-use-and-interaction", "label": "Practical AI Use and Interaction", "covers": "Task-level use: prompting, iteration, output refinement"},
+    {"id": "ai-integration-in-organizational-workflows", "label": "AI Integration in Organizational Workflows", "covers": "Embedding AI into multi-actor processes with accountability structures"},
+    {"id": "output-verification-and-risk-assessment", "label": "Output Verification and Risk Assessment", "covers": "Checking outputs and evaluating workflow failure modes"},
+    {"id": "ai-safety-and-alignment-literacy", "label": "AI Safety and Alignment Literacy", "covers": "Understanding alignment tradeoffs and safety-relevant behaviors"},
+    {"id": "capability-horizon-awareness", "label": "Capability Horizon Awareness", "covers": "Tracking emerging capabilities and their taxonomies"},
+    {"id": "attribution-ip-and-professional-integrity", "label": "Attribution, IP, and Professional Integrity", "covers": "Attribution norms, IP considerations, and disclosure practices across academic and professional contexts"}
+  ],
+  "professional_contexts": [
+    {"id": "activism-and-civic-advocacy", "label": "Activism and Civic Advocacy"},
+    {"id": "non-profit-and-ngo-work", "label": "Non-Profit and NGO Work"},
+    {"id": "journalism-and-media", "label": "Journalism and Media"},
+    {"id": "legal-practice", "label": "Legal Practice"},
+    {"id": "domestic-civil-service-and-public-administration", "label": "Domestic Civil Service and Public Administration"},
+    {"id": "foreign-service-and-diplomacy", "label": "Foreign Service and Diplomacy"},
+    {"id": "organizational-leadership-and-change-management", "label": "Organizational Leadership and Change Management"},
+    {"id": "project-and-program-management", "label": "Project and Program Management"},
+    {"id": "teaching-and-instruction", "label": "Teaching and Instruction"},
+    {"id": "graduate-and-doctoral-education", "label": "Graduate and Doctoral Education"},
+    {"id": "professional-and-continuing-education", "label": "Professional and Continuing Education"},
+    {"id": "entrepreneurship-and-startups", "label": "Entrepreneurship and Startups"},
+    {"id": "software-and-ai-development", "label": "Software and AI Development"}
+  ]
+}

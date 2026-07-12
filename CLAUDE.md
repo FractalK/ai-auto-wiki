@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 06/05/2026 21:49 EDT
+**Last Updated:** 07/11/2026 20:16 EDT
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -55,6 +55,8 @@ wiki/
 ├── TAGGING-SKILL.md             ← teaching relevance tagging examples; excluded from Quartz
 ├── CONTRADICTION-SKILL.md       ← contradiction path examples; excluded from Quartz
 ├── wiki-lint.py                 ← lint script; reads all wiki files, writes raw/lint-findings.json
+├── vocabulary.json              ← controlled-vocabulary source of truth (Sections 7.1–7.2); read by wiki-lint.py and wiki-verify.sh; input to generate-vocab-artifacts.py
+├── generate-vocab-artifacts.py  ← regenerates the vocabulary blocks in TAGGING-SKILL.md and ingest-ui-template.html from vocabulary.json
 ├── index.md                     ← singleton; catalog of all pages
 ├── overview.md                  ← singleton; wiki entry point and counters
 ├── log.md                       ← singleton; append-only operation log
@@ -1089,8 +1091,17 @@ Both vocabularies are controlled. Do not use values outside these lists during i
 or tagging. If a concept does not map to any existing term, surface the gap rather than
 inventing a new tag.
 
+vocabulary.json at the repository root is the machine-readable source of truth for
+vocabulary values, display labels, and covers text. The tables in Sections 7.1 and 7.2
+are a human-readable mirror of that file; lint enforces exact agreement between them
+(step L18). The vocabulary blocks in TAGGING-SKILL.md and ingest-ui-template.html are
+generated from vocabulary.json by generate-vocab-artifacts.py — never edit those blocks
+by hand.
+
 Additions to either vocabulary require a schema revision and a DM entry in the design
-project governance log.
+project governance log, and are applied via the vocabulary expansion procedure in
+OPERATIONS.md Section 11.6: edit vocabulary.json, update the mirror tables in this
+section, run the generator, and confirm lint steps L17/L18 pass.
 
 ### 7.1 Professional Competency Domains
 

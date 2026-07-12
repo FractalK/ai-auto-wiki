@@ -20,6 +20,9 @@ These are the only permitted values for `competency_domains` and `professional_c
 Do not use values outside these lists. Do not paraphrase or shorten them. If a concept
 does not map to any existing term, surface the gap rather than inventing a new tag.
 
+The tables below are generated from vocabulary.json. Do not edit them here.
+
+<!-- BEGIN GENERATED VOCABULARY — source: vocabulary.json; do not edit by hand; run: python3 generate-vocab-artifacts.py -->
 ### 1.1 Professional Competency Domains
 
 | Value (use exactly as shown) | Covers |
@@ -49,6 +52,7 @@ does not map to any existing term, surface the gap rather than inventing a new t
 | `professional-and-continuing-education` |
 | `entrepreneurship-and-startups` |
 | `software-and-ai-development` |
+<!-- END GENERATED VOCABULARY -->
 
 ---
 

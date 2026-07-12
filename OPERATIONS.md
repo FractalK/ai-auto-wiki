@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 06/05/2026 21:49 EDT
+**Last Updated:** 07/11/2026 20:16 EDT
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -2504,11 +2504,21 @@ When CLAUDE.md Section 7.1 (competency domains) or Section 7.2 (professional con
 extended with a new term, existing tagged pages are not automatically re-evaluated. No lint
 step performs retroactive vocabulary matching. A targeted manual pass is required.
 
-**Trigger:** A new vocabulary term has been added to CLAUDE.md Section 7.1 or 7.2 and a DM
-entry confirms the addition.
+**Trigger:** A new vocabulary term has been added to vocabulary.json and the CLAUDE.md
+Section 7.1 or 7.2 mirror (see Value registration below) and a DM entry confirms the addition.
 
 **Scope:** All pages with `teaching_relevance: true` in frontmatter. Pages with `status: stub`
 are excluded per TAGGING-SKILL.md Step 1.
+
+**Value registration (perform before the retroactive pass below):**
+
+a. Add the new entry to vocabulary.json (id, label, and — for competency domains —
+   covers), preserving the file's line discipline.
+b. Add the matching row to the CLAUDE.md Section 7.1 or 7.2 mirror table.
+c. Run `python3 generate-vocab-artifacts.py`; commit the regenerated TAGGING-SKILL.md
+   and/or ingest-ui-template.html together with vocabulary.json and CLAUDE.md.
+d. Run `python3 wiki-lint.py` and confirm no L17/L18 findings, and `bash
+   wiki-verify.sh` and confirm checks 14 and 16 pass.
 
 **Procedure:**
 
