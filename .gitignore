@@ -24,6 +24,11 @@ lint-decisions.html
 # Wiki: lint script output — ephemeral, deleted after Phase 3 completes
 lint-findings.json
 
+# Wiki: structured-data extraction artifacts — regenerated in full on every
+# lint run, never hand-edited, not deleted by Phase 3 (BL-W-02, DM-128)
+raw/claims.json
+raw/data-records.json
+
 # Keep .gitkeep files in tracked empty directories
 !**/.gitkeep
 wiki-dashboard.html

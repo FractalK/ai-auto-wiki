@@ -1203,14 +1203,16 @@ single pass):
 - **Group A (singleton reads):** L1, L1a, L2, G2. Read queue.md and index.md. G2
   cross-checks index.md entries against the filesystem (enhances L2).
 - **Group B (per-page assessment):** L3, L4a, L4b, L5, L5a, L5b, L5c, L8, L9, L11,
-  L15, G3, G5. For each page, run ALL applicable per-page checks simultaneously. Pages
-  are processed in directory order: topics/, tools/, comparisons/, pitfalls/, sources/,
-  teaching/. Within each directory, alphabetical order.
+  L15, L19 (accumulation), G3, G5. For each page, run ALL applicable per-page checks
+  simultaneously. Pages are processed in directory order: topics/, tools/, comparisons/,
+  pitfalls/, sources/, teaching/. Within each directory, alphabetical order.
 - **Group C (cross-page analysis and non-page reads):** L4c, L6, L16, L7, L10, L12, L12a,
-  L12b, L12c, L12d, L14, G1, G4. These steps operate on aggregated data from Group B
-  or on specific non-page files. L6, L7, and G1 use targeted grep/scan, not full page
-  reads. L16 uses entity frontmatter and prose accumulated during Group B. G4 uses
-  counter data from overview.md and the CTRD-NNN ID set assembled during Group B.
+  L12b, L12c, L12d, L14, L19 (serialization), L20, G1, G4. These steps operate on
+  aggregated data from Group B or on specific non-page files. L6, L7, and G1 use targeted
+  grep/scan, not full page reads. L16 uses entity frontmatter and prose accumulated
+  during Group B. G4 uses counter data from overview.md and the CTRD-NNN ID set assembled
+  during Group B. L19 serializes the claim and data-record structures accumulated during
+  Group B; L20 consumes them without further page reads.
 
 **Pre-session and Step L0 (before any agent step):**
 
@@ -1255,6 +1257,13 @@ the script assembled data but the agent must complete a judgment element:
   Signals entry in Phase 3.
 - **L5** (teaching-brief): confirm or override the default recommendation (A) for stale
   teaching briefs.
+- **L20** (contradiction pre-screen): apply the CONTRADICTION-SKILL.md Section 1.4
+  existence check to each `contradiction_prescreen` item using only the payload fields.
+  Mark dismissed items `dismissed: true` with a one-clause reason (this is the precision
+  telemetry the Section 4.6 tuning procedure consumes). Promote confirmed items to the
+  forced-choice format in structured-data-extraction-spec.md Section 4.5. May require
+  reading the two named pages only when the payload is insufficient to judge — never
+  the corpus.
 
 After the judgment pass: merge results into the findings (set `recommended` values,
 promote confirmed items, dismiss false positives). Proceed to Step L13.
@@ -1564,6 +1573,50 @@ same insertion logic as options A and B.
 `[[target-slug]]` around the first occurrence of the matched term in each affected prose
 section. Do not link subsequent occurrences of the same term on the same page. Do not
 modify Key Claims tables, section headers, frontmatter fields, or code blocks.
+
+**Step L19 — Structured-data extraction and serialization**
+*(Group C — serialization. Consumes the Key Claims and Data Records rows already
+parsed for L3/L9/L11/L5c during Group B; no page is re-read.)*
+
+Serializes every Key Claims table (Topic/Tool pages) and every `## Data Records` table
+(Topic/Tool/Comparison pages) into two machine-readable JSON artifacts: `raw/claims.json`
+and `raw/data-records.json`. Data Records are serialized first — their canonical metric
+names define the "metric universe" used to detect quantitative signatures in Key Claims
+(structured-data-extraction-spec.md Section 4.3.4). A Data Records row missing any of
+its six required columns is skipped with a per-row informational warning rather than
+halting the pass — schema enforcement itself remains L11's job. Emits one informational
+finding summarizing: pages contributing, claims serialized, records serialized, rows
+skipped as malformed, and claims carrying a quantitative signature. The artifacts are
+regenerated in full on every run and are never hand-edited. `raw/claims.json` and
+`raw/data-records.json` are gitignored.
+
+**Step L20 — Contradiction pre-screen**
+*(Group C — consumes the in-memory structures L19 serialized; no further page reads.)*
+
+Matches quantitative assertions across the claims.json/data-records.json produced by L19
+and surfaces divergence candidates for the agent's existing contradiction judgment
+(CONTRADICTION-SKILL.md Section 1.4 existence check). Four candidate classes, each
+requiring comparable, divergent values (structured-data-extraction-spec.md Section 4.3.3):
+
+- **Class 1 (KC<->KC, cross-page):** claim pairs on different pages, both `status:
+  current`, sharing a matched metric, passing the claim-similarity entity guard.
+  Excludes claims with an open CTRD flag.
+- **Class 2 (DR<->KC, same page only):** a claim and a same-page Data Record sharing a
+  metric, where the record's measurement postdates the claim — the CLAUDE.md Section 6.6
+  tension case.
+- **Class 3a (DR<->DR inconsistent replication):** same metric, same measurement month,
+  overlapping sources, similar conditions, but divergent values across two pages — a
+  transcription defect, not a contradiction.
+- **Class 3b (DR<->DR supersession asymmetry):** one page received a newer measurement
+  append that another page, sharing the same metric/source/conditions, did not.
+
+Classes 1–2 produce `agent_review` items (`review_type: contradiction_prescreen`);
+Classes 3a/3b produce informational findings only and are never promotable to a
+contradiction review item. Class 1+2 candidates are capped at `MAX_PRESCREEN_CANDIDATES`
+(10) per run, ranked Class 2 before Class 1, then by descending relative divergence,
+then descending claim similarity; overflow candidates are deferred (re-derived, not
+dropped) with an informational finding stating the deferred count. Confirmed candidates
+always take Path B — see CLAUDE.md Section 8.2, lint-channel path rule.
 
 **Step G1 — Wikilink integrity**
 *(Group C — executes after all Group B page reads are complete. Requires the full valid
@@ -2056,6 +2109,13 @@ skill file enrichment in the next ingest session.
 2. Write updated support scores to Key Claims tables on all marked pages.
 3. Process expired contradiction flags: apply window-expired-confirmed state changes
    per Section 8.4.
+3a. Process confirmed lint-prescreen contradiction candidates (Step L20): for each
+    confirmed candidate, create the `open_contradictions` frontmatter entry and inline
+    Status-cell marker per Section 8.3 with `path: human-review` on the contested
+    claim's page; log a `contradiction-flag` entry with an added `channel:
+    lint-prescreen` line; update `overview.md`'s `open_contradictions` counter. From
+    this point the flag is indistinguishable from an ingest-created Path B flag — the
+    7-day override window, Step L4a expiry, and Step L4b surfacing all apply unchanged.
 4. Update `status` to `stale` on all marked Topic, Tool, and Comparison pages.
 4a. Apply confirmed stale → current upgrades from Step L5a: set `status: current` on
     each confirmed page.
@@ -2119,6 +2179,10 @@ Last updated: YYYY-MM-DD (lint pass {N})
     fields, or code blocks. Skip if option D was selected.
 14. Delete `raw/lint-findings.json`. Stage the deletion with `git add raw/lint-findings.json`.
     Do not delete mid-pass. Do not delete before Phase 3 completes.
+14b. Do not delete `raw/claims.json` or `raw/data-records.json` in this step. Unlike
+     `raw/lint-findings.json`, they are not ephemeral session output — they persist as
+     the latest-snapshot output of the most recent lint run and are overwritten in full
+     by the next run's Step L19.
 
 15. Commit all Phase 3 changes in a single commit:
 

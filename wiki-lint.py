@@ -99,6 +99,83 @@ SKILL_FILES = ["EXTRACTION-SKILL.md", "TAGGING-SKILL.md", "CONTRADICTION-SKILL.m
 # Controlled vocabularies — CLAUDE.md Sections 7.1 and 7.2 / vocabulary.json (DM-127)
 VOCABULARY_FILE = "vocabulary.json"
 
+# Metric canonicalization — structured-data extraction (BL-W-02, DM-128)
+# MAINTENANCE: generic suffix tokens are stripped from the end of a metric
+# name only when at least one token remains afterward (the one-token-
+# remaining guard — spec 4.3.1). Do not add tokens here that are themselves
+# meaningful metric names.
+METRIC_GENERIC_SUFFIXES = {
+    "accuracy",
+    "score",
+    "scores",
+    "benchmark",
+    "performance",
+    "result",
+    "results",
+    "rate",
+}
+
+# MAINTENANCE: canonical-form -> canonical-form rewrites for known
+# cross-naming variants of the same metric. Empty at v1; entries are added
+# from operational experience (L20 "alias candidates" informational finding,
+# spec Section 6 failure mode F3). Single consumer today (L19/L20) — do not
+# externalize to a data file unless a second consumer appears (the BL-W-01
+# vocabulary.json precedent applies at two-plus consumers, not one).
+METRIC_ALIASES = {}
+
+# Value/unit parsing — structured-data extraction (BL-W-02, DM-128)
+# MAINTENANCE: add new unit tokens here as new metric types are tracked in
+# Data Records tables. Units not in this set parse as unrecognized (value
+# still extracted; unit is None; the pair is treated as non-comparable
+# wherever unit membership is required).
+UNIT_TOKENS = {
+    "%",
+    "pp",
+    "ms",
+    "s",
+    "sec",
+    "seconds",
+    "min",
+    "tokens",
+    "tok/s",
+    "tokens/s",
+    "$",
+    "$/m",
+    "$/1m",
+    "x",
+}
+
+# MAINTENANCE: cross-naming normalization applied after a raw unit is
+# matched against UNIT_TOKENS. "ms" is deliberately absent here — it is
+# handled specially in parse_value() because converting it also rescales
+# the numeric value (divide by 1000), not just the label.
+UNIT_CONVERSIONS = {
+    "sec": "s",
+    "seconds": "s",
+    "$/1m": "$/m",
+}
+
+# Divergence test thresholds — CLAUDE.md Section 6.6 / spec 4.3.3 (DM-128)
+# MAINTENANCE: tuned exclusively via the spec Section 4.6 precision
+# procedure — raise CLAIM_SIM_THRESHOLD first (0.4 -> 0.5), then
+# REL_DIVERGENCE (0.02 -> 0.05), one change per lint run, re-measuring
+# precision after each. Do not hand-tune these outside that procedure.
+REL_DIVERGENCE = 0.02
+ABS_DIVERGENCE_FLOOR = 0.1
+
+# Class 1 (KC<->KC) entity-guard similarity threshold — spec 4.3.5
+CLAIM_SIM_THRESHOLD = 0.4
+
+# Class 3 (DR<->DR) conditions-comparability threshold — spec 4.3.6
+CONDITIONS_SIM_THRESHOLD = 0.5
+
+# Pre-screen candidate ceiling per lint run — spec 4.6
+# MAINTENANCE: overflow candidates are deferred (stateless re-derivation on
+# the next run), never dropped. Do not raise this to suppress a volume
+# spike — that is what the precision/tuning procedure and the V-3 >50
+# pre-ceiling pause are for.
+MAX_PRESCREEN_CANDIDATES = 10
+
 
 def load_vocabulary():
     """Load and validate vocabulary.json; exit fatally on any defect.
@@ -459,6 +536,526 @@ def parse_ym_date(ym_str):
         return date.fromisoformat(str(ym_str).strip())
     except ValueError:
         return None
+
+
+# ─── Structured-Data Extraction — Normalization Utilities (BL-W-02, DM-128) ──
+# Pure functions backing L19 (extraction/serialization) and L20 (pre-screen).
+# See spec sections 4.3.1-4.3.6. Wiring into check_L19_*/check_L20_* happens
+# separately; these functions have no side effects and do no I/O.
+
+_METRIC_SPLIT_RE = re.compile(r"[^a-z0-9]+")
+
+_NUMBER_TOKEN = r"[+-]?\d[\d,]*(?:\.\d+)?"
+_RANGE_SPLIT_RE = re.compile(r"\s*(?:-|–|—|\bto\b)\s*", re.IGNORECASE)
+_MULTIPLIER_RE = re.compile(r"^([KkMmBb])\b")
+_MULTIPLIERS = {"k": 1e3, "m": 1e6, "b": 1e9}
+_CURRENCY_PREFIX_RE = re.compile(r"^\\?\$")
+
+
+def canonicalize_metric(raw):
+    """
+    Canonicalize a metric name to a stable slug for cross-page matching.
+
+    Lowercases, collapses non-alphanumeric runs to single hyphens, strips
+    trailing generic-suffix tokens (METRIC_GENERIC_SUFFIXES) one at a time
+    unless doing so would remove the last remaining token, then applies
+    METRIC_ALIASES as a final rewrite.
+
+    Examples:
+        >>> canonicalize_metric("MMLU accuracy")
+        'mmlu'
+        >>> canonicalize_metric("SWE-bench Verified")
+        'swe-bench-verified'
+        >>> canonicalize_metric("Hallucination Rate")
+        'hallucination'
+        >>> canonicalize_metric("Accuracy")
+        'accuracy'
+    """
+    if not raw:
+        return ""
+    s = _METRIC_SPLIT_RE.sub("-", raw.strip().lower()).strip("-")
+    tokens = s.split("-") if s else []
+    while len(tokens) > 1 and tokens[-1] in METRIC_GENERIC_SUFFIXES:
+        tokens = tokens[:-1]
+    canonical = "-".join(tokens)
+    return METRIC_ALIASES.get(canonical, canonical)
+
+
+def _extract_currency_prefix(s):
+    """Strip a leading escaped (\\$) or bare ($) currency sign from s."""
+    m = _CURRENCY_PREFIX_RE.match(s)
+    if m:
+        return True, s[m.end() :]
+    return False, s
+
+
+def _extract_number_and_suffix(rest):
+    """
+    Parse a leading number (with optional K/M/B multiplier already applied)
+    from `rest`. Returns (numeric, suffix) or (None, "") if no number found.
+    """
+    rest = rest.strip()
+    m = re.match(rf"({_NUMBER_TOKEN})\s*(.*)$", rest)
+    if not m:
+        return None, ""
+    num_str, suffix = m.group(1), m.group(2).strip()
+    try:
+        numeric = float(num_str.replace(",", ""))
+    except ValueError:
+        return None, ""
+    mult_match = _MULTIPLIER_RE.match(suffix)
+    if mult_match:
+        numeric *= _MULTIPLIERS[mult_match.group(1).lower()]
+        suffix = suffix[mult_match.end() :].strip()
+    return numeric, suffix
+
+
+def _normalize_suffix_unit(is_currency, suffix):
+    """Build and validate a unit string from a currency flag and suffix text."""
+    suffix_norm = suffix.strip().lower()
+    if is_currency:
+        if not suffix_norm:
+            unit = "$"
+        elif suffix_norm in ("/m", "/1m"):
+            unit = "$" + suffix_norm
+        else:
+            return None
+    else:
+        if not suffix_norm:
+            return None
+        unit = suffix_norm
+    if unit not in UNIT_TOKENS:
+        return None
+    return UNIT_CONVERSIONS.get(unit, unit)
+
+
+def parse_value(raw):
+    """
+    Parse a Data Records / Key Claim value cell into (numeric, numeric_high, unit).
+
+    Handles escaped/bare currency prefixes, K/M/B multipliers, ranges
+    ("1.2-1.5s", "100 to 200 ms"), and the fixed UNIT_TOKENS vocabulary.
+    "ms" values are converted to seconds (numeric / 1000) so all times
+    compare in the same unit. Returns (None, None, None) for non-parsable
+    values or unrecognized units.
+
+    Examples:
+        >>> parse_value("\\\\$15")
+        (15.0, None, '$')
+        >>> parse_value("1.2M")
+        (1200000.0, None, None)
+        >>> parse_value("87.5%")
+        (87.5, None, '%')
+        >>> parse_value("230ms")
+        (0.23, None, 's')
+        >>> parse_value("1.2-1.5s")
+        (1.2, 1.5, 's')
+        >>> parse_value("supported")
+        (None, None, None)
+    """
+    if not raw or not raw.strip():
+        return None, None, None
+    raw = raw.strip()
+
+    parts = _RANGE_SPLIT_RE.split(raw, maxsplit=1)
+    if len(parts) == 2 and parts[0].strip() and parts[1].strip():
+        low_currency, low_rest = _extract_currency_prefix(parts[0].strip())
+        high_currency, high_rest = _extract_currency_prefix(parts[1].strip())
+        low_num, low_suffix = _extract_number_and_suffix(low_rest)
+        high_num, high_suffix = _extract_number_and_suffix(high_rest)
+        if low_num is None or high_num is None:
+            return None, None, None
+        is_currency = low_currency or high_currency
+        suffix = high_suffix if high_suffix else low_suffix
+        unit = _normalize_suffix_unit(is_currency, suffix)
+        if suffix.lower() == "ms" and not is_currency:
+            low_num, high_num = low_num / 1000.0, high_num / 1000.0
+            unit = "s"
+        if low_num > high_num:
+            low_num, high_num = high_num, low_num
+        return low_num, high_num, unit
+
+    is_currency, rest = _extract_currency_prefix(raw)
+    numeric, suffix = _extract_number_and_suffix(rest)
+    if numeric is None:
+        return None, None, None
+    unit = _normalize_suffix_unit(is_currency, suffix)
+    if suffix.lower() == "ms" and not is_currency:
+        numeric = numeric / 1000.0
+        unit = "s"
+    return numeric, None, unit
+
+
+def divergence(a_low, a_high, unit_a, b_low, b_high, unit_b):
+    """
+    Determine whether two comparable values/ranges diverge (spec 4.3.3).
+
+    Returns True if divergent, False if comparable but not divergent, or
+    None if the pair is not comparable (a missing value or differing
+    normalized units). Divergence requires BOTH the relative difference to
+    exceed REL_DIVERGENCE AND the absolute difference to exceed
+    ABS_DIVERGENCE_FLOOR, measured between the nearest endpoints of the two
+    intervals (point values are treated as zero-width intervals).
+
+    Examples:
+        >>> divergence(87.5, None, "%", 82.0, None, "%")
+        True
+        >>> divergence(87.5, None, "%", 87.4, None, "%")
+        False
+        >>> divergence(50.0, None, "%", 15.0, None, "tok/s") is None
+        True
+        >>> divergence(10, 20, "%", 30, 40, "%")
+        True
+        >>> divergence(10, 20, "%", 15, 25, "%")
+        False
+        >>> divergence(90, None, "%", 80, 95, "%")
+        False
+    """
+    if unit_a is None or unit_b is None or a_low is None or b_low is None:
+        return None
+    if unit_a != unit_b:
+        return None
+
+    a_hi = a_high if a_high is not None else a_low
+    b_hi = b_high if b_high is not None else b_low
+
+    gap_ref = _interval_gap_and_ref(a_low, a_hi, b_low, b_hi)
+    if gap_ref is None:
+        return False
+    gap, ref = gap_ref
+
+    rel = (gap / ref) if ref != 0 else float("inf")
+    return rel > REL_DIVERGENCE and gap > ABS_DIVERGENCE_FLOOR
+
+
+def _interval_gap_and_ref(a_low, a_hi, b_low, b_hi):
+    """Return (gap, ref) between two intervals, or None if they overlap/touch."""
+    if a_low <= b_hi and b_low <= a_hi:
+        return None
+    if a_hi < b_low:
+        return b_low - a_hi, max(abs(a_hi), abs(b_low))
+    return a_low - b_hi, max(abs(a_low), abs(b_hi))
+
+
+def relative_divergence(a_low, a_high, unit_a, b_low, b_high, unit_b):
+    """
+    Return the relative divergence magnitude (gap/ref) for a comparable,
+    divergent pair — the same computation divergence() uses internally to
+    decide True/False — or None if the pair is non-comparable or not
+    divergent. Used by L20 to rank pre-screen candidates (spec 4.6);
+    divergence() itself only reports True/False/None.
+
+    Examples:
+        >>> relative_divergence(87.5, None, "%", 82.0, None, "%")
+        0.06285714285714286
+        >>> relative_divergence(87.5, None, "%", 87.4, None, "%") is None
+        True
+    """
+    if not divergence(a_low, a_high, unit_a, b_low, b_high, unit_b):
+        return None
+    a_hi = a_high if a_high is not None else a_low
+    b_hi = b_high if b_high is not None else b_low
+    gap, ref = _interval_gap_and_ref(a_low, a_hi, b_low, b_hi)
+    return gap / ref if ref != 0 else float("inf")
+
+
+# Stopwords for claim_similarity's Jaccard comparison — deliberately includes
+# generic assertion verbs ("scores", "achieves") that would otherwise inflate
+# overlap between claims about different entities and defeat the entity
+# guard (spec 4.3.5).
+_CLAIM_SIM_STOPWORDS = {
+    "the",
+    "a",
+    "an",
+    "and",
+    "or",
+    "on",
+    "in",
+    "at",
+    "of",
+    "with",
+    "for",
+    "to",
+    "is",
+    "are",
+    "was",
+    "were",
+    "its",
+    "it",
+    "that",
+    "this",
+    "which",
+    "has",
+    "have",
+    "had",
+    "under",
+    "than",
+    "compared",
+    "vs",
+    "versus",
+    "scores",
+    "score",
+    "scored",
+    "achieves",
+    "achieved",
+    "reaches",
+    "reached",
+    "shows",
+    "showed",
+    "reports",
+    "reported",
+    "measured",
+    "measures",
+    "leads",
+    "leading",
+}
+
+_WORD_RE = re.compile(r"[a-z][a-z0-9/.\-]*")
+
+
+def _content_tokens(text, metric_terms=()):
+    """Lowercase content-token set: strips metric terms, units, numbers, stopwords."""
+    metric_terms_norm = {m.lower() for m in metric_terms}
+    tokens = set()
+    for w in _WORD_RE.findall(text.lower()):
+        if w in metric_terms_norm or w in UNIT_TOKENS or w in _CLAIM_SIM_STOPWORDS:
+            continue
+        tokens.add(w)
+    return tokens
+
+
+def claim_similarity(claim_a, claim_b, metric_terms=()):
+    """
+    Jaccard similarity between two claim texts after removing matched metric
+    term(s), numeric/unit tokens, and stopwords (spec 4.3.5 — the entity
+    guard for Class 1 KC<->KC matching).
+
+    Examples:
+        >>> claim_similarity(
+        ...     "GPT-4o scores 86% on MMLU",
+        ...     "Claude Opus scores 88% on MMLU",
+        ...     metric_terms=["MMLU"],
+        ... ) < CLAIM_SIM_THRESHOLD
+        True
+        >>> claim_similarity(
+        ...     "GPT-4o scores 86% on MMLU under zero-shot evaluation",
+        ...     "GPT-4o achieves 82% on MMLU in zero-shot evaluation",
+        ...     metric_terms=["MMLU"],
+        ... ) >= CLAIM_SIM_THRESHOLD
+        True
+    """
+    a = _content_tokens(claim_a, metric_terms)
+    b = _content_tokens(claim_b, metric_terms)
+    if not a and not b:
+        return 1.0
+    if not a or not b:
+        return 0.0
+    return len(a & b) / len(a | b)
+
+
+def conditions_similarity(tokens_a, tokens_b):
+    """
+    Jaccard similarity between two already-tokenized Conditions cells
+    (spec 4.3.6 — the Class 3 conditions-comparability gate). Two empty
+    token sets compare as fully similar; one empty and one non-empty
+    compares as fully dissimilar.
+
+    Examples:
+        >>> conditions_similarity(["zero-shot"], ["zero-shot", "standard"])
+        0.5
+        >>> conditions_similarity([], [])
+        1.0
+        >>> conditions_similarity([], ["zero-shot"])
+        0.0
+    """
+    a, b = set(tokens_a), set(tokens_b)
+    if not a and not b:
+        return 1.0
+    if not a or not b:
+        return 0.0
+    return len(a & b) / len(a | b)
+
+
+# MAINTENANCE: stopwords dropped from Conditions-cell tokens (spec 4.2). Kept
+# minimal and separate from _CLAIM_SIM_STOPWORDS — conditions text ("zero-shot,
+# standard prompt") and claim prose serve different comparisons.
+_CONDITIONS_STOPWORDS = {"a", "an", "the", "and", "or", "with", "in", "on", "of", "for"}
+
+
+def _tokenize_conditions(raw):
+    """
+    Tokenize a Data Records Conditions cell: lowercase, split on commas,
+    whitespace, and slashes; strip punctuation; drop stopwords (spec 4.2).
+
+    Examples:
+        >>> _tokenize_conditions("zero-shot, standard prompt")
+        ['zero-shot', 'standard', 'prompt']
+        >>> _tokenize_conditions("")
+        []
+    """
+    if not raw:
+        return []
+    tokens = []
+    for part in re.split(r"[,/\s]+", raw.lower()):
+        cleaned = re.sub(r"[^a-z0-9\-]", "", part)
+        if cleaned and cleaned not in _CONDITIONS_STOPWORDS:
+            tokens.append(cleaned)
+    return tokens
+
+
+# Inline value scanner for Key Claim signature detection (spec 4.3.4).
+# Requires a non-alphanumeric boundary on both sides so digits embedded in
+# identifiers (e.g. the "4" in "gpt-4o") are not mistaken for a value. The
+# second lookbehind additionally blocks a hyphen-attached trailing digit
+# (e.g. the "2" in "ARC-AGI-2") — a plain 1-char boundary check doesn't see
+# past the hyphen to the letter before it.
+_INLINE_VALUE_RE = re.compile(
+    r"(?<![A-Za-z0-9])(?<![A-Za-z0-9]-)(?:\\\$|\$)?[+-]?\d[\d,]*(?:\.\d+)?"
+    r"(?:%|pp|ms|sec|seconds|min|tokens/s|tok/s|tokens|x)?(?![A-Za-z0-9])"
+)
+
+_METRIC_WORD_RE = re.compile(r"[A-Za-z][A-Za-z0-9\-]*")
+
+# Matches the gap text between a value and a metric name in "VALUE on
+# METRIC" / "VALUE at METRIC" / "VALUE in METRIC" phrasing — used by
+# detect_claim_signatures as the strongest (unambiguous) association signal.
+_VALUE_METRIC_CONNECTOR_RE = re.compile(r"^\s+(?:on|at|in)\s+$")
+
+
+def _extract_inline_values(text):
+    """
+    Extract parsable numeric values (with optional unit) from claim prose,
+    via parse_value — reused, not reimplemented (spec 4.3.2/4.3.4).
+
+    Examples:
+        >>> _extract_inline_values("GPT-4o scores 86% on MMLU")
+        [{'numeric': 86.0, 'unit': '%', 'raw': '86%'}]
+        >>> _extract_inline_values("No numbers here")
+        []
+    """
+    values = []
+    seen = set()
+    for m in _INLINE_VALUE_RE.finditer(text):
+        raw = m.group(0)
+        if raw in seen:
+            continue
+        numeric, _high, unit = parse_value(raw)
+        if numeric is None:
+            continue
+        seen.add(raw)
+        values.append({"numeric": numeric, "unit": unit, "raw": raw})
+    return values
+
+
+def detect_claim_signatures(claim_text, metric_universe):
+    """
+    Detect quantitative-claim signatures (spec 4.3.4): a claim acquires one
+    signature per metric in `metric_universe` whose canonical form matches
+    an n-gram (<=4 tokens) of the claim text, provided the claim text also
+    contains at least one parsable value. Returns a list of signature dicts
+    (empty if no value is present or no metric matches).
+
+    A claim citing several metrics in one sentence must not let one metric's
+    value leak into another's signature. This wiki mixes several phrasings
+    ("80.8% on SWE-bench Verified", "GPQA Diamond 89.9%", "SEC-bench Pro
+    (69.8% vs 63.1%)") — no single ordering rule fits all of them. Each
+    matched metric is paired with: (1) a value connected to it by an
+    explicit "on"/"at"/"in" bridge ("VALUE on METRIC"), if one exists —
+    the strongest, unambiguous signal; otherwise (2) the nearest value by
+    plain character distance, in either direction. This is a mechanical
+    proxy, not a semantic parse, and is expected to occasionally misattribute
+    a value in unusual phrasings — CONTRADICTION-SKILL.md's existence check
+    (Section 1.4) and the Section 4.6 precision-tuning procedure are the
+    intended backstops, not a perfect parser.
+
+    Examples:
+        >>> detect_claim_signatures("GPT-4o scores 86% on MMLU", {"mmlu"})
+        [{'metric_canonical': 'mmlu', 'metric_matched_text': 'MMLU', 'values': [{'numeric': 86.0, 'unit': '%', 'raw': '86%'}]}]
+        >>> detect_claim_signatures("MMLU is a benchmark", {"mmlu"})
+        []
+        >>> sigs = detect_claim_signatures(
+        ...     "80.8% on SWE-bench Verified, 68.8% on ARC-AGI-2, and 91.3% on GPQA Diamond",
+        ...     {"swe-bench-verified", "arc-agi-2", "gpqa-diamond"},
+        ... )
+        >>> {s["metric_canonical"]: s["values"][0]["raw"] for s in sigs} == {
+        ...     "swe-bench-verified": "80.8%", "arc-agi-2": "68.8%", "gpqa-diamond": "91.3%",
+        ... }
+        True
+        >>> sigs2 = detect_claim_signatures(
+        ...     "GPQA Diamond 89.9%, and ARC-AGI-2 60.42% (high effort)",
+        ...     {"gpqa-diamond", "arc-agi-2"},
+        ... )
+        >>> {s["metric_canonical"]: s["values"][0]["raw"] for s in sigs2} == {
+        ...     "gpqa-diamond": "89.9%", "arc-agi-2": "60.42%",
+        ... }
+        True
+    """
+    value_spans = []  # (start, end, value_dict)
+    for m in _INLINE_VALUE_RE.finditer(claim_text):
+        raw = m.group(0)
+        numeric, _high, unit = parse_value(raw)
+        if numeric is None:
+            continue
+        value_spans.append(
+            (m.start(), m.end(), {"numeric": numeric, "unit": unit, "raw": raw})
+        )
+    if not value_spans:
+        return []
+
+    word_matches = list(_METRIC_WORD_RE.finditer(claim_text))
+    metric_spans = {}  # canonical -> (start, end, longest matched phrase)
+    for n in range(1, 5):
+        for i in range(len(word_matches) - n + 1):
+            span_start = word_matches[i].start()
+            span_end = word_matches[i + n - 1].end()
+            phrase = claim_text[span_start:span_end]
+            canonical = canonicalize_metric(phrase)
+            if canonical and canonical in metric_universe:
+                existing = metric_spans.get(canonical)
+                if existing is None or (span_end - span_start) > (
+                    existing[1] - existing[0]
+                ):
+                    metric_spans[canonical] = (span_start, span_end, phrase)
+    if not metric_spans:
+        return []
+
+    def _nearest_value(m_start, m_end):
+        for vs in value_spans:
+            v_start, v_end, _ = vs
+            if v_end <= m_start and _VALUE_METRIC_CONNECTOR_RE.match(
+                claim_text[v_end:m_start]
+            ):
+                return vs
+
+        def _dist(vs):
+            v_start, v_end, _ = vs
+            if v_end <= m_start:
+                return m_start - v_end
+            if v_start >= m_end:
+                return v_start - m_end
+            return 0
+
+        return min(value_spans, key=_dist)
+
+    signatures = []
+    for canonical, (m_start, m_end, matched_text) in metric_spans.items():
+        nearest = _nearest_value(m_start, m_end)
+        signatures.append(
+            {
+                "metric_canonical": canonical,
+                "metric_matched_text": matched_text,
+                "values": [nearest[2]],
+            }
+        )
+    return signatures
+
+
+def _atomic_write_json(path, obj):
+    """Write JSON to `path` atomically: temp file in the same directory, then os.replace."""
+    tmp_path = path + ".tmp"
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=2, default=str)
+    os.replace(tmp_path, path)
 
 
 # ─── Findings Management ─────────────────────────────────────────────────────
@@ -1508,6 +2105,45 @@ def build_source_info():
     return info
 
 
+def compute_support_score(source_cell, decay_exempt, source_info):
+    """
+    Compute a Key Claim's support score from its Source cell text
+    (CLAUDE.md Section 6.1). Shared by L3 (recalculation check) and L19
+    (claims.json serialization) so support-score arithmetic has a single
+    implementation.
+
+    Returns (score, detail_lines): score is a float rounded to one decimal
+    place; detail_lines describes each contributing/excluded source.
+    """
+    total_score = 0.0
+    detail_lines = []
+
+    for m in WIKILINK_PATTERN.finditer(source_cell):
+        raw = m.group(1)
+        slug = wikilink_to_slug(raw)
+        # Check if [minority view] follows this wikilink
+        tail = source_cell[m.end() : m.end() + 30]
+        if "[minority view]" in tail:
+            detail_lines.append(f"  {slug}: minority view — excluded")
+            continue
+
+        sinfo = source_info.get(slug, {})
+        tier = sinfo.get("tier", "")
+        weight = CREDIBILITY_WEIGHTS.get(tier, 0)
+        pub_date = sinfo.get("published")
+
+        # Apply decay if not exempt
+        if not decay_exempt and pub_date:
+            age_months = months_ago(pub_date)
+            if age_months is not None and age_months > DECAY_THRESHOLD_MONTHS:
+                weight *= DECAY_MULTIPLIER
+
+        total_score += weight
+        detail_lines.append(f"  {slug}: tier={tier}, weight={weight:.1f}, " f"pub={pub_date}")
+
+    return round(total_score, 1), detail_lines
+
+
 def check_L3_support_scores(page_claims, source_info, verbose):
     """
     L3: Recalculate support scores for every Key Claim on Topic and Tool pages.
@@ -1524,36 +2160,9 @@ def check_L3_support_scores(page_claims, source_info, verbose):
             if "[derived]" in source_cell:
                 continue
 
-            total_score = 0.0
-            detail_lines = []
-
-            for m in WIKILINK_PATTERN.finditer(source_cell):
-                raw = m.group(1)
-                slug = wikilink_to_slug(raw)
-                # Check if [minority view] follows this wikilink
-                tail = source_cell[m.end():m.end() + 30]
-                if "[minority view]" in tail:
-                    detail_lines.append(f"  {slug}: minority view — excluded")
-                    continue
-
-                sinfo = source_info.get(slug, {})
-                tier = sinfo.get("tier", "")
-                weight = CREDIBILITY_WEIGHTS.get(tier, 0)
-                pub_date = sinfo.get("published")
-
-                # Apply decay if not exempt
-                if not decay_exempt_val and pub_date:
-                    age_months = months_ago(pub_date)
-                    if age_months is not None and age_months > DECAY_THRESHOLD_MONTHS:
-                        weight *= DECAY_MULTIPLIER
-
-                total_score += weight
-                detail_lines.append(
-                    f"  {slug}: tier={tier}, weight={weight:.1f}, "
-                    f"pub={pub_date}"
-                )
-
-            computed = round(total_score, 1)
+            computed, detail_lines = compute_support_score(
+                source_cell, decay_exempt_val, source_info
+            )
 
             if verbose:
                 print(f"  [L3] {page_slug} claim '{row.get('claim','')[:50]}...' "
@@ -2223,6 +2832,8 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
     - topic_tool_deprecated_count: count of deprecated tool pages
     - source_slugs: set of slugs in sources/
     - all_ctrd_ids: set of all CTRD-NNN IDs found across the wiki
+    - page_data_records: dict slug -> list of Data Records rows (for L19; topic/tool/comparison)
+    - page_meta: dict slug -> {"directory": str, "page_type": str} (for L19 page-path construction)
     """
     entity_pages_fm = {}  # slug -> fm for non-source pages
     inbound_links = defaultdict(set)  # target_slug -> {source_slugs}
@@ -2232,8 +2843,10 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
     topic_tool_deprecated_count = 0
     source_slugs = set()
     all_ctrd_ids = set()
-    page_claims = {}   # topic/tool slug -> list of claim rows (for L3, L9)
+    page_claims = {}   # topic/tool slug -> list of claim rows (for L3, L9, L19)
     page_prose = {}    # slug -> prose body text (topic/tool for L7; all in-scope types for L16)
+    page_data_records = {}  # topic/tool/comparison slug -> Data Records rows (for L19)
+    page_meta = {}  # slug -> {"directory": str, "page_type": str} (for L19)
 
     # Build source slug set first (for G3)
     if os.path.isdir("sources"):
@@ -2262,6 +2875,7 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
 
             fm, body = parse_frontmatter(text)
             page_type = fm.get("type", "")
+            page_meta[page_slug] = {"directory": directory, "page_type": page_type}
 
             # Store fm for cross-page checks
             if page_type in ("topic", "tool", "comparison", "teaching-brief", "pitfalls"):
@@ -2289,11 +2903,16 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
             for m in CTRD_PATTERN.finditer(text):
                 all_ctrd_ids.add(f"CTRD-{m.group(1)}")
 
-            # Parse Key Claims table (for L3, L9, L11, G3)
+            # Parse Key Claims table (for L3, L9, L11, G3, L19)
             claims_rows = []
             if page_type in ("topic", "tool"):
                 claims_rows = parse_markdown_table(body, "## Key Claims")
                 page_claims[page_slug] = claims_rows
+            # Parse Data Records table (for L5c freshness, L19 serialization)
+            if page_type in ("topic", "tool", "comparison"):
+                dr_rows = parse_data_records_table(body)
+                if dr_rows:
+                    page_data_records[page_slug] = dr_rows
             # Accumulate prose body for L7 (topic/tool) and L16 (all in-scope types)
             if page_type in ("topic", "tool", "comparison", "pitfalls", "teaching-brief"):
                 page_prose[page_slug] = body
@@ -2340,11 +2959,591 @@ def read_and_check_all_pages(valid_slugs, slug_to_path, ctrd_signals, last_lint_
             if page_type in ("comparison", "teaching-brief"):
                 check_L5_staleness(fm, page_slug, page_type, entity_pages_fm)
 
-    return (entity_pages_fm, inbound_links, open_contradictions_count,
-            teaching_tagged_count, topic_tool_count, topic_tool_deprecated_count,
-            source_slugs, all_ctrd_ids, page_claims, page_prose)
+    return (
+        entity_pages_fm,
+        inbound_links,
+        open_contradictions_count,
+        teaching_tagged_count,
+        topic_tool_count,
+        topic_tool_deprecated_count,
+        source_slugs,
+        all_ctrd_ids,
+        page_claims,
+        page_prose,
+        page_data_records,
+        page_meta,
+    )
 
 
+# Required Data Records columns — CLAUDE.md Section 6.6 / spec 4.2
+REQUIRED_DATA_RECORD_KEYS = (
+    "metric",
+    "value",
+    "conditions",
+    "measurement_date",
+    "source",
+    "status",
+)
+
+
+def check_L19_extraction_and_serialization(
+    page_claims, page_data_records, page_meta, source_info
+):
+    """
+    L19 (Group C — serialization): build raw/claims.json and
+    raw/data-records.json from the Key Claims and Data Records rows
+    accumulated during Group B (spec Section 4.4). Reuses parse_markdown_table
+    / parse_data_records_table output already accumulated — no page is
+    re-read. Writes both artifacts atomically (temp file + os.replace);
+    a write failure is a fatal script error (spec 4.4 — the artifacts are
+    L20's input and silent absence would disable it invisibly).
+
+    Data Records are serialized first so their canonical metrics define the
+    "metric universe" (spec 4.3.4) used for Key Claim signature detection.
+
+    Returns (claims_list, records_list) for L20 to consume in the same run
+    without re-parsing anything.
+    """
+    # ---- Data Records first: defines the metric universe ----
+    records_list = []
+    malformed_rows = 0
+    dr_metrics = set()
+
+    for page_slug, rows in page_data_records.items():
+        meta = page_meta.get(page_slug, {})
+        page_path = f"{meta.get('directory', '')}/{page_slug}"
+        for row in rows:
+            if not all(k in row for k in REQUIRED_DATA_RECORD_KEYS):
+                malformed_rows += 1
+                add_finding(
+                    "L19",
+                    "informational",
+                    page_slug,
+                    f"Data Records row skipped: malformed (missing required column) on {page_slug}",
+                    {"page": page_path, "row_keys": sorted(row.keys())},
+                )
+                continue
+
+            metric_canonical = canonicalize_metric(row["metric"])
+            value_numeric, value_numeric_high, unit = parse_value(row["value"])
+            sources = [
+                wikilink_to_slug(m.group(1))
+                for m in WIKILINK_PATTERN.finditer(row["source"])
+            ]
+
+            records_list.append(
+                {
+                    "page": page_path,
+                    "page_type": meta.get("page_type", ""),
+                    "metric_raw": row["metric"],
+                    "metric_canonical": metric_canonical,
+                    "value_raw": row["value"],
+                    "value_numeric": value_numeric,
+                    "value_numeric_high": value_numeric_high,
+                    "unit": unit,
+                    "conditions_raw": row["conditions"],
+                    "conditions_tokens": _tokenize_conditions(row["conditions"]),
+                    "measurement_date": row["measurement_date"].strip(),
+                    "sources": sources,
+                    "status": row["status"].strip(),
+                }
+            )
+            if metric_canonical:
+                dr_metrics.add(metric_canonical)
+
+    metric_universe = (
+        dr_metrics | set(METRIC_ALIASES.keys()) | set(METRIC_ALIASES.values())
+    )
+
+    # ---- Claims: signature detection depends on metric_universe above ----
+    claims_list = []
+    claims_with_signature = 0
+
+    for page_slug, claims_rows in page_claims.items():
+        meta = page_meta.get(page_slug, {})
+        page_path = f"{meta.get('directory', '')}/{page_slug}"
+
+        for row_index, row in enumerate(claims_rows, start=1):
+            source_cell = row.get("source", "")
+            status_cell = row.get("status", "")
+            claim_text = row.get("claim", "")
+            derived = "[derived]" in source_cell
+            decay_exempt = row.get("decay_exempt", "false").strip().lower() == "true"
+
+            sources = []
+            source_annotations = {}
+            for slug, is_minority in extract_source_slugs_from_claims([row]):
+                sources.append(slug)
+                if is_minority:
+                    source_annotations[slug] = "minority view"
+
+            ctrd_ids = [f"CTRD-{n}" for n in CTRD_PATTERN.findall(status_cell)]
+            status_clean = re.sub(r"\s*\[CTRD-\d+\]", "", status_cell).strip()
+
+            if derived:
+                support_score = "derived"
+            else:
+                support_score, _detail = compute_support_score(
+                    source_cell, decay_exempt, source_info
+                )
+
+            sigs = detect_claim_signatures(claim_text, metric_universe)
+            if not sigs:
+                signature = None
+            elif len(sigs) == 1:
+                signature = sigs[0]
+                claims_with_signature += 1
+            else:
+                signature = sigs
+                claims_with_signature += 1
+
+            claims_list.append(
+                {
+                    "page": page_path,
+                    "page_type": meta.get("page_type", ""),
+                    "row_index": row_index,
+                    "claim": claim_text,
+                    "sources": sources,
+                    "source_annotations": source_annotations,
+                    "derived": derived,
+                    "date": row.get("date", "").strip(),
+                    "status": status_clean,
+                    "ctrd_ids": ctrd_ids,
+                    "support_score": support_score,
+                    "decay_exempt": decay_exempt,
+                    "signature": signature,
+                }
+            )
+
+    # ---- Write both artifacts atomically ----
+    claims_artifact = {
+        "generated": TODAY.isoformat(),
+        "script_version": SCRIPT_VERSION,
+        "claims": claims_list,
+    }
+    records_artifact = {
+        "generated": TODAY.isoformat(),
+        "script_version": SCRIPT_VERSION,
+        "records": records_list,
+    }
+    try:
+        os.makedirs("raw", exist_ok=True)
+        _atomic_write_json(os.path.join("raw", "claims.json"), claims_artifact)
+        _atomic_write_json(os.path.join("raw", "data-records.json"), records_artifact)
+    except (OSError, TypeError) as exc:
+        sys.exit(
+            f"FATAL: L19 could not write structured-data extraction artifacts: {exc}"
+        )
+
+    pages_contributing = len(set(page_claims.keys()) | set(page_data_records.keys()))
+    add_finding(
+        "L19",
+        "informational",
+        None,
+        f"Structured-data extraction: {pages_contributing} pages contributing, "
+        f"{len(claims_list)} claims serialized, {len(records_list)} records serialized, "
+        f"{malformed_rows} Data Records rows skipped as malformed, "
+        f"{claims_with_signature} claims carrying a quantitative signature.",
+        {
+            "pages_contributing": pages_contributing,
+            "claims_serialized": len(claims_list),
+            "records_serialized": len(records_list),
+            "malformed_rows_skipped": malformed_rows,
+            "claims_with_signature": claims_with_signature,
+        },
+    )
+
+    return claims_list, records_list
+
+
+# ─── L20: Contradiction Pre-Screen (BL-W-02, DM-128, spec Section 4.5) ───────
+
+
+def _sig_list(signature):
+    """Normalize a claims.json 'signature' field (None/dict/list) to a list."""
+    if signature is None:
+        return []
+    if isinstance(signature, list):
+        return signature
+    return [signature]
+
+
+def _truncate_ym(date_str):
+    """Truncate a YYYY-MM-DD or YYYY-MM string to its YYYY-MM prefix."""
+    return (date_str or "")[:7]
+
+
+def _best_matching_divergence(values_a, values_b):
+    """
+    Find the most-divergent comparable pair between two claims' inline
+    value lists (spec 4.5 Class 1). A claim's signature carries every
+    parsable value in its text, not just the one tied to the matched
+    metric, so candidate pairs are compared across the full cross product
+    and the strongest divergent match wins — a v1 design choice the spec
+    does not pin down further. Returns (relative_divergence, value_a,
+    value_b) for the best divergent pair, or None if none diverges.
+    """
+    best = None
+    for va in values_a:
+        if va.get("numeric") is None or va.get("unit") is None:
+            continue
+        for vb in values_b:
+            if vb.get("numeric") is None or vb.get("unit") is None:
+                continue
+            rel = relative_divergence(
+                va["numeric"], None, va["unit"], vb["numeric"], None, vb["unit"]
+            )
+            if rel is not None and (best is None or rel > best[0]):
+                best = (rel, va, vb)
+    return best
+
+
+def _claim_vs_record_divergence(values_a, record_low, record_high, record_unit):
+    """
+    Find the most-divergent comparable pair between a claim's inline value
+    list and a single Data Record value/range (spec 4.5 Class 2). Same
+    multi-value design note as _best_matching_divergence. Returns
+    (relative_divergence, value_a) for the best divergent match, or None.
+    """
+    best = None
+    for va in values_a:
+        if va.get("numeric") is None or va.get("unit") is None:
+            continue
+        rel = relative_divergence(
+            va["numeric"], None, va["unit"], record_low, record_high, record_unit
+        )
+        if rel is not None and (best is None or rel > best[0]):
+            best = (rel, va)
+    return best
+
+
+def _designate_class1_sides(claim_a, claim_b):
+    """
+    Determine (contested, contesting) for a Class 1 KC<->KC candidate: the
+    contested side has the lower support score, tie-broken by older date,
+    tie-broken by alphabetical page slug (spec 4.5). Both claims must
+    already have numeric (non-"derived") support scores.
+    """
+    key_a = (claim_a["support_score"], claim_a["date"], claim_a["page"])
+    key_b = (claim_b["support_score"], claim_b["date"], claim_b["page"])
+    # Lower score first; older date first; alphabetically-first page first.
+    if (key_a[0], key_a[1], key_a[2]) <= (key_b[0], key_b[1], key_b[2]):
+        return claim_a, claim_b
+    return claim_b, claim_a
+
+
+def _eligible_claims_by_metric(claims_list):
+    """
+    Group (claim, signature) pairs eligible for Class 1/2 matching by
+    metric_canonical: status current, not derived (support_score must be
+    numeric for the contested-side tie-break), and no open CTRD flag
+    (already in protocol — spec 4.5 Class 1; applied to Class 2 too for
+    consistency, since a claim under an open contradiction shouldn't gain a
+    second pre-screen flag through a different channel).
+    """
+    by_metric = defaultdict(list)
+    for claim in claims_list:
+        if claim["status"] != "current" or claim["derived"] or claim["ctrd_ids"]:
+            continue
+        for sig in _sig_list(claim["signature"]):
+            by_metric[sig["metric_canonical"]].append((claim, sig))
+    return by_metric
+
+
+def _records_by_metric(records_list):
+    """Group Data Records by metric_canonical."""
+    by_metric = defaultdict(list)
+    for record in records_list:
+        by_metric[record["metric_canonical"]].append(record)
+    return by_metric
+
+
+def _class1_candidates(claims_by_metric):
+    """Class 1 — KC<->KC cross-page divergence candidates (spec 4.5)."""
+    candidates = []
+    for metric_canonical, entries in claims_by_metric.items():
+        for i in range(len(entries)):
+            claim_a, sig_a = entries[i]
+            for j in range(i + 1, len(entries)):
+                claim_b, sig_b = entries[j]
+                if claim_a["page"] == claim_b["page"]:
+                    continue  # same-page KC<->KC is out of scope (Section 10)
+                sim = claim_similarity(
+                    claim_a["claim"],
+                    claim_b["claim"],
+                    metric_terms=[
+                        sig_a["metric_matched_text"],
+                        sig_b["metric_matched_text"],
+                    ],
+                )
+                if sim < CLAIM_SIM_THRESHOLD:
+                    continue
+                match = _best_matching_divergence(sig_a["values"], sig_b["values"])
+                if match is None:
+                    continue
+                rel, va, vb = match
+                contested, contesting = _designate_class1_sides(claim_a, claim_b)
+                candidates.append(
+                    {
+                        "class": "kc-kc",
+                        "metric_canonical": metric_canonical,
+                        "relative_divergence": rel,
+                        "claim_similarity": sim,
+                        "side_a": {
+                            "page": contested["page"],
+                            "kind": "claim",
+                            "text": contested["claim"],
+                            "sources": contested["sources"],
+                            "date": contested["date"],
+                            "support_score": contested["support_score"],
+                            "value": va["raw"] if contested is claim_a else vb["raw"],
+                        },
+                        "side_b": {
+                            "page": contesting["page"],
+                            "kind": "claim",
+                            "text_or_metric": contesting["claim"],
+                            "sources": contesting["sources"],
+                            "date": contesting["date"],
+                            "support_score": contesting["support_score"],
+                            "value": vb["raw"] if contested is claim_a else va["raw"],
+                        },
+                        "description": (
+                            f"Pre-screen divergence candidate: {metric_canonical}, "
+                            f"{va['raw']} vs {vb['raw']}"
+                        ),
+                    }
+                )
+    return candidates
+
+
+def _class2_candidates(claims_by_metric, records_by_metric):
+    """Class 2 — DR<->KC same-page divergence candidates (spec 4.5)."""
+    candidates = []
+    for metric_canonical, entries in claims_by_metric.items():
+        for record in records_by_metric.get(metric_canonical, []):
+            if record["status"] != "current":
+                continue
+            for claim, sig in entries:
+                if claim["page"] != record["page"]:
+                    continue  # Class 2 is same-page only; cross-page is deferred scope
+                if _truncate_ym(record["measurement_date"]) < _truncate_ym(
+                    claim["date"]
+                ):
+                    continue  # record must postdate (or match) the claim
+                match = _claim_vs_record_divergence(
+                    sig["values"],
+                    record["value_numeric"],
+                    record["value_numeric_high"],
+                    record["unit"],
+                )
+                if match is None:
+                    continue
+                rel, va = match
+                candidates.append(
+                    {
+                        "class": "dr-kc",
+                        "metric_canonical": metric_canonical,
+                        "relative_divergence": rel,
+                        "claim_similarity": None,
+                        "side_a": {
+                            "page": claim["page"],
+                            "kind": "claim",
+                            "text": claim["claim"],
+                            "sources": claim["sources"],
+                            "date": claim["date"],
+                            "support_score": claim["support_score"],
+                            "value": va["raw"],
+                        },
+                        "side_b": {
+                            "page": record["page"],
+                            "kind": "record",
+                            "text_or_metric": record["metric_raw"],
+                            "sources": record["sources"],
+                            "date": record["measurement_date"],
+                            "support_score": None,
+                            "value": record["value_raw"],
+                        },
+                        "description": (
+                            f"Pre-screen divergence candidate: {metric_canonical}, "
+                            f"{va['raw']} vs {record['value_raw']}"
+                        ),
+                    }
+                )
+    return candidates
+
+
+def _class3a_findings(records_by_metric):
+    """Class 3a — DR<->DR inconsistent replication (informational only, spec 4.5)."""
+    findings = []
+    for metric_canonical, records in records_by_metric.items():
+        for i in range(len(records)):
+            rec_a = records[i]
+            if rec_a["status"] != "current":
+                continue
+            for j in range(i + 1, len(records)):
+                rec_b = records[j]
+                if rec_b["status"] != "current" or rec_a["page"] == rec_b["page"]:
+                    continue
+                if rec_a["measurement_date"] != rec_b["measurement_date"]:
+                    continue
+                if not (set(rec_a["sources"]) & set(rec_b["sources"])):
+                    continue
+                if (
+                    conditions_similarity(
+                        rec_a["conditions_tokens"], rec_b["conditions_tokens"]
+                    )
+                    < CONDITIONS_SIM_THRESHOLD
+                ):
+                    continue
+                if not divergence(
+                    rec_a["value_numeric"],
+                    rec_a["value_numeric_high"],
+                    rec_a["unit"],
+                    rec_b["value_numeric"],
+                    rec_b["value_numeric_high"],
+                    rec_b["unit"],
+                ):
+                    continue
+                findings.append(
+                    f"Class 3a inconsistent replication: {metric_canonical} — "
+                    f"[[{rec_a['page']}]] reports {rec_a['value_raw']}, "
+                    f"[[{rec_b['page']}]] reports {rec_b['value_raw']} for the same "
+                    f"{rec_a['measurement_date']} measurement, shared source(s) "
+                    f"{sorted(set(rec_a['sources']) & set(rec_b['sources']))}."
+                )
+    return findings
+
+
+def _class3b_findings(records_by_metric):
+    """Class 3b — DR<->DR supersession asymmetry (informational only, spec 4.5)."""
+    findings = []
+    for metric_canonical, records in records_by_metric.items():
+        by_page = defaultdict(list)
+        for rec in records:
+            by_page[rec["page"]].append(rec)
+        pages = sorted(by_page.keys())
+        for page_a in pages:
+            for rec_a in by_page[page_a]:
+                if rec_a["status"] != "current":
+                    continue
+                for page_b in pages:
+                    if page_b == page_a:
+                        continue
+                    candidates = [
+                        rec_b
+                        for rec_b in by_page[page_b]
+                        if (set(rec_a["sources"]) & set(rec_b["sources"]))
+                        and conditions_similarity(
+                            rec_a["conditions_tokens"], rec_b["conditions_tokens"]
+                        )
+                        >= CONDITIONS_SIM_THRESHOLD
+                    ]
+                    if not candidates:
+                        continue
+                    best_b = max(candidates, key=lambda r: r["measurement_date"])
+                    if best_b["measurement_date"] < rec_a["measurement_date"]:
+                        findings.append(
+                            f"Class 3b supersession asymmetry: {metric_canonical} — "
+                            f"[[{page_a}]] has a current measurement dated "
+                            f"{rec_a['measurement_date']}, but [[{page_b}]]'s most "
+                            f"recent matching measurement is dated "
+                            f"{best_b['measurement_date']} — it may have missed an append."
+                        )
+    return findings
+
+
+def check_L20_contradiction_prescreen(claims_list, records_list):
+    """
+    L20 (Group C — pre-screen): match quantitative assertions across the
+    claims.json/data-records.json structures L19 built (no page re-reads)
+    and surface divergence candidates for the agent's existing
+    CONTRADICTION-SKILL.md Section 1.4 existence check (spec Section 4.5).
+
+    Classes 1-2 produce agent_review items (review_type:
+    contradiction_prescreen); Classes 3a-3b produce informational findings
+    only and are structurally incapable of promotion to a contradiction
+    review item (spec F5). Class 1+2 candidates are capped at
+    MAX_PRESCREEN_CANDIDATES per run, ranked Class 2 before Class 1, then by
+    descending relative divergence, then descending claim similarity;
+    overflow is deferred (stateless re-derivation next run), not dropped.
+    """
+    claims_by_metric = _eligible_claims_by_metric(claims_list)
+    records_by_metric = _records_by_metric(records_list)
+
+    class1 = _class1_candidates(claims_by_metric)
+    class2 = _class2_candidates(claims_by_metric, records_by_metric)
+
+    all_candidates = class2 + class1  # Class 2 ranked before Class 1 (spec 4.6)
+    all_candidates.sort(
+        key=lambda c: (
+            0 if c["class"] == "dr-kc" else 1,
+            -c["relative_divergence"],
+            -(c["claim_similarity"] or 0.0),
+        )
+    )
+
+    surfaced = all_candidates[:MAX_PRESCREEN_CANDIDATES]
+    deferred = all_candidates[MAX_PRESCREEN_CANDIDATES:]
+
+    for cand in surfaced:
+        add_agent_review(
+            "L20",
+            "contradiction_prescreen",
+            None,
+            cand["description"],
+            **{k: v for k, v in cand.items() if k != "description"},
+        )
+
+    if deferred:
+        add_finding(
+            "L20",
+            "informational",
+            None,
+            f"Pre-screen: {len(deferred)} Class 1/2 candidate(s) deferred to next "
+            f"lint pass (ceiling {MAX_PRESCREEN_CANDIDATES} reached).",
+            {"deferred_count": len(deferred)},
+        )
+
+    class3a = _class3a_findings(records_by_metric)
+    class3b = _class3b_findings(records_by_metric)
+
+    for msg in class3a[:20]:
+        add_finding("L20", "informational", None, msg, {})
+    if len(class3a) > 20:
+        add_finding(
+            "L20",
+            "informational",
+            None,
+            f"Class 3a: {len(class3a) - 20} more inconsistent-replication findings not shown.",
+            {},
+        )
+    for msg in class3b[:20]:
+        add_finding("L20", "informational", None, msg, {})
+    if len(class3b) > 20:
+        add_finding(
+            "L20",
+            "informational",
+            None,
+            f"Class 3b: {len(class3b) - 20} more supersession-asymmetry findings not shown.",
+            {},
+        )
+
+    add_finding(
+        "L20",
+        "informational",
+        None,
+        f"Contradiction pre-screen: Class 1 candidates={len(class1)}, "
+        f"Class 2 candidates={len(class2)} (pre-ceiling), surfaced={len(surfaced)}, "
+        f"deferred={len(deferred)}, Class 3a={len(class3a)}, Class 3b={len(class3b)}.",
+        {
+            "class1_count": len(class1),
+            "class2_count": len(class2),
+            "surfaced_count": len(surfaced),
+            "deferred_count": len(deferred),
+            "class3a_count": len(class3a),
+            "class3b_count": len(class3b),
+        },
+    )
 def check_L6_orphan_detection(entity_pages_fm, inbound_links):
     """
     L6: Detect pages with no inbound wikilinks from non-source pages.
@@ -2874,9 +4073,20 @@ def main():
     if verbose:
         print("\n[Group B] Per-page checks...")
 
-    (entity_pages_fm, inbound_links, open_contradictions_count,
-     teaching_tagged_count, topic_tool_count, topic_tool_deprecated_count,
-     source_slugs, all_ctrd_ids, page_claims, page_prose) = read_and_check_all_pages(
+    (
+        entity_pages_fm,
+        inbound_links,
+        open_contradictions_count,
+        teaching_tagged_count,
+        topic_tool_count,
+        topic_tool_deprecated_count,
+        source_slugs,
+        all_ctrd_ids,
+        page_claims,
+        page_prose,
+        page_data_records,
+        page_meta,
+    ) = read_and_check_all_pages(
         valid_slugs, slug_to_path, ctrd_signals, last_lint_date, verbose
     )
 
@@ -2902,6 +4112,10 @@ def main():
     counts_by_type = entries_by_type
     total_indexed = sum(len(v) for v in counts_by_type.values())
 
+    claims_list, records_list = check_L19_extraction_and_serialization(
+        page_claims, page_data_records, page_meta, source_info
+    )
+    check_L20_contradiction_prescreen(claims_list, records_list)
     check_L3_support_scores(page_claims, source_info, verbose)
     check_L4c_and_G4_counters(
         open_contradictions_count, all_ctrd_ids, overview_fm, total_indexed

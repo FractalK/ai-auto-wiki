@@ -84,6 +84,17 @@ When in doubt, treat it as not a contradiction and update the prose under rollin
 overwrite. Only invoke the three-path protocol when the new source's finding is
 directionally incompatible with the existing Key Claim.
 
+### 1.5 Detection Channels
+
+Contradiction candidates arrive from two channels: ingest (Steps 9–10 of the ingest
+workflow — the channel the worked examples in Section 2 assume) and the lint
+pre-screen (OPERATIONS.md Step L20). The Section 1.4 existence check applies
+identically to both. Path determination differs: ingest-channel contradictions use
+the Section 1.3 precedence tests; lint-channel contradictions always take Path B
+(`human-review`) — see CLAUDE.md Section 8.2, lint-channel path rule. The four
+inputs in Section 1.1 are computed for lint-channel flags only to populate the flag
+context, never to select a path.
+
 ---
 
 ## 2. Worked Examples

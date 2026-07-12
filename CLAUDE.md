@@ -1168,6 +1168,11 @@ A contradiction exists when a new source makes a claim that is directionally inc
 with an existing Key Claim — not merely adds nuance or detail. Detect contradictions
 during Steps 9 and 10 of the ingest workflow.
 
+Contradictions are additionally detected at lint time by the mechanical pre-screen
+(OPERATIONS.md Step L20), which surfaces cross-page divergence candidates for the
+existence check in this section. A pre-screen candidate is not a contradiction until
+the existence check confirms directional incompatibility.
+
 **Scope exclusion:** The contradiction protocol applies only to Key Claims (Section 6.1).
 It does not apply to rows in a `## Data Records` table (Section 6.6). A new measurement
 of the same metric is an append operation, not a contradiction. See Section 6.6 for the
@@ -1207,6 +1212,13 @@ Condition: existing Support Score exceeds incoming source weight by more than 2
 Action: add the dissenting source to the Key Claim's Source field with a `[minority view]`
 annotation. Do not change claim status. Do not flag for human review. Log a
 `contradiction-flag` entry at informational level.
+
+**Lint-channel path rule:** Contradictions confirmed from the lint pre-screen
+(Step L20) always take Path B (`human-review`), regardless of score arithmetic. The
+Path A/C score comparison models an asymmetry — a newly incoming source contesting a
+standing claim — that does not exist between two already-published claims; there is
+no principled "incoming" side. Do not auto-resolve (Path A) or minority-annotate
+(Path C) a lint-channel contradiction.
 
 **Credibility weights:**
 - `peer-reviewed`: 3
