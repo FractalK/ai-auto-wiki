@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 07/12/2026 23:24 EDT
+**Last Updated:** 07/12/2026 23:42 EDT
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -1741,6 +1741,7 @@ Injection flags: N.
 Pages assessed: N. Stale flags: N. Contradiction flags: N.
 Support scores recalculated: N. Teaching Index regenerated.
 Collection gaps confirmed: N | addressed: N | dismissed: N.
+Overcap cards: {[[page-slug]] — consolidated | deferred | accepted | evicted | unresolved; ...} | none
 
 ## [YYYY-MM-DD] contradiction-flag | {page title}
 Page: [[page-slug]]

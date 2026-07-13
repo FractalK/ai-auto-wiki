@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 07/12/2026 23:24 EDT
+**Last Updated:** 07/12/2026 23:42 EDT
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -1763,6 +1763,13 @@ Individual deviations below the three-page threshold: logged informational only.
 Key Claims count overcap is exempt from the three-page threshold. Each overcapped page
 surfaces its own forced choice regardless of how many other pages are overcapped.
 
+Before generating an overcap card for a page, grep log.md for prior
+`Overcap cards:` clauses naming this page. If this surfacing is the third or
+later, prepend to the card context: "Adoption trigger fired: third overcap event
+on this page. BL-W-03 eviction policy is specified and gated on this event —
+notify the design project (key-claims-eviction-spec.md)." Include the same line
+in the lint summary.
+
 Before generating the forced choice, identify consolidation candidates: claims from the
 same source slug AND same date that are not `Status: contested`. Propose a merged claim
 text combining their assertions into a single sentence. If no consolidation candidates
@@ -2265,6 +2272,7 @@ Stale nominations deleted: {N} — {titles or "none"}
 Teaching Index regenerated: yes | no
 Skill enrichment staleness flags: {N} — {skill file sections or "none"}
 Teaching notes currency flags: {N} — {wikilinks or "none"}
+Overcap cards: {[[page-slug]] — consolidated | deferred | accepted | evicted | unresolved; ...} | none
 ```
 
 ### 11.5 Query Workflow
