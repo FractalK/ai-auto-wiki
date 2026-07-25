@@ -1,5 +1,5 @@
 # Lessons Learned
-**Last Updated:** 07/07/2026 17:06 EDT
+**Last Updated:** 07/25/2026 13:38 ET
 
 Append-only log. Each entry documents a problem encountered, its root cause,
 the fix applied, and the implication going forward.
@@ -7,7 +7,12 @@ the fix applied, and the implication going forward.
 Reference format from other documents: `# See LL-NNN`
 
 **Mutability rules:**
-- Append only. No existing entry is ever edited after it is written.
+- Append only. No existing entry's substantive content is ever edited after it is
+  written, except for one narrow exception (DM-147, `decisions_made.md`): a
+  gov_lint-flagged conformance correction to an entry's *form* (status-value casing,
+  field-name repair, heading format) may be made in place, under mandatory guards
+  logged in the DM that makes the correction. See `decisions_made.md` DM-147 for the
+  full rule; it applies across all four append-only logs, not to this file alone.
 - If a later entry reveals that a prior root cause diagnosis was wrong, add a new entry
   referencing the earlier one — do not correct the original.
 - Entries are added at the close of any chat where a mistake was made and fixed,
@@ -57,6 +62,9 @@ Produced the full updated instructions file on explicit request.
 **Implication Going Forward:**
 When producing recommendations that modify any project artifact — including the project instructions — always deliver the revised artifact as a file in the same response as the recommendations. Do not wait to be asked.
 
+**References:** —
+
+
 ---
 
 ## LL-002 | Failed to Proactively Propose Weighted Contradiction Model
@@ -97,6 +105,9 @@ End-of-chat ritual run, carry-forward prompt produced, lessons learned entry add
 **Implication Going Forward:**
 Do not accept vague context-limit instructions. At session start, if a context warning instruction is present, immediately restate it as a concrete checkable condition — e.g., "I will warn after each agenda item if remaining items cannot be completed at full quality." If the instruction does not specify a trigger, ask for one or propose one explicitly. Monitor at each agenda item boundary, not continuously. Do not wait to be asked.
 
+**References:** —
+
+
 ---
 
 ## LL-004 | Delivered Carry-Forward Prompt as Chat Block Instead of File
@@ -122,6 +133,9 @@ Any output intended to be carried forward, pasted, or reused should be delivered
 downloadable file if it exceeds a few sentences. Length is the trigger, not category
 membership. The carry-forward prompt is a project artifact by function — treat it as
 one at production time, not on request.
+
+**References:** —
+
 
 ---
 
@@ -162,6 +176,9 @@ reproduced accurately is not a basis for partial delivery — it is a trigger to
 and ask before delivering anything. If content is in the context window, reproduce it.
 If it is not, ask.
 
+**References:** —
+
+
 ---
 
 ## LL-006 | Implementation-Handoff Scaffold Template Defects Escaped Cross-Reference Check
@@ -197,6 +214,9 @@ the complete rendered content of each scaffold file template — everything betw
 opening and closing markdown fence — not only frontmatter field names and values. A line
 that appears outside the frontmatter fence but inside the template fence is part of the
 scaffold file content and must match Section 2.1 exactly.
+
+**References:** —
+
 
 ---
 
@@ -235,14 +255,17 @@ carry-forward description as green-lights for immediate execution. If the sessio
 already completed its stated agenda and is in end-of-chat ritual, any new scope goes
 into the carry-forward by default unless the user explicitly says "do it now."
 
+**References:** —
+
+
 ---
 
 ## LL-008 | Lint forced-choice step inserted after consolidation step, creating silent miss
 
 **Date:** 2026-04-21
-**Operation:** Schema design — lint procedure editing
+**Context:** Schema design — lint procedure editing
 
-**Problem Encountered:**
+**Problem:**
 A new forced-choice lint step (deferred-ingest staleness check) was initially numbered
 L14 and placed after the L13 consolidation step. This meant the forced choice would
 not be included in the consolidated pre-flight report, making it unreachable to the
@@ -263,6 +286,9 @@ Before inserting any new lint step that generates a forced choice, verify it is
 numbered before L13. Any step numbered L13 or higher cannot generate forced choices
 that appear in the consolidated pre-flight report. When adding new lint steps: read
 the full L1–L14 sequence first, assign the correct number, then execute the str_replace.
+
+**References:** —
+
 
 ---
 
@@ -304,6 +330,9 @@ section reference (currently INIT-PROMPT.md Step 12 and portability-review.md it
 Add these as explicit items to the end-of-chat cross-reference checklist whenever
 implementation-handoff.md is touched.
 
+**References:** —
+
+
 ---
 
 ## LL-010 | Closed Information Need Not Propagated to Reference Documents
@@ -343,6 +372,9 @@ or deferred capability. These documents are human-facing references; stale "reso
 before launch" language in them creates unnecessary implementer confusion and is as
 much a defect as a schema inconsistency.
 
+**References:** —
+
+
 ---
 
 ## LL-011 | cp Circular Reference in Recovery Instructions Silently Dropped Directory
@@ -378,6 +410,9 @@ same name as the source. If it does, use a temp location outside the repo as an
 intermediate step — never rely on `cp -r <dir>/. .` for such a layout. The definitive
 fix is in the Phase 0 Quartz setup instructions, which now use `git clone` directly
 into the wiki root directory, eliminating the nested-copy problem entirely.
+
+**References:** —
+
 
 ---
 
@@ -475,84 +510,96 @@ batch-exclude by category.
 ## LL-014 | Plan Statement Treated as Self-Authorization to Execute
 
 - **Date:** 2026-04-22
-- **Problem encountered:** Agent stated a detailed plan for the index.md landing page
+- **Context:** —
+- **Problem:** Agent stated a detailed plan for the index.md landing page
   design, then immediately executed all file edits and deliveries in the same turn
   without waiting for the user to engage with or confirm the plan.
-- **Root cause:** The collaboration contract rule "plan first, act second" was misread
+- **Root Cause:** The collaboration contract rule "plan first, act second" was misread
   as a sequencing constraint (do planning steps before execution steps, within a single
   turn) rather than a gating constraint (stop after the plan; execution requires explicit
   human go-ahead).
-- **Fix applied:** None to the deliverables — the work product is not wrong. Process
+- **Fix Applied:** None to the deliverables — the work product is not wrong. Process
   error only.
-- **Implication going forward:** After stating a plan, stop. The next turn belongs to
+- **Implication Going Forward:** After stating a plan, stop. The next turn belongs to
   the user. Do not interpret "plan first, act second" as permission to collapse both
   steps into one response. Execute only after receiving explicit approval or a "proceed"
   signal. If the plan draws corrections, incorporate them before executing.
+**References:** —
+
 
 ---
 
 ## LL-015 | Fix Plan Assumed Skill File Content Without Reading
 
 - **Date:** 2026-04-22
-- **Problem encountered:** The FRIC-018 fix plan stated that EXTRACTION-SKILL.md and
+- **Context:** —
+- **Problem:** The FRIC-018 fix plan stated that EXTRACTION-SKILL.md and
   TAGGING-SKILL.md "contain examples of skill enrichment proposal output" that would
   need updating to use the PS-N label. This was wrong. Both files contain enrichment
   content (§6.1, §5.1) — not examples of the proposal format. The proposal format
   lives in CLAUDE.md Step 21a. The user correctly instructed a re-read before writing.
   The error was caught before any incorrect edit was made.
-- **Root cause:** The fix plan was drafted from memory of the skill file structure
+- **Root Cause:** The fix plan was drafted from memory of the skill file structure
   without reading the files first. The reasoning was plausible (skill files were known
   to contain forced-choice format examples from the design phase) but stale — the files
   had evolved, and the proposal format had never been placed in the skill files.
-- **Fix applied:** Re-read both files before execution. Corrected scope: no skill file
+- **Fix Applied:** Re-read both files before execution. Corrected scope: no skill file
   changes required for FRIC-018. Only CLAUDE.md Steps 21a and 22 changed.
-- **Implication going forward:** When a fix plan references specific content in a
+- **Implication Going Forward:** When a fix plan references specific content in a
   project file, read that file before finalizing the plan — not after confirming it.
   Plausible reasoning about file content is not a substitute for reading. This applies
   especially to skill files, which are updated by ingest operations between sessions.
+**References:** —
+
 
 ## LL-016 | Fix Plan Used Tool Page Status Vocabulary on Source Page
 
 - **Date:** 2026-04-22
-- **Problem encountered:** The FRIC-019 fix plan (in the carry-forward prompt) specified
+- **Context:** —
+- **Problem:** The FRIC-019 fix plan (in the carry-forward prompt) specified
   "`status: superseded` or `status: retracted`: hard stop still applies." Source pages
   have no `status: superseded`. The controlled values for source page status are
   `active | retracted | ingested-in-error`. The `superseded` value belongs to Tool and
   Topic pages. The error was caught before writing and corrected to `retracted or
   ingested-in-error` during execution.
-- **Root cause:** The fix plan was drafted with source and tool page status vocabularies
+- **Root Cause:** The fix plan was drafted with source and tool page status vocabularies
   conflated. Both page types have a `status` field, but their controlled vocabularies
   differ. The distinction is easy to miss when reasoning about the schema at a distance
   without consulting the frontmatter specs.
-- **Fix applied:** Corrected the condition in Step 2 and the DM-059 entry to use the
+- **Fix Applied:** Corrected the condition in Step 2 and the DM-059 entry to use the
   correct source page status vocabulary (`retracted | ingested-in-error`).
-- **Implication going forward:** Before writing any fix plan that references a `status`
+- **Implication Going Forward:** Before writing any fix plan that references a `status`
   field, confirm which page type is involved and check the controlled vocabulary for
   that page type in CLAUDE.md Section 5. Do not assume that vocabulary is consistent
   across page types.
+**References:** —
+
 
 ---
 
 ## LL-017 | Normal Ingest Path Had No Explicit Staged File Cleanup Step
 
 - **Date:** 2026-04-23
-- **Problem encountered:** While planning the FRIC-022 fix (consumed sources not preserved),
+- **Context:** —
+- **Problem:** While planning the FRIC-022 fix (consumed sources not preserved),
   the carry-forward prompt assumed staged file removal was already specified in the normal
   ingest path and that the fix would only need to change "remove" to "move." In fact, the
   normal path (Steps 10–22a) contained no staged file disposal instruction at all. Only the
   enrichment path (Step 2a) had a disposal instruction. The carry-forward description of the
   fix scope was therefore incomplete.
-- **Root cause:** The ingest workflow was designed with the implicit assumption that staged
+- **Root Cause:** The ingest workflow was designed with the implicit assumption that staged
   files would be cleaned up by the human or by the operating environment, not by the schema.
   No one noticed the omission because the only explicit disposal instruction (Step 2a) was
   added for a different reason (enrichment path) and was never generalized.
-- **Fix applied:** Added Step 22b to the execution pass as an explicit post-ingest
+- **Fix Applied:** Added Step 22b to the execution pass as an explicit post-ingest
   housekeeping step covering both staged files (move to raw/processed/) and queue entries
   (move to ## [processed] with processed date appended).
-- **Implication going forward:** When writing fix plans that reference "the existing cleanup
+- **Implication Going Forward:** When writing fix plans that reference "the existing cleanup
   step," verify that the step actually exists in the current schema before citing it. Do not
   infer the presence of a step from context or operational common sense. Read the schema
   text first.
+**References:** —
+
 
 ---
 
@@ -576,17 +623,20 @@ Steps 12 and 13 handle Topic and Tool pages. Step 15 handles Comparison pages
 (conditional on pre-flight Step 7). No equivalent step existed for Pitfalls pages.
 The failure mode content was correctly identified and then dropped.
 
-**Fix applied:**
+**Fix Applied:**
 Added Step 7a (pre-flight pitfalls proposal — fires when source contains at least one
 substantive failure mode meeting the named-entry threshold) and Step 13a (execution —
 creates or updates Pitfalls page if Step 7a confirmed). Threshold: nameable failure
 mode with `**Status:**` designation. Passing mentions of limitations do not qualify.
 
-**Implication going forward:**
+**Implication Going Forward:**
 When adding a new page type to the schema, explicitly verify that the ingest workflow
 has both a pre-flight proposal step and an execution step for that type. The
 existence of a page type in Section 3 and a frontmatter spec in Section 5 is not
 sufficient — without workflow steps, the type is unreachable from ingest.
+
+**References:** —
+
 
 ---
 
@@ -617,6 +667,9 @@ check: do all items share the same attribute schema? If yes, use a table. The sp
 test: would reading this as a table make cross-item comparison easier than reading it
 as blocks? If yes, use a table. This applies to gap audits, decision comparisons,
 option evaluations, and any structured recommendation series with three or more items.
+
+**References:** —
+
 
 ---
 
@@ -686,6 +739,9 @@ else until the question is answered. Do not deliver partial inline content "in t
 meantime." The user's ability to read an inline block does not satisfy the Delivery
 Rule.
 
+**References:** —
+
+
 ---
 
 ## LL-022 | Declared Information Unavailable Without Checking Accessible Sources
@@ -721,6 +777,9 @@ instructions, web search for live resources, and any other applicable tool. "Not
 project files" is not equivalent to "unavailable." Exhaust accessible sources before
 declaring the information cannot be found.
 
+**References:** —
+
+
 ---
 
 ## LL-023 | Wiki-Verify.sh baseUrl Check: Whole-File String Match Causes False Positives
@@ -753,6 +812,9 @@ grep for the specific key line, not the whole file. Whole-file matching is appro
 only when checking for strings that must never appear anywhere (e.g., secret key
 patterns, known malicious strings). For setting-value checks, narrow to the key line.
 
+**References:** —
+
+
 ---
 
 ## LL-024 | Wiki-Verify.sh Naming Scan Included Gitignored Archive Directory
@@ -784,6 +846,9 @@ conform. When adding a directory to a conformance scan, confirm that all files i
 directory tree are subject to the convention being checked. Gitignored directories that
 hold externally-sourced or archived content should be excluded unless there is a specific
 affirmative reason to include them.
+
+**References:** —
+
 
 ---
 
@@ -818,6 +883,9 @@ when the accessible-source check must fire — because the simulation framing is
 scope-narrowing is most likely to occur silently. "What would the pipeline know?" and
 "What can I verify in this session?" are different questions; they must not be conflated.
 
+**References:** —
+
+
 ---
 
 ## LL-026 | BSD sed Requires Empty-String Backup Argument for In-Place Editing
@@ -851,6 +919,9 @@ on a Mac. GNU sed is not available by default. When providing bash commands that
 run on the implementer's machine rather than in a Linux container, default to BSD-compatible
 syntax. If portability is uncertain, note both forms.
 
+**References:** —
+
+
 ---
 
 ## LL-027 | Asked Unnecessary Clarifying Question Answered by Existing Convention
@@ -879,6 +950,9 @@ no design decision required.
 Before raising a design question about a field format or reference syntax, check whether
 the same pattern already exists elsewhere in the schema. If it does, apply it and state
 the rationale — do not surface it as an open question.
+
+**References:** —
+
 
 ---
 
@@ -917,6 +991,9 @@ that fires on every minor change must be rejected or scoped down before it reach
 proposal stage. The test: would an operator encountering this flag on three consecutive
 ingest sessions start dismissing it? If yes, the trigger is wrong.
 
+**References:** —
+
+
 ## LL-029 | TOOLING-RECOMMENDATION.MD SECTION 7 NOT UPDATED WHEN SECTION 5 CHANGED
 
 - **Date:** 2026-04-29
@@ -947,6 +1024,9 @@ The cross-reference check between implementation-handoff.md Section 5 and
 tooling-recommendation.md Section 7 is a named check that fires on every session that
 modifies the template. Treat it as a required gate, not a suggestion. Do not mark the
 ritual complete until both documents have been visually compared on the template content.
+
+**References:** —
+
 
 ## LL-030 | YAML WIKILINK QUOTING REQUIREMENT NOT STATED EXPLICITLY IN SCHEMA
 
@@ -1115,12 +1195,16 @@ separately from the vocabulary change DM entry.
 
 ---
 
-## LL-034 — Friction Log Status Fields Not Updated When Resolved Dates Were Set
+## LL-034 | Friction Log Status Fields Not Updated When Resolved Dates Were Set
 
 **Date:** 2026-05-18
+
+**Context:**
+—
+
 **Phase:** Implementation support
 
-**What Happened:**
+**Problem:**
 FRIC-033 and FRIC-034 were identified as `Status: open` in `implementation-friction.md`
 despite both having `Resolved: 2026-05-04` dates set. The prior session's end-of-chat
 ritual wrote the resolved dates but never changed the status fields. The defect was
@@ -1206,7 +1290,11 @@ checkpoints that survive the resource boundary.
 
 **Date:** 2026-05-20
 
-**Problem Encountered:**
+
+**Context:**
+—
+
+**Problem:**
 Wiki pages contained `\\$` (two backslashes + dollar sign) in prose, causing LaTeX math
 mode to trigger on the Quartz site — the same rendering failure as FRIC-029. CLAUDE.md
 Section 6.2 already specified the correct `\$` form (one backslash), so the spec was not
@@ -1280,11 +1368,15 @@ script that can be tested independently.
 ## LL-038 | Build Prompts That Delegate OPERATIONS.md Updates Must Specify Target Sections Explicitly
 
 **Date:** 2026-05-24
+
+**Context:**
+—
+
 **Trigger:** Post-build verification revealed G1-G5 checks implemented in wiki-lint.py
 but absent from OPERATIONS.md step documentation, Group A/B/C classification, L13
 summary template, and lint log format.
 
-**What Happened:**
+**Problem:**
 The claude-code-lint-build-prompt-v2.md Phase 3 instruction read: "Add the five new
 checks (G1-G5) to the appropriate step positions." The Claude Code session updated
 OPERATIONS.md's hybrid architecture description and rewrote the Section 11.4 preamble
@@ -1325,10 +1417,14 @@ is consistent: preamble/architecture sections get updated; templated output form
 ## LL-039 | Advised Manual Fix After Already Executing It
 
 **Date:** 2026-05-24
+
+**Context:**
+—
+
 **Session:** Dark-mode dashboard theming session
 **Rule Violated:** Collaboration contract — "If uncertain, stop and ask. Never assume a way forward." Inverse failure: declared a fix unexecutable after having already executed and verified it.
 
-**What Happened:**
+**Problem:**
 During surgical str_replace editing of wiki-dashboard.html, a duplicate closing brace `}` was introduced in the `heatColor()` function. The fix was applied via str_replace and verified with `node --check` (output: "Syntax OK") — all within the same response. The response then concluded by telling the operator: "I can't execute the fix in this response" and instructing them to make the manual edit themselves.
 
 **Root Cause:**
@@ -1807,3 +1903,343 @@ Operator located the original DM-100 and DM-101 entries; both were inserted verb
 A referenced-but-absent log entry is a distinct governance defect class: more dangerous than a missing reference (which fails loudly when followed) because the citing documents look healthy and the gap is silent until someone follows the pointer. Mechanical integrity checks on governance logs are cheap and catch this class immediately; conventions about how logs are written do not substitute for verification that they were. Secondary implication: delivery placement is a failure point separate from delivery production — a correctly produced file that never reaches project knowledge fails identically to one never produced, and only an integrity check on the destination catches the difference.
 
 **References:** DM-100, DM-101, DM-126, FRIC-039, FRIC-040, FRIC-044, design-project-backlog.md BL-D-02
+
+---
+
+## LL-061 | STAGED/DERIVED GOVERNANCE DRIFTS FROM HOUSE FORMAT, AND LONG-LIVED CONTROL DOCUMENTS CARRY LATENT COPY DEFECTS — FULL REPRODUCTION AND GOV-LINT ARE THE ONLY DETECTORS
+
+- **Date:** 2026-07-11
+- **Context:** The BL-D-01 batch reformatted three decision entries staged in a separate draft file into decisions_made.md, and reproduced the full Session Instructions in order to apply the R-001 edits.
+
+**Problem:**
+Two latent defects surfaced only because the work forced a full pass over the text. (1) The draft DM entries were authored in a staging shorthand — PROPOSED/settled parentheticals, a "Proposed decision" header, structure that diverged from the log's house format — and had to be reconciled to house style at append time rather than pasted as-is. (2) The Session Instructions' Delivery Rule section carried a duplicated, truncated sentence fragment — a copy-paste artifact of unknown vintage — that no session had noticed, because no session had reproduced that section in full since it was introduced.
+
+**Root Cause:**
+Governance text produced outside its destination file (staged drafts, derived proposals) is written to be read by a human in the moment, not to match the destination's conventions; the reconciliation step is implicit and easy to skip. Separately, a control document edited in place with surgical `str_replace` is never re-read end to end, so a defect outside any edited region persists indefinitely. Neither failure is caught by the current End-of-Chat Ritual, which checks cross-document agreement for changes made *this* session, not the internal well-formedness of a document nobody fully reproduced.
+
+**Fix Applied:**
+The three drafts were reformatted to house style before append (all-caps `|` titles, `- **Date:**` / `- **Status:** ACTIVE` bullets, staging parentheticals stripped, DM-132 flipped PROPOSED to ACTIVE with its open tradeoff resolved). The duplicated Delivery-Rule fragment was removed during the R-001 reproduction. Both fixes shipped in the BL-D-01 batch (DM-133). Because the full instructions were reproduced from context rather than from a byte-exact disk source, the R-001 revision also establishes a standing practice: the operator diffs the delivered file against the stored copy before replacing it.
+
+**Implication Going Forward:**
+Two gov-lint targets to add to BL-D-02 beyond the ID-continuity check LL-060 already motivates: (a) house-format and status-vocabulary conformance for every log entry, which would flag a staged draft that landed unreconciled; and (b) intra-document well-formedness checks that do not depend on a change occurring this session (duplicated or truncated lines, orphaned fragments). Until that lint exists, the mitigations are manual: reconcile staged governance to house format at landing, and periodically reproduce long-lived control documents in full rather than only `str_replace`-editing them — surgical edits keep the edited regions correct but never surface defects elsewhere.
+
+**References:** DM-131, DM-132, DM-133, LL-045, LL-060, design-project-backlog.md BL-D-02, decisions_made.md, wiki-design-session-instructions.md
+
+---
+
+## LL-062 | GOVERNANCE-LOG LINE-2 TIMESTAMPS CAN LAG THEIR OWN LATEST ENTRY — THE CARRY-FORWARD CHAIN CHECK CAUGHT IT, NOT THE DELIVERY
+
+- **Date:** 2026-07-12
+- **Context:** Session Start's carry-forward chain check (R-001, check 2) compared the
+  loaded carry-forward's date (07/11/2026 12:58 EDT) against `decisions_made.md`'s
+  Line-2 `Last Updated` (07/08/2026 12:23 EDT) and found a mismatch.
+
+**Problem:**
+`decisions_made.md` and `lessons_learned.md` both had their entries appended through
+DM-133 / LL-061 (dated 2026-07-11 in-entry) in the BL-D-01 session, but neither file's
+Line-2 `Last Updated` line was bumped to match — both still showed their pre-session
+timestamps. `wiki-implementation-backlog.md` and `design-project-backlog.md`, edited in
+the same session, got their headers bumped correctly. `implementation-friction.md` and
+`info_needs.md` were unaffected (not touched that session).
+
+**Root Cause:**
+The Delivery Rule and the Project Files convention both require the Line-2 timestamp
+update on any file edit, but for append-only logs the edit is conceptually "add an
+entry," which is easy to execute as a pure append (`str_replace` inserting new content
+before the file's end) without also touching Line 2 — unlike the rolling-edit backlog
+files, where the header and the body are naturally revisited together. Nothing checks
+this mechanically; it surfaced only because the Session Start carry-forward chain check
+happens to diff a log's header against an external date.
+
+**Fix Applied:**
+Corrected both headers to 07/12/2026 15:43 EDT in this session (concurrent with new
+entries DM-134/135 and this entry). Confirmed via content-level check (max entry ID
+matching the carry-forward's stated maxima) that this was a header-only defect, not a
+stale copy or a missing entry, before proceeding — the two check types answer different
+questions and neither substitutes for the other.
+
+**Implication Going Forward:**
+A third gov-lint target for BL-D-02, alongside the two LL-061 already named
+(house-format conformance; intra-document well-formedness independent of this
+session's edits): Line-2 `Last Updated` recency versus the latest in-entry `Date:` /
+`Raised:` field in each of the four governance logs. Until that lint exists, the
+Session Start carry-forward chain check remains the only mitigation, and it only
+catches `decisions_made.md` specifically — it does not cross-check
+`lessons_learned.md`, `implementation-friction.md`, or `info_needs.md` headers against
+their own latest entries. Consider extending Session Start check 2 (or check 3) to
+diff all four log headers against their own latest in-entry dates, not just
+`decisions_made.md` against the carry-forward.
+
+**References:** LL-060, LL-061, design-project-backlog.md BL-D-02, decisions_made.md
+(DM-134, DM-135), wiki-implementation-backlog.md, design-project-backlog.md, Session
+Instructions Session Start (check 2).
+
+---
+
+## LL-063 | A "MANDATORY" CARRY-FORWARD TABLE STILL DROPPED A ROW — NARRATIVE RECALL IS NOT A SUBSTITUTE FOR A MECHANICAL DIFF AGAINST THE SOURCE COLUMN
+
+- **Date:** 2026-07-12
+- **Context:** Session Start's standing stale-state check (R-001/R-002, check 4) read
+  `wiki-implementation-backlog.md`'s summary table directly and found BL-W-03 listed
+  `planned`, but `carry-forward-2026-07-12.md`'s "Pending executions" table — explicitly
+  documented as mandatory and exhaustive for every `planned` item — enumerated only
+  BL-W-04.
+
+**Problem:**
+The Pending Executions table is written to be exhaustive by construction ("its absence
+when `planned` items exist is a defect in the carry-forward"), yet a `planned` row was
+silently dropped from it in the same session that produced it.
+
+**Root Cause:**
+BL-W-03 is a split item — Stage 1 rides as an uncommitted rider on the not-yet-run
+BL-W-04 session; Stage 2 is trigger-gated. That nuance almost certainly caused it to be
+mentally filed as "not a standalone pending execution" while drafting the table, even
+though the backlog's own Status column — the literal source of truth the table is
+supposed to enumerate — says `planned`, unqualified. The table was assembled from
+narrative recall of the session's work (which is centered on BL-W-04), not from a
+mechanical scan of both backlog files' Status columns for the literal value `planned`.
+This is the same failure shape as LL-060/LL-061: a derived artifact drifts from its
+source because a human-legible summarization step stood in for a mechanical check.
+
+**Fix Applied:**
+Caught this session via Session Start check 4 before any work proceeded on the stale
+framing. Correction deferred to the next carry-forward this session produces, which
+must list BL-W-03 with a note on its rider/split status rather than omit it.
+
+**Implication Going Forward:**
+Add a fourth target to `design-project-backlog.md` BL-D-02 (gov-lint): before any
+carry-forward is delivered, mechanically grep both backlog files' summary tables for
+every row where Status = `planned` and diff that set against the drafted Pending
+Executions table — do not rely on recalling which items the session's narrative
+centered on. Until gov-lint exists, this diff is a manual step to run explicitly at
+Ritual step 7, separate from drafting the table's prose. This does not need an
+institutional-memory artifact on its own — it is a project-internal process defect,
+not a generalizable design principle — though the underlying shape (a mandatory
+summarization step silently drifting from its own source column) is the same pattern
+LL-060/LL-061 already flagged, and may be worth folding into a future institutional-
+memory entry on derived-artifact verification generally if that theme recurs again.
+
+**References:** LL-060, LL-061, design-project-backlog.md BL-D-02,
+wiki-implementation-backlog.md (BL-W-03), carry-forward-2026-07-12.md, Session
+Instructions Session Start (check 4).
+
+---
+
+## LL-064 | AN EXECUTION SPEC INSTRUCTED THE EXECUTOR TO READ A FILE IT CANNOT REACH — A CROSS-SPEC REFERENCE IS AN UNEXECUTABLE STEP, NOT A CITATION
+
+- **Date:** 2026-07-12
+- **Context:** Generating `claude-code-prompt-BL-W-04.md` from
+  `ingest-injection-resistance-spec.md` per DM-132. The spec's Section 5 execution
+  sequence, step 6, reads: "Apply BL-W-03 Stage 1 (key-claims-eviction-spec.md Section 6:
+  lint log format line in both mirror locations + L11 card annotation instruction)."
+
+**Problem:**
+`key-claims-eviction-spec.md` is a design-project file. It does not exist in the wiki
+repository and is not inlined in the prompt. Claude Code, executing the prompt, cannot
+read it. The instruction is therefore unexecutable as written: the rider commit would
+have been produced from the one-line paraphrase in the step text, or silently skipped,
+or the executor would have STOPped and asked — the best of three bad outcomes. This is
+precisely the paraphrase-failure risk DM-132 was created to eliminate, and the spec
+tripped over it in the spec's own execution section.
+
+**Root Cause:**
+The spec was authored inside the design project, where both files are in context and a
+cross-reference reads like an ordinary citation. DM-132's rule — "inline the governing
+spec verbatim rather than referencing it, because the execution agent cannot read the
+source" — was applied to the *governing* spec and not carried to a spec the governing
+spec *itself* points at. The rule was understood as a fact about one document rather than
+as a property of the executor's whole reachable context. Note the timing: DM-130 and
+DM-129 were drafted in the same planning burst (both dated 2026-07-08, both Fable
+planning-capture items), where the cross-reference was natural and the coupling real; the
+defect only became visible at prompt-generation time, three sessions later.
+
+**Fix Applied:**
+1. `key-claims-eviction-spec.md` Section 6 is inlined verbatim in the BL-W-04 prompt as
+   Appendix A, behind its own `=== BEGIN RIDER SPECIFICATION ===` marker, with an explicit
+   scope fence ("commit 2 scope, and nothing beyond it") — because dropping one section of
+   the *eviction* spec into an executor's context without a fence invites it to implement
+   Stage 2, which is trigger-gated and must not run.
+2. The governing spec was deliberately **not** amended. Amending it would bump its
+   `Last Updated` and immediately stale the prompt built from it (DM-132's currency guard).
+   The prompt closes the gap by construction; the spec's step text remains accurate as a
+   description of *what* commit 2 does.
+3. Backported to `claude-code-execution-prompt-template.md` in the same session (LL-045):
+   a **closure check** in the generation checklist — scan the governing spec's execution
+   sequence for instructions to read any other specification or design-project document,
+   and inline each verbatim as a rider — plus rider markers in the template body and a
+   requirement that every inlined spec's `Last Updated` appear in the prompt header and the
+   backlog pointer.
+4. Audited the other three execution specs (`key-claims-eviction-spec.md`,
+   `structured-data-extraction-spec.md`, `vocabulary-json-refactor-spec.md`) for the same
+   defect in their execution sections. **Clean** — no other spec instructs its executor to
+   read a design-project file. The defect is isolated to BL-W-04.
+
+
+**Implication Going Forward:**
+The test for an execution prompt is not "is the governing spec inlined?" but "**is
+everything the executor is told to read reachable from the prompt alone?**" Those differ
+exactly when one spec cites another — which happens whenever two backlog items are planned
+in the same session and one rides on the other's execution, a pattern this project now uses
+deliberately (BL-W-03 Stage 1 riding on BL-W-04). The coupling that makes riders efficient
+is the same coupling that makes them unexecutable if the rider text is left behind. This is
+the same shape as LL-060/LL-061/LL-063 — a derived artifact drifting from its source
+because a summarizing step stood in for a mechanical one — but with a sharper edge: here the
+derived artifact is handed to an agent with repository write access, and the paraphrase it
+would have executed from was a single parenthetical clause.
+
+**References:** DM-129, DM-130, DM-132, DM-141, LL-045, LL-060, LL-061, LL-063,
+ingest-injection-resistance-spec.md (Section 5, step 6), key-claims-eviction-spec.md
+(Section 6), claude-code-execution-prompt-template.md, claude-code-prompt-BL-W-04.md.
+
+---
+
+## LL-065 | "SYNCED" CONFLATED CONNECTOR SYNC WITH GIT PUSH — SESSION START CHECK 4 MUST DISAMBIGUATE, NOT ACCEPT EITHER STATUS CLAIM AT FACE VALUE
+
+- **Date:** 2026-07-14
+- **Context:** Processing the Step 9 report for the BL-W-04/BL-W-03-Stage-1 execution
+  session at Session Start.
+
+**Problem:**
+The operator opened with "I have synced the repo" before pasting the Step 9 report. The
+report's own text stated both commits were local-only and had not been pushed to
+`origin/main`. Taken at face value, "synced" would have satisfied Session Start check 4
+(connector currency) when in fact it could not have: the GitHub connector's `Sync now`
+reads only from `origin/main`; run against an unpushed local repository, it pulls no new
+content regardless of how many times it is run.
+
+**Root Cause:**
+"Synced" collapses two distinct actions in ordinary speech: (1) running the connector's
+`Sync now`, and (2) the prerequisite of having pushed local commits to `origin/main`
+first, without which (1) is a no-op. Nothing in the operator-facing language, or in the
+connector's own UI, signals that these are two separate steps rather than one.
+
+**Fix Applied:**
+Did not accept the initial "synced" claim as satisfying check 4 — the report's own
+"local only, not pushed" statement was flagged back to the operator directly, and work
+was held until push status was confirmed. After the operator confirmed the gap, pushed,
+and re-ran `Sync now`, currency was confirmed by a **direct retrieval probe** — searching
+project knowledge for content that could only exist post-commit (`EXTRACTION-SKILL.md`'s
+new Section 8 header, `OPERATIONS.md`'s Step 11 injection-screen bullet, the
+`CLAUDE.md`/`OPERATIONS.md` `Overcap cards:` log line) — rather than accepting the
+operator's second "synced" confirmation at face value either.
+
+**Implication Going Forward:**
+Session Start check 4 must never treat "synced" (or equivalent operator shorthand) as
+self-certifying, in either direction. Whenever a Claude Code session has executed since
+the last design session: (1) ask explicitly whether local commits were pushed to
+`origin/main` before `Sync now` was run — do not infer this from the word "synced" alone;
+(2) regardless of the answer, confirm currency by a direct retrieval probe for content
+that only exists after the specific commit(s) in question, following the pattern DM-138
+already established for whole-file claims. A status claim about the connector is not
+evidence about the connector.
+
+**References:** DM-138, DM-140, DM-142, DM-143.
+
+---
+
+## LL-066 | SANDBOX CLOCK IS UNRELIABLE ACROSS TOOL CALLS — DERIVE THE DATE STAMP FROM THE AUTHORITATIVE SESSION DATE, NOT A RAW `date` READING
+
+- **Date:** 2026-07-14
+- **Context:** Applying `Last Updated` header timestamps and in-entry `Date:` fields
+  during the BL-D-02 planning session and its End-of-Chat Ritual.
+
+**Problem:**
+Two `date` reads in the same session returned wall-clock values roughly a day and a half
+apart (an early call implied 2026-07-13 morning; a later call implied 2026-07-14 night).
+The first, stale reading had already been used to stamp four working files with
+`07/13/2026` headers and `2026-07-13` in-entry dates. The authoritative session date was
+2026-07-14 throughout, so those stamps were wrong and had to be corrected in a second
+pass — the exact kind of avoidable rework the timestamp convention exists to prevent.
+
+**Root Cause:**
+The instruction "use the actual current time as reported by the system" implicitly assumes
+the sandbox clock is a stable, monotonic wall clock. It is not: the execution sandbox can
+be reset or re-provisioned between tool batches, so a raw `date` reading is a reading of
+*that container's* clock at that moment, not a reliable session wall clock. Nothing in the
+convention told the advisor to cross-check the reading against an independent source of the
+current date.
+
+**Fix Applied:**
+Normalized every this-session file — the four already stamped plus all ritual outputs — to
+a single authoritative timestamp (`07/14/2026 23:27 EDT`) derived from the session's known
+current date rather than from whichever `date` reading was most recent. Verified that no
+pre-existing prior-session dates were clobbered by the normalization (the originals held
+zero `2026-07-13` references).
+
+**Implication Going Forward:**
+Treat the sandbox `date` command as a source for the *time-of-day* only, and cross-check
+its *date* against the authoritative session date before stamping any file. When the two
+disagree, the authoritative session date wins. Stamp all files produced in one session with
+one consistent timestamp rather than re-reading the clock per file — a session is a single
+logical "now," and per-file clock reads invite exactly the intra-batch date split seen
+here. This is a convention refinement, not a rule violation; the wrong stamps were caught
+and corrected before delivery.
+
+**References:** LL-062 (header-currency defect class), DM-144, gov-lint-spec.md Section 4.4
+(Check D validates header currency but not timezone/date correctness against an external
+clock — this lesson is the human-side complement).
+
+---
+
+## LL-067 | A SPEC'S NAMED REGRESSION FIXTURES ARE NOT A SUBSTITUTE FOR AN INTEGRATION RUN AGAINST THE FULL REAL CORPUS
+
+- **Date:** 2026-07-15
+- **Context:** Building `gov_lint.py` (BL-D-02) against `gov-lint-spec.md`, which named five specific historical defects (DM-102, IN-016, FRIC-017, LL-034, a header-lag case) as required regression fixtures.
+
+**Problem:**
+The first working version of `gov_lint.py` passed all synthetic fixture tests, including the five named regression cases, but its `Status:`/`Date:` field-extraction regexes required a leading `- ` bullet before `**Field:**`. Real entries from an earlier convention era (DM-078 through DM-080, at minimum) write `**Status:**`/`**Date:**` with no bullet at all. Against the real files, this produced false "no Status field found" errors on three entries that do have a status — a wrong finding, not a missing one.
+
+**Root Cause:**
+The five named regression fixtures in the spec were all synthesized (correctly) around the *current* entry-template convention (bulleted fields). None of them happened to exercise the older unbulleted-field convention, because that specific drift pattern wasn't among the historical defects the spec's author had front-of-mind when naming fixtures. A synthetic-fixture-only test suite inherits the blind spots of whoever enumerated the fixtures; it cannot catch a format variant nobody thought to name.
+
+**Fix Applied:**
+Ran the finished script against the full real `/mnt/project` corpus (not just the fixture set) before declaring it done. This surfaced the bullet-format gap immediately; the field regexes were loosened to make the leading `- ` optional, and the unit tests were re-verified to still pass.
+
+**Implication Going Forward:**
+For any tool built against a spec that names specific historical defects as regression fixtures: treat those fixtures as a floor, not a ceiling. Always run the finished tool against the full real file(s) it will operate on before delivery, even when — especially when — the synthetic fixtures all pass. The named fixtures test whether the spec's *known* defects are caught; a real-corpus run tests whether *unknown* ones slip through.
+
+**Addendum, same session:** a second, related defect surfaced the same way, one step later. Drafting this very entry's `Problem:` paragraph — which discusses `**Status:**`/`**Date:**` as regex targets — caused `gov_lint.py` to misfire again: its field regexes searched for `**Field:**` anywhere in an entry's body, so prose that merely *mentions* a field name (rather than declaring it) was indistinguishable from the field itself. This was not hypothetical — four pre-existing entries (LL-018, LL-026, LL-031, LL-061) were already being mis-flagged as "carrying a Status field" for exactly this reason, discovered only when this entry's own text tripped the same bug. Fixed by anchoring every field regex to the start of a line (`^`, optionally after a bullet dash) instead of a free `re.search` anywhere in the body. Generalization: a field-presence check on semi-structured text needs a *structural* anchor (line-start), not just the field's bolded name — a lesson that applies to any regex-based document parser, not just this one.
+
+**References:** BL-D-02, gov-lint-spec.md, DM-144.
+
+---
+
+## LL-068 | SERIAL OVERCORRECTION IN RULE EVOLUTION — EACH TIMESTAMP RULE FIXED ONLY THE LAST FAILURE, ENDING WITH THE OPERATOR IN THE LOOP FOR A TRIVIAL FACT
+
+- **Date:** 2026-07-17
+- **Context:** The advisor asked the operator for the wall-clock time before a delivery batch, citing the carried-forward "stop and ask" constraint; the operator identified this as the wrong default.
+
+**Problem:**
+The timestamp rule had evolved into requiring operator involvement for every delivery batch. Retrieving the current time is machine-retrievable; the operator belongs in the loop only when no tool can answer.
+
+**Root Cause:**
+Rule evolution by serial overcorrection. Original failure: timestamps hallucinated without consulting any clock → rule: "use the actual system time." Second failure: sandbox clock date-split mid-session (LL-066) → rule: derive from the authoritative session date; clock for time-of-day only. Third failure: a temporary clock outage → carry-forward hardening: "stop and ask the operator." Each patch responded only to the most recent incident, with no enumeration of the full failure-mode set (hallucination, drift/re-provisioning, outage, multi-day sessions) — so the end state solved the rare case by imposing a per-batch human cost on the common case. A second instance of the same pattern surfaced within the fix session itself: a clock reading that appeared to jump four hours was initially suspected as drift (fighting the last war, LL-066), when an external `Date`-header cross-check showed the clock was correct and the operator's earlier time anchor was simply stale after a four-hour turn gap.
+
+**Fix Applied:**
+DM-148 / Instructions R-006 replaced the chain with a layered default: sandbox clock read at each delivery batch, `TZ` conversion, `ET` label, date sanity check, external HTTPS `Date`-header cross-check when in doubt, operator fallback only when both the clock and the cross-check fail. LL-066's "one timestamp per session" implication is refined to "one per delivery batch"; LL-066 itself is unedited per append-only discipline — this entry carries the refinement.
+
+**Implication Going Forward:**
+When a rule fails, enumerate the complete known failure-mode set before patching, and design the replacement as default-plus-fallback layers across all of them — not as a patch on the newest incident. Test for the inversion: if a rule escalates to human involvement for something a tool can retrieve, the human step belongs in the fallback branch, not the default. Corollary: operator-supplied facts that decay with time (clock anchors, "I just synced") are stale after any turn gap and must be re-derived or re-verified mechanically, not remembered — the same principle LL-065 established for "synced."
+
+**References:** LL-065, LL-066, DM-148, R-006, carry-forward-2026-07-15.md.
+
+---
+
+## LL-069 | PRE-DELIVERY LINT OF THE STAGED BATCH IS A DELIVERY GATE, NOT A RITUAL-TIME-ONLY STEP — IT CAUGHT TWO DEFECT CLASSES IN ONE SESSION
+
+- **Date:** 2026-07-17
+- **Context:** Second delivery batch of the DM-148/R-006 session; `gov_lint.py` run against the staged files before copying anything to outputs.
+
+**Problem:**
+Two defects existed in the staged batch that reasoning had not caught: (1) the drafted DM-148 claimed the `ET` zone label had no `gov_lint.py` impact, but the linter's line-2 regex required `(EST|EDT)` and failed every `ET`-stamped file — the ritual matrix's conformance-rule row did fire, contrary to the drafted claim; (2) a foreign DM-148 entry, appended to the staged log by an aborted prior execution attempt (IN-031), was invisible to a prose read of the file tail but tripped the Check A duplicate-ID finding.
+
+**Root Cause:**
+The instructions position `gov_lint.py` at session start and at ritual time; nothing mandated linting each staged delivery batch before it ships. Both defects were catchable only mechanically: a "no linter impact" claim about a conformance-rule change is an empirical claim about a regex, not a judgment call, and foreign content inside a 6,800-line append-only log is not findable by inspection.
+
+**Fix Applied:**
+Ran the linter on the full staged corpus before delivery; both findings were fixed in-batch — the spec was amended and the linter rebuilt with a regression test per the matrix row, and the foreign entry was excised by rebuilding from the last delivered snapshot. The final batch was re-linted to exact baseline parity (168 errors / 80 warnings, all pre-existing) before copying to outputs.
+
+**Implication Going Forward:**
+Lint every staged delivery batch against the full governance corpus and require baseline parity — or explained deltas — before anything is copied to outputs; treat this as a delivery gate alongside the Delivery Rule. Never assert from reasoning alone that a conformance-rule change has no linter impact; run the linter, which is the ground truth for its own behavior. Candidate one-line codification into the Session Instructions at the next revision (queued in the carry-forward rather than churning a second revision in one session).
+
+**References:** DM-148, IN-031, LL-041, LL-063, LL-067, gov-lint-spec.md.

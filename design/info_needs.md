@@ -1,5 +1,5 @@
 # Information Needs
-**Last Updated:** 06/30/2026 20:14 EDT
+**Last Updated:** 07/25/2026 13:38 ET
 
 Authoritative repository of open questions, data gaps, and contradictions that must
 be resolved before dependent design or implementation work can proceed.
@@ -10,6 +10,11 @@ Reference format from other documents: `# See IN-NNN`
 - Open and partial entries are updated in place.
 - Closed entries are append-only: resolution is added; no other content is changed.
 - Entries are never deleted. If a gap proves to be a non-issue, close it with an explanation.
+- Exception for closed entries (DM-147, `decisions_made.md`): a gov_lint-flagged
+  conformance correction to an entry's *form* (status-value casing, field-name repair,
+  heading format) may be made in place under mandatory guards logged in the correcting
+  DM. See `decisions_made.md` DM-147 for the full rule; it applies across all four
+  append-only logs.
 
 Sorted by priority tier at all times. Within a tier, higher-consequence blockers appear first.
 
@@ -28,7 +33,7 @@ Sorted by priority tier at all times. Within a tier, higher-consequence blockers
 ```
 ## IN-NNN | [SHORT DESCRIPTIVE TITLE]
 
-- **Status:** OPEN | PARTIAL | CLOSED
+- **Status:** open | partial | closed
 - **Priority:** P1 | P2 | P3
 - **Category:** Architecture | Implementation | Tooling | Domain | Process
 - **Raised:** YYYY-MM-DD
@@ -52,7 +57,7 @@ Sorted by priority tier at all times. Within a tier, higher-consequence blockers
 
 ## IN-001 | Wiki Domain and Purpose Are Undefined
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P1
 - **Category:** Domain
 - **Raised:** 2026-04-14
@@ -73,7 +78,7 @@ AI effectiveness wiki for a small technical team (2–5 people). Domain covers: 
 
 ## IN-002 | Wiki Schema Document Is Not Yet Designed
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P1
 - **Category:** Architecture
 - **Raised:** 2026-04-14
@@ -111,7 +116,7 @@ environment.
 
 ## IN-003 | Source Classification Taxonomy Not Defined
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P2
 - **Category:** Architecture
 - **Raised:** 2026-04-14
@@ -132,7 +137,7 @@ Eight source types confirmed: research-paper, industry-blog, white-paper, public
 
 ## IN-004 | Contradiction Resolution Protocol Not Defined
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P2
 - **Category:** Process
 - **Raised:** 2026-04-14
@@ -168,7 +173,7 @@ See CLAUDE.md Section 12.
 
 ## IN-005 | Execution Environment for Wiki Not Selected
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P2
 - **Category:** Tooling
 - **Raised:** 2026-04-14
@@ -187,11 +192,32 @@ Claude Code at Pro tier ($20/month fixed) as wiki maintenance agent. Git reposit
 
 ---
 
+## IN-030 | BL-D-03's Planned Status-Value Corrections Are Not Covered by Any Existing Mutability Rule
+
+- **Status:** closed
+- **Priority:** P2
+- **Category:** Process
+- **Raised:** 2026-07-15
+- **Resolved:** 2026-07-17
+
+**Question / Gap / Contradiction:**
+BL-D-03 plans to correct DM-102's `Status: Closed` and IN-016's `partially resolved` to canonical lowercase values, plus structural repairs to FRIC-017 and LL-034. But `decisions_made.md`'s own mutability rules authorize exactly one in-place edit: the coupled `Status: AMENDED` + `Amended By:` pair (or the `Superseded By:` equivalent) for the amendment mechanism specifically. There is no existing rule authorizing an in-place casing/value correction to a historical entry's `Status` field for any other reason, and `implementation-friction.md`/`info_needs.md` have their own, separately-scoped mutability conventions that may or may not cover this either.
+
+**Why This Blocks Progress:**
+Blocks BL-D-03 from proceeding safely: editing DM-102's `Status:` value in place, as currently scoped, would be an edit to an existing entry's content outside any documented exception — exactly the kind of edit the append-only convention exists to prevent. This must be resolved (either by identifying that an existing rule already covers it, or by adding a narrowly-scoped new exception) before BL-D-03 execution, not discovered mid-edit.
+
+**Resolution:**
+Resolved 2026-07-17 by DM-147: no existing rule covered the planned corrections (the old rules' first bullet protected only four named content fields while the amendment bullet claimed exclusivity over all in-place edits — an internal inconsistency, now also fixed). A **conformance-correction exception** was added to `decisions_made.md`'s mutability rules as a second permitted in-place edit class, applying to all four append-only logs, split into **pure form** corrections (no intent determination) and **out-of-vocabulary value** corrections (intent determined from entry content or operator confirmation first, else raise an IN instead of editing). Four mandatory guards: gov_lint Check B/C/F-flagged defects only; substantive content never touched; every batch logged in a DM with exact before → after text (the logs have no version control — the DM is the only history); per-batch operator confirmation. Alternatives ruled out (lawyerly reading of existing rules; formal amendment per fix; permanent acceptance / lint baseline; broad operator-edit exception) are recorded in DM-147. BL-D-03 is unblocked; its detail block now carries the before → after logging obligation.
+
+**References:** BL-D-03, DM-102, IN-016, DM-147, gov-lint-spec.md, decisions_made.md (Mutability rules).
+
+---
+
 ## P3 — Informational Gaps
 
 ## IN-006 | Scale Threshold for Index-Only Navigation Not Established
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Architecture
 - **Raised:** 2026-04-14
@@ -215,7 +241,7 @@ At closure: wiki is at 102 pages, index.md is at 141 lines. Neither trigger is c
 
 ## IN-007 | Query Nomination Queue Scalability at Scale
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Architecture
 - **Raised:** 2026-04-19
@@ -265,7 +291,7 @@ lowest-cost starting point and does not require schema revision.
 
 ## IN-008 | Teaching Index Does Not Grade Content by Accessibility Level
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Architecture
 - **Raised:** 2026-04-20
@@ -317,7 +343,7 @@ default discovery feed (DM-049) to supplement the technical lab blog diet.
 
 ## IN-009 | Pitfalls Source Attribution Implementation
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P2
 - **Category:** Architecture
 - **Raised:** 2026-04-25
@@ -350,7 +376,7 @@ for two existing Pitfalls pages.
 
 ## IN-010 | Lint L11 Summary Field Check Produces False Violations on Comparison and Pitfalls Pages
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P2
 - **Category:** Process
 - **Raised:** 2026-04-25
@@ -379,7 +405,7 @@ derived artifacts whose synthesis replaces the summary concept; Pitfalls pages u
 
 ## IN-011 | Stale → Current Transition Mechanism Missing
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P2
 - **Category:** Process
 - **Raised:** 2026-04-25
@@ -412,7 +438,7 @@ requires active assessment confirmation.
 
 ## IN-012 | open_contradictions Counter in overview.md Has No Reconciliation Check
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Process
 - **Raised:** 2026-04-25
@@ -441,7 +467,7 @@ Add counter correction to lint Phase 3 execution if confirmed.
 
 ## IN-013 | Schema Signals Entries Have No Aging Mechanism or Lint Visibility
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Process
 - **Raised:** 2026-04-25
@@ -470,7 +496,7 @@ whether to bring a signal to a design session as a friction report.
 
 ## IN-014 | Teaching Index Stub Page Inclusion Policy Undefined
 
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Process
 - **Raised:** 2026-04-25
@@ -497,7 +523,7 @@ Add "Exclude stub pages" to Section 10 generation rules, parallel to the existin
 
 ## IN-015 | Query-Generated Visualizations Have No Filing Workflow
 
-- **Status:** OPEN
+- **Status:** open
 - **Priority:** P3
 - **Category:** Architecture
 - **Raised:** 2026-04-26
@@ -526,7 +552,8 @@ similar chart outputs, or when a filed Comparison page needs an embedded figure.
 ## IN-016 | Key Claims Table Has No Eviction Mechanism for Novel Claims at Cap
 
 - **Priority:** P3
-- **Status:** open
+- **Category:** —
+- **Status:** partial
 - **Raised:** 2026-04-27
 - **Resolved:** —
 
@@ -545,15 +572,23 @@ Becomes relevant if high-value sources consistently produce novel claims on matu
 well-established pages.
 
 **Resolution:**
-—
+Partially resolved 2026-07-08 (DM-129): the eviction policy is fully specified in
+key-claims-eviction-spec.md — deterministic ranking with candidacy floor, option D on
+the DM-115 overcap card, and an ingest-time swap forced choice in the post-ingest
+summary Section B covering exactly this gap (novel non-contradicting claim at a page
+with >= 5 rows is no longer silently skipped once adopted). Stage 1 trigger
+instrumentation executes with the BL-W-04 Claude Code session; Stage 2 adoption is
+gated on the third overcap card surfacing on a single page, counted from
+instrumentation onward. Close this entry when Stage 2 executes.
 
-**References:** FRIC-031, DM-072
+**References:** FRIC-031, DM-072, DM-115, DM-129, key-claims-eviction-spec.md
 
 ---
 
 ## IN-017 | Competency Domain Gap: AI System Design and Technical Implementation
 
 - **Priority:** P3
+- **Category:** —
 - **Status:** open
 - **Raised:** 2026-04-30
 - **Resolved:** —
@@ -585,6 +620,7 @@ reliability, or MLOps.
 ## IN-018 | Retroactive Vocabulary Matching in Lint — Design Not Specified
 
 - **Priority:** P3
+- **Category:** —
 - **Status:** open
 - **Raised:** 2026-05-04
 - **Resolved:** —
@@ -619,21 +655,23 @@ either skipped or produces unexpected results.
 
 ---
 
-## IN-019 — Lint Detection of Commercial-Entity Sources Misclassified as practitioner-reference
+## IN-019 | Lint Detection of Commercial-Entity Sources Misclassified as practitioner-reference
 
 **ID:** IN-019
 **Priority:** P3
+**Category:** —
 **Status:** open
 **Raised:** 2026-05-18
+**Resolved:** —
 
-**The Gap:**
+**Question / Gap / Contradiction:**
 The new entity-type boundary rule (DM-096) means that commercial entities operating
 aggregator leaderboards or comparison tables are `vendor-content`, not
 `practitioner-reference`. The lint procedure has no explicit check for this condition.
 A source ingested before DM-096 (or ingested by an agent that misjudges the boundary)
 could sit as `practitioner-reference` indefinitely without a lint signal.
 
-**Why This Doesn't Block Current Operation:**
+**Why This Blocks Progress:**
 The wiki has 30 sources. Manual review of `practitioner-reference` sources for
 commercial-entity origin is feasible at current scale. The gap becomes meaningful as
 the source count grows, or as more aggregator/leaderboard sources are ingested.
@@ -648,14 +686,16 @@ source count exceeds 75 and manual audit becomes impractical.
 
 ---
 
-## IN-020 — Large-Document Decomposition Threshold Calibration
+## IN-020 | Large-Document Decomposition Threshold Calibration
 
 **ID:** IN-020
 **Priority:** P3
+**Category:** —
 **Status:** open
 **Raised:** 2026-05-24
+**Resolved:** —
 
-**The Gap:**
+**Question / Gap / Contradiction:**
 FRIC-037 set the chunking threshold at >100 pages (PDF) or >50,000 words (other formats),
 derived from the Stanford HAI AI Index (425 pages) as the triggering case. The current
 threshold has not been validated against lower-density documents. Four specific questions
@@ -680,7 +720,7 @@ require investigation:
    threshold is too high — e.g., compaction events during ingest of documents in the
    70–100 page range?
 
-**Why This Doesn't Block Current Operation:**
+**Why This Blocks Progress:**
 The threshold is functional and has not produced confirmed failures since FRIC-037 was
 resolved. This is a calibration question, not a correctness gap.
 
@@ -700,10 +740,10 @@ edit and a DM entry.
 
 ---
 
-## IN-021 — Decisions Made Mutability Rule vs. Entry Template Contradiction on Amendment Status
+## IN-021 | Decisions Made Mutability Rule vs. Entry Template Contradiction on Amendment Status
 
 - **ID:** IN-021
-- **Status:** CLOSED
+- **Status:** closed
 - **Priority:** P3
 - **Category:** Process
 - **Raised:** 2026-06-14
@@ -735,13 +775,14 @@ template's field comment alone. See DM-121.
 
 ---
 
-## IN-022 — P9 TOC-Zone Detection: Duplicate-Title Handling and Threshold Generalization Unconfirmed
+## IN-022 | P9 TOC-Zone Detection: Duplicate-Title Handling and Threshold Generalization Unconfirmed
 
 - **ID:** IN-022
-- **Status:** OPEN
+- **Status:** open
 - **Priority:** P4
 - **Category:** Validation
 - **Raised:** 2026-06-30
+- **Resolved:** —
 
 **Question / Gap / Contradiction:**
 `pdf_to_markdown.py`'s P9 TOC-echo zone detection (DM-122) was validated against a single document — the Claude Sonnet 5 System Card — with a wide margin (36-37 mismatched matches per printed-TOC page vs. zero on every real content page). Two aspects of the design are unconfirmed on real data:
@@ -757,3 +798,249 @@ Does not block current operation. `--no-toc-strip` provides a documented fallbac
 —
 
 **References:** DM-122, LL-052, LL-057, pdf_to_markdown.py `build_toc_page_index`, `detect_toc_zone_pages`
+
+---
+
+## IN-023 | Pre-Existing wiki-verify.sh Findings Surfaced by BL-W-01 Execution (Page-Count Drift, Unescaped Dollar Signs)
+
+- **ID:** IN-023
+- **Status:** open
+- **Priority:** P3
+- **Category:** Implementation
+- **Raised:** 2026-07-12
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+The BL-W-01 execution report's live `wiki-verify.sh` runs (before and after the
+vocabulary.json migration) both show check 5 FAIL (`overview.md`'s `total_pages`
+recorded as 197 against an actual count of 198 content pages) and two check-12 WARNs
+(unescaped `$` before a digit in two source pages, false-positive-risk severity).
+Confirmed identical before and after the refactor, so not caused by BL-W-01 — these are
+pre-existing, unrelated drift in the live wiki that nothing has yet resolved.
+
+**Why This Blocks Progress:**
+Does not block current operation. Check 5 is a FAIL-severity check (no false-positive
+risk per test-harness.md Section 2.3 row 5), so it should not be left indefinitely —
+either `overview.md`'s counter needs a routine reconciliation pass or L4c-style
+reconciliation logic, or the count discrepancy points to an actual missing/miscounted
+page worth investigating.
+
+**Resolution:**
+—
+
+**References:** BL-W-01 execution report (Step 9), test-harness.md Section 2.3 rows 5
+and 12, wiki-verify.sh.
+
+---
+
+## IN-024 | test-harness.md Section 2.5.2 Still Documents wiki-dashboard.py as a Governed Vocabulary Sync Target (Superseded by DM-123)
+
+- **ID:** IN-024
+- **Status:** open
+- **Priority:** P3
+- **Category:** Tooling
+- **Raised:** 2026-07-12
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+Surfaced while executing the BL-W-01 Section 8 batch. test-harness.md Section 2.5.2
+(`wiki-dashboard.py` Maintenance) and its "Three-script sync rule" note still describe
+`wiki-dashboard.py`, `wiki-lint.py`, and `wiki-verify.sh` as needing vocabulary updates
+"in the same delivery batch" — but the Session Instructions' End-of-Chat Ritual step 6
+(pre-R-002 gated block) already stated `wiki-dashboard.py` is no longer a governed sync
+target, per DM-107 as amended by DM-123. This predates BL-W-01 and is independent of
+it: Section 2.5.2 was not updated when DM-123 was adopted.
+
+**Why This Blocks Progress:**
+Does not block current operation — no session currently relies on Section 2.5.2 as an
+active instruction (BL-W-01's Section 8 batch superseded the *other* two vocabulary
+maintenance rows in Section 2.5/2.5.1, which were the live ones). Left as-is, a future
+session consulting test-harness.md for `wiki-dashboard.py` maintenance would receive
+stale guidance.
+
+**Resolution:**
+—
+
+**References:** DM-107, DM-123, test-harness.md Section 2.5.2, Session Instructions
+End-of-Chat Ritual step 6 (post-R-002 consolidated vocabulary row).
+
+---
+
+## IN-025 | INIT-PROMPT.md Step 3 (Required Source Files) Omits wiki-lint.py and wiki-verify.sh Entirely
+
+- **ID:** IN-025
+- **Status:** open
+- **Priority:** P3
+- **Category:** Tooling
+- **Raised:** 2026-07-12
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+Surfaced while adding `generate-vocab-artifacts.py` to INIT-PROMPT.md Step 3 for the
+BL-W-01 Section 8 batch (item 5). Step 3's required-source-files list currently reads
+`CLAUDE.md`, `OPERATIONS.md`, `EXTRACTION-SKILL.md`, `TAGGING-SKILL.md`,
+`CONTRADICTION-SKILL.md` — it does not mention `wiki-lint.py` or `wiki-verify.sh`
+anywhere in the document, despite both being core, load-bearing tooling that a fresh
+wiki initialization would need before its first lint or verify pass. This predates
+BL-W-01 and appears to be a standing gap in INIT-PROMPT.md's own coverage, not
+something this spec introduced or is responsible for closing.
+
+**Why This Blocks Progress:**
+Does not block the currently-running wiki (already initialized). Would surface as a
+hard blocker on any future from-scratch re-initialization: Phase 2 verification
+(`wiki-verify.sh`) and any lint session (`wiki-lint.py`) would fail outright with
+neither script present, and INIT-PROMPT.md gives no instruction to obtain them.
+
+**Resolution:**
+—
+
+**References:** INIT-PROMPT.md Step 3, wiki-lint.py, wiki-verify.sh,
+implementation-handoff.md Phase 1.
+
+---
+
+## IN-026 | OPERATIONS.md Phase 1 Sequence May Be Missing Dedicated L17/L18 Step-Text Blocks (Possible Incomplete BL-W-01 Artifact)
+
+- **ID:** IN-026
+- **Status:** open
+- **Priority:** P3
+- **Category:** Implementation
+- **Raised:** 2026-07-12
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+Surfaced in the BL-W-02 execution report's appendix (not a BL-W-02 defect — flagged as
+out of that session's scope). Unlike lint Steps L1–L16, the executing agent found no
+dedicated "Step L17"/"Step L18" prose blocks in OPERATIONS.md's Phase 1 sequence — only
+a passing mention at the vocabulary-expansion procedure ("confirm no L17/L18
+findings"). This looks like BL-W-01's own OPERATIONS.md edit (spec Section 4.8, the
+Section 11.6 Value-registration block) did not also add step-documentation blocks for
+L17/L18 in the Phase 1 step sequence itself, the way L1 through L16 each have one.
+Cannot be confirmed against the design project's own OPERATIONS.md copy — it is stale
+(06/05/2026, predates the spec) and this session deferred all OPERATIONS.md edits per
+LL-040 (see DM-134, DM-136).
+
+**Why This Blocks Progress:**
+Does not block current lint operation — the constants are live and L17/L18 findings
+are produced and enforced regardless of whether their Phase 1 sequence documentation
+is complete. Left unresolved, an agent reading OPERATIONS.md's Phase 1 sequence
+top-to-bottom for procedural guidance (rather than relying on tribal knowledge of the
+spec) would not find L17/L18 documented at their expected location.
+
+**Resolution:**
+—
+
+**References:** BL-W-02 execution report Appendix item 1, vocabulary-json-refactor-spec.md
+Section 4.2 (L17/L18 definitions), DM-127, DM-134, DM-136, OPERATIONS.md Section 11.4.
+
+---
+
+## IN-027 | design-project-backlog.md's Status Vocabulary Has No Equivalent to BL-W-series' "planned" for Operator-Gated Items
+
+- **ID:** IN-027
+- **Status:** closed
+- **Priority:** P3
+- **Category:** Process
+- **Raised:** 2026-07-12
+- **Resolved:** 2026-07-14
+
+**Question / Gap / Contradiction:**
+The carry-forward's "Pending executions" table is mandated to enumerate every backlog
+item in `planned` status, in either backlog file. `wiki-implementation-backlog.md` uses
+`planned` as a real status value (plan exists, execution pending). But
+`design-project-backlog.md`'s status vocabulary is only `open | in-progress | done |
+dropped` — it has no status distinguishing "blocked on an operator action, otherwise
+ready" from ordinary `open`. BL-D-07 (added this session, blocked on the operator
+connecting the GitHub connector) is `open` under the current vocabulary, so a literal
+reading of the Pending Executions mandate — which scans for the string `planned` — would
+never surface it, even though it is functionally identical to a BL-W `planned` item:
+specified, not yet actionable, waiting on a discrete external step.
+
+**Why This Blocks Progress:**
+Does not block BL-D-07 itself — this session's carry-forward will surface it by name
+regardless. It is a gap in the *mechanical* guarantee: a future session drafting a
+carry-forward by literal rule-following (scan for `planned`) could miss an
+operator-gated BL-D item the same way LL-063 documents happening to a BL-W item this
+session, and for a structurally different reason (vocabulary mismatch, not recall
+error).
+
+**Resolution:**
+Closed by DM-144. `design-project-backlog.md` adopts the same six-value status set as
+`wiki-implementation-backlog.md` — `open | planned | in-progress | gated | done |
+dropped` — so an operator-gated, otherwise-ready BL-D item is marked `planned` (or
+`gated` when blocked on a named trigger) and is caught by the Pending-Executions mandate's
+literal `planned` scan exactly as a BL-W item is. The vocabulary mismatch that made BL-D-07
+invisible to that scan no longer exists. No Session Instructions change was required (the
+mandate already reads "either backlog file"). Note: the lowercase canonical means the
+in-file `Status:` template-header casing (`OPEN | PARTIAL | CLOSED`) and legacy entries
+across the logs are now stale; their normalization is BL-D-03, not this entry.
+
+**References:** LL-063, DM-144, design-project-backlog.md (status vocabulary), BL-D-03,
+BL-D-07, DM-138, wiki-implementation-backlog.md.
+
+---
+
+## IN-028 | DM-040 Status/Superseded-By Mismatch — Marked ACTIVE But Carries a Superseded-By Pointer
+
+- **Status:** closed
+- **Priority:** P3
+- **Category:** Process
+- **Raised:** 2026-07-15
+- **Resolved:** 2026-07-25
+
+**Question / Gap / Contradiction:**
+DM-040 ("CLAUDE.md Splitting Deferred") carries `Status: ACTIVE` alongside a `Superseded By: DM-061` pointer. Per the coupling rule (DM-121; enforced by `gov_lint.py` Check C), a `Superseded By` pointer should only appear on an entry whose `Status` is `superseded`. Discovered by `gov_lint.py`'s first real-corpus run (BL-D-02, this session), not by manual inspection.
+
+**Why This Blocks Progress:**
+Does not block current design work. Blocks a clean first `gov_lint.py` run in the sense that it's a genuine Check C failure the tool will keep reporting until resolved — relevant scope for BL-D-03, which already exists to consume `gov_lint.py`'s Check B/F output; this adds a Check C item to that same cleanup pass.
+
+**Resolution:**
+Resolved 2026-07-25 as part of BL-D-03's execution (DM-149). DM-061's content was
+checked directly: it explicitly states `Supersedes: DM-040` and replaces DM-040's
+"no split, ever" decision with "split planned, deferred to a 3,000-line trigger" — a
+genuine reversal, not a spurious pointer. DM-040's `Status` corrected to `superseded`.
+`gov_lint.py` Check C now passes clean on this entry.
+
+**References:** DM-040, DM-061, DM-121, BL-D-02, BL-D-03.
+
+---
+
+## IN-029 | gov_lint.py Actual Size (~640 Lines) Exceeds gov-lint-spec.md's Revised Estimate (~150–200 Lines) by ~3x — Unconfirmed Whether Acceptable
+
+- **Status:** open
+- **Priority:** P3
+- **Category:** Tooling
+- **Raised:** 2026-07-15
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+`gov-lint-spec.md` Section 5 estimated ~150–200 lines (already a revision upward from BL-D-02's original ~50–100 estimate, per DM-144). The delivered script is closer to ~640 lines of actual code (excluding blank lines, comments, and docstrings). The delta is attributable to real functionality — per-log required-field schemas, header-name-driven (not hardcoded-position) backlog table parsing, and specific, actionable error messages — not padding, but this has not been reviewed or accepted by the operator the way DM-144's earlier deviation was.
+
+**Why This Blocks Progress:**
+Does not block use of the tool (it runs correctly; see BL-D-02). Open question is whether the operator wants it trimmed (at some cost to parsing robustness or message specificity) or accepts the size as the real cost of the six-check design.
+
+**Resolution:**
+—
+
+**References:** BL-D-02, gov-lint-spec.md, DM-144, DM-145.
+
+---
+
+## IN-031 | Unexplained Root-Owned Artifacts Appeared in the Sandbox Working Directory Mid-Session — Provenance Unconfirmed
+
+- **Status:** open
+- **Priority:** P3
+- **Category:** Process
+- **Raised:** 2026-07-17
+- **Resolved:** —
+
+**Question / Gap / Contradiction:**
+During the 2026-07-17 session, two artifacts appeared in the advisor's sandbox that no tool call in the visible session record created, both owned by `root` while the advisor's writes run as user `claude`: (1) a file `session-instructions-R-006.md` (65,082 bytes, internal stamp `07/17/2026 16:45 ET`) in the staging directory, and (2) a complete `DM-148` entry appended to the staged `decisions_made.md`, caught by `gov_lint.py` Check A as a duplicate ID when the advisor appended its own DM-148. Both artifacts' content was benign and traceable to the session's own operator-approved plan: faithful R-005 reproduction plus exactly the planned edits, wording matching the advisor's earlier in-chat plan text, and lacking the external clock cross-check layer added later in the session. Both internal stamps fall inside a confirmed ~4-hour real-time gap between operator turns. Leading hypothesis: an aborted prior execution attempt of the same turn (retry infrastructure) left its outputs behind, with `root` ownership reflecting a different execution context. Open question: what created them, and can sandbox working directories be assumed single-writer within a session?
+
+**Why This Blocks Progress:**
+Does not block current work — both artifacts were quarantined, the delivered files were authored independently from in-context sources, and diffs against the quarantined copies confined all differences to the intended edit regions (incidentally corroborating transcription fidelity of the R-005 reproduction). The open risk if unresolved: staged files cannot be assumed to contain only this session's edits, so silent foreign content could ride into a delivery. Interim guards now in practice: (a) before delivering, confirm staged content traces to tool calls in the visible session record; (b) run `gov_lint.py` on the staged corpus — its duplicate-ID and max-ID checks mechanically catch foreign appends to the logs; (c) rebuild from the last delivered snapshot when in doubt. Close if the aborted-retry explanation is confirmed (recurrence with the same benign signature, or documented platform behavior). Escalate to an integrity incident if an unexplained artifact ever appears whose content is *not* traceable to the session's own plan.
+
+**Resolution:**
+—
+
+**References:** DM-148, LL-068, LL-066, gov-lint-spec.md (Check A).

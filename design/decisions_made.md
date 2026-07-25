@@ -1,5 +1,5 @@
 # Decisions Made
-**Last Updated:** 07/07/2026 18:12 EDT
+**Last Updated:** 07/25/2026 14:14 ET
 
 Append-only log of non-obvious decisions made during this project.
 "Non-obvious" means: a competent person could reasonably have chosen differently,
@@ -8,17 +8,43 @@ or the decision has meaningful consequences if reversed later.
 Reference format from other documents: `# See DM-NNN`
 
 **Mutability rules:**
-- Append only. Never edit an existing entry's decision, rationale, context, or alternatives.
-- If a decision is **amended** (modified but still directionally valid): on the original entry,
-  set `Status: AMENDED` and add `Amended By: DM-NNN` — these two field changes together are the
-  only permitted in-place edit; never edit one without the other — then create a new entry
-  explaining what changed and why, referencing the original. (Clarified DM-121 / IN-021: prior
-  phrasing named only the `Amended By` line as the permitted edit and omitted the accompanying
-  Status flip, which the entry template specifies but which is easy to miss when amending an
-  entry rather than authoring the template. DM-111 was left `Status: ACTIVE` as a result;
-  corrected below.)
-- If a decision is **superseded** (reversed or replaced entirely): add `Superseded By: DM-NNN`
-  to the original entry, then create a new entry explaining the reversal and its rationale.
+- Append only. Never edit an existing entry's substantive content — the decision, rationale,
+  context, alternatives, consequences-to-watch, dates, or references. (The same protection
+  extends to the substantive bodies of entries in the other three append-only logs: problem,
+  root cause, fix, question, resolution.) Exactly two classes of in-place edit are permitted,
+  defined below; nothing else is.
+- **Permitted edit class 1 — amendment/supersession coupling.** If a decision is **amended**
+  (modified but still directionally valid): on the original entry, set `Status: amended` and
+  add `Amended By: DM-NNN` — these two field changes are made together, never one without the
+  other — then create a new entry explaining what changed and why, referencing the original.
+  (Clarified DM-121 / IN-021: prior phrasing named only the `Amended By` line as the permitted
+  edit and omitted the accompanying Status flip, which the entry template specifies but which
+  is easy to miss when amending an entry rather than authoring the template. DM-111 was left
+  `Status: ACTIVE` as a result; corrected below.) If a decision is **superseded** (reversed or
+  replaced entirely): add `Superseded By: DM-NNN` to the original entry, then create a new
+  entry explaining the reversal and its rationale.
+- **Permitted edit class 2 — conformance correction (DM-147).** An in-place edit that brings
+  an entry's *form* to the canonical conventions (`gov-lint-spec.md` Section 2 status
+  vocabulary; house entry format) without altering its meaning. Applies to all four
+  append-only logs. Two sub-classes:
+  - **Pure form:** status-value casing, field-name repair (e.g. `reported:` → `Date:`),
+    heading format (`—` → `|`), adding a missing template field with an empty (`—`) value,
+    and in-file header/template vocabulary blocks. No intent determination required.
+  - **Out-of-vocabulary value correction:** replacing a recorded value that lies outside the
+    file's canonical vocabulary (e.g. a status word the vocabulary never contained) with the
+    canonical value the author evidently intended. Intent must first be determined from the
+    entry's own content or operator confirmation; if intent cannot be determined, the entry
+    is not edited and an `info_needs.md` entry is raised instead.
+  Guards — all four mandatory, none waivable:
+  1. The defect must be flagged by a `gov_lint.py` Check B/C/F finding (or the checks that
+     succeed them). No ad hoc "while I'm in here" corrections — those route to a new IN or a
+     fresh lint run.
+  2. Substantive content (the fields protected in the first bullet) is never touched under
+     this exception. It corrects form to canon, never content to preference.
+  3. Every correction batch is logged in a DM enumerating each edited entry with the exact
+     before → after text. These files carry no version control; the logging DM is the only
+     durable record that history was touched and how.
+  4. Operator confirmation of the batch (plan-then-pause) before any edit is made.
 - Before any implementation-relevant chat: scan this file for entries that the proposed work
   might contradict. Surface conflicts before proceeding.
 
@@ -30,7 +56,7 @@ Reference format from other documents: `# See DM-NNN`
 ## DM-NNN | [SHORT DESCRIPTIVE TITLE]
 
 - **Date:** YYYY-MM-DD
-- **Status:** ACTIVE | AMENDED | SUPERSEDED
+- **Status:** active | amended | superseded
 - **Amended By:** DM-NNN       ← populate only if Status is AMENDED
 - **Superseded By:** DM-NNN   ← populate only if Status is SUPERSEDED
 
@@ -57,7 +83,7 @@ Reference format from other documents: `# See DM-NNN`
 ## DM-001 | Adopt Three-Document Governance Structure
 
 - **Date:** 2026-04-14
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 This project will be governed by three persistent documents: `info_needs.md`, `decisions_made.md`, and `lessons_learned.md`. Each is maintained according to templates and update procedures agreed at project initialization.
@@ -84,7 +110,7 @@ The three-document structure maps directly to three distinct failure modes: unre
 ## DM-002 | This Project Is Design-Only, Not Implementation
 
 - **Date:** 2026-04-14
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 This Claude Project is scoped to designing the wiki — producing schemas, workflows, specifications, and architectural guidance. It is not the execution environment for the wiki.
@@ -109,7 +135,7 @@ Design and execution require different modes. Conflating them leads to designing
 ## DM-003 | Contradiction Resolution Protocol Direction
 
 - **Date:** 2026-04-15
-- **Status:** AMENDED
+- **Status:** amended
 - **Amended By:** DM-023
 
 **Decision:**
@@ -137,7 +163,7 @@ LLM-decides-with-flag threads the needle: the wiki always moves forward, but eve
 ## DM-004 | Query Pattern Taxonomy Established
 
 - **Date:** 2026-04-15
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Five named query patterns: (1) landscape/comparison, (2) synthesis/evolution, (3) implementation details under tool constraints, (4) discovery/recommendation, (5) pitfalls/failure modes.
@@ -161,7 +187,7 @@ Derived directly from stated team use cases. Pitfalls separated from synthesis b
 ## DM-005 | RAG Use Case Held Open
 
 - **Date:** 2026-04-15
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The use case of wiki pages as runtime agent input is held open. Schema design treats RAG as a live structural constraint.
@@ -187,7 +213,7 @@ Asymmetry favors keeping it open. Adding RAG back after schema design requires a
 ## DM-006 | Staleness Tracking via Key Claims Section
 
 - **Date:** 2026-04-15
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Wiki pages use a hybrid staleness model: narrative prose uses rolling overwrite; each page carries a Key Claims section containing 3–5 consequential claims each tagged with source and date.
@@ -214,7 +240,7 @@ Key Claims concentrates provenance effort where it has the highest value without
 ## DM-007 | Execution Environment Stack Confirmed
 
 - **Date:** 2026-04-16
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Stack: Claude Code (Pro tier, $20/month) as wiki maintenance agent; git repository as wiki store; Obsidian as local reading interface; Quartz on GitHub Pages as public-facing published site.
@@ -241,7 +267,7 @@ Claude Code Pro is fixed-cost at the team's ingest cadence. Quartz is purpose-bu
 ## DM-008 | Graphics Strategy: Mermaid First-Class, Assets Directory for Static Images
 
 - **Date:** 2026-04-16
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Mermaid diagrams are first-class. Static images stored in `assets/`. AI-generated imagery out of scope.
@@ -267,7 +293,7 @@ Mermaid is text-based, version-controlled, renders natively in both Obsidian and
 ## DM-009 | Page Type Taxonomy Established
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Seven named page types: Topic, Tool/Product, Source, Comparison, Pitfalls, Overview, Log.
@@ -293,7 +319,7 @@ Seven types emerged from analysis of the five query patterns, the staleness mode
 ## DM-010 | Teaching Index Structure: Professional Competency and Context Axes
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Teaching Index is a derived artifact organized by professional competency domain (primary axis) and professional context (secondary axis). Both vocabularies are controlled and extensible only by schema revision.
@@ -320,7 +346,7 @@ Organizing by professional competency rather than academic task makes the Teachi
 ## DM-011 | Pitfalls Page Category Structure
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Three mandatory subsections: Technical Limitations, Usage Antipatterns, Alignment and Safety Concerns. Cross-cutting usage antipatterns belong on Topic-scoped Pitfalls pages. Each failure mode carries an explicit status field.
@@ -345,7 +371,7 @@ Named subsections enforce coverage. Status field per failure mode required for t
 ## DM-012 | Controlled Vocabularies Locked
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two controlled vocabularies finalized: 7 Professional Competency Domains, 12 Professional Context Terms. Both extensible only by schema revision and amending DM entry.
@@ -371,7 +397,7 @@ Pre-defined vocabularies prevent tagging drift that makes the Teaching Index unr
 ## DM-013 | Frontmatter Specification Settled
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Cross-cutting frontmatter decisions: `last_assessed` replaces `last_reviewed`; `credibility_tier` is LLM-assigned at ingest; RAG tension resolved as list-of-brief-strings now; full-path wikilinks in `entities_compared` and `parent_entity`.
@@ -398,7 +424,7 @@ IN-002 frontmatter design surfaced several ambiguities requiring explicit resolu
 ## DM-014 | Naming Conventions and Directory Structure
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 All-lowercase kebab-case filenames. Type subdirectories at repo root. Per-type naming patterns established. Source slugs generated by Claude Code. Human does not set source filenames.
@@ -425,7 +451,7 @@ Kebab-case is the intersection of all three environment constraints. Mandatory v
 ## DM-015 | Version Handling for Tool/Product Pages
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Model-class tools: one page per named active version, version identifier encoded in filename at creation. Application-class tools: rolling overwrite, single page.
@@ -452,7 +478,7 @@ Categorical split handles both patterns without namespace proliferation or loss 
 ## DM-016 | CLAUDE.md Added as Primary Design Artifact and Project File
 
 - **Date:** 2026-04-17
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A working CLAUDE.md draft is added as a fifth project file, maintained in place and updated at the end of any chat that confirms new design decisions.
@@ -478,7 +504,7 @@ A working draft is the synthesized output of design decisions. decisions_made.md
 ## DM-017 | Source Classification Taxonomy Confirmed — Eight Types
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Eight source types confirmed: research-paper, industry-blog, white-paper, publication-article, youtube-video, practitioner-reference, vendor-content, policy-document. Each mapped to extraction depth (full or standard) and credibility tier assignment logic. Institutional tier lists are controlled and extensible only by schema revision.
@@ -507,7 +533,7 @@ The initial five source types left three gaps identified through test cases: inf
 ## DM-018 | YouTube Ingest: Transcript-First Approach
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 YouTube video ingest requires a human-provided transcript file as a prerequisite. Claude Code ingests the transcript, not the video URL. The Source page records both the video URL and the transcript file path in a `transcript_file` frontmatter field.
@@ -532,7 +558,7 @@ Transcript-first preserves extraction quality and keeps the ingest workflow cons
 ## DM-019 | queue.md as Universal Source Intake Mechanism
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Source intake uses two mechanisms: (a) local files in `raw/staged/`; (b) `raw/queue.md` — a plain URL list in the git repo — for queuing sources from any machine. queue.md also carries CTRD-NNN override/confirm signals (see DM-031). Syncs across machines via git.
@@ -558,7 +584,7 @@ queue.md in the git repo is accessible from any machine with git access. The CTR
 ## DM-020 | Pre-Flight Pass Model for Human Decision Consolidation
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The ingest workflow runs in two phases. Phase 1 (pre-flight): all classification, detection, and decision identification steps run without touching any wiki files, producing a consolidated report of all decisions requiring human input. Phase 2 (execution): fully automated after all decisions are resolved.
@@ -583,7 +609,7 @@ Consolidating decisions into a single review block per session transforms the in
 ## DM-021 | Forced Choice Interface for All Human Decisions
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Every human decision point uses a forced choice format: numbered items with lettered options. Human responds with a single decision string (e.g., `1:A 2:C 3:B`). No prose required.
@@ -608,7 +634,7 @@ Forced choices with single-character responses are the lowest-friction human int
 ## DM-022 | Proactive Discovery Pass
 
 - **Date:** 2026-04-18
-- **Status:** AMENDED
+- **Status:** amended
 - **Amended By:** DM-039
 
 **Decision:**
@@ -635,7 +661,7 @@ Scoping to institutional-tier only keeps the signal-to-noise ratio high. Separat
 ## DM-023 | Weighted Three-Path Contradiction Model with Score Decay
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Contradiction resolution uses a weighted three-path model. Credibility weights: peer-reviewed=3, institutional=2, practitioner=1, community=0. Each Key Claim carries a `support_score`. Path A (auto-resolve): incoming weight exceeds existing support score by more than 2 (difference > 2, incoming > existing). Path B (flag for human review): absolute difference ≤ 2 in either direction — tested first. Path C (minority view): existing score exceeds incoming weight by more than 2. Score decay threshold: 12 months (half weight). Operational aliases: auto-resolved, human-review, minority-view.
@@ -663,7 +689,7 @@ Credibility-weighted evidence balance is a better proxy for epistemic quality th
 ## DM-024 | wiki-lessons-learned.md Operational Singleton
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 `wiki-lessons-learned.md` is added as a new operational singleton — append-only, excluded from Quartz rendering, organized by operation type. Claude Code reads only the relevant section at the start of the corresponding operation. Claude Code drafts a new entry after any pass where the human overrode its decision; the human confirms or discards.
@@ -688,7 +714,7 @@ Rules + examples (skill files) + precedents (lessons learned) is the strongest c
 ## DM-025 | Source Retraction Handling
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Source pages carry a `status` field: `active` or `retracted`. `retracted` is set only by human manual action. When set, an immediate scoped lint pass fires on all Key Claims whose Source field references the retracted page as sole non-minority-view citation. Path B contradiction protocol applies regardless of score.
@@ -713,7 +739,7 @@ A dedicated status field with an immediate lint trigger is the minimum necessary
 ## DM-026 | Page Length Guidelines and Split Protocol
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Topic and Tool page prose body target: 600–800 words. Hard ceiling: 1,200 words. When exceeded, Claude Code proposes a split as a forced choice. Splits require human confirmation. Section-targeted updates used for minimal-impact passes.
@@ -738,7 +764,7 @@ A hard ceiling with a split protocol creates a mechanical backstop against page 
 ## DM-027 | summary Frontmatter Field on Topic and Tool Pages
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Topic and Tool pages carry a required `summary` field: a single sentence written by Claude Code at page creation and updated on any pass that substantially revises the page.
@@ -762,7 +788,7 @@ Minimal cost at creation; significant payoff at 200+ pages for both human naviga
 ## DM-028 | Schema Conformance Check in Lint
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The lint procedure includes a schema conformance check: Claude Code samples recently updated pages and evaluates them against explicit criteria. Deviations are logged. Same deviation across three or more pages signals behavioral drift and surfaces a schema revision question.
@@ -786,7 +812,7 @@ A conformance check creates the feedback loop the design otherwise lacks. It det
 ## DM-029 | Skill Files for Ingest Consistency
 
 - **Date:** 2026-04-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Three skill files added to wiki root: `EXTRACTION-SKILL.md`, `TAGGING-SKILL.md`, `CONTRADICTION-SKILL.md`. All excluded from Quartz rendering. Authored from early operation experience — do not exist at initial implementation.
@@ -811,7 +837,7 @@ Rules + examples + precedents is the strongest consistency stack available withi
 ## DM-030 | Contradiction Flag Format: Frontmatter List Plus Inline Key Claims Marker
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A Path B contradiction flag has two required components: (1) an entry in an `open_contradictions` frontmatter list on the affected page, and (2) a `contested [CTRD-NNN]` inline marker appended to the Status cell of the contested Key Claim row. Both components are required. The frontmatter entry is machine-readable by Claude Code during lint without prose scanning. The inline marker is visible to a human reading the page in Obsidian or Quartz. IDs are globally unique, zero-padded integers (`CTRD-NNN`), tracked in a new `last_contradiction_id` field on `overview.md`. Multiple CTRD IDs on a single Status cell are space-separated: `contested [CTRD-003] [CTRD-004]`.
@@ -838,7 +864,7 @@ A dedicated section on the page creates ambiguity about whether it is canonical 
 ## DM-031 | Override Mechanism: queue.md CTRD-NNN Syntax with Lint Redundancy
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The human signals contradiction override or confirmation by adding a `CTRD-NNN:override` or `CTRD-NNN:confirm` line to `raw/queue.md`. These lines are processed at the start of every lint and ingest pre-flight pass. As a redundant mechanism, open contradictions within their window are also surfaced as forced choices during lint (Step L4b) with an explicit skip option. The human need not remember the queue.md mechanism; lint will surface open items regardless.
@@ -864,7 +890,7 @@ Two mechanisms with complementary trigger points: proactive (queue.md, any time)
 ## DM-032 | Operational Aliases for Contradiction Path Labels
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Path A/B/C labels from the design session are replaced by operational aliases in all machine-readable and human-readable field values: `auto-resolved` (Path A), `human-review` (Path B), `minority-view` (Path C). The A/B/C labels are retained as structural labels in CLAUDE.md Section 8.2 prose for explanatory purposes only. No field value in the wiki uses the letter labels.
@@ -889,7 +915,7 @@ Operational aliases are self-describing at read time. The mapping between letter
 ## DM-033 | Lint Procedure: Full Specification
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Lint runs in three phases: assessment pass (L1–L14, no files written), optional human response to forced choices, execution pass. Fourteen assessment steps cover: queue.md CTRD-NNN signals, page inventory, support score recalculation, contradiction expiry (L4a), open contradiction surfacing as forced choices (L4b), staleness checks, orphan detection, concept gap detection, pitfalls maintenance, decay_exempt proposals, teaching index completeness, schema conformance, collection gap analysis, and skill file enrichment staleness check (L14). Execution pass applies all auto-execute actions and confirmed forced choices, updates collection-gaps.md, regenerates teaching index, updates overview.md, and appends log entry.
@@ -914,7 +940,7 @@ Each step is specified with its criterion, classification (auto-execute vs. forc
 ## DM-034 | L4b: Lint Surfaces Open Contradictions as Forced Choices
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Lint Step L4b surfaces all open Path B contradiction flags whose override window has not yet expired as forced choices in the lint pre-flight report, with an explicit skip option (C). When a claim's Status cell carries multiple CTRD IDs, each is surfaced as a separate forced choice item. This is a redundant mechanism alongside queue.md signals — the two operate independently and complement each other.
@@ -938,7 +964,7 @@ The redundancy is the point. Repeated C selections are a valid conscious deferra
 ## DM-035 | Query Workflow: Full Specification
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Query workflow: classify query (Q1), consult index.md for candidates (Q2), assess result quality and apply gap handling (Q2a), retrieve and select material contributors (Q3), format response by pattern (Q4), cite wiki pages not raw sources (Q5), assess filing criterion (Q6), create page if confirmed (Q7), append log entry with result_quality and topic_tags fields (Q8). Filing is never automatic. Derived Key Claims use `[derived]` annotation and are exempt from lint sourcing gap checks.
@@ -964,7 +990,7 @@ The query workflow closes the loop between reading the wiki and improving it: va
 ## DM-036 | Source Nomination at Query Time for Sparse and Shallow Results
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 When a query returns a sparse or shallow result, Claude Code scans `raw/queue.md` for nominated items matching the query topic and surfaces them as forced choices. A final option in the forced choice block allows the human to request Claude Code-generated candidate sources when no relevant nominations exist. Generated suggestions are appended to `[nominated]` for human review — they do not enter `[queued]` automatically. Generated suggestions carry an explicit caveat to verify URLs before use.
@@ -991,7 +1017,7 @@ Surfacing nominations at query time exploits the moment when the gap is most fro
 ## DM-037 | Collection Gap Recommendations from Query History
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Query log entries carry two new structured fields: `result_quality` (sparse | shallow | adequate | rich, set by Claude Code at query time) and `topic_tags` (kebab-case terms drawn from index.md slugs where possible). Lint Step L12 aggregates query log entries by topic tag and identifies topics with three or more sparse or shallow results as active collection gaps. Gaps are written to `raw/collection-gaps.md` — a persistent planning artifact updated by lint. Lint also checks whether sources have been ingested since the most recent sparse/shallow entry for each gap topic; if yes, the gap is annotated as potentially addressed rather than suppressed. The discovery pass reads collection-gaps.md to prioritize and annotate gap-matching nominations.
@@ -1017,7 +1043,7 @@ The result_quality and topic_tags fields on log entries are the minimum addition
 ## DM-038 | Red-Team Additions: Shallow Coverage, Discovery Pass Gap Prioritization, Gap Closure Check
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Three additions confirmed from red-teaming the collection gap design: (1) A `shallow` result quality value (distinct from `sparse`) is added — 2+ material contributors but majority stub/stale or average source_count ≤ 2. Shallow triggers the same gap nomination behavior as sparse. (2) The discovery pass reads `raw/collection-gaps.md` before fetching feeds and annotates gap-matching nominations, listing them first in the nomination report. (3) Lint Step L12 checks whether sources have been ingested since the most recent sparse/shallow query entry for each gap topic; gaps with subsequent ingests are annotated as potentially addressed rather than suppressed.
@@ -1040,10 +1066,13 @@ These additions close the most significant feedback loop gaps without requiring 
 
 ---
 
+**References:**
+—
+
 ## DM-039 | Citation Harvesting During Ingest
 
 - **Date:** 2026-04-19
-- **Status:** AMENDED
+- **Status:** amended
 - **Amended By:** DM-044
 
 **Decision:**
@@ -1091,7 +1120,7 @@ rather than interrupting the ingest pre-flight preserves the batch review model.
 ## DM-040 | CLAUDE.md Splitting Deferred — Not Warranted at Current Size
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** superseded
 - **Superseded By:** DM-061
 
 **Decision:**
@@ -1135,7 +1164,7 @@ instruction.
 ## DM-041 | Skill File Starter Templates Produced in Design Project
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Starter templates for EXTRACTION-SKILL.md, TAGGING-SKILL.md, and CONTRADICTION-SKILL.md
@@ -1181,7 +1210,7 @@ most from a worked example before any contradictions are encountered.
 ## DM-042 | Skill Enrichment Nomination Mechanism
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Claude Code nominates skill file enrichments at two trigger points: (1) after each ingest
@@ -1232,7 +1261,7 @@ at every pass.
 ## DM-043 | Contradiction Stacking Rules and Path A/B Boundary Clarification
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two additions to the contradiction resolution schema: (1) Path A/B boundary clarified —
@@ -1288,7 +1317,7 @@ syntax is a minimal extension of the existing inline marker convention.
 ## DM-044 | Citation Harvesting Nomination Cap Deferred; Step 22 Batch Dismiss Added
 
 - **Date:** 2026-04-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 No per-ingest nomination cap is added to Step 11a at schema design time. The consequence
@@ -1343,7 +1372,7 @@ no action, preserving passive surfacing via query-time matching.
 ## DM-045 | SINGLETON INITIALIZATION IS HUMAN RESPONSIBILITY; LAST_CONTRADICTION_ID INITIALIZES TO 0
 
 - **Date:** 2026-04-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The four operational singletons (`overview.md`, `index.md`, `log.md`, `teaching-index.md`)
@@ -1394,7 +1423,7 @@ where absence of the field could be misread as an unknown state rather than zero
 ## DM-046 | SEMI-AUTOMATED INITIALIZATION ADOPTED; INIT-PROMPT.MD AS FIRST-CLASS ARTIFACT; IMPLEMENTATION GUIDE RESTRUCTURED AROUND EXECUTOR PHASES
 
 - **Date:** 2026-04-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The implementation guide (item 4 of the agenda) will center on a Claude Code
@@ -1485,6 +1514,9 @@ The initialization prompt must satisfy all of the following:
 - `portability-review.md` — new CC assumption entry for INIT-PROMPT.md as required
   pre-session artifact (analogous to CC-10 for session-start prompt)
 
+
+**Rationale:**
+—
 **Alternatives Considered:**
 - **Manual step-by-step guide with no Claude Code automation:** More tedious for the
   implementer, higher error rate on YAML content, no structural advantage. Ruled out.
@@ -1503,10 +1535,13 @@ The initialization prompt must satisfy all of the following:
 
 ---
 
+**References:**
+—
+
 ## DM-047 | ACADEMIC-BLOG ADDED AS THIRD DISCOVERY SOURCE TYPE
 
 - **Date:** 2026-04-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 `academic-blog` added as a third valid type value in `raw/discovery-sources.md`.
@@ -1549,10 +1584,13 @@ pages vs. lab news feeds) without a breaking format change.
 
 ---
 
+**References:**
+—
+
 ## DM-048 | TECHNICAL_DEPTH FIELD ADDED TO TOPIC AND TOOL PAGES
 
 - **Date:** 2026-04-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 An optional `technical_depth` field is added to Topic and Tool page frontmatter.
@@ -1609,7 +1647,7 @@ policy decision requiring human input. It can be revised on re-assessment.
 ## DM-049 | DISCOVERY SOURCE FEED EXPANDED WITH FOUR INSTITUTIONAL SOURCES
 
 - **Date:** 2026-04-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Four sources added to the default `raw/discovery-sources.md` feed, all typed as
@@ -1659,10 +1697,13 @@ for a discovery feed and is better treated as a manual queue addition.
 
 ---
 
+**References:**
+—
+
 ## DM-050 | SESSION BUDGET MANAGEMENT: STEP 0 PRE-INGEST CHECK, DEFERRED-INGEST, SESSION-STATS LOG, COST REVIEW PROCEDURE
 
 - **Date:** 2026-04-21
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Four inter-related schema additions address Claude Code Pro tier session budget risk
@@ -1746,7 +1787,7 @@ accumulate operational data to refine guidance over time.
 ## DM-051 | TWO-STAGE NOMINATION QUEUE AGING: NOMINATED_DATE FIELD, [STALE-NOMINATED] SECTION, LINT AGING PASS
 
 - **Date:** 2026-04-21
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Nomination queue aging is implemented as a two-stage automatic process:
@@ -1820,7 +1861,7 @@ whether these need adjustment. They are human-editable in the schema.
 ## DM-052 | Ingested-in-Error Correction Procedure: Binary Forced Choice, Tool Page stub Status
 
 - **Date:** 2026-04-21
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A new `status: ingested-in-error` value is added to the Source page controlled vocabulary,
@@ -1887,7 +1928,7 @@ is restored unconditionally. There is nothing to weigh.
 ## DM-053 | quartz.config.ts baseUrl Must Be Set During Initialization
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 INIT-PROMPT.md Step 9 must set `baseUrl` in `quartz.config.ts` as a required third
@@ -1940,7 +1981,7 @@ being made in the same step.
 ## DM-054 | Operation-Specific Prompt Stubs in prompts/ Directory
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Five pre-filled session-start prompt stub files are created in a `prompts/`
@@ -2003,13 +2044,16 @@ functional failure (CLAUDE.md governs session behavior, not the stub header).
 ## DM-055 | Singleton Scaffold Files overview.md and log.md Excluded from Public Quartz Site; index.md Must Remain Public
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 `overview.md` and `log.md` are added to `quartz.config.ts` ignorePatterns and are
 excluded from the public Quartz site. `index.md` is explicitly NOT excluded and must
 remain in Quartz's input set.
 
+
+**Context:**
+—
 **Rationale:**
 `overview.md` (wiki state counters) and `log.md` (append-only operation log) are
 machine-maintained internal files. Neither has a markdown body — both contain only
@@ -2047,7 +2091,7 @@ resolution.
 ## DM-056 | index.md Landing Page Design: Static Prose + Generated At a Glance Line
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 `index.md` receives a two-paragraph static intro zone, a single generated "At a Glance"
@@ -2103,7 +2147,7 @@ field as the page H1 — "Wiki Index" is an operational label, not a public iden
 ## DM-057 | Budget Forced Choice Counts Staged Files and Queued URLs Equally
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Step 0 budget check counts N = (staged files in `raw/staged/`) + (items in the
@@ -2144,7 +2188,7 @@ vehicle for threshold revision when data is available.
 ## DM-058 | Post-Ingest Summary Split into Section A (Informational) and Section B (Forced Choices)
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Step 22 post-ingest summary is restructured into two explicit sections. Section A
@@ -2187,7 +2231,7 @@ simpler (A/B only) and benefit from appearing first.
 ## DM-059 | Source Enrichment Path: Step 2a and enriched Frontmatter Field
 
 - **Date:** 2026-04-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Step 2 duplicate detection now differentiates between accidental duplicates and
@@ -2251,7 +2295,7 @@ for claims that haven't actually changed.
 ## DM-060 | SOURCE PAGE BODY, INGEST PROVENANCE, AND PROCESSED ARCHIVE (FRIC-020/021/022)
 
 - **Date:** 2026-04-23
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Three schema additions made together: (1) source page body paragraph is now a required
@@ -2295,7 +2339,7 @@ additional tooling — git already tracks the move.
 ## DM-061 | CLAUDE.md Split Architecture: Option 2 (OPERATIONS.md + Hard Gate), Deferred to 3,000-Line Trigger
 
 - **Date:** 2026-04-23
-- **Status:** ACTIVE
+- **Status:** active
 - **Supersedes:** DM-040
 
 **Decision:**
@@ -2373,7 +2417,7 @@ is confirmed:
 ## DM-062 | PODCAST-TRANSCRIPT ADDED AS 9TH SOURCE TYPE
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 `podcast-transcript` added as the 9th source type. Extraction depth: `standard`. Credibility
@@ -2415,7 +2459,7 @@ the classification gap without any of the elevation risks.
 ## DM-063 | PITFALLS PAGE CREATION GAP IN INGEST WORKFLOW FIXED
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two additions to the ingest workflow: (1) Step 7a — a conditional pre-flight trigger
@@ -2462,7 +2506,7 @@ prevents cross-cutting antipatterns from being incorrectly scoped to Tool pages.
 ## DM-064 | OVERRIDE PATTERN DETECTION AND SCHEMA SIGNALS ESCALATION PATH
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two additions: (1) Lint Step L12c — reads `wiki-lessons-learned.md` ingest and lint
@@ -2511,7 +2555,7 @@ no human decision — only the downstream design-session response does.
 ## DM-065 | PITFALLS PAGES CONFIRMED AS ENTITY-SCOPED SYNTHESIS DESIGN
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Pitfalls pages are entity-scoped — one page per parent Tool or Topic entity. Multiple
@@ -2555,7 +2599,7 @@ attribution intractable.
 ## DM-066 | PITFALLS FAILURE MODE ENTRIES REQUIRE SOURCE ATTRIBUTION
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Each `### [Failure mode name]` entry in a Pitfalls page must include a `**Source:**`
@@ -2606,7 +2650,7 @@ attribution, retraction events leave invalid failure mode entries in the wiki pe
 ## DM-067 | DESIGN GOVERNANCE FILES RECOMMENDED FOR WIKI REPO STORAGE IN design/ DIRECTORY
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The design project governance files (decisions_made.md, lessons_learned.md, info_needs.md,
@@ -2656,7 +2700,7 @@ design/execution boundary.
 ## DM-068 | SPEC AUDIT GAP DISPOSITIONS — GAPS 001–010
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Following a thorough spec audit identifying ten structural gaps in CLAUDE.md, the
@@ -2688,6 +2732,9 @@ sentence each — but no structural changes or new procedures. The D-disposition
 (GAP-007 and GAP-010) have existing mitigation (GAP-007: human-triggered pass;
 GAP-010: lint L5 catches staleness) and low urgency relative to the A items.
 
+
+**Alternatives Considered:**
+—
 **Consequences to Watch:**
 - CLAUDE.md will grow by an estimated 80–150 lines from A and I gap implementations.
   Combined with current count (2,598 lines), the OPERATIONS.md split trigger (3,000 lines
@@ -2703,7 +2750,7 @@ GAP-010: lint L5 catches staleness) and low urgency relative to the A items.
 ## DM-069 | GAP IMPLEMENTATIONS — IN-009 THROUGH IN-014 AND GAP-004/GAP-005
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 All six actionable gaps (IN-009 through IN-014) and both informational additions
@@ -2750,7 +2797,7 @@ would corrupt the anchor text for later changes.
 ## DM-070 | Design Project Governance Files Versioned in wiki/design/ with Quartz Exclusion
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Design project governance files (info_needs.md, decisions_made.md, lessons_learned.md,
@@ -2796,7 +2843,7 @@ backup entirely.
 ## DM-071 | WIKI TEST HARNESS — TIER 1 SHELL SCRIPT ONLY; TIER 2 DROPPED
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The wiki test harness consists of a single Tier 1 configuration and conformance check
@@ -2848,7 +2895,7 @@ oversight layer duplicates that function at material cost.
 ## DM-072 | PROJECT INSTRUCTIONS AMENDED: PLAN-THEN-PAUSE, ACCESSIBLE-SOURCE CHECK, SELF-VIOLATION LOGGING REQUIREMENT
 
 - **Date:** 2026-04-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Three amendments to the project instructions governing this design session:
@@ -2918,7 +2965,7 @@ removes any ambiguity.
 ## DM-073 | ABOUT/ DIRECTORY ESTABLISHED FOR SCHEMA-EXEMPT PUBLIC PAGES
 
 - **Date:** 2026-04-26
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A dedicated `about/` directory is established for human-authored, schema-exempt pages
@@ -2955,10 +3002,13 @@ agent-invisible, physically separated from schema-governed content directories.
 
 ---
 
+**References:**
+—
+
 ## DM-074 | WIKI-VERIFY.SH SCRIPT FIXES: BASEURL CHECK AND NAMING SCAN SCOPE
 
 - **Date:** 2026-04-26
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two targeted fixes applied to wiki-verify.sh. (1) The baseUrl check is narrowed from
@@ -2984,6 +3034,9 @@ source titles — they were never intended to conform to wiki naming conventions
 Files in `raw/` that require conformance checking (`queue.md`, `collection-gaps.md`,
 `discovery-sources.md`) are already checked by name in Group 4.
 
+
+**Alternatives Considered:**
+—
 **Consequences to Watch:**
 - wiki-verify.sh header comment updated to accurately describe the narrowed scope
   of the baseUrl check.
@@ -2992,10 +3045,13 @@ Files in `raw/` that require conformance checking (`queue.md`, `collection-gaps.
 
 ---
 
+**References:**
+—
+
 ## DM-075 | TIER 2 SMOKE TESTS ANNOTATED AS NOT ADOPTED IN TEST-HARNESS.MD
 
 - **Date:** 2026-04-26
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 test-harness.md Section 1, Section 3, and Section 4 are updated to reflect that Tier 2
@@ -3015,6 +3071,9 @@ Deletion would lose the pass criteria and design rationale, which have reference
 for diagnosing FRIC entries. Annotation preserves the record while preventing a future
 reader from acting on instructions that describe a procedure that will not be followed.
 
+
+**Alternatives Considered:**
+—
 **Consequences to Watch:**
 - If operational experience ever produces a class of behavioral failures not detectable
   by Tier 1 or FRIC entries, the Tier 2 pass criteria provide a ready-made starting
@@ -3027,7 +3086,7 @@ reader from acting on instructions that describe a procedure that will not be fo
 ## DM-076 | TEST-HARNESS.MD AND WIKI-VERIFY.SH ADDED TO PROJECT INSTRUCTIONS
 
 - **Date:** 2026-04-26
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Entries for test-harness.md and wiki-verify.sh added to the "Project Files — Consult
@@ -3041,6 +3100,12 @@ project instructions govern session behavior for every project file; their omiss
 meant no defined trigger for consulting the maintenance table before delivering a
 CLAUDE.md update that changes directory structure, frontmatter fields, or ignorePatterns.
 
+
+**Rationale:**
+—
+
+**Alternatives Considered:**
+—
 **Consequences to Watch:**
 - The Section 2.5 maintenance table in test-harness.md must be kept current as the
   schema evolves. Any CLAUDE.md change that touches directory structure, required
@@ -3054,7 +3119,7 @@ CLAUDE.md update that changes directory structure, frontmatter fields, or ignore
 ## DM-077 | INGEST STEP 11: IMAGE HANDLING FOR FULL-DEPTH SOURCES
 
 - **Date:** 2026-04-26
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 For full-depth source types (`research-paper`, `white-paper`) that contain inline images:
@@ -3105,7 +3170,7 @@ use when a specific figure warrants preservation, using the existing `assets/` d
 ## DM-078 | URL FETCH FAILURE: NO FALLBACK RETRIEVAL; ENTRY MOVES TO [PROCESSED]
 
 **Date:** 2026-04-27
-**Status:** confirmed
+**Status:** active
 
 **Decision:** When a queued URL fails to fetch (bot protection, network error, or any
 other cause), the agent moves the entry from `## [queued]` to `## [processed]` in
@@ -3114,28 +3179,40 @@ attempted — no web search, no cached versions, no mirrors. All failures surfac
 post-ingest summary Notes field. If the content is still needed, the human obtains it
 manually and places a file in `raw/staged/`.
 
+
+**Context:**
+—
 **Rationale:** Prior behavior (FRIC-028): agent improvised web search fallbacks on fetch
 failure, consuming significant tokens without authorization. The absence of a "stop here"
 instruction was interpreted as permission to try alternatives. Explicit prohibition closes
 the gap. Moving to `[processed]` (rather than a new `[fetch-failed]` section) avoids
 changes to wiki-verify.sh or Section 2.1 scaffold.
 
-**Consequences:** Fetch-failed entries are findable in `[processed]` via the
+
+**Alternatives Considered:**
+—
+**Consequences to Watch:** Fetch-failed entries are findable in `[processed]` via the
 `fetch-failed:` annotation. Duplicate detection (Step 2) checks `sources/` by URL, not
 `queue.md`, so a manually staged file from a previously fetch-failed URL will not
 trigger a false positive.
 
 ---
 
+**References:**
+—
+
 ## DM-079 | DOLLAR SIGNS MUST BE ESCAPED AS \$ IN ALL WIKI PAGE CONTENT
 
 **Date:** 2026-04-27
-**Status:** confirmed
+**Status:** active
 
 **Decision:** All bare dollar signs in wiki page content — prose sections, Key Claims
 table cells, and frontmatter string fields — must be written as `\$`. Rule added to
 CLAUDE.md Section 6.2.
 
+
+**Context:**
+—
 **Rationale:** Quartz uses remark/MDX which parses `$...$` as inline LaTeX math
 delimiters. A bare `$20/month` in prose opened a math block; the next `$` closed it,
 rendering everything between as compressed math notation. Obsidian does not implement
@@ -3143,37 +3220,52 @@ this behavior by default, masking the issue locally. Escaping is the correct fix
 removing LaTeX support from Quartz config would be a larger change with broader
 implications not examined.
 
-**Consequences:** All future wiki writes must use `\$` for currency. Existing pages
+
+**Alternatives Considered:**
+—
+**Consequences to Watch:** All future wiki writes must use `\$` for currency. Existing pages
 required a one-time retroactive fix (applied manually by human on 2026-04-27).
 
 ---
 
+**References:**
+—
+
 ## DM-080 | PITFALLS STATUS/SOURCE LINES REQUIRE <br> FOR QUARTZ RENDERING
 
 **Date:** 2026-04-27
-**Status:** confirmed
+**Status:** active
 
 **Decision:** The `**Status:**` line in Pitfalls failure mode entries must be followed
 by `<br>` to force a line break in Quartz. Schema format updated in CLAUDE.md Section
 5.6. All existing Pitfalls pages require a retroactive fix (deferred to next wiki
 session, to be applied via a targeted bash/sed pass).
 
+
+**Context:**
+—
 **Rationale:** Quartz uses CommonMark, which does not treat a single newline as a hard
 line break. Without `<br>`, `**Status:**` and `**Source:**` collapse onto one line in
 the published site. Obsidian defaults to treating single newlines as line breaks, masking
 the issue locally. `<br>` is the minimal fix; blank lines between the two fields would
 introduce unwanted paragraph spacing.
 
-**Consequences:** All future Pitfalls page writes use the updated format. Existing pages
+
+**Alternatives Considered:**
+—
+**Consequences to Watch:** All future Pitfalls page writes use the updated format. Existing pages
 need retroactive `<br>` insertion — approach is a Claude Code bash/sed pass across
 `pitfalls/` at next wiki session start.
 
 ---
 
+**References:**
+—
+
 ## DM-081 | DERIVED-PAGE RIPPLE RULE: THRESHOLD-BASED, NOT AUTO-REWRITE PROHIBITION
 
 - **Date:** 2026-04-27
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The auto-rewrite prohibition for derived pages (Comparison pages and teaching-brief pages) is replaced with a threshold-based rule. Below the Step 12/13 substantiality threshold, the agent auto-applies updates and logs the action in the commit message. At or above the threshold, the agent surfaces a forced choice with an agent-generated draft. The same threshold governs teaching_notes sync and derived-page ripple checks.
@@ -3198,7 +3290,7 @@ If agents systematically misclassify substantive changes as below-threshold, tea
 ## DM-082 | TEACHING NOTES: STRUCTURED ANNOTATION ON TEACHING-TAGGED PAGES
 
 - **Date:** 2026-04-28
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Add a conditional `## Teaching Notes` body section to all pages with `teaching_relevance: true`. Two variants: Topic/Tool variant (concept in plain terms, why it matters, common misconceptions, suggested framing; ~150–200 words) and Pitfalls variant (what this failure mode teaches, representative example; ~150–200 words). A new `teaching_notes_reviewed` frontmatter field tracks currency. Sync mechanism: ingest-time substantiality check in Steps 12a, 13b, 13a. Lint backstop: flag pages where `teaching_notes_reviewed` is >90 days older than `last_assessed`.
@@ -3224,7 +3316,7 @@ Pages ingested before this schema change have no `teaching_notes` section. The l
 ## DM-083 | QUERY FILE-BACK PATH: THREE CASES + TEACHING-BRIEF PAGE TYPE + INSTRUCTOR SUMMARY MODE
 
 - **Date:** 2026-04-28
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Add a structured file-back procedure to OPERATIONS.md Section 11.5 covering three cases: (1) new cross-topic synthesis files as a Comparison page with `provenance: query-generated` and `query_date` fields; (2) refinement of an existing page is handled as a normal targeted ingest update with provenance noted in the commit message only; (3) instructor summary outputs file as a new `teaching-brief` page type in `teaching/`. Add a named instructor summary query mode that synthesizes from `teaching_notes` fields first, Key Claims second. Query outputs are not sources — they do not enter the ingest source classification taxonomy. Teaching-brief pages use full-path wikilinks in `derived_from` (same convention as `entities_compared` and `parent_entity`) for lint type enforcement. Teaching-brief pages are excluded from the Teaching Index (they are outputs, not source entries).
@@ -3250,7 +3342,7 @@ The `teaching/` directory is new. The pre-commit hook, wiki-verify.sh, and INIT-
 ## DM-084 | LINT CADENCE GUIDELINE: 15–20 PAGES OR TWO WEEKS, MANDATORY TRIGGERS
 
 - **Date:** 2026-04-28
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Replace the informal "recommended: weekly" lint cadence with a concrete guideline: run lint every 15–20 new pages added, or every two weeks of operation, whichever comes first. Mandatory triggers (not overridable): before any schema change applied to the live wiki; after any bulk ingest session of five or more sources. Add a pre-session habit: run `wiki-verify.sh` before every ingest or lint session.
@@ -3270,10 +3362,13 @@ The `wiki-verify.sh` pre-session habit is documented in OPERATIONS.md and implem
 
 ---
 
+**References:**
+—
+
 ## DM-085 | OPERATIONS.MD SPLIT EXECUTED: SECTION 11 EXTRACTED FROM CLAUDE.MD
 
 - **Date:** 2026-04-28
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Executed the OPERATIONS.md split per DM-061. All of CLAUDE.md Section 11 (11.1 source classification taxonomy, 11.2 ingest workflow, 11.3 discovery pass, 11.4 lint procedure, 11.5 query workflow) moved verbatim to a new peer file `OPERATIONS.md` at the wiki root. A hard gate instruction added to CLAUDE.md Section 1: if OPERATIONS.md is not present in context, output `MISSING-OPERATIONS-FILE` and halt. CLAUDE.md post-split: ~1,590 lines. OPERATIONS.md: ~1,497 lines. Combined: ~3,087 lines — above the 3,000-line trigger in DM-061.
@@ -3294,6 +3389,9 @@ Splitting at the natural Section 11 boundary is clean — all schema definitions
 7. portability-review.md: all Section 11.x references updated to OPERATIONS.md Section 11.x — done
 8. DM entry recorded — this entry
 
+
+**Alternatives Considered:**
+—
 **Note for live wiki:** OPERATIONS.md must be created in the wiki root as a schema-change operation. The agent should log a `schema-change` log entry when OPERATIONS.md is added to the live wiki. The session-start prompt stubs in `prompts/` must also be regenerated from the updated template in implementation-handoff.md Section 5 — the old stubs reference only CLAUDE.md and must be replaced.
 
 **Consequences to Watch:**
@@ -3304,7 +3402,7 @@ Schema-to-operations cross-references (Section 5 frontmatter fields, Section 7 c
 ## DM-086 | INGEST OPERATION MODE SEPARATION: INGEST-STAGED / INGEST-QUEUE / INGEST-BOTH
 
 - **Date:** 2026-04-29
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Replace the single INGEST operation with three named modes: `INGEST-STAGED` (staged
@@ -3351,7 +3449,7 @@ must be updated to regenerate the correct set of seven stubs.
 ## DM-087 | COMPARISON PAGE BODY TEMPLATE: FOUR-PART STRUCTURE WITH CONSTRAINED VERDICT
 
 - **Date:** 2026-04-29
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Comparison pages use a four-part body structure: (1) opening sentence — required, no
@@ -3416,7 +3514,7 @@ page's body. No lint rule currently detects this; defer until operationally obse
 ## DM-088 | TEST HARNESS EXPANDED TO CONTENT-LAYER CONFORMANCE (GROUPS 8–13)
 
 - **Date:** 2026-04-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Extend `wiki-verify.sh` from configuration-layer-only checks (Groups 1–7) to include
@@ -3497,7 +3595,7 @@ a new FRIC entry.
 ## DM-089 | BR-RULE REINFORCED AT OPERATIONS.MD EXECUTION POINT, NOT CLAUDE.MD ONLY
 
 - **Date:** 2026-04-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The `<br>` requirement for Pitfalls `**Status:**` lines (CLAUDE.md Section 5.6) is
@@ -3545,7 +3643,7 @@ formatting rules.
 ## DM-090 | PROFESSIONAL_CONTEXTS VOCABULARY EXPANDED: SOFTWARE-AND-AI-DEVELOPMENT ADDED
 
 - **Date:** 2026-04-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Added `software-and-ai-development` as the 13th term in the `professional_contexts`
@@ -3603,7 +3701,7 @@ describes what the page covers; the context identifies who it primarily serves.
 ## DM-091 | COMPETENCY DOMAIN GAP FOR AI SYSTEM DESIGN DEFERRED TO P3 INFO NEED
 
 - **Date:** 2026-04-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 No new competency domain is added for AI system design, evaluation pipeline architecture,
@@ -3641,7 +3739,7 @@ session.
 ## DM-092 | WIKI-VERIFY.SH GROUP 14 ADDED: CONTROLLED VOCABULARY CONFORMANCE CHECK
 
 - **Date:** 2026-04-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Added Group 14 to `wiki-verify.sh`: a deterministic check that all values present in
@@ -3698,7 +3796,7 @@ change must check Section 2.5 before closing the batch.
 ## DM-093 | COMPACTION RESILIENCE: SESSION-START DETECTION + RECOVERY PROCEDURE ADOPTED
 
 - **Date:** 2026-04-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A two-layer compaction resilience mechanism is adopted for the wiki ingest workflow:
@@ -3766,13 +3864,16 @@ Recovery Procedure); LL-032
 ## DM-094 | Reuse `source_title` JSON Field for Lint Session Identification
 
 - **Date:** 2026-05-01
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:** The choices JSON top-level field `source_title` (defined in OPERATIONS.md
 Section 11.2 and the ingest-ui-implementation-plan.md design record) is reused as-is
 for lint sessions. For lint, the field is populated with "Lint pass {N} — {YYYY-MM-DD}"
 rather than a source title. `ingest-ui-template.html` is not modified.
 
+
+**Context:**
+—
 **Rationale:** The template renders `source_title` as a generic session header label
 without type checking or semantic interpretation. Repurposing the field eliminates a
 template modification that would otherwise be required for lint support. The JSON schema
@@ -3799,13 +3900,16 @@ Section 12; DM-093
 ## DM-095 | Vocabulary Expansion Procedure Placed in OPERATIONS.md, Not CLAUDE.md
 
 - **Date:** 2026-05-04
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:** The procedure for retroactively applying a new vocabulary term to existing
 tagged pages (vocabulary expansion pass) is placed in OPERATIONS.md as a new Section 11.6,
 not in CLAUDE.md. CLAUDE.md Section 7.2 carries a one-line cross-reference pointing to
 OPERATIONS.md Section 11.6.
 
+
+**Context:**
+—
 **Rationale:** The vocabulary itself (the controlled list of values) is schema content and
 belongs in CLAUDE.md Sections 7.1–7.2 per the established CLAUDE.md/OPERATIONS.md boundary:
 schema definitions and structures belong in CLAUDE.md; procedural steps and workflow logic
@@ -3837,10 +3941,10 @@ search for it.
 
 ---
 
-## DM-096 — vendor-content Taxonomy: Entity-Type Boundary Rule and Two-Variant Annotation
+## DM-096 | vendor-content Taxonomy: Entity-Type Boundary Rule and Two-Variant Annotation
 
 **Date:** 2026-05-18
-**Status:** confirmed
+**Status:** active
 
 **Decision:** The `vendor-content` source type classification test is entity type and
 commercial purpose, not subject matter. A commercial entity producing content that
@@ -3897,7 +4001,7 @@ DM-085
 ## DM-097 | LARGE-DOCUMENT DECOMPOSITION PROTOCOL WITH MANIFEST FILES
 
 - **Date:** 2026-05-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Documents exceeding a size threshold (>100 pages for PDF, >50,000 words for other
@@ -3974,7 +4078,7 @@ session) applies regardless of format.
 ## DM-098 | WORKTREE-AWARE PUSH COMMAND REPLACES DIRECT-TO-MAIN ASSUMPTION
 
 - **Date:** 2026-05-18
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Step 22c is rewritten to use `git push origin HEAD:main` instead of
@@ -4031,7 +4135,7 @@ Force-pushing is never appropriate for a shared deployment branch.
 ## DM-099 | DATA-RECORD CLAIM TYPE: OPTIONAL ## DATA RECORDS SECTION ON WIKI PAGES
 
 - **Date:** 2026-05-19
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A new optional `## Data Records` section is added to Topic, Tool/Product, and Comparison
@@ -4100,7 +4204,7 @@ Steps 11-14, Step L5c, EXTRACTION-SKILL.md Section 7
 ## DM-100 | MANDATORY INTER-CHUNK PAUSE IN LARGE-DOCUMENT DECOMPOSITION PROTOCOL
 
 - **Date:** 2026-05-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Add a mandatory human checkpoint after each chunk commit in the large-document
@@ -4162,7 +4266,7 @@ Steps 5–6
 ## DM-101 | INTER-CHUNK PAUSE PLACEMENT AND STANDING-AUTHORIZATION PROHIBITION
 
 - **Date:** 2026-05-20
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Three refinements to the large-document decomposition protocol inter-chunk pause
@@ -4235,12 +4339,15 @@ Steps 5–6, Step 0 manifest-aware continuation
 ## DM-102 | FRIC-041: Dollar-Sign Double-Escape — Prohibition Added to Spec
 
 **Date:** 2026-05-20
-**Status:** Closed
+**Status:** active
 
 **Decision:**
 Add an explicit prohibition of the double-backslash form (`\\$`) to CLAUDE.md Section 6.2
 and a post-write verification step to OPERATIONS.md Step 12 (applying also to Step 13).
 
+
+**Context:**
+—
 **Rationale:**
 CLAUDE.md Section 6.2 already specified the correct single-backslash escape (`\$`) as of
 FRIC-029. Despite the correct rule, the wiki agent was writing `\\$` (two backslashes +
@@ -4263,7 +4370,7 @@ None; the LL-035 pattern mandates prohibition + verification when a known wrong 
 ## DM-103 | Teaching Index Redesigned as Script-Generated Artifact
 
 - **Date:** 2026-05-21
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Retire the agent-maintained teaching-index.md model. Introduce `generate-teaching-index.py`,
@@ -4275,6 +4382,9 @@ summary query session where the index is stale. A new lint step (L15) and wiki-v
 Check 15 surface pages with `teaching_relevance: true` that are missing `competency_domains`
 or `professional_contexts` — the two fields required for index inclusion.
 
+
+**Context:**
+—
 **Rationale:**
 At 83 pages, teaching-index.md had grown to 28,937 tokens, exceeding the 25,000-token
 read limit in Claude Code. The agent-maintained model requires the agent to: (1) read the
@@ -4313,7 +4423,7 @@ Section 11.6 Step 5, Step L15, wiki-verify.sh Check 15, test-harness.md Sections
 ## DM-104 | COMPARISON STALENESS TRIGGER: USE LAST_ASSESSED, NOT UPDATED
 
 - **Date:** 2026-05-22
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Change the Comparison page staleness trigger from entity page `updated` to entity page
@@ -4372,7 +4482,7 @@ for entity pages that have never been through a lint evaluation pass.
 ## DM-105 | CHUNKED-SESSION LINT WITH PERSISTENT STATE FILE
 
 - **Date:** 2026-05-22
-- **Status:** SUPERSEDED
+- **Status:** superseded
 - **Superseded By:** DM-106
 
 **Decision:**
@@ -4464,7 +4574,7 @@ CLAUDE.md Section 2
 ## DM-106 | HYBRID LINT ARCHITECTURE: PYTHON SCRIPT FOR MECHANICAL CHECKS, AGENT FOR JUDGMENT
 
 - **Date:** 2026-05-23
-- **Status:** ACTIVE
+- **Status:** active
 - **Supersedes:** DM-105
 
 **Decision:**
@@ -4532,7 +4642,7 @@ test-harness.md Section 2.5, hybrid-lint-assessment.md
 ## DM-107 | WIKI STATUS DASHBOARD: DUAL-MODE STANDALONE HTML TOOL
 
 - **Date:** 2026-05-24
-- **Status:** AMENDED
+- **Status:** amended
 - **Amended By:** DM-123
 
 **Decision:**
@@ -4645,7 +4755,7 @@ wiki-dashboard-build-spec.md, generate-teaching-index.py, ingest-ui-implementati
 ## DM-108 | WIKI-DASHBOARD.HTML: DARK MODE THEME WITH USER-FACING CONFIG BLOCK
 
 **Date:** 2026-05-24
-**Status:** Decided
+**Status:** active
 
 **Decision:**
 wiki-dashboard.html (the static HTML operator tool produced by wiki-dashboard.py) was
@@ -4656,6 +4766,9 @@ carry the values into the stylesheet; `applyConfig()` runs immediately on script
 push CONFIG values into the CSS layer. Semantic/data colors (badge tier colors, operation
 colors) remain hardcoded — they convey meaning and are not display customization.
 
+
+**Context:**
+—
 **Rationale:**
 The operator requested dark mode and a single configuration surface for look-and-feel
 customization. CSS custom properties were chosen over alternatives (separate CSS file,
@@ -4665,7 +4778,8 @@ constraint. The CONFIG-first approach means wiki-dashboard.py regenerates the HT
 blob but preserves the CONFIG block — the operator edits CONFIG once and regeneration
 does not destroy customizations.
 
-**Alternatives Ruled Out:**
+
+**Alternatives Considered:**
 - Separate CSS file: breaks the single-file delivery model.
 - Hardcoded dark-mode constants without CONFIG: customization requires editing scattered
   values across the file; not user-serviceable.
@@ -4689,7 +4803,7 @@ LL-039
 ## DM-109 | WIKILINK PROLIFERATION: L16 LINT STEP WITH SUBSET-SELECT BATCH FORCED CHOICE
 
 - **Date:** 2026-05-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 A new lint step L16 (Wikilink proliferation scan) is added to OPERATIONS.md Section 11.4,
@@ -4785,7 +4899,7 @@ test-harness.md Section 2.5.1, ingest-ui-implementation-plan.md Section 5
 ## DM-110 | L16 TOPICAL PROXIMITY: PAGE-TYPE-AWARE SIGNALS FOR PITFALLS, COMPARISON, AND TEACHING-BRIEF
 
 - **Date:** 2026-05-25
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Extend `has_topical_proximity()` in `wiki-lint.py` to use each page type's authoritative structural frontmatter field as the topical proximity signal for L16 condition (c), rather than requiring `related_topics`/`related_tools` entries on page types that don't carry those fields. Three additions:
@@ -4806,7 +4920,8 @@ Each of the three affected page types already carries a required field that enco
 
 Adding redundant `related_topics` frontmatter to these page types would create two fields encoding the same relationship with no sync mechanism, violating DRY and introducing a maintenance hazard.
 
-**Alternatives Ruled Out:**
+
+**Alternatives Considered:**
 - **Add `related_topics` to pitfalls/comparison/teaching-brief schemas:** Rejected — redundant data duplication of more authoritative existing fields. Creates sync drift risk.
 - **Loosen condition (c) to apply all cross-directory matches:** Rejected — would re-introduce false positives that the proximity filter was designed to prevent (e.g., a tool page mentioning a common word that matches an unrelated topic slug).
 - **Separate Tier 1.5 category for structurally-proximate cross-type candidates:** Rejected — unnecessary complexity. Extending `has_topical_proximity()` achieves the same result within the existing two-tier structure.
@@ -4821,7 +4936,7 @@ Adding redundant `related_topics` frontmatter to these page types would create t
 ## DM-111 | IN-006 CLOSED: TWO-PART SEARCH ESCALATION THRESHOLD CONFIRMED
 
 - **Date:** 2026-05-26
-- **Status:** AMENDED
+- **Status:** amended
 - **Amended By:** DM-120
 
 **Decision:**
@@ -4835,7 +4950,8 @@ Wiki is at 102 pages; index.md is at 141 lines. Neither trigger is close. IN-006
 **Rationale:**
 The 150-page proxy conflated two separate degradation paths. The Quartz side is directly observable (result count is visible). The agent side is observable via sparse/shallow result quality flags and line count. Splitting the trigger makes each degradation path independently detectable and actionable. The agent-side threshold (~300 lines) reflects that index.md at ~3 lines per page would reach that mark around 100 additional pages from current state, giving adequate runway before the query workflow degrades.
 
-**Alternatives Ruled Out:**
+
+**Alternatives Considered:**
 - Keep the 150-page count as the sole trigger: conflates two distinct problems; the agent-side issue could arrive sooner or later than the page count predicts depending on index entry verbosity.
 - No threshold (implement now): premature; neither symptom is present at 102 pages / 141 index lines.
 
@@ -4849,7 +4965,7 @@ The 150-page proxy conflated two separate degradation paths. The Quartz side is 
 ## DM-112 | INGEST CHECKPOINT MECHANISM: SOURCE GRANULARITY FOR MULTI-SOURCE BATCH RECOVERY
 
 - **Date:** 2026-05-27
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Add a source-granularity checkpoint mechanism to the ingest workflow for multi-source sessions. After each source's git commit, write/update `raw/ingest-checkpoint.md` with completed and remaining sources (including commit hash). Delete on batch completion. Pre-session check and lint Step L12b both detect stale checkpoint files.
@@ -4876,7 +4992,7 @@ Source is the right granularity for checkpointing ingest: each source is an atom
 ## DM-113 | STEP Q7 "NO CITATIONS" CLARIFIED: RELATED PAGES SECTION REQUIRES WIKILINKS
 
 - **Date:** 2026-05-27
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 OPERATIONS.md Step Q7 Case 3 item 3 clarified: "no citations" means no source citations (`[[sources/...]]` slugs, `(→ [[page]])` inline format) — not no wikilinks of any kind. The `## Related Pages` section must use full-path wikilinks to constituent pages. Plain text in this section is a navigation dead-end on the Quartz-rendered public site.
@@ -4902,7 +5018,7 @@ The intent of "no citations" was always to prohibit raw-source citation format (
 ## DM-114 | PRIOR-GENERATION MODEL VERSIONING: TWO-PATH RULE REPLACING BINARY DEPRECATED STATUS
 
 - **Date:** 2026-05-29
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Added `prior_generation` (optional boolean) and `succeeded_by` (optional full-path wikilink) fields to the Tool/Product page frontmatter (CLAUDE.md Section 5.3). Replaced the binary "version superseded → status: deprecated" rule in Section 9 with a two-path rule: (1) vendor-available prior-generation versions use `prior_generation: true` + `succeeded_by`, retain `status: active`, and continue to run lint staleness checks and appear in the Teaching Index; (2) vendor-announced EOL or removed-from-availability versions use `status: deprecated` + `superseded_by` as before. The `succeeded_by` field points one step forward only — each prior-gen page links to its immediate successor, forming a linked list. No page accumulates a growing list of predecessors. `superseded_by` usage tightened: explicitly prohibited for versions that remain available.
@@ -4930,7 +5046,7 @@ The `prior_generation` boolean preserves all existing lint behavior for availabl
 ## DM-115 | KEY CLAIMS OVERCAP RESOLUTION ARCHITECTURE: FORCED CHOICE WITH THREE PATHS
 
 - **Date:** 2026-06-05
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Key Claims overcap (>5 claims on a Topic or Tool page) is resolved via a forced choice surfaced in the lint decisions form (Phase 2), with three operator-selectable paths: (A) Consolidate — agent merges candidate rows sharing the same source slug and date into a single claim in Phase 3; (B) Defer 3 passes — overcap flag suppressed for the next 3 lint passes via `claims_cap_deferred: N` frontmatter field, decremented each pass; (C) Accept as-is — cap permanently overridden via `claims_cap_override: true` frontmatter field, logged to `wiki-lessons-learned.md`. Overcap is exempt from the three-page threshold that governs other L11 schema deviations — each overcapped page surfaces its own card regardless of how many other pages are overcapped. wiki-lint.py routes overcap to `agent_review` (not `informational`) so the agent can attach consolidation candidate data before the form is generated.
@@ -4957,7 +5073,7 @@ See rationale above. All three alternatives rejected on the grounds that they ei
 ## DM-116 | PDF QUALITY PRE-CHECK SCOPE: YIELD AND HEADING METRICS ONLY
 
 - **Date:** 2026-06-05
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The `assess_extraction_quality()` function implemented in P4 of the pdf_to_markdown.py improvement batch measures two things: (1) average characters per page (text yield), and (2) count of spans exceeding FONT_SIZE_H1 threshold (heading candidates). It does not inspect span-level text for encoding artifacts such as word concatenation (missing inter-word spaces), fragmented Unicode, or column-layout splitting. The threshold for "in-context" recommendation is chars/page < 200; below that, the document is likely scanned or image-based. Above 200, the function recommends "script" regardless of text quality.
@@ -4982,7 +5098,7 @@ Inline regex-based concatenation detection (ratio of words without spaces), Open
 ## DM-117 | ASSESS_EXTRACTION_QUALITY: PAGE-COUNT GATE + CONCATENATION HEURISTIC WITH ZW-SPACE CLEANING
 
 - **Date:** 2026-06-09
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two improvements to `assess_extraction_quality()` in `pdf_to_markdown.py` were implemented, closing the gaps identified in DM-116:
@@ -5018,7 +5134,7 @@ The 20-char / 10% threshold values were validated empirically against both test 
 ## DM-118 | TOC-ANCHORED HEADING EXTRACTION: DESIGN CONFIRMED FOR pdf_to_markdown.py
 
 - **Date:** 2026-06-09
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The script improvement to handle L4–L5 headings in flat-font-size document zones will use `doc.get_toc()` (PyMuPDF's embedded PDF outline reader) as the primary heading lookup mechanism, not a bold-only heuristic or a numbered-pattern regex. The design is:
@@ -5055,7 +5171,7 @@ Bold-only heuristic was explicitly rejected as primary path because: (a) inline 
 ## DM-119 | OPEN KNOWLEDGE FORMAT (OKF) ASSESSED: NO ADOPTION FOR OPERATIONAL WIKI; PER-DIRECTORY INDEXES DECLINED
 
 - **Date:** 2026-06-14
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Google's Open Knowledge Format (OKF) v0.1, published 2026-06-12, was assessed against the operational wiki (184 pages at time of assessment) and the not-yet-deployed scenario tracker. Three resolutions:
@@ -5091,7 +5207,7 @@ Per-directory indexes specifically declined because: at 184 pages the whole `ind
 ## DM-120 | IN-006 QUARTZ-SIDE TRIGGER FIRED AT 184 PAGES; qmd DEFERRED; TRIGGER READING REFINED TO SPECIFIC TERMS
 
 - **Date:** 2026-06-14
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 At 184 pages the DM-111 Quartz-side escalation trigger ("Ctrl+K routinely returns >10 results") is literally met — many terms return >10, often >20. qmd implementation is nonetheless deferred, and the Quartz-side trigger is refined: evaluate it on specific / near-unique concept terms, not broad umbrella terms. Escalation is warranted when near-unique terms (e.g., "goal misgeneralization", "position bias", "EPOCH", "algorithmic monoculture") routinely return >10 results — not when broad terms ("ai", "llm") do. Thresholds and the agent-side branch of DM-111 are unchanged.
@@ -5102,6 +5218,9 @@ Operator reported the >10/>20 result counts during the OKF-scale review (DM-119)
 **Rationale:**
 DM-111's own context establishes the agent-side path as primary (index read cost) and the Quartz side as secondary. A raw result-count >10 on umbrella terms does not indicate precision loss; precision loss shows up as near-unique terms failing to discriminate. Refining the trigger to specific terms prevents premature escalation on an artifact of corpus theme density while preserving the original intent.
 
+
+**Alternatives Considered:**
+—
 **Consequences to Watch:**
 - Near-unique concept terms begin routinely returning >10 results → genuine precision degradation; implement qmd (Quartz side).
 - index.md exceeds ~300 lines (currently 220; ~1.0–1.2 lines/page at current entry verbosity) → agent-side trigger; expected to fire before sustained specific-term degradation at current ingest velocity.
@@ -5114,7 +5233,7 @@ DM-111's own context establishes the agent-side path as primary (index read cost
 ## DM-121 | IN-021 CLOSED: AMENDMENT STATUS FLIP IS MANDATORY AND COUPLED TO THE AMENDED BY LINE
 
 - **Date:** 2026-06-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 When a `decisions_made.md` entry is amended, `Status: AMENDED` and `Amended By: DM-NNN` are set together on the original entry as a single in-place edit. Neither field is populated without the other. `Status: ACTIVE` means an entry stands exactly as written with no qualification; `Status: AMENDED` signals a reader must also consult the citing entry before treating the original as a complete statement of the current decision. DM-111 is corrected from `Status: ACTIVE` to `Status: AMENDED` to reflect this.
@@ -5141,7 +5260,7 @@ The template's conditional phrasing was already the intended rule; the prose jus
 ## DM-122 | P9 TOC-ECHO STRIPPING IMPLEMENTED VIA PAGE-ANCHORED ZONE DETECTION, NOT CONSECUTIVE-HEADING-RUN HEURISTIC
 
 - **Date:** 2026-06-30
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 `pdf_to_markdown.py`'s P9 improvement (stripping the printed-TOC duplicate-heading block from system card conversions) is implemented as page-anchored zone detection: `build_toc_page_index()` retains each outline title's designated page(s) from `doc.get_toc()`, and `detect_toc_zone_pages()` flags a page as a printed-TOC listing when it accumulates at least `TOC_ZONE_MIN_MATCHES` (default 5) title matches whose page disagrees with the title's designated page. Flagged pages are skipped in full during extraction. This supersedes the carry-forward's proposed `detect_toc_echo_block()` — a post-pass counting consecutive heading-only lines in rendered output and stripping runs above a length threshold.
@@ -5170,7 +5289,7 @@ Tested against the operator-provided Claude Sonnet 5 System Card (145 pages, upl
 ## DM-123 | SESSION INSTRUCTIONS AUDITED AND REVISED FOR MAINTENANCE-MODE CURRENCY
 
 - **Date:** 2026-07-01
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 The Session Instructions (Project Instructions setting) were audited for currency, fidelity to intent, and length-driven dilution, then revised. Confirmed changes: (1) all peak-hour scheduling material removed — Anthropic retired time-of-day usage effects, so the mechanism it described no longer exists; (2) the "does not execute" framing reframed to separate operating the live wiki (out of scope; the implementation project's role in Claude Code) from prototyping and validating tooling in this project's own sandbox (in scope), with in-sandbox validation established as proving a tool's logic, not its portability (LL-055); (3) the IN-001 hard-blocker gate removed as dead boilerplate (IN-001 long closed), the general P1-blocker principle retained via the `info_needs.md` file description rather than duplicated; (4) the Project Deliverables section and the Session Context Management restate ritual compressed to their load-bearing core; (5) the Delivery Rule strengthened with an explicit scope enumeration and a default-to-full-file-when-unclear clause; (6) the two End-of-Chat Ritual cross-reference bullets that policed `wiki-dashboard.py` removed — the dashboard is no longer an actively-maintained sync target — which narrows DM-107's three-script sync to `wiki-lint.py` + `wiki-verify.sh` (DM-107 amended accordingly).
@@ -5197,7 +5316,7 @@ The length-dilution hypothesis was tested, not assumed, and did not survive (see
 ## DM-124 | NO HAND-MAINTAINED TABLE OF CONTENTS IN GOVERNANCE FILES; GENERATED INDEX ONLY IF NAVIGATION PAIN RECURS
 
 - **Date:** 2026-07-01
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Do not add a hand-maintained table of contents or section index to any governance file (the Session Instructions, CLAUDE.md, OPERATIONS.md, or the append-only logs). Navigation relies on grep header-skeletons on the agent side and Obsidian's Outline / auto-TOC plugins on the operator's reading side — both derive from the live file and cannot drift. Escape hatch: if a concrete, recurring navigation pain surfaces specifically on CLAUDE.md or OPERATIONS.md, add a script-generated header index via pre-commit (the `generate-teaching-index.py` pattern), never a hand-written one. Do not build this speculatively.
@@ -5223,7 +5342,7 @@ A TOC's "skip to the relevant part" benefit only materializes under chunked, too
 ## DM-125 | BACKLOG FILES ADOPTED AS A GOVERNANCE MECHANISM — ROLLING-EDIT MUTABILITY, STATUS-IN-TABLE-ONLY
 
 - **Date:** 2026-07-07
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 Two prioritized backlog files are adopted as project artifacts: `design-project-backlog.md`
@@ -5291,7 +5410,7 @@ LL-059, Session Instructions Project Files section
 ## DM-126 | DM-100/DM-101 RESTORED TO THE LOG; REFINEMENT-EXTENSION DOES NOT TRIGGER AMENDMENT STATUS
 
 - **Date:** 2026-07-07
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 1. DM-100 and DM-101, absent from this log since their 2026-05-20 session (see LL-060),
@@ -5344,7 +5463,7 @@ accrete detail. The misleads-alone test preserves the status's protective functi
 ## DM-127 | VOCABULARY.JSON SINGLE-SOURCE ARCHITECTURE ADOPTED FOR THE CONTROLLED VOCABULARIES (BL-W-01); EXECUTION SPEC DELIVERED
 
 - **Date:** 2026-07-07
-- **Status:** ACTIVE
+- **Status:** active
 
 **Decision:**
 1. The `competency_domains` / `professional_contexts` controlled vocabularies move from
@@ -5420,3 +5539,1602 @@ single generator-based rule.
 **References:** BL-W-01 (wiki-implementation-backlog.md), vocabulary-json-refactor-spec.md,
 DM-107, DM-123, DM-106, DM-109, LL-033, LL-040, LL-045, LL-055, test-harness.md
 Section 2.5, Session Instructions End-of-Chat Ritual step 6 (gated block)
+
+---
+
+## DM-128 | STRUCTURED-DATA EXTRACTION LAYER AND LINT-TIME CONTRADICTION PRE-SCREEN ADOPTED (BL-W-02); EXECUTION SPEC DELIVERED
+
+- **Date:** 2026-07-07
+- **Status:** active
+
+**Decision:**
+1. A lint-time extraction layer is added to wiki-lint.py: new step L19 serializes every
+   Key Claims table and `## Data Records` table into `raw/claims.json` and
+   `raw/data-records.json` (gitignored, regenerated each run, never hand-edited),
+   reusing the parsers L3/L5c already depend on — no second parser surface.
+2. A mechanical contradiction pre-screen (new step L20, category D) matches quantitative
+   assertions across the artifacts in four classes: KC↔KC cross-page and DR↔KC same-page
+   route to a new `contradiction_prescreen` agent-review type, where the agent applies
+   the existing CONTRADICTION-SKILL.md Section 1.4 existence check; DR↔DR inconsistent
+   replication and DR↔DR supersession asymmetry surface as informational findings only,
+   preserving the DM-099 protocol exclusion for data records.
+3. Key Claim quantitative signatures are detected by closed-vocabulary matching against
+   the metric universe derived from the wiki's own Data Records tables (plus a
+   maintained alias map) — not open-ended noun-phrase extraction. Cross-page DR↔KC and
+   same-page KC↔KC matching are deferred scope.
+4. Contradictions confirmed via the lint channel always take Path B (human-review),
+   regardless of score arithmetic — a lint-channel path rule added to CLAUDE.md
+   Section 8.2 and mirrored in CONTRADICTION-SKILL.md (new Section 1.5). The Path A/C
+   arithmetic models an incoming-vs-standing asymmetry that does not exist between two
+   already-published claims.
+5. Candidate volume is governed by a per-run ceiling (MAX_PRESCREEN_CANDIDATES,
+   default 10, defer-not-drop) that doubles as the agent-context budget, and by an
+   operational precision criterion (≥ 0.3 over the first two live runs) with a staged
+   threshold-tuning procedure. Payloads are compact structured fields only — agent
+   context cost scales with surviving candidates, never with corpus size.
+6. Execution is a single atomic-commit Claude Code session per
+   `structured-data-extraction-spec.md` Sections 5–7; the post-execution design-project
+   batch is spec Section 8. Step numbering L19/L20 is fixed regardless of BL-W-01
+   execution order (L17/L18 remain reserved to BL-W-01).
+
+**Context:**
+BL-W-02, Fable 5 planning capture (operator direction 2026-07-07; Fable availability
+extended to 2026-07-12 per Anthropic announcement, superseding the 2026-07-08 date in
+the backlog file). Contradiction detection was ingest-only (CLAUDE.md 8.1), so
+inconsistencies between already-published claims were found only incidentally. The
+backlog names tolerance design as the item's architecture judgment: LLM-written tables
+are not byte-stable, and the normalization rules plus false-positive budget determine
+whether the pre-screen helps or spams the protocol. The operator additionally raised
+context-compaction risk; the design's answer is structural — all matching happens in
+the script at zero context cost, and the candidate ceiling bounds the agent-side
+payload independent of wiki size, with the inaugural 184-page run triaged by the same
+mechanism.
+
+**Rationale:**
+The entity-guard problem (same metric, different values, different entities is not a
+contradiction) is solved mechanically by claim-similarity gating after metric/number
+removal, with the agent existence check as backstop — cheaper and more robust than
+entity extraction. Closed-vocabulary signature matching bounds KC-side false positives
+to metrics the corpus demonstrably tracks. Forced Path B for the lint channel avoids
+auto-rewriting published content through an unvalidated detection channel and avoids
+inventing an arbitrary "incoming" side for the score arithmetic. Class 3 informational
+routing preserves DM-099's append semantics while still surfacing the two real DR↔DR
+defect patterns (transcription inconsistency, missed supersession).
+
+**Alternatives Considered:**
+- **Standalone extraction script:** second parser surface guaranteed to drift from the
+  lint parsers — the LL-045 pattern. Rejected.
+- **Committed JSON artifacts:** creates a new sync surface for fully-derivable data.
+  Rejected; gitignored build artifacts.
+- **Open-ended metric extraction from claim text:** unreliable NP extraction; unbounded
+  false positives. Rejected for closed-vocabulary matching.
+- **Score-based path calculation with newer-source-as-incoming for lint-channel
+  contradictions:** requires an arbitrary incoming designation and permits Path A
+  auto-resolution of long-published claims without human review. Rejected for v1;
+  revisit only if Path B volume becomes burdensome.
+- **Dual-page CTRD flagging for KC↔KC:** doubles stacking and counter rules for an
+  unproven channel. Rejected; single flag on the lower-support side, limitation
+  documented (spec F6).
+- **Cross-page DR↔KC in v1:** highest-spam class absent an entity guard; the
+  CLAUDE.md 6.6 sanctioned interaction is same-page. Deferred.
+- **Do nothing (rely on ingest-time detection):** leaves latent cross-page
+  inconsistency growth unaddressed as the corpus scales; the extraction layer is also
+  BL-W-10's gate. Rejected.
+
+**Consequences to Watch:**
+- Precision below 0.3 after both tuning stages indicts the matching model, not the
+  thresholds — escalate to the design project (spec 4.6).
+- METRIC_ALIASES starts empty; F3 alias-candidate findings are the growth mechanism.
+  If alias gaps recur silently despite F3, the closed-vocabulary approach needs review.
+- The forced-Path-B rule may prove too conservative if the pre-screen surfaces
+  high-confidence stale claims that Path A would have resolved cleanly; the telemetry
+  (confirmed items and their score gaps) will show this.
+- V-3: if the inaugural run's pre-ceiling candidate count exceeds 50, the execution
+  session pauses and reports before shipping.
+- L19's malformed-row tolerance is a sanctioned fail-fast deviation (lint must complete
+  a pass); watch that it does not become a precedent for silent degradation elsewhere.
+
+**References:** BL-W-02 (wiki-implementation-backlog.md), structured-data-extraction-spec.md,
+DM-099, DM-106, DM-109, DM-127, LL-040, LL-045, LL-055, CLAUDE.md Sections 6.1/6.6/8,
+CONTRADICTION-SKILL.md Section 1.4, hybrid-lint-assessment.md Sections 2.1/4.3/5.3,
+OPERATIONS.md Section 11.4
+
+---
+
+## DM-129 | KEY CLAIMS EVICTION POLICY ADOPTED (BL-W-03); EXECUTION SPEC DELIVERED; STAGE 2 ADOPTION TRIGGER-GATED
+
+- **Date:** 2026-07-08
+- **Status:** active
+
+**Decision:**
+1. A Key Claims eviction mechanism is adopted, specified in
+   `key-claims-eviction-spec.md`, resolving the design half of IN-016. It is a
+   deterministic eviction ranking over Key Claims rows, human-confirmed in every case,
+   surfaced in two places: option **D) Evict** appended to the existing DM-115 overcap
+   forced choice at lint, and a new **swap forced choice** in the post-ingest summary
+   Section B when a novel non-contradicting claim arrives at a page with >= 5 rows.
+2. Candidacy: `superseded` rows are always eligible (tier 0, oldest first); `current`
+   rows are eligible only when decay-applied Support Score <= EVICTION_SCORE_CEILING
+   (default 1) AND row Date >= EVICTION_MIN_AGE_MONTHS (default 6) old. Hard
+   exclusions: contested rows with open CTRDs, `Decay Exempt: true` rows, `[derived]`
+   rows. Eviction never reduces surviving `current` rows below MIN_SURVIVING_CLAIMS
+   (default 3). Phase 3 re-validates any operator override list against exclusions and
+   the survival floor, refusing violations with a report line.
+3. Disposition: eviction removes the row and writes a new `claim-eviction` log.md
+   entry capturing the row verbatim (format added to CLAUDE.md Section 12 and the
+   OPERATIONS.md mirror). No archive section anywhere; provenance = log entry + git
+   history + the untouched Source page.
+4. Post-eviction, a comparison verdict re-check runs for every Comparison page whose
+   `entities_compared` includes the evicted-from page, reusing the DM-081/DM-087
+   verdict-update mechanism; checked slugs are recorded in the log entry.
+5. Two-stage execution. **Stage 1 (executes now):** trigger instrumentation only — an
+   `Overcap cards:` line added to the lint log entry format (both mirror locations)
+   recording per-page card resolutions, plus an L11 card annotation when a page
+   surfaces its third card. Rider commit 2 in the BL-W-04 execution session (DM-130).
+   **Stage 2 (gated):** the full mechanism, its own atomic-commit Claude Code session,
+   activating only when the trigger fires — third overcap card surfacing on one page,
+   counted from Stage 1 instrumentation onward; deferral-suppressed passes do not
+   count. Stage 2 reads BL-W-02's `raw/claims.json` rather than re-parsing tables.
+6. The lint path is an enrichment of the existing L11 `key_claims_overcap`
+   agent_review item (script computes candidates and comparison back-references; agent
+   recomputes decay-applied scores fresh before the form). No new lint step; L21
+   remains unassigned.
+
+**Context:**
+IN-016 (open since 2026-04-27) documented the ingest-time gap: novel claims at
+saturated pages are silently skipped. DM-115 gave overcap a resolution path
+(consolidate/defer/accept) but no retirement option, so the forced choice recurs
+indefinitely on the highest-value pages. BL-W-03 was Fable plan #3 in the capture
+sequence before the 2026-07-12 availability cutoff. Operator confirmed scope
+2026-07-08: cover both the lint batch case and the ingest swap; position eviction as
+a fourth option on the existing DM-115 card rather than a parallel mechanism.
+
+**Rationale:**
+- A ranking with a candidacy floor replaces the original threshold-pair sketch
+  ("older than N AND below credibility X"): a threshold pair can yield zero candidates
+  on exactly the pages needing relief, while a ranking always yields an ordering and
+  the floor preserves the safety property (never propose evicting strong claims —
+  option D reports no candidates and the DM-115 options remain).
+- Superseded rows as tier 0: they are historical record whose provenance already
+  lives in log.md and git; they are also the rows most likely to be inflating counts
+  after CTRD confirmations.
+- Log-entry disposition preserves provenance with zero new schema surface.
+- The trigger required instrumentation that did not exist — no per-page overcap
+  record exists anywhere; counting starts at instrumentation rather than from
+  reconstructed memory (the unreliable-recall pattern the governance regime exists to
+  prevent).
+- Reusing the DM-115 card and the DM-081/DM-087 verdict mechanism adds no new forced
+  choice surfaces beyond the ingest swap card, which is unavoidable (the condition is
+  only detectable during Phase 2 extraction; Section B is the Step 12a-precedented
+  surfacing point).
+
+**Alternatives Considered:**
+- *Threshold-pair candidacy only (backlog sketch):* rejected — zero-candidate failure
+  mode on overcapped pages where all claims sit above threshold.
+- *Proactive pruning of aged weak claims on non-overcapped pages:* rejected — destroys
+  content without a forcing need; calendar-triggered maintenance operation; "do
+  nothing until the page creates pressure" is the default.
+- *Archive evicted claims to the Source page / page-local retired table / demote to
+  prose:* all rejected — new schema surface, multi-source ambiguity, dead weight in
+  every page read, and prose is rolling-overwrite synthesis, not provenance-anchored.
+- *Frontmatter overcap counter for the trigger:* rejected in favor of the lint log
+  line — no new frontmatter surface; log.md is append-only, versioned, and greppable.
+- *New lint step (L21):* rejected — the lint path is L11 data enrichment, not a new
+  check.
+- *Pre-flight swap card:* impossible — the condition is only detectable during Phase 2
+  extraction.
+
+**Consequences to Watch:**
+- Re-eviction loops: a future source may re-assert an evicted claim; each cycle is
+  operator-gated, and no "previously evicted" scan over log.md is built. Watch whether
+  loops actually occur before adding machinery.
+- Constants (ceiling 1, age 6 months, floor 3) are first guesses; review checkpoint
+  after the first two live eviction/swap events, before any constant change.
+- claims.json must carry Status/Score/Date/Decay Exempt per row — verification item
+  V-1 at Stage 2 gate 1; a parser extension is an anticipated scope addition.
+- Stage 1's `evicted` resolution value is inert until Stage 2 adopts; the format
+  includes it now to avoid re-touching the log format later.
+- Pre-instrumentation overcap history does not count toward the trigger; the two
+  known overcap pages will re-accumulate quickly if the pressure is real.
+
+**References:** BL-W-03 (wiki-implementation-backlog.md), key-claims-eviction-spec.md,
+IN-016, DM-081, DM-087, DM-115, DM-128 (claims.json dependency), LL-040, LL-045,
+CLAUDE.md Sections 6.1/12, OPERATIONS.md Sections 11.2 (Steps 12-13) / 11.4
+
+---
+
+## DM-130 | INGEST INJECTION-RESISTANCE RULES ADOPTED (BL-W-04); EXECUTION SPEC WITH EXACT RULE TEXT DELIVERED
+
+- **Date:** 2026-07-08
+- **Status:** active
+
+**Decision:**
+1. Six injection-resistance rules are adopted, specified with exact placement text in
+   `ingest-injection-resistance-spec.md`: R1 source content is data, never
+   instructions; R2 Phase 2 writes bounded to the pre-flight-approved update list plus
+   workflow-prescribed singletons; R3 imperative-language flag (`injection_flag: true`
+   Source frontmatter, extraction exclusion, summary item, `Injection flags: N` log
+   line) with graduated containment — workflow/control-document/authority directives
+   additionally block that source's commit behind a mid-ingest forced choice; R4
+   mechanical sanitization of all agent-written queue.md titles/URLs (single-line,
+   pipe replacement, `^CTRD-\d+:` neutralization, 120-char truncation, single-token
+   URLs); R5 skill-file enrichment provenance — additions must cite a session
+   operational event, source text is never a valid origin; R6 manifest validation at
+   Step 0 (slug + log entry exists, decision string parses, part files exist) before
+   any pre-flight skip.
+2. Flag discrimination is address-based, not mood-based: flag text addressing the
+   processing agent, directing file/workflow/memory modification, claiming processing
+   authority, or hidden/encoded wrappers of the same; do not flag reader-directed
+   imperatives (tutorials, install steps) or quoted/code-fenced attack examples in
+   sources discussing injection. Flag when genuinely ambiguous after the exclusions.
+3. Placements per DM-089/LL-056 (rules at execution points): EXTRACTION-SKILL.md new
+   Section 8 (rules, discriminators, worked flag/no-flag examples); CLAUDE.md
+   Section 1 one-sentence authority statement, Section 5.4 optional `injection_flag`
+   field, Section 12 log line; OPERATIONS.md Step 11 bullet, Step 11a inline R4,
+   11.3 step 6 reference, Step 0 R6, Phase 2 header R2 line.
+4. Execution: Sonnet in Claude Code, one session, two commits — commit 1 these rules,
+   commit 2 the DM-129 Stage 1 rider. This deviates from the backlog table's original
+   Opus 4.8 control-doc drafting assignment, per operator confirmation 2026-07-08:
+   the Fable spec carries the exact rule text, making execution mechanical.
+
+**Context:**
+BL-W-04, Fable plan #4. The agent reads third-party source content (Step 11) in the
+same context holding repo write authority (Steps 10-22). Current risk is low —
+operator-curated sources, discovery pass unused (operator-confirmed 2026-07-08) — but
+the exposure is structural. The threat model ranked persistence as the top asset:
+skill files are agent-writable by design (enrichment mechanism), so a smuggled
+directive compromises all future sessions. Second-ranked: the CTRD override channel is
+plain string injection — Steps 11a/11.3 write source-controlled titles into the same
+queue.md file the override scan parses. The spec also surfaced T7: a crafted
+`*_manifest.md` in raw/staged/ would skip pre-flight entirely and auto-execute its own
+decision string.
+
+**Rationale:**
+- Rules must land before the discovery pass is first used, not after — T6 is the
+  vector that eventually pulls less-curated material, and BL-W-04's priority was
+  always pegged to that event.
+- Address-based discrimination is required because this wiki ingests sources about
+  AI, prompting, and injection: mood-based flagging would flag every tutorial and
+  every security paper quoting attack strings.
+- Graduated containment avoids flag-as-DoS: category (a) detections flag and
+  continue; only workflow/authority directives stop the source's commit (mid-ingest
+  stops are precedented by the high-density warning). Remediation for anything
+  committed reuses Section 8.6 ingested-in-error — no new machinery.
+- R4 is stated inline at Step 11a (the execution point) rather than by reference,
+  because it is exact string handling verified by adversarial fixtures (V-1).
+- R5 targets the highest-severity asset with a checkable rule: the skill-enrichment
+  Case line must cite a session event, and the human reads every enrichment summary
+  item.
+
+**Alternatives Considered:**
+- *Opus 4.8 drafts the control-document text (original backlog assignment):* rejected
+  per operator confirmation — rule-drafting quality is the point of Fable capture;
+  the spec carries final text.
+- *New lint step over `injection_flag: true` pages:* rejected — the flag is raised
+  and surfaced at ingest; remediation is the existing 8.6 procedure. L21 remains
+  unassigned by this item too.
+- *Halt the batch on any flag:* rejected — DoS by a single stray sentence; graduated
+  containment instead.
+- *Decode encoded blocks to check for directives:* rejected — decoding adversarial
+  content is itself an exposure; the wrapper pattern near agent-addressed text
+  suffices to flag.
+- *Conversion-side hidden-text stripping in pdf_to_markdown.py:* rejected/deferred —
+  detection stays at extraction time; noted as environmental assumption (f).
+- *Pre-flight form card for injection findings:* impossible — only detectable during
+  Phase 2.
+
+**Consequences to Watch:**
+- Over-flagging (F1) on how-to sources: the exclusions apply first; watch the first
+  flagged sources for precision.
+- Under-flagging of encoded directives (F2) is an accepted residual — curation
+  remains the primary control for T1.
+- V-3 may force wiki-lint.py/wiki-verify.sh changes if either enforces a closed
+  frontmatter field set; test-harness.md 2.5 conclusion records the outcome.
+- If skill files ever become human-only, R5 is retired with a DM note (environmental
+  assumption d).
+- The queue.md CTRD scan's actual match behavior (line-start vs. anywhere) is
+  verified at execution; R4 step 3 neutralizes either way.
+
+**References:** BL-W-04 (wiki-implementation-backlog.md),
+ingest-injection-resistance-spec.md, DM-089, DM-115 (mid-ingest stop precedent via
+high-density warning pattern), DM-129 (Stage 1 rider), LL-031, LL-040, LL-045, LL-056,
+CLAUDE.md Sections 1/5.4/8.6/12, EXTRACTION-SKILL.md, OPERATIONS.md Sections 11.2
+(Steps 0/11/11a) / 11.3
+
+---
+
+## DM-131 | EXECUTION-SESSION PACKAGING: BL-W-01 AND BL-W-02 RUN AS SEPARATE CLAUDE CODE SESSIONS; EXECUTION PROMPTS INLINE THE GOVERNING SPEC VERBATIM
+
+- **Date:** 2026-07-11
+- **Status:** active
+
+**Decision:** BL-W-01 and BL-W-02 execute as two separate single-item Claude Code
+sessions and are never co-executed in one session; if run the same day, `/clear` between
+them. Their execution prompts are packaged by inlining the full governing spec verbatim
+behind a standardized control-wrapper header (option A), not by referencing a spec the
+wiki-repo Claude Code session does not possess (option B).
+
+
+**Context:**
+—
+**Rationale:**
+- Combined mandatory reads are ~90-105K (BL-W-01) + ~65-75K (BL-W-02) tokens, with
+  `wiki-lint.py` (~27K) loaded in both; adding new code, two corpus-wide tool runs, and
+  ~14 combined STOP-gate round-trips crosses the 200K window with near certainty and
+  forces an auto-compaction. Compaction is lossy and fires late, near the commits, exactly
+  where the specs' byte-exact content must remain intact.
+- Each spec mandates its own atomic commit, and both edit `wiki-lint.py` in overlapping
+  regions (shared constants block; adjacent step sequence). In one uncommitted working
+  tree the diffs intermingle and neither commit is cleanly atomic; the working-tree
+  rollback model presupposes a clean start. Safe interleaving reduces to
+  sequential-with-commit-between — two sessions inside one window — gaining nothing.
+- The only upside of combining (avoiding a second read of the large shared files, ~50K
+  tokens) is precisely what a compaction would summarize away.
+- Both specs state execution order is independent (BL-W-02 Section 9; L19/L20 numbering
+  fixed regardless of L17/L18), so nothing forces co-execution.
+- Inline packaging (A) chosen because the specs' premise is byte-exact content; a
+  "follow the spec" reference the agent cannot read is a paraphrase-failure single point.
+
+**Alternatives Considered:**
+- *Co-execute to amortize the shared file reads:* rejected — false economy (compaction
+  erases the saving) and it breaks atomicity.
+- *Place the spec in the wiki repo and reference it from a short prompt:* rejected —
+  introduces a second copy that can drift from the design-project source, and design
+  specs do not belong in the wiki repo.
+
+**Consequences to Watch:**
+- The prompts duplicate their spec, creating a currency obligation: any spec amendment
+  (including a STOP-gate wording override at execution) makes the corresponding prompt
+  stale and requires regeneration before use. DM-132 formalizes the guard.
+- The generalized form (do not co-execute two large spec'd items sharing a
+  heavily-edited file when each needs an atomic commit) is captured cross-project in
+  institutional-memory-2026-07-11.md (DP-1, DP-2, AP-1).
+
+**References:** vocabulary-json-refactor-spec.md, structured-data-extraction-spec.md,
+claude-code-prompt-BL-W-01.md, claude-code-prompt-BL-W-02.md,
+institutional-memory-2026-07-11.md, DM-127, DM-128; wiki-implementation-backlog.md
+(BL-W-01, BL-W-02).
+
+---
+
+## DM-132 | REUSABLE EXECUTION-PROMPT NORM FOR EXECUTION-PENDING BACKLOG ITEMS
+
+- **Date:** 2026-07-11
+- **Status:** active
+
+**Decision:** Every execution-pending backlog item carries a paste-ready Claude Code
+execution prompt, generated from a standard wrapper template plus the governing spec
+inlined verbatim. Specifically:
+- A standard wrapper-template artifact (`claude-code-execution-prompt-template.md`) holds
+  the header structure with slots: role framing, non-negotiable rules, LL-040 currency
+  gate, STOP-gate protocol, report-back format, do-not list. Everything item-specific
+  already lives in the governing spec.
+- Emitting the paste-ready prompt is the terminal deliverable of any session that
+  finalizes or amends an execution spec: a spec is not "execution-ready" until its prompt
+  has been delivered. This piggybacks on the existing Delivery Rule; no new ritual
+  machinery.
+- The backlog item detail and the carry-forward Pending Executions element carry a
+  one-line pointer per item — prompt filename + generation date + the spec's Last-Updated
+  timestamp it was built from. The prompt body is never embedded in the backlog or
+  carry-forward (both are session-start reads; a ~650-line prompt would wreck their
+  context budget).
+- The spec-timestamp field is the currency guard: if the spec's Last-Updated later
+  exceeds the prompt's built-from timestamp, the prompt is stale and must be regenerated.
+  Staleness becomes mechanically detectable rather than silent.
+
+
+**Context:**
+—
+**Tradeoff settled at adoption:** stored-prompt-with-timestamp-binding is adopted over
+regenerate-on-demand (institutional-memory-2026-07-11.md OQ-3). Stored satisfies the
+"instantly copyable" need, and the timestamp guard defeats the staleness objection at
+near-zero cost. A stored prompt is acceptable only with the regeneration trigger enforced
+on spec amendment (captured in the Delivery Rule and the ritual step 6 matrix row).
+
+**Rationale:** reliable, low-friction session kickoff without re-authoring boilerplate
+each time; pointer-not-body keeps session-start-read files small; timestamp binding
+converts a silent staleness risk into a checkable condition. The two prompts built
+2026-07-11 (BL-W-01/02) are the worked precedent — they differ only in item-specific slots
+plus the appended spec, confirming the wrapper is genuinely reusable.
+
+**Alternatives Considered:**
+- *Embed the prompt body in the carry-forward Pending Executions section:* rejected —
+  the carry-forward is a session-start read; ~650 lines per item, copied forward each
+  session, is a context disaster.
+- *Embed the prompt body in the backlog:* rejected — same bloat, and the backlog is a
+  rolling-edit working document read at planning time.
+- *Regenerate on demand only, store nothing:* viable and strictly staleness-proof, but
+  costs a design-project turn per kickoff and defeats the "ready to paste" goal;
+  reconsider if timestamp-binding proves insufficient in practice.
+
+**Consequences to Watch:**
+- The norm adds a per-spec deliverable; watch that spec sessions actually emit the prompt
+  (the "not execution-ready until delivered" framing is the enforcement).
+- If a spec is amended without regenerating its prompt, the timestamp mismatch must be
+  caught before execution — the pointer field is the only signal.
+
+**Folds into:** BL-D-01 (Session Instructions revision batch) — added the template
+artifact, the Delivery Rule note, the ritual step 6 matrix row, and the pointer
+convention. Adopted in the R-001 revision (DM-133).
+
+**References:** institutional-memory-2026-07-11.md (DP-4, OQ-3), DM-131, DM-133,
+design-project-backlog.md (BL-D-01), carry-forward-2026-07-11.md,
+claude-code-execution-prompt-template.md.
+
+---
+
+## DM-133 | SESSION INSTRUCTIONS REVISED TO R-001 (BL-D-01 BATCH); REVISION-ID MECHANISM ESTABLISHED
+
+- **Date:** 2026-07-11
+- **Status:** active
+
+**Decision:** The Session Instructions are revised and carry `Instructions Revision:
+R-001`, the first tracked revision ID. Whenever the Session Instructions are revised
+hereafter, the new `R-NNN` is logged in a decisions_made.md entry, and the Session Start
+sequence compares the two (an instructions/log mismatch halts work until reconciled). The
+R-001 revision applies the remaining BL-D-01 sub-scopes plus the DM-132 norm:
+1. Added a `## Session Start` section housing four mandatory pre-work checks:
+   instructions-revision drift, carry-forward chain, max-ID/stale-copy, and standing
+   stale-state. Adapted from the scenario-tracker session-start model (operator-supplied),
+   dropping its REPLACE/ADD upload discipline and LL-ST references, which this project
+   does not use.
+2. Converted End-of-Chat Ritual step 6 from a flat ~15-bullet checklist into a
+   dependency-matrix table (change made -> coupled files -> what must agree). The DM-127
+   gated block is preserved in pre-activation form as three tagged rows ([GATED trio
+   member a/b/c]) plus a gated note that swaps them for one consolidated vocabulary row
+   on confirmed BL-W-01 execution. Completeness against the prior bullet list is the
+   judgment-bearing part; new rows were added for backlog-planned transitions, new
+   project files, instructions revisions, and the DM-132 execution-spec/prompt coupling.
+3. Rewrote ritual step 8 as capability tiers (frontier / mid / small) with current model
+   names as a parenthetical expected to go stale; removed hard dependence on named models.
+4. Added the `Instructions Revision: R-NNN` line (this mechanism) and the carry-forward
+   chain-resilience rule to ritual step 7 (retain most recent carry-forward plus one
+   prior; Session Start compares carry-forward date against decisions_made.md Last
+   Updated).
+5. Adopted the DM-132 reusable-execution-prompt norm: registered
+   `claude-code-execution-prompt-template.md` in Project Files, added the
+   Execution-prompt-deliverable note to the Delivery Rule, and added the pointer
+   convention to step 7 and the step 6 matrix.
+6. Fixed a pre-existing copy-paste defect: a duplicated, truncated fragment at the end of
+   the Delivery Rule section was removed.
+
+BL-D-01 sub-scopes 2 (Institutional Memory "Scenario Tracker" copy-paste fix) and 6
+(backlog-file registration) were already completed 2026-07-07 and were not redone.
+
+**Context:** BL-D-01, planned as an Opus-on-both-plan-and-execute batch because the
+Session Instructions are the highest-blast-radius file in the project. Executed this
+session with the DM-132 norm folded in per the 2026-07-11 carry-forward.
+
+**Rationale:**
+- A revision ID with a session-start cross-check closes, for the instructions themselves,
+  the silent-drift channel LL-040 addressed for other files: a stale instructions upload
+  is otherwise undetectable.
+- The matrix form makes the cross-reference check auditable and machine-readable later
+  (BL-D-04's cross-reference skill embeds it), and forces first-principles reasoning about
+  couplings not yet listed rather than trusting a fixed bullet set.
+- Capability tiers survive model turnover; named-model guidance goes stale with every
+  release.
+
+**Alternatives Considered:**
+- *Number this revision R-002, treating the DM-123 audit as R-001:* rejected — the ID
+  mechanism did not exist at DM-123; R-001 is the first revision that carries the line.
+- *Keep step 6 as a bullet checklist and only append new bullets:* rejected — the flat
+  list had already grown past auditability; the matrix was the planned BL-D-01 deliverable.
+
+**Consequences to Watch:**
+- The Session Start max-ID and single-copy checks assume the operator maintains one copy
+  per governance file in project knowledge; if that convention changes, revisit check 3.
+- The step 6 gated block must not be activated before BL-W-01 execution is confirmed; the
+  three tagged rows remain in force until then.
+- The full current Session Instructions were reproduced from context (not a disk copy);
+  the operator should diff the delivered file against the stored copy before replacing it
+  (highest-blast-radius file; no programmatic byte-check was possible).
+
+**References:** design-project-backlog.md (BL-D-01), DM-132, DM-127, DM-107, DM-123,
+DM-125, LL-040, LL-003, institutional-memory-2026-07-11.md, carry-forward-2026-07-11.md,
+claude-code-execution-prompt-template.md.
+
+---
+
+## DM-134 | BL-W-01 EXECUTION CONFIRMED — VOCABULARY.JSON ARCHITECTURE LIVE; SECTION 8 BATCH EXECUTED
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** BL-W-01 (DM-127) is confirmed executed. This is a follow-up/confirmation
+entry, not an amendment of DM-127 — DM-127's original decision, rationale, and
+alternatives stand unchanged and remain fully informative read alone (DM-126
+misleads-alone test: nothing in DM-127 as originally written would mislead a reader
+now). This entry closes DM-127's open Consequences-to-Watch items and is the trigger
+for the vocabulary-json-refactor-spec.md Section 8 post-execution batch (Session
+Instructions gated swap, test-harness.md, hybrid-lint-assessment.md,
+ingest-ui-implementation-plan.md, INIT-PROMPT.md, wiki-implementation-backlog.md),
+executed in this same session.
+
+**Context:** A Claude Code (Sonnet) session executed vocabulary-json-refactor-spec.md
+Sections 5–7 in the wiki repository. Commit `6858f9e969dbf8893fc50fe5363469d01b64dc54`
+on `main`, exactly the nine named files: `vocabulary.json`, `generate-vocab-artifacts.py`,
+`test_generate_vocab_artifacts.py`, `wiki-lint.py`, `wiki-verify.sh`, `TAGGING-SKILL.md`,
+`ingest-ui-template.html`, `CLAUDE.md`, `OPERATIONS.md`. All 9 execution gates passed
+(unit/doctest suites, live lint run at 0 L17/L18 findings, `wiki-verify.sh` checks 14/16
+passing with pre-existing-only FAIL/WARN counts unchanged, negative tests on both the
+Python loader and the bash reader). Both execution-time verification items resolved
+without requiring a STOP or spec amendment: V-1 confirmed `generate-teaching-index.py`
+does not hardcode either vocabulary; V-2 confirmed `vocabulary.json` is not rendered as
+a Quartz page (copied as a raw static asset, same as the pre-existing root-level
+scripts).
+
+**Rationale:** N/A — confirmation entry; rationale for the underlying architecture is
+recorded in DM-127.
+
+**Alternatives Considered:** N/A — confirmation entry.
+
+**Consequences to Watch:**
+- `CLAUDE.md` and `OPERATIONS.md` were amended directly in the wiki repository during
+  execution (byte-exact per spec Sections 4.7–4.8). The design project's own
+  project-knowledge copies of both files are **not yet resynced** — they remain dated
+  06/05/2026, predating even the spec, and the operator has confirmed this resync has
+  not been done. Carried forward as an explicit carry-forward action item rather than
+  attempted here (LL-040: currency must be confirmed before editing either file).
+- Two deviations disclosed in the execution report, neither requiring further action:
+  Black formatting was not run across the pre-existing body of `wiki-lint.py`
+  (surgical-change rationale — a full reformat would rewrite ~2,900 unrelated lines and
+  fight the spec's own byte-exact loader block); one doctest offset error in
+  `generate-vocab-artifacts.py`'s own example was found and fixed during Step 2 per the
+  "tests passing is a gate" rule.
+- Pre-existing, out-of-scope findings surfaced by the execution report (`wiki-verify.sh`
+  check 5 FAIL on `overview.md` page count; two check-12 WARNs for unescaped `$`) are
+  logged separately as IN-023 rather than folded into this entry.
+- One residual risk from the spec carries forward unchanged: LL-055 (bash 3.2 / macOS)
+  did not get exercised in this execution because the environment's system bash is
+  already 3.2.57; an operator on a different environment should still verify
+  `wiki-verify.sh` checks 14/16 under `bash --posix`.
+
+**References:** DM-127, DM-126, BL-W-01 (wiki-implementation-backlog.md),
+vocabulary-json-refactor-spec.md Section 8, IN-023, LL-040, LL-055.
+
+---
+
+## DM-135 | SESSION INSTRUCTIONS REVISED TO R-002 (BL-W-01 SECTION 8 BATCH)
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** The Session Instructions are revised to `Instructions Revision: R-002`,
+applying vocabulary-json-refactor-spec.md Section 8 item 1 (DM-127; confirmed by
+DM-134): the End-of-Chat Ritual step 6 gated block activates — the three `[GATED trio
+member a/b/c]` rows are removed and replaced with the single consolidated
+`vocabulary.json` row carried in the gate text. `vocabulary.json` and
+`generate-vocab-artifacts.py` are added to the LL-040 currency-note file list in the
+Project Files section.
+
+**Context:** BL-W-01 execution was confirmed this session (DM-134); the gate's own
+stated activation condition ("Do not activate early... until confirmed BL-W-01
+execution") is met.
+
+**Rationale:** The gated block existed precisely to make this swap mechanical once
+execution was confirmed, rather than leaving the pre-BL-W-01 three-row manual-sync
+discipline in force against an architecture that no longer requires it.
+
+**Alternatives Considered:**
+- **Leave the three rows in force alongside the new consolidated row (defense in
+  depth):** rejected — DM-127's architecture means `wiki-lint.py`/`wiki-verify.sh` no
+  longer hardcode the vocabulary at all, so instructing future sessions to "keep them
+  in sync by hand" is now actively wrong guidance, not conservative redundancy.
+
+**Consequences to Watch:**
+- Future Session Instructions revisions log their own `R-NNN` here per the R-001
+  mechanism (DM-133).
+
+**References:** DM-127, DM-133, DM-134, vocabulary-json-refactor-spec.md Section 8,
+wiki-design-session-instructions.md.
+
+---
+
+## DM-136 | BL-W-02 EXECUTION CONFIRMED — STRUCTURED-DATA EXTRACTION LAYER LIVE; SECTION 8 BATCH DEFERRED (CLAUDE.md/OPERATIONS.md CURRENCY)
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** BL-W-02 (DM-128) is confirmed executed. This is a follow-up/confirmation
+entry, not an amendment of DM-128 — same DM-126 misleads-alone basis as DM-134 for
+DM-127. Unlike DM-134, the `structured-data-extraction-spec.md` Section 8
+post-execution design-project batch is **not** executed in this session — it is
+explicitly deferred to the next session, gated on the operator resyncing this
+project's `CLAUDE.md` and `OPERATIONS.md` copies from the wiki repository. Section 8's
+items include a CLAUDE.md Section 8 / CONTRADICTION-SKILL.md detection-channel mirror
+check that cannot be performed correctly against a copy that predates the spec itself
+(06/05/2026, same staleness already flagged in DM-134's consequences).
+
+**Context:** A Claude Code (Sonnet) session executed `structured-data-extraction-spec.md`
+Sections 5–7 in the wiki repository. Commit `a75194a` on `main`, six files changed
+(`wiki-lint.py`, `OPERATIONS.md`, `CLAUDE.md`, `CONTRADICTION-SKILL.md`, `.gitignore`,
+plus `test_wiki_lint.py` — one file beyond the spec's five-file list, disclosed to and
+confirmed by the operator before committing, on the same test-coverage-as-gate
+rationale as BL-W-01's `test_generate_vocab_artifacts.py`). All gates pass. Two real
+bugs (metric/value mis-association; a hyphenated-identifier boundary bug in the
+inline-value regex) were found and fixed during Step 4, ahead of the formal Step 5 live
+run, dropping pre-ceiling Class 1/2 candidates from 19 (99.7% spurious) to 0. No
+wording was overridden at gate 3 — all six OPERATIONS.md edits and both CLAUDE.md
+insertions are verbatim as drafted in the spec.
+
+**Rationale:** N/A — confirmation entry; rationale for the underlying architecture is
+recorded in DM-128.
+
+**Alternatives Considered:** N/A — confirmation entry. (The choice to defer the Section
+8 batch rather than proceed against a stale CLAUDE.md, or proceed partially and skip
+the CLAUDE.md-touching items, was made in chat with the operator; deferral was
+selected.)
+
+**Consequences to Watch:**
+- `structured-data-extraction-spec.md` Section 8 remains outstanding: hybrid-lint-
+  assessment.md classification rows for L19/L20 (mirroring what this session did for
+  L17/L18), the CLAUDE.md Section 8 / CONTRADICTION-SKILL.md mirror check, the
+  precision-criterion tracking setup (spec Section 4.6 / Section 8 item 7), and
+  `wiki-implementation-backlog.md` BL-W-02 → `done`. All blocked on the CLAUDE.md/
+  OPERATIONS.md resync.
+- The execution report flags an OPERATIONS.md gap independent of BL-W-02: no dedicated
+  "Step L17"/"Step L18" prose blocks exist in OPERATIONS.md's Phase 1 sequence (only a
+  passing mention), which looks like an incomplete part of BL-W-01's own CLAUDE.md/
+  OPERATIONS.md edits. Logged separately as IN-026 rather than folded in here, since
+  it implicates BL-W-01's execution, not BL-W-02's.
+- V-2 (CTRD-token field sufficiency) was not verified against live data — the wiki
+  currently has zero open CTRD flags — confirmed via unit test and code logic only.
+  Re-verify against a real CTRD flag if one opens before the Section 8 batch runs.
+- One disclosed, unfixed limitation carried forward per the report: Class 3a (DR↔DR
+  inconsistent replication) has no entity/model guard per the spec's literal
+  definition; one live false positive observed (two different model variants sharing
+  a source/date/conditions). Informational-only and structurally barred from
+  promotion (spec F5), so left as-is; revisit if the pattern recurs at scale.
+- `wiki-implementation-backlog.md`'s status vocabulary distinguishes `planned`
+  ("plan exists, execution pending") from `in-progress`; BL-W-02's status is corrected
+  to `in-progress` in this session for accuracy, since execution is no longer pending
+  even though the item is not `done`.
+
+**References:** DM-128, DM-126, DM-134, BL-W-02 (wiki-implementation-backlog.md),
+structured-data-extraction-spec.md Section 8, IN-026, LL-040.
+
+---
+
+## DM-137 | BL-W-02 SECTION 8 POST-EXECUTION BATCH COMPLETE
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** `structured-data-extraction-spec.md` Section 8's post-execution
+design-project batch (deferred by DM-136 pending the CLAUDE.md/OPERATIONS.md resync)
+is now complete. This is a follow-up/confirmation entry, not an amendment of DM-128 or
+DM-136 — same DM-126 misleads-alone basis as DM-134/DM-135 for DM-127: both entries
+remain fully informative read alone.
+
+**Context:** The operator resynced `CLAUDE.md` and `OPERATIONS.md` from the wiki
+repository (07/11/2026 20:16 EDT working copies), unblocking the batch, and separately
+supplied current `hybrid-lint-assessment.md` and `test-harness.md` copies (Claude Code
+execution sessions do not carry this project's Last-Updated-header convention, so
+those two files' headers could not be used as a currency signal — content was
+verified directly). Batch items completed this session:
+
+1. `hybrid-lint-assessment.md`: Section 2.1 rows added for L19 (M) and L20 (D, with the
+   Section 4.5 judgment-residue description); Section 2.2 counts updated (M: 22→23, D:
+   7→8); Appendix A rows added verbatim per the spec; Section 4.3 review-type list
+   gains `contradiction_prescreen`; Section 6 maintenance table gains five rows for
+   `METRIC_ALIASES`, `UNIT_TOKENS`/`UNIT_CONVERSIONS`/`METRIC_GENERIC_SUFFIXES`, the
+   staged tuning procedure for `CLAIM_SIM_THRESHOLD`/`REL_DIVERGENCE`,
+   `ABS_DIVERGENCE_FLOOR`/`CONDITIONS_SIM_THRESHOLD`, and `MAX_PRESCREEN_CANDIDATES`
+   (23→28 rows).
+2. CLAUDE.md Section 8.1/8.2 (lint-channel detection sentence, lint-channel path rule)
+   and CONTRADICTION-SKILL.md Section 1.5 (Detection Channels) were checked side by
+   side: consistent, correctly cross-referenced in both directions. No edit required.
+3. `test-harness.md` Section 2.5 audited against V-1: the BL-W-02 commit (`a75194a`)
+   touched `.gitignore` only, not `quartz.config.ts` — `ignorePatterns` (the Tier 1
+   surface) was not touched. `raw/claims.json` and `raw/data-records.json` fall under
+   the existing wholesale `raw/` coverage confirmed during BL-W-01 (DM-134's V-2
+   finding). No `test-harness.md` or `wiki-verify.sh` change required. Conclusion
+   recorded here per spec Section 8 item 3, rather than as a file edit, since no
+   table row was implicated.
+4. `wiki-implementation-backlog.md`: BL-W-02 → `done`; BL-W-10's first gate condition
+   (`BL-W-02 delivered`) marked met; BL-W-11's tolerance-reuse note updated to cite
+   the real `wiki-lint.py` functions rather than a hypothetical.
+5. Precision-criterion tracking (spec Section 4.6): no live judgment pass has run yet
+   against `raw/lint-findings.json`'s L20 output, so no precision figure exists to
+   record. Carried forward as an open tracking item in the next carry-forward until a
+   figure is measured and the criterion is met twice consecutively.
+
+**Rationale:** N/A — confirmation/batch-completion entry; rationale for the underlying
+architecture is recorded in DM-128.
+
+**Alternatives Considered:** N/A — confirmation entry.
+
+**Consequences to Watch:**
+- The precision criterion (Section 4.6) remains unmeasured. The first two live lint
+  runs after this batch must record confirmed/dismissed counts for class 1–2 items;
+  if precision < 0.3, the staged tuning procedure (hybrid-lint-assessment.md Section 6,
+  this session's addition) fires.
+- V-2 (CTRD-token field sufficiency) remains unverified against live data per DM-136 —
+  still zero open CTRD flags in the wiki as of this session.
+- The Class 3a entity-guard gap (DM-136) is unchanged and not addressed by this batch —
+  informational-only, structurally barred from promotion (spec F5).
+
+**References:** DM-128, DM-134, DM-135, DM-136, DM-126, structured-data-extraction-
+spec.md Section 8, LL-040, wiki-implementation-backlog.md.
+
+---
+
+## DM-138 | OQ-1 RESOLVED: CLAUDE.md/OPERATIONS.md/SKILL FILES/wiki-lint.py/wiki-verify.sh/vocabulary.json/generate-vocab-artifacts.py BECOME PULL-ONLY FROM THE WIKI REPO, WITH A SPEC-VS-MICRO-EDIT THRESHOLD
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** The nine wiki-repo-maintained files currently covered by the LL-040
+currency note — `CLAUDE.md`, `OPERATIONS.md`, `wiki-lint.py`, `wiki-verify.sh`,
+`EXTRACTION-SKILL.md`, `TAGGING-SKILL.md`, `CONTRADICTION-SKILL.md`, `vocabulary.json`,
+`generate-vocab-artifacts.py` — become **pull-only** in this project via the Claude.ai
+GitHub connector rather than manually uploaded/re-uploaded copies. This design project
+stops directly authoring their content. Going forward, any change to these files —
+discovered here or planned as a backlog item — is specified here and executed by
+Claude Code against the wiki repository (extending the DM-132 paste-ready-prompt
+convention, already used for BL-W-series items, to *all* edits of these nine files,
+not only backlog-scale ones). A size threshold governs which pipeline a given finding
+uses:
+- **Spec-worthy** (architectural, multi-file, or judgment-bearing): full spec + DM-132
+  execution prompt + Claude Code session, as already practiced.
+- **Micro-edit** (a stale cross-reference, a one-sentence clarification, a typo):
+  logged rather than round-tripped immediately, and batched into a periodic combined
+  Claude Code prompt. The exact logging mechanism (an `info_needs.md` entry vs. a
+  lightweight new tracking list) is undecided and deferred to BL-D-07 (below).
+
+**Context:** Session-long pattern: DM-134 and DM-136 each independently hit the same
+problem — Claude Code edited `CLAUDE.md`/`OPERATIONS.md` directly in the wiki repo
+during BL-W-01/BL-W-02 execution, and this project's manually-uploaded copies went
+stale relative to those edits, blocking downstream work each time until the operator
+manually re-uploaded fresh copies. The drift direction in both observed cases was
+wiki-repo → ahead-of → design-project copy — i.e., Claude Code, not this project, was
+the actual writer. The operator raised OQ-1 (institutional-memory-2026-07-12.md) asking
+whether these files should become pull-only; in the same conversation, the operator
+proposed a division of labor where any schema/machinery deficiency discovered in this
+project is handled by drafting the Claude Code execution prompt that performs the fix
+in the repo, rather than editing the files here directly. The advisor's counter-analysis
+(this session) identified that applying this uniformly, with no size threshold, would
+convert every trivial finding into a full Claude Code session — a real latency and cost
+increase for the common small case — and confirmed via Anthropic's own documentation
+that the GitHub connector's "Sync now" is a manual pull, not live/automatic, so this
+decision reduces but does not eliminate the manual-currency-check need (Session Start
+check 3 remains necessary regardless).
+
+**Rationale:** Single-writer discipline for these nine files matches the drift direction
+actually observed twice this project, and generalizes a pattern (DM-132) that is
+already working for backlog-scale changes rather than inventing a new mechanism. The
+size threshold prevents the generalization from imposing Claude-Code-round-trip
+latency on findings that don't warrant it.
+
+**Alternatives Considered:**
+- **Status quo (manual upload/re-upload on staleness discovery):** rejected — three
+  known incidents now (DM-134, DM-136, and this session's own two-hour block on
+  agenda item 2), each costing a full session's worth of blocked work.
+- **Blanket pull-only with no size threshold:** rejected — every micro-finding (a stale
+  cross-reference, a one-word correction) would require drafting a spec-shaped prompt
+  and running a full Claude Code session, disproportionate to the finding's size.
+- **Two-way sync between this project and the wiki repo:** not available — confirmed
+  via Anthropic's GitHub-integration documentation that the connector is a manual,
+  read-only pull (`Sync now`) from repo to project knowledge; no push path exists.
+- **Narrower file scope (e.g., only `wiki-lint.py`/`wiki-verify.sh`, keeping
+  `CLAUDE.md`/`OPERATIONS.md` editable here):** rejected — the observed drift
+  specifically involved `CLAUDE.md`/`OPERATIONS.md` (both BL-W-01 and BL-W-02 edited
+  them in the repo per their specs' Sections 4.7–4.9); excluding them from the
+  pull-only set would leave the actual recurring failure mode unaddressed.
+
+**Consequences to Watch:**
+- The Session Instructions (currently R-002) need a revision to R-003 reflecting: (a)
+  the new currency mechanism for these nine files (GitHub connector + `Sync now`,
+  replacing the LL-040 manual-ask-operator-to-confirm language for this file set
+  specifically — other wiki-repo-adjacent files not in this list, e.g.
+  `ingest-ui-template.html`, keep the existing manual convention until their authorship
+  is separately clarified); (b) End-of-Chat Ritual item 5's instruction to "Update
+  CLAUDE.md"/"Update OPERATIONS.md" directly no longer applies to this project for
+  these nine files — the equivalent action becomes "specify the change and generate/
+  update the Claude Code execution prompt"; (c) the step 6 dependency matrix's rows
+  referencing direct edits to these files need corresponding updates. **This revision
+  is logged as BL-D-07 (design-project-backlog.md) and is deferred to the session
+  after the operator confirms the GitHub connector is live and `Sync now` has been run
+  at least once** — same sequencing discipline as the CLAUDE.md/OPERATIONS.md resync
+  that blocked this session's agenda item 2, so the revision describes confirmed
+  mechanics rather than anticipated ones.
+- `ingest-ui-template.html`'s repo-vs-project authorship is genuinely ambiguous (it is
+  described in the Session Instructions both as "committed" to the wiki repo and as a
+  file this project backports fixes into per LL-045) and is explicitly **not** resolved
+  by this decision — it stays on the manual convention until clarified.
+- The micro-edit batching mechanism's concrete form (where logged, how triggered for
+  batch execution) is undecided; BL-D-07 must settle it alongside the Session
+  Instructions revision.
+
+**References:** DM-127, DM-128, DM-132, DM-134, DM-136, DM-137, LL-040,
+institutional-memory-2026-07-12.md (OQ-1), design-project-backlog.md BL-D-07.
+
+---
+
+## DM-139 | SESSION INSTRUCTIONS REVISED TO R-003 (BL-D-07); MICRO-EDIT QUEUE ADOPTED AS A STANDING BACKLOG ITEM (BL-W-12)
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** The Session Instructions are revised to `Instructions Revision: R-003`,
+implementing DM-138 now that the GitHub connector is confirmed live (all nine files
+verified served and post-BL-W-01/02 current at session start, 2026-07-12). The revision
+comprises seven changes:
+
+1. **Currency note replaced for the nine.** The LL-040 manual-ask paragraph no longer
+   covers `CLAUDE.md`, `OPERATIONS.md`, `wiki-lint.py`, `wiki-verify.sh`,
+   `EXTRACTION-SKILL.md`, `TAGGING-SKILL.md`, `CONTRADICTION-SKILL.md`, `vocabulary.json`,
+   `generate-vocab-artifacts.py`. A new "Currency of the nine connector-served files"
+   block states their three governing properties: pull-only and manually synced; never
+   uploaded (an uploaded copy is the shadow-copy defect, not a backup); retrievable as
+   excerpts, not readable as whole files (DM-140). LL-040's manual convention survives
+   verbatim for everything else, `ingest-ui-template.html` named explicitly.
+2. **New Session Start check 4 — connector currency.** Because `Sync now` is a manual
+   pull, the checkable condition is whether a Claude Code session has executed against
+   the repo since the last design session (visible from backlog status flips and the
+   prior carry-forward's execution reports); if so, confirm `Sync now` ran after it. The
+   old check 4 (standing stale-state) becomes check 5.
+3. **Session Start check 3 amended.** The duplicate/shadow screen now names the specific
+   form the failure now takes: a manually-uploaded copy of one of the nine coexisting
+   with the connector copy.
+4. **New "Authorship boundary" subsection** under Design vs. Implementation, stating the
+   single-writer rule and the two pipelines (spec-worthy → spec + DM + DM-132 execution
+   prompt + Claude Code session; micro-edit → BL-W-12 line item), with the tie-break rule
+   "when ambiguous, treat as spec-worthy."
+5. **End-of-Chat Ritual item 5 restated.** "Update CLAUDE.md / Update OPERATIONS.md"
+   becomes "do not edit either here; determine the target file by the existing
+   schema-vs-procedure boundary, then route to a spec + execution prompt or a BL-W-12 line
+   item." The boundary still decides *what changes where*; it no longer decides *who
+   writes it*.
+6. **Ritual step 6 matrix re-pointed** with an explicit three-way routing rule, plus two
+   new rows (micro-edit discovered; BL-W-12 batch cut). Coupled changes landing in the
+   nine ride in the same execution prompt as their trigger; coupled changes landing in a
+   project-authored file that must describe the *post-change* repo state
+   (`test-harness.md`, `portability-review.md`, `implementation-handoff.md`,
+   `hybrid-lint-assessment.md`, `INIT-PROMPT.md`, `ingest-ui-implementation-plan.md`) are
+   scheduled in the item's post-execution batch, not written as forward references;
+   coupled changes landing in a file describing the decision itself (logs, backlogs,
+   specs, the instructions) are delivered in-session as always.
+7. **Delivery Rule carve-out.** The nine are outside the complete-file obligation, and the
+   rule's "if the full content is not in context, stop and ask" branch explicitly does not
+   apply to them — their full content is *never* in context, so that branch would deadlock
+   the project. Their deliverable is the specification plus the execution prompt, or a
+   BL-W-12 line item.
+
+**Micro-edit mechanism (DM-138's deferred question, OQ-2):** adopt a **standing item
+BL-W-12 in `wiki-implementation-backlog.md`**. It accumulates line items at status `open`
+and flips to `planned` when a batch is cut, at which point it generates one combined
+DM-132 execution prompt like any other backlog item. Batch-cut trigger, stated concretely
+per LL-003: five or more accumulated line items, OR any single item blocking other work,
+OR operator call.
+
+**Context:** BL-D-07, blocked since DM-138 on the operator connecting the wiki repository
+via the Claude.ai GitHub connector. Confirmed complete at this session's start: the
+connector serves all nine files, and the served `CLAUDE.md` contains the BL-W-02
+lint-channel-path rule (Section 8.2) while the served `OPERATIONS.md` contains Phase 3
+step 3a (`channel: lint-prescreen`) — both post-execution content, confirming the pull is
+current. No uploaded copies of the nine remain in project knowledge.
+
+**Rationale:** DM-138 settled the policy; this entry settles the mechanism and installs
+both in the control document that every session reads. The micro-edit queue reuses the
+existing backlog → `planned` → DM-132 prompt → Claude Code pipeline rather than inventing
+a parallel one: it inherits the rolling-edit mutability model, it lands automatically in
+the carry-forward's mandatory Pending Executions scan the moment it goes `planned`, and it
+requires no new file registration, no new ID convention, and no new session-start read
+decision.
+
+**Alternatives Considered:**
+- **Micro-edits logged as `info_needs.md` entries:** rejected. `info_needs.md` is
+  append-only and holds open *questions*, not queued *edits*; an accumulate-then-clear
+  queue fights that mutability model, and a cleared batch would leave permanent
+  pseudo-entries that were never information needs.
+- **A new lightweight tracking file (e.g. `wiki-microedit-queue.md`):** rejected. A new
+  file costs a Project Files registration, a session-start read decision, and its own
+  mutability convention, for no capability the backlog does not already provide.
+- **No threshold — every change to the nine gets a full spec and session:** rejected at
+  DM-138 and not revisited; it converts a typo into a Claude Code session.
+- **Deleting the ritual step 6 matrix rows that name the nine:** rejected. The *coupling*
+  facts (CLAUDE.md §8 ↔ CONTRADICTION-SKILL.md, etc.) remain true and load-bearing; only
+  the authoring venue changed. Deleting the rows would destroy the completeness check that
+  BL-D-01 built the matrix to provide.
+- **Retaining whole-file uploads of the nine alongside the connector, as read-only
+  reference:** rejected (operator-confirmed this session). It restores exactly the
+  shadow-copy failure mode the connector was adopted to eliminate, and the shadow copy
+  would be the one that goes stale.
+
+**Consequences to Watch:**
+- The design project can no longer verify exact insertion anchors in the nine. Anchor
+  verification has moved to the Claude Code execution prompt's currency gate. See DM-140,
+  which is the substantive treatment of this consequence.
+- BL-W-12 is a standing item that never reaches a terminal status. It will churn between
+  `open` and `planned` indefinitely. If the backlog's status vocabulary is ever formalized
+  (BL-D-02/BL-D-03), BL-W-12 must be exempted from any "every item eventually terminates"
+  assumption.
+- IN-027 (the `design-project-backlog.md` status vocabulary has no `planned` equivalent
+  for operator-gated `open` items) remains open and was deliberately *not* folded into this
+  revision. It belongs with BL-D-02/BL-D-03.
+- If the operator ever edits one of the nine by hand in the repo (bypassing Claude Code),
+  the single-writer discipline this decision rests on is broken and the drift-direction
+  assumption in DM-138 no longer holds.
+
+**References:** DM-125, DM-127, DM-132, DM-133, DM-135, DM-138, DM-140, LL-003, LL-040,
+LL-063, design-project-backlog.md BL-D-07, wiki-implementation-backlog.md BL-W-12,
+institutional-memory-2026-07-12b.md (OQ-2).
+
+---
+
+## DM-140 | GITHUB CONNECTOR FILES ARE RETRIEVAL-ONLY, NOT WHOLE-FILE READABLE; WHOLE-FILE VERIFICATION MOVES TO CLAUDE CODE
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** Accept, as a permanent property of the pull-only architecture, that this
+project reaches the nine connector-served files **only as search-matched excerpts, never
+as whole files**. Three rules follow, all installed in Session Instructions R-003:
+
+1. **No absence proofs.** A project-knowledge search that fails to surface a section,
+   anchor, cross-reference, or line in one of the nine is not evidence that it is absent.
+   Do not assert absence on the strength of a search miss.
+2. **Whole-file verification moves to Claude Code.** Any task requiring whole-file
+   certainty — confirming an exact insertion anchor exists, confirming a stale
+   cross-reference does *not* exist, reproducing the file — is performed by Claude Code
+   under the execution prompt's currency gate, which reads the working copy in full.
+   Design-project specs may *name* exact placement text; they may not claim to have
+   *verified* it against the live file.
+3. **The Delivery Rule's stop-and-ask branch does not apply to the nine.** Their full
+   content is never in context, so that branch would fire permanently and deadlock the
+   project. Their deliverable is a specification plus an execution prompt, or a BL-W-12
+   line item.
+
+**Context:** Discovered at Session Start on 2026-07-12, immediately after the operator
+completed the connector setup. DM-138 reasoned exclusively about the connector's *write*
+path — single-writer discipline, observed drift direction, the absence of a push channel —
+and confirmed via Anthropic's documentation that `Sync now` is a manual pull. It did not
+examine the *read* path. In fact the connector also changes reading: connector-served
+files are not mounted as project files and are retrievable only through semantic search,
+which returns matched passages. This was verified this session by direct probe (the nine
+do not appear on the project filesystem; all are reachable by retrieval).
+
+This has an immediate live consequence: `ingest-injection-resistance-spec.md` (BL-W-04,
+this session's agenda item 3) specifies exact placement text against CLAUDE.md Sections
+1/5.4/12 and EXTRACTION-SKILL.md Section 8. Those anchors can no longer be confirmed from
+this project.
+
+**Rationale:** The loss is real but bounded, and the mitigation already exists rather than
+needing to be built. Every DM-132 execution prompt opens with a currency gate in which
+Claude Code reads the working copies in full and confirms them with the operator before
+touching anything (STOP gate 1). Whole-file verification was therefore *already* happening
+in Claude Code on every repo edit; what changes is that it is now the *only* place it
+happens, and the design project must stop pretending otherwise. Naming that explicitly
+converts a silent failure channel — a session confidently asserting a section does not
+exist because a search did not return it — into a stated constraint.
+
+**Alternatives Considered:**
+- **Keep manual whole-file uploads of the nine alongside the connector, read-only:**
+  rejected (operator-confirmed). It reintroduces the shadow-copy failure the connector was
+  adopted to eliminate, and the uploaded copy is the one that would silently go stale —
+  the exact incident pattern of DM-134 and DM-136.
+- **Fetch the files from GitHub via web_fetch at session start to obtain whole-file
+  reads:** not adopted. It would work for a public repo but adds a per-session fetch step,
+  a second retrieval path with its own staleness semantics, and no mechanism to keep the
+  fetched copy from being mistaken for the authoritative one. Revisit only if a concrete
+  need for whole-file reading arises here that the Claude Code gate cannot serve.
+- **Treat this as a lessons-learned entry rather than a decision:** rejected. Nothing broke
+  and nothing was fixed; a vendor mechanism turned out to have a second-order property that
+  is now a standing design constraint. That is a decision to accept a constraint, not a
+  lesson from a failure.
+
+**Consequences to Watch:**
+- Specs that name exact placement text in the nine now carry unverifiable anchors. If a
+  Claude Code execution session reports an anchor mismatch at its currency gate, that is
+  the expected failure mode, not a defect — the spec is amended and the prompt regenerated
+  (DM-132).
+- A future session may be tempted to "check whether CLAUDE.md still says X" and conclude it
+  does not, on the basis of a search miss. Rule 1 exists for that case; it is untested
+  against actual behavior.
+- The generalizable form of this — *verify a vendor mechanism's read path and write path
+  separately before architecting around it* — is a near-repeat of a design principle
+  already recorded in institutional-memory-2026-07-12b.md ("verify vendor feature mechanics
+  before architecting around them"). The principle was recorded one session and instantiated
+  again the next, which is evidence it is real and evidence it is not yet reflexive.
+
+**References:** DM-132, DM-134, DM-136, DM-138, DM-139, LL-040,
+ingest-injection-resistance-spec.md, institutional-memory-2026-07-12b.md.
+
+---
+
+## DM-141 | DM-132 EXTENDED: AN EXECUTION PROMPT INLINES EVERY SPEC ITS EXECUTOR IS TOLD TO READ, AND CARRIES A MANDATORY ANCHOR-CONFIRMATION GATE
+
+- **Date:** 2026-07-12
+- **Status:** active
+
+**Decision:** Two additions to the DM-132 execution-prompt convention, both installed in
+`claude-code-execution-prompt-template.md` this session (LL-045 backport) and both first
+exercised in `claude-code-prompt-BL-W-04.md`:
+
+1. **Closure check — inline every spec the executor is told to read.** When generating an
+   execution prompt, scan the governing spec's execution sequence for instructions to read
+   any *other* specification, section, or design-project document. Inline each verbatim as
+   an appendix behind its own `=== BEGIN RIDER SPECIFICATION ===` marker, record its
+   `Last Updated` in the prompt header and in the backlog pointer alongside the governing
+   spec's, and state in the prompt's Section 1 exactly how much of the cross-referenced
+   spec is in scope. If *either* inlined spec is later amended, the prompt is stale and
+   must be regenerated. Rationale in full at LL-064: DM-132's rule was applied to the
+   governing spec and not carried to a spec the governing spec itself points at, leaving
+   BL-W-04's rider commit executable only from a one-line paraphrase.
+2. **Anchor-confirmation gate (mechanism for DM-140).** Where a spec names exact placement
+   text in one of the nine connector-served files, the prompt's currency gate must
+   enumerate every anchor, require a per-anchor `found as specified / renumbered / absent /
+   drifted` result in the report-back, and declare a mismatch a **STOP, not a judgment
+   call** — the executor may not relocate an insertion point by inference. This is the only
+   place anchor verification happens, because DM-140 establishes that the design project
+   cannot perform it.
+
+**Context:** Generating the BL-W-04 prompt (agenda item 3, this session). Both additions
+are consequences of decisions already made — (1) of DM-132's own premise, (2) of DM-140 —
+but neither existed as a mechanism until now, and (1) had already produced a live defect.
+An audit of the other three execution specs found no second instance of the cross-reference
+defect; it is isolated to BL-W-04 (LL-064).
+
+**Rationale:** The correct test for an execution prompt is not "is the governing spec
+inlined?" but "is everything the executor is told to read reachable from the prompt alone?"
+Those two questions come apart exactly when one spec cites another — which this project now
+does deliberately, whenever a small item rides as a commit on a larger item's session. The
+rider pattern is worth keeping; it needs the closure check to be safe. Placing both rules in
+the template rather than in a per-item spec means the next prompt inherits them without
+anyone remembering to.
+
+**Alternatives Considered:**
+- **Amend `ingest-injection-resistance-spec.md` to inline the rider text into the spec
+  itself:** rejected. It would bump the spec's `Last Updated` and immediately stale the
+  prompt generated from it, and it duplicates content that already has an owner
+  (`key-claims-eviction-spec.md` Section 6) — creating a second source that can drift. The
+  prompt, which is a derived artifact regenerated on demand, is the right place for the
+  duplication.
+- **Have the operator paste the rider spec into the Claude Code session separately:**
+  rejected. It makes correct execution depend on an unlogged manual step, which is the
+  failure class DM-132 exists to remove.
+- **Treat the anchor gate as per-spec boilerplate rather than a template element:**
+  rejected. Anchor verification is now structurally required for *every* change to the
+  nine (DM-138/DM-140), not an occasional need; a rule that must be remembered per spec
+  will eventually be forgotten.
+
+**Consequences to Watch:**
+- A rider appendix drops one section of a larger spec into an executor's context. The scope
+  fence in the prompt's Section 1 is the only thing preventing the executor from reading the
+  surrounding (deferred, trigger-gated) design as a mandate. That fence is untested against
+  actual execution behavior — the BL-W-04 session is its first trial.
+- Prompt staleness is now a function of *two* spec timestamps, not one. The backlog pointer
+  records both; a currency check that reads only the governing spec's timestamp will miss a
+  rider amendment.
+
+**References:** DM-129, DM-130, DM-132, DM-138, DM-139, DM-140, LL-045, LL-064,
+claude-code-execution-prompt-template.md, claude-code-prompt-BL-W-04.md,
+wiki-implementation-backlog.md (BL-W-03, BL-W-04).
+
+---
+
+## DM-142 | BL-W-04 EXECUTION CONFIRMED — INGEST INJECTION-RESISTANCE RULES LIVE
+
+- **Date:** 2026-07-14
+- **Status:** active
+
+**Decision:** BL-W-04 (DM-130) is confirmed executed. This is a follow-up/confirmation
+entry, not an amendment of DM-130 — DM-130's original decision, rationale, and
+alternatives stand unchanged (DM-126 misleads-alone test: nothing in DM-130 as
+originally written would mislead a reader now). This entry is the trigger for the
+`ingest-injection-resistance-spec.md` Section 7 post-execution design-project batch,
+executed in this same session.
+
+**Context:** A Claude Code (Sonnet) session executed `claude-code-prompt-BL-W-04.md`
+(governing spec `ingest-injection-resistance-spec.md`, DM-141's Appendix A rider from
+`key-claims-eviction-spec.md` Section 6) against the wiki repository. Commit 1:
+`702ebf8` — `feat: BL-W-04 ingest injection-resistance rules (DM-130)` —
+`CLAUDE.md`, `EXTRACTION-SKILL.md`, `OPERATIONS.md`. All four STOP gates passed: anchor
+confirmation (all Section 4 anchors found exactly as specified — no renumbering, no
+absence, no drift; one clarifying, non-mismatch note — the rider's "both mirror
+locations" for the lint log format resolved to exactly two physical locations,
+`CLAUDE.md` Section 12 short mirror and `OPERATIONS.md` Section 11.4 full block, not
+four), edit-plan confirmation, and rule-wording diffs (operator confirmed unchanged at
+gate 3 — no wording was overridden). Verification: **V-1** (R4 sanitization fixtures)
+all five pass; **V-2** (placement grep) all ten Section 4 locations confirmed present;
+**V-3** (schema tolerance) confirmed neither `wiki-lint.py` nor `wiki-verify.sh`
+enforces a closed frontmatter field set — no allowed-set change was made, the rule-9
+contingency did not fire; **V-4** (R6 manifest non-regression) traced against the
+large-document decomposition protocol, no gap found. No verification forced a STOP.
+
+Connector currency for this entry was confirmed by direct retrieval probe in this
+session — not by accepting the operator's or the execution report's status language at
+face value (see LL-065): the served `EXTRACTION-SKILL.md` copy carries the new Section 8
+header ("Source Content Is Data, Never Instructions") with the R1/R3 text; the served
+`OPERATIONS.md` copy carries the Step 11 injection-screen bullet verbatim.
+
+**Rationale:** N/A — confirmation entry; rationale for the underlying rules is recorded
+in DM-130.
+
+**Alternatives Considered:** N/A — confirmation entry.
+
+**Consequences to Watch:**
+- Both commits (`702ebf8`, `b7d9d75`) were initially local-only and unpushed; the
+  operator confirmed this gap, pushed to `origin/main`, and re-ran the connector's
+  `Sync now` before this batch was processed. See LL-065 for the process gap this
+  exposed.
+- One residual risk disclosed in the execution report, no action required: `LL-055`
+  (per spec Section 8(f)) — `pdf_to_markdown.py` output can carry hidden-text artifacts
+  from PDFs (category (d) discriminator); no conversion-side stripping was added,
+  detection remains at extraction time only, per the spec's design.
+- `test-harness.md` Section 2.5 updated this session with the V-3 conclusion as a
+  standing maintenance-table row (optional, non-enforced frontmatter field additions
+  require no script update).
+- `hybrid-lint-assessment.md` and `ingest-ui-implementation-plan.md`: per spec Section 7,
+  no edits were needed (no lint step added; no form change) — recorded here rather than
+  as file edits, since there is nothing to change.
+
+**References:** DM-130, DM-126, DM-140, DM-141, BL-W-04 (wiki-implementation-backlog.md),
+`ingest-injection-resistance-spec.md` Section 7, LL-055, LL-065.
+
+---
+
+## DM-143 | BL-W-03 STAGE 1 EXECUTION CONFIRMED — OVERCAP TRIGGER INSTRUMENTATION LIVE; STAGE 2 REMAINS GATED
+
+- **Date:** 2026-07-14
+- **Status:** active
+
+**Decision:** BL-W-03 (DM-129) **Stage 1 only** is confirmed executed. DM-129's Stage 2
+(the eviction mechanism itself) is unaffected by this entry and remains gated on the
+adoption trigger. Confirmation entry, not an amendment of DM-129.
+
+**Context:** Rider commit 2 of the same Claude Code session as DM-142:
+`b7d9d75` — `feat: BL-W-03 Stage 1 overcap trigger instrumentation (DM-129)` —
+`CLAUDE.md`, `OPERATIONS.md` — applying `key-claims-eviction-spec.md` Section 6 (the
+lint-log-entry `Overcap cards:` line in both mirror locations, and the L11
+card-annotation instruction). STOP gate 4 (Stage 1 diffs) passed — presented and
+confirmed unchanged. Stage 1 changes no behavior; it only counts and reports. The
+trigger count (third overcap card surfacing on one page, counted from instrumentation
+onward; deferral-suppressed passes do not count; pre-instrumentation history does not
+count) starts as of this commit.
+
+Connector currency confirmed by direct retrieval probe: the served `CLAUDE.md`/
+`OPERATIONS.md` log-format blocks and the `OPERATIONS.md` Key Claims overcap
+card-generation point both carry the `Overcap cards:` line and the third-surfacing
+annotation instruction verbatim as specified.
+
+**Rationale:** N/A — confirmation entry; rationale for the trigger design is recorded in
+DM-129.
+
+**Alternatives Considered:** N/A — confirmation entry.
+
+**Consequences to Watch:**
+- Stage 2 remains gated. `IN-016` stays `partially resolved` until Stage 2 executes —
+  its existing resolution text already anticipated Stage 1 executing first, so no
+  `info_needs.md` update is needed from this entry.
+- No pre-instrumentation overcap history counts toward the trigger; the two known
+  overcap pages (DM-115 context) will re-accumulate counts from this commit forward if
+  the underlying pressure is real.
+
+**References:** DM-129, DM-130, DM-140, DM-142, BL-W-03 (wiki-implementation-backlog.md),
+`key-claims-eviction-spec.md` Section 6, IN-016.
+
+---
+
+## DM-144 | CANONICAL STATUS VOCABULARY ACROSS ALL GOVERNANCE FILES; GOV-LINT CHECK DESIGN (BL-D-02 PLANNING PASS); IN-027 RESOLVED; INSTRUCTIONS → R-004
+
+- **Date:** 2026-07-14
+- **Status:** active
+
+**Decision:** This entry finalizes the design decisions BL-D-02 left open, so a mid-tier
+session can build `gov-lint.py` from a finished spec (`gov-lint-spec.md`, delivered this
+session) without re-deriving any of them. Six sub-decisions:
+
+**(1) One lowercase status vocabulary, applied across all six status-bearing files —
+not per-file conventions.**
+- `decisions_made.md`: `active | amended | superseded`
+- `implementation-friction.md`: `open | closed`
+- `info_needs.md`: `open | partial | closed`
+- `lessons_learned.md`: **no status field** — an LL is a historical record with no
+  lifecycle; the absence is canonical, not an omission.
+- `design-project-backlog.md` and `wiki-implementation-backlog.md`:
+  `open | planned | in-progress | gated | done | dropped` (identical sets — see (2)).
+Casing is lowercase everywhere. This is the normalization target BL-D-03 enforces; the
+existing sequencing note (BL-D-02 defines the vocabulary BL-D-03 normalizes to) governs
+the handoff. Empirically, three of the four append-only logs currently hold at least one
+nonconforming entry — DM-102 (`Status: Closed`, not in the DM set), IN-016
+(`partially resolved`, wrong value and case), and structural drift in FRIC-017 (no title,
+lowercase unbolded field names, `reported:` for `Date:`) and LL-034 (em-dash heading,
+`**What Happened:**` for `**Problem:**`) — none detected until this session inspected
+them by hand, which is the motivation for the tool.
+
+**(2) IN-027 resolves by unifying both backlogs on the same six-value set.**
+`design-project-backlog.md` gains `planned` and `gated`. BL-D-07 was the proof case: a
+finalized plan blocked on an operator connector action sat at `open`, indistinguishable
+from untouched work and invisible to the Pending-Executions "scan for `planned`" rule.
+No Session Instructions change is required for this — the ritual already scans "either
+backlog file"; it simply had nothing to find in the design backlog. Rejected: a
+BL-D-only status (`blocked`/`ready`) — two vocabularies would force two lint configs and
+an amended scan rule ("`planned` OR `ready`"), a second thing to remember and forget.
+
+**(3) BL-W-12's non-terminating `open`↔`planned` cycle needs no exemption, because
+gov-lint implements no terminal-status or staleness check on backlog items at all.**
+"Item has been open a while" is a judgment heuristic, not a conformance fact — precisely
+what a mechanical linter must not decide. Not writing the rule is strictly better than
+writing it plus a carve-out; a carve-out is a thing that can rot.
+
+**(4) Six checks. Four map to the LL findings that motivate BL-D-02; two are the
+BL-D-02/DM-121 originals.**
+- A — ID continuity (LL-060): per log, parse IDs, report gaps and duplicates.
+- B — status conformance (BL-D-02): value ∈ canonical set for that file, exact case.
+- C — amendment coupling (DM-121): `Amended By:` ⟺ `Status: amended`; same for
+  `superseded`.
+- D — header currency (LL-062): line-2 `Last Updated` date ≥ the newest in-entry `Date:`
+  in that file. The real defect is a header lagging its own latest entry, not a missing
+  line.
+- E — Pending-Executions ground truth (LL-063): **emits** the `planned` rows from both
+  backlogs (see (5)).
+- F — house-format (LL-061): required fields present, field names exact, heading uses
+  `|` not `—`, no duplicated adjacent lines. **WARN, not FAIL** — historical noise (FRIC-017,
+  LL-034) must never block a session.
+
+**(5) Check E generates rather than verifies.** LL-063's root cause was drafting the
+Pending-Executions table from narrative recall. A checker that diffs a *drafted* table
+against the backlogs still requires the draft to exist first. Emitting the ground-truth
+`planned` rows removes the recall step: the advisor uses the tool's output directly.
+Read-only, stdout, no files written.
+
+**(6) Runs against the mounted governance files, read-only, no auto-fix.** Because the
+sandbox mounts every governance file, gov-lint also mechanically discharges Session Start
+check 3 (max-ID verification), currently manual. It cannot read the Session Instructions
+(those live in the custom-instructions setting, not on disk); it *prints* the latest
+`R-NNN` found in `decisions_made.md` for the advisor to compare against context, rather
+than claiming to check it.
+
+**Scope deviation (flagged, operator-confirmed):** BL-D-02's detail block estimates
+~50–100 lines; six checks with per-file field schemas land closer to ~150–200. Operator
+confirmed the larger scope rather than dropping Check F. F stays because FRIC-017 and
+LL-034 went undetected until manually found; WARN severity contains its noise cost.
+
+
+**Context:**
+—
+**Rationale:** Recorded inline per sub-decision above.
+
+**Alternatives Considered:** Per-log casing conventions (rejected — path-dependence as
+convention); case-insensitive lint with no normalization (rejected — pushes tolerance
+into every future consumer, e.g. BL-D-06's index); BL-D-only backlog status (rejected —
+dual config); terminal-status/staleness check with a BL-W-12 carve-out (rejected — the
+carve-out rots); Check E as a diff-verifier (rejected — leaves the recall channel open);
+dropping Check F to hit the line estimate (rejected — the undetected-drift evidence is
+the whole point).
+
+**Consequences to Watch:**
+- **Instructions → R-004.** `gov-lint-spec.md` is registered in the Project Files section
+  this session; the revision is logged here per the ritual matrix. The `Instructions
+  Revision: R-004` line must equal this latest logged `R-NNN`.
+- BL-D-03 now has a concrete normalization job: ~1 DM entry (DM-102) and ~1 IN entry
+  (IN-016) on value/case, plus the structural repairs to FRIC-017 and LL-034. Its detail
+  block is updated this session to name this.
+- BL-D-02 moves to `in-progress` (planning done, build pending). It is *not* `planned`,
+  so it does not enter the carry-forward Pending-Executions table; the build is a
+  first-class agenda item instead.
+- Check F's WARN output will be noisy on first run against historical entries. That is
+  expected and must not be "fixed" by rewriting history; the intended response is either
+  a scoped BL-D-03 cleanup or explicit acceptance.
+
+**References:** BL-D-02, BL-D-03, BL-D-07, IN-027, DM-121, DM-125, DM-139, LL-034,
+LL-060, LL-061, LL-062, LL-063, FRIC-017, gov-lint-spec.md, design-project-backlog.md,
+info_needs.md.
+
+---
+
+## DM-145 | GOV-LINT.PY BUILD: TWO SPEC-GAP INTERPRETATIONS (INFO_NEEDS.MD DATE-FIELD PROXY; CHECK E SPEC-EXTRACTION HEURISTIC)
+
+- **Date:** 2026-07-15
+- **Status:** active
+
+**Decision:**
+Two implementation choices were made while building `gov_lint.py` against `gov-lint-spec.md`, where the spec's literal text did not match the actual shape of a file it governs. Both choices are documented here rather than silently absorbed into the build, because they were not operator-ratified before or during the build — they are Sonnet's best-effort resolution of a spec gap, not a design decision the operator confirmed.
+
+(1) **Check D "newest in-entry date" for `info_needs.md`.** Spec Section 4.4 defines this as "the maximum `- **Date:**` field" — but `info_needs.md`'s own entry template has no `Date:` field; it has `Raised:` and `Resolved:` instead. Implemented as `max(Raised, Resolved)` across all IN entries (excluding the `—` open-item placeholder, which does not parse as a date). This is a reasonable substitute given IN's actual template shape, but it is Sonnet's inference, not the spec's literal instruction, since the literal instruction has no application to this file.
+
+(2) **Check E "governing spec" column has no structured source field.** Neither backlog's detail blocks carry a `**Governing spec:**` bullet or equivalent machine-readable field naming the spec that governs a `planned` item. Implemented as a best-effort regex match for a backtick-quoted filename containing "spec" (e.g. `` `example-thing-spec.md` ``) within the item's `### ` detail block, with an explicit `"(not machine-extractable from backlog text — see detail block)"` fallback when no match is found, rather than silently guessing or leaving the column blank.
+
+**Context:**
+Discovered during the BL-D-02 build (this session) when the finished script was smoke-tested against the real six governance files rather than only against the spec's five named synthetic regression cases.
+
+**Rationale:**
+Both gaps are genuine mismatches between the spec's literal text and the governed files' actual shape, not build errors. Declining to implement either check for the affected file would silently narrow Check D/E's coverage; guessing without disclosure would misrepresent the tool's certainty. Documenting the interpretation with an honest fallback message preserves the tool's "no semantic judgment, mechanical only" character (spec Section 1) while still producing useful output.
+
+**Alternatives Considered:**
+- **Skip Check D's date-currency comparison for `info_needs.md` entirely (treat it like a backlog, no per-entry dates):** Rejected — `Raised`/`Resolved` are real per-entry dates and a currency check against them has real value; skipping loses coverage for no reason.
+- **Require a `**Governing spec:**` field to be added to both backlog templates before building Check E's extraction, rather than a best-effort regex:** More correct long-term, but blocks BL-D-02 on a backlog-template change outside this item's scope. Deferred as a candidate for IN-029 instead of gating the build.
+
+**Consequences to Watch:**
+- If the operator wants different Check D behavior for `info_needs.md` (e.g. a stricter treatment matching the backlog no-date-fields case), `gov_lint.py`'s `newest_in_entry_date()` is the single point of change.
+- If a future backlog item's detail-block prose does not name its spec file in backtick-quoted form, Check E will emit the fallback string rather than a wrong guess — by design, not as a bug.
+- Should be reconciled with IN-029 (backlog template gap) if that item is ever acted on.
+
+**References:** BL-D-02, gov-lint-spec.md, IN-029.
+
+---
+
+## DM-146 | SESSION INSTRUCTIONS REVISED TO R-005 (GOV_LINT.PY / TEST_GOV_LINT.PY REGISTERED AS PROJECT FILES; BL-D-02 COMPLETE)
+
+- **Date:** 2026-07-15
+- **Status:** active
+
+**Decision:**
+Session Instructions revised to R-005. `gov_lint.py` and `test_gov_lint.py` (BL-D-02's deliverables, built and validated this session) are registered in the Project Files section, since `gov_lint.py` is designed to run at session start or ritual time in this project's own sandbox (per `gov-lint-spec.md` and DM-144 sub-decision 6) and therefore must be present in project knowledge for future sessions to invoke it — the same convention already used for `pdf_to_markdown.py`.
+
+**Context:**
+BL-D-02's build completed this session. Without registering the script in Project Files, a future session would have no instruction to upload/consult it, and its Session-Start-check-3-discharging purpose (DM-144 sub-decision 6) would go unused.
+
+**Rationale:**
+Follows the existing `pdf_to_markdown.py` precedent exactly: a project-authored sandbox tool, delivered as a complete file, registered with read/run triggers. `test_gov_lint.py` is registered as an on-demand (not session-start) reference, matching the treatment of `test-harness.md` and similar non-session-start files, since it is only needed when `gov_lint.py` itself is amended.
+
+**Alternatives Considered:**
+- **Leave both files unregistered, relying on the operator to remember to re-upload `gov_lint.py` each session it's needed:** Rejected — this is exactly the kind of silent-drift channel LL-040/DM-138 exist to close for other files; no reason to leave a new one open here.
+
+**Consequences to Watch:**
+- The operator must upload `gov_lint.py` (and, if amending it, `test_gov_lint.py`) to project knowledge for it to be runnable in a future sandbox session — registering it in Project Files does not itself place the file there.
+- BL-D-02 moves to `done` in `design-project-backlog.md` in the same batch as this entry.
+
+**References:** BL-D-02, DM-144, gov-lint-spec.md.
+
+---
+
+## DM-147 | CONFORMANCE-CORRECTION EXCEPTION ADDED TO APPEND-ONLY MUTABILITY RULES (IN-030 RESOLVED; BL-D-03 UNBLOCKED)
+
+- **Date:** 2026-07-17
+- **Status:** active
+
+**Decision:**
+The mutability rules in this file's header block gain a second permitted in-place edit class — **conformance correction** — alongside the existing amendment/supersession coupling. A conformance correction brings an entry's *form* to the canonical conventions (`gov-lint-spec.md` Section 2 status vocabulary; house entry format) without altering its meaning, across all four append-only logs. It is split into two sub-classes with different confirmation requirements:
+
+- **Pure form** (casing, field-name repair, heading format, adding a missing template field as `—`, in-file header/template vocabulary blocks): no intent determination required.
+- **Out-of-vocabulary value correction** (a recorded value outside the file's canonical vocabulary, replaced with the value the author evidently intended — e.g. DM-102's `Status: Closed`, IN-016's `partially resolved`, DM-040's Status/Superseded-By mismatch): intent must first be determined from the entry's own content or operator confirmation; if it cannot be, the entry is left unedited and an IN is raised instead.
+
+Four mandatory guards: (1) only `gov_lint.py` Check B/C/F-flagged defects qualify — no ad hoc corrections; (2) substantive content (decision/rationale/context/alternatives/consequences/dates/references, and the equivalent bodies in the other logs) is never touched; (3) every correction batch is logged in a DM enumerating exact before → after text for each edited entry; (4) per-batch operator confirmation (plan-then-pause) before any edit.
+
+The header block's first bullet is simultaneously rewritten to name the protected substantive fields explicitly and to state that exactly two edit classes exist — resolving a latent internal inconsistency (the old first bullet protected four named fields while the old amendment bullet claimed exclusivity over all in-place edits). This resolves IN-030 and unblocks BL-D-03.
+
+**Context:**
+`gov_lint.py`'s first real-corpus run (BL-D-02, 2026-07-15) surfaced nonconforming historical entries that BL-D-03 is scoped to fix by in-place edit — but the mutability rules authorized only the amendment/supersession pair, making the planned edits unauthorized. IN-030 (P2) recorded the gap and gated BL-D-03. The rule change is made in the header block, which is rolling-edit rather than append-only — precedent: the DM-121/IN-021 clarification edited the same block in place, logged by a DM.
+
+**Rationale:**
+The append-only convention exists to protect the historical record's *semantic* integrity — that decisions, rationales, and lessons as recorded are never silently rewritten. It does not exist to preserve typos or format drift; that preservation is incidental, and permanent Check B FAILs on entries nobody may fix train every future session to ignore the linter (alarm fatigue), undermining the tool BL-D-02 just built. The sub-class split exists because the two kinds of fix carry different risk: casing cannot change meaning, but replacing an out-of-vocabulary value asserts what the author meant — so the latter requires evidence of intent per item. The before → after logging guard is load-bearing, not bureaucratic: the governance files live in project knowledge with no version control, so the logging DM is the only durable history of the edit.
+
+**Alternatives Considered:**
+- **Read the existing rules as already covering it** (the old first bullet did not name the Status field as protected): rejected — survives only by ignoring the amendment bullet's "only permitted in-place edit" exclusivity clause; a rule that holds only under selective reading is not a rule. The internal inconsistency is fixed instead.
+- **Route each fix through the formal amendment mechanism:** rejected — semantically wrong. "Amended" means *decision modified but still directionally valid*; a typo is not a modified decision. It would flip DM-102 to `Status: amended` (a semantic falsehood) and pollute the amendment channel with non-amendments.
+- **Accept the noise permanently / add a lint-baseline suppression file:** rejected — DM-144's consequences already framed the choice as scoped cleanup vs. explicit acceptance, and permanent errors invite alarm fatigue; a baseline file is new machinery that can rot.
+- **A broad "operator may edit anything with a DM" exception:** rejected — destroys the append-only guarantee entirely; the narrow scoping and the lint-flagged trigger are the whole point.
+
+**Consequences to Watch:**
+- **Transitional casing split, tracked:** the rewritten mutability bullets quote canonical lowercase status values (`amended`), while this file's Entry Template block and pre-BL-D-03 entries still carry uppercase. This split is tracked here and resolved by BL-D-03 item (d); per the ritual matrix, a tracked transitional split is acceptable, a silent one is not.
+- **Discoverability mirrors:** a one-line pointer to this exception is added to the header blocks of the other three append-only logs as part of BL-D-03 item (d), so the rule is discoverable in-file where it applies.
+- **No `gov_lint.py` rebuild:** the linter checks end states, not edit legality; the canonical vocabulary (`gov-lint-spec.md` Section 2) is unchanged. The ritual matrix's conformance-rule row does not fire on its rebuild clause.
+- **Scope-creep watch:** if a future session invokes this exception for anything not flagged by Check B/C/F, or edits drift toward content, that is a violation to be logged as an LL and reversed, not a precedent.
+- BL-D-03's detail block gains the before → after logging obligation and loses its IN-030 gate in the same batch as this entry.
+
+**References:** IN-030, IN-028, IN-016, DM-102, DM-040, DM-121, DM-144, BL-D-02, BL-D-03, LL-060, LL-061, gov-lint-spec.md.
+
+---
+
+## DM-148 | TIMESTAMP CONVENTION: SANDBOX CLOCK DEFAULT, ET RENDERING, BATCH-TIME FETCH, EXTERNAL CROSS-CHECK (INSTRUCTIONS R-006)
+
+- **Date:** 2026-07-17
+- **Status:** active
+
+**Decision:**
+`Last Updated` timestamps are obtained by default from the sandbox clock at delivery time — `TZ="America/New_York" date '+%m/%d/%Y %H:%M'` run in the same tool batch that finalizes the files — and rendered with the zone label `ET` in all cases, never `EST`/`EDT`. The reading is sanity-checked against the authoritative session date; when in doubt it is cross-checked mechanically against an external authoritative UTC source (the `Date` header of an allowed-domain HTTPS response, e.g. `api.github.com`) before the operator is involved. The operator is asked only when the clock is unavailable and the external cross-check also fails. One stamp per delivery batch, re-read at each batch. Timestamps are never invented, approximated, or reused from earlier in the session. Session Instructions revised to R-006 to codify this. The 2026-07-15 carry-forward's "stop and ask the operator for the current time" constraint is retired and must not propagate into future carry-forwards.
+
+**Context:**
+Operator direction 2026-07-17, after the advisor asked for the wall-clock time per the carried-forward constraint. The rule history: timestamps hallucinated without consulting any clock (pre-LL-066); a mid-session clock date-split (LL-066); a temporary clock outage — each produced a successively stricter rule, ending with operator-in-the-loop for a trivial fact. Sessions also span long real-time gaps between turns (operator-confirmed workflow reality), so a session-start or remembered reading is not valid at a later batch. The same session then demonstrated the design live: a mid-session reading appeared to jump four hours against the operator's earlier stated time; the external `Date`-header cross-check confirmed the clock was correct and four real hours had elapsed — the operator anchor was stale, not the clock wrong.
+
+**Rationale:**
+A layered default-with-fallback covers all four known failure modes: hallucination (a mandatory tool read defeats it), clock drift/re-provisioning (external cross-check detects it), clock outage (operator fallback), and multi-day sessions (batch-time re-read). The `ET` label removes a DST judgment call from the label without affecting the conversion, which `TZ=America/New_York` performs mechanically; convention imported from the Scenario Tracker project (operator-cited precedent, not independently verifiable from this project). Escalating to a human is reserved for the branch where no tool can answer — a rule that defaults to human involvement for a machine-retrievable fact has its default and fallback inverted.
+
+**Alternatives Considered:**
+- **Keep the ask-first constraint:** rejected — operator burden every batch for a trivial fact; the outage it guarded against is the rare case, so it belongs in the fallback branch.
+- **`EST`/`EDT` selected per date:** rejected — reintroduces a per-stamp judgment the `ET` label eliminates; the offset conversion itself remains mechanical either way.
+- **Single session-start stamp:** rejected — multi-day sessions make it wrong at ritual time; refined to per-delivery-batch.
+- **Trust operator time anchors across turns:** rejected — demonstrated stale within this very session (four-hour turn gap).
+
+**Consequences to Watch:**
+- **The `ET` label broke the linter's line-2 format check — coupled fix executed in this batch.** `gov_lint.py`'s Check D regex required `(EST|EDT)`, so the first `ET`-stamped files failed lint — discovered by running the linter on this batch's own output. Per the ritual matrix's conformance-rule row: `gov-lint-spec.md` Section 4.4 amended to `(ET|EST|EDT)` — `ET` canonical for stamps written under R-006+, `EST`/`EDT` accepted as legacy tokens so files untouched since R-005 remain conformant without retroactive restamping — and `gov_lint.py` rebuilt against the amended spec with a regression test added (LL-067 practice).
+- LL-066's "one consistent timestamp per session" implication is refined to "one per delivery batch"; LL-066 itself is unedited (append-only; the DM-147 exception does not permit semantic edits) — LL-068 carries the refinement.
+- The next carry-forward must carry this convention and must not restate the retired ask-first constraint — re-propagation of a retired constraint is exactly the drift channel carry-forwards can create.
+- The external cross-check depends on the sandbox network allowlist including at least one HTTPS domain; if the allowlist ever narrows to none, that layer silently disappears and the fallback becomes ask-the-operator directly — acceptable, but worth knowing.
+- Aborted-attempt artifacts (IN-031): before delivering, confirm staged content traces to tool calls in the visible session record — this session's duplicate-ID lint caught a foreign DM-148 appended to the staged log by an aborted prior attempt; it was excised before delivery.
+
+**References:** LL-066, LL-068, IN-031, R-006, carry-forward-2026-07-15.md, DM-147, gov-lint-spec.md.
+
+---
+
+## DM-149 | BL-D-03 EXECUTED: GOVERNANCE STATUS-FIELD NORMALIZATION BATCH (168 ERRORS / 80 WARNINGS → 0/0)
+
+- **Date:** 2026-07-25
+- **Status:** active
+
+**Decision:**
+BL-D-03 executed under the DM-147 conformance-correction exception. All four
+append-only logs (`decisions_made.md`, `lessons_learned.md`, `implementation-friction.md`,
+`info_needs.md`) corrected to `gov-lint-spec.md` Section 2 canonical status vocabulary
+and house entry format. `gov_lint.py --root` moved from **168 errors / 80 warnings** to
+**0 errors / 0 warnings**. All four DM-147 guards followed: every correction below is a
+`gov_lint.py` Check B/C/F finding; no substantive content (decision/rationale/context/
+alternatives/consequences/dates/references, or the equivalent bodies in the other three
+logs) was altered; this entry is the before → after record; the batch was planned and
+operator-confirmed before any edit was made.
+
+Out-of-vocabulary corrections (intent determined per DM-147; operator-confirmed this
+session):
+
+| Entry | Before | After | Basis |
+|---|---|---|---|
+| DM-040 | `ACTIVE` (+ `Superseded By: DM-061`) | `superseded` | Check C coupling fix — DM-061 confirmed as an actual reversal of DM-040's decision, not a spurious pointer. Resolves IN-028. |
+| DM-102 | `Closed` | `active` | No Amended/Superseded By pointer; decision still in force. "Closed" evidently echoed the FRIC-041 ticket, not the DM's own state. |
+| DM-078 | `confirmed` | `active` | Still-standing rule, no supersession. |
+| DM-079 | `confirmed` | `active` | Still-standing rule, no supersession. |
+| DM-080 | `confirmed` | `active` | Still-standing rule, no supersession. |
+| DM-096 | `confirmed` | `active` | Still-standing rule, no supersession. |
+| DM-108 | `Decided` | `active` | Decision stands; DM-123 only removed a *different* decision (DM-107's sync-target scope) from force. |
+| IN-016 | `partially resolved` | `partial` | Direct mapping to canonical vocabulary. |
+
+Pure-form status casing, `decisions_made.md` (Check B; 136 entries):
+
+| Entries | Before | After |
+|---|---|---|
+| DM-001–DM-144 except {003,022,039,040,078–080,096,102,105,107,108,111} (131 entries) | `ACTIVE` | `active` |
+| DM-003, DM-022, DM-039, DM-107, DM-111 | `AMENDED` | `amended` |
+| DM-105 | `SUPERSEDED` | `superseded` |
+
+Pure-form status casing/value, `info_needs.md` (Check B; 22 entries):
+
+| Entries | Before | After |
+|---|---|---|
+| IN-001–IN-014, IN-021 (15 entries) | `CLOSED` | `closed` |
+| IN-015, IN-022, IN-023, IN-024, IN-025, IN-026 (6 entries) | `OPEN` | `open` |
+| IN-016 | `partially resolved` | `partial` (listed above; counted once) |
+
+Missing-field additions, empty value `—` (Check F; content untouched):
+
+| File | Entries | Fields added |
+|---|---|---|
+| decisions_made.md | DM-038, 047, 049, 073, 084 | +References |
+| decisions_made.md | DM-046, 074 | +References (+Rationale for DM-046; +Alternatives Considered for DM-074) |
+| decisions_made.md | DM-055, 094, 095, 102, 103, 131, 132, 144 | +Context |
+| decisions_made.md | DM-068, 075, 085, 110, 111, 120 | +Alternatives Considered |
+| decisions_made.md | DM-076 | +Rationale, +Alternatives Considered |
+| decisions_made.md | DM-078, 079, 080 | +Context, +Alternatives Considered, +References |
+| decisions_made.md | DM-108 | +Context |
+| lessons_learned.md | LL-001, 003–011, 018, 019, 021–029 (24 entries) | +References |
+| lessons_learned.md | LL-014, 015, 016, 017 | +Context, +References |
+| lessons_learned.md | LL-034, 036, 038, 039 | +Context |
+| implementation-friction.md | FRIC-017 | +Phase (see full rewrite below) |
+| info_needs.md | IN-016, 017, 018 | +Category |
+| info_needs.md | IN-019, IN-020 | +Category, +Resolved |
+| info_needs.md | IN-022, 023, 024, 025, 026 | +Resolved |
+
+Field-name / heading repairs (Check F; content preserved verbatim):
+
+| Entry | Before | After |
+|---|---|---|
+| DM-096 | `## DM-096 — vendor-content Taxonomy: ...` | `## DM-096 \| vendor-content Taxonomy: ...` |
+| DM-078, DM-079, DM-080 | `**Consequences:**` | `**Consequences to Watch:**` |
+| DM-108 | `**Alternatives Ruled Out:**` | `**Alternatives Considered:**` (content, incl. the three ruled-out options, unchanged) |
+| LL-034 | `## LL-034 — Friction Log Status Fields...` | `## LL-034 \| Friction Log Status Fields...` |
+| LL-034 | `**What Happened:**` | `**Problem:**` |
+| LL-008 | `**Operation:**` / `**Problem Encountered:**` | `**Context:**` / `**Problem:**` |
+| LL-014, LL-015, LL-016, LL-017 | `- **Problem encountered:**` / `- **Root cause:**` / `- **Fix applied:**` / `- **Implication going forward:**` | `- **Problem:**` / `- **Root Cause:**` / `- **Fix Applied:**` / `- **Implication Going Forward:**` |
+| LL-018 | `**Fix applied:**` / `**Implication going forward:**` | `**Fix Applied:**` / `**Implication Going Forward:**` |
+| LL-036 | `**Problem Encountered:**` | `**Problem:**` |
+| LL-064 | `**Implication:**` | `**Implication Going Forward:**` (content unchanged) |
+| IN-019, IN-020, IN-021, IN-022, IN-023, IN-024, IN-025, IN-026, IN-027 | `## IN-NNN — TITLE` | `## IN-NNN \| TITLE` |
+| IN-019, IN-020 | `**The Gap:**` | `**Question / Gap / Contradiction:**` |
+| IN-019, IN-020 | `**Why This Doesn't Block Current Operation:**` | `**Why This Blocks Progress:**` |
+| FRIC-017 | No title; `- **symptom:**`, `- **implicated document:**`, `- **verdict:**`, `- **fix plan:**`, `- **status:**`, `- **reported:**`, `- **resolved:**` (all lowercase); no Phase field | Title added (`Pre-Flight Budget Check Excluded Staged Files From Threshold Count`); fields renamed to `Date`/`Status`/`Phase`/`Document implicated`/`Symptom`/`Verdict`/`Fix plan`/`Resolved`; `Phase` added as `—` |
+| FRIC-031 | `- **Fix plan (low priority):**` | `- **Fix plan:** Low priority. ...` (qualifier moved into body, content unchanged) |
+
+In-file header/template vocabulary blocks (Check D-adjacent; pure form):
+
+| File | Before | After |
+|---|---|---|
+| decisions_made.md Entry Template | `ACTIVE \| AMENDED \| SUPERSEDED` | `active \| amended \| superseded` |
+| info_needs.md Entry Template | `OPEN \| PARTIAL \| CLOSED` | `open \| partial \| closed` |
+
+DM-147 discoverability pointers added to `lessons_learned.md`, `implementation-friction.md`,
+and `info_needs.md` mutability-rules blocks (item d), each qualifying that file's own
+"never edited" / "do not edit manually" language with the narrow exception and a pointer
+to this DM.
+
+**Context:**
+IN-030 (resolved as DM-147) had gated this item since 2026-07-15. `gov_lint.py`'s
+Check B/C/F output was used as ground truth throughout rather than the backlog's
+job-list, which named only 3 out-of-vocabulary corrections; the actual run surfaced 8
+(the 5 additional: DM-078, DM-079, DM-080, DM-096, DM-108), all confirmed by the operator
+before execution.
+
+**Rationale:**
+Mechanical, lint-flagged corrections only; no ad hoc "while I'm in here" edits were made
+per guard 1. Two cases were caught mid-execution where a blank placeholder would have
+been inserted beside pre-existing, differently-named substantive content (DM-108's
+"Alternatives Ruled Out"; LL-064's "Implication") — both corrected to renames instead,
+preserving the original content rather than duplicating a section.
+
+**Alternatives Considered:**
+None — this is mechanical execution of an already-specified, already-gated item; no
+design choice remained open except the intent determinations, which were resolved
+before execution per DM-147 and are recorded above.
+
+**Consequences to Watch:**
+- BL-D-03 is now `done`; `design-project-backlog.md` updated in the same batch.
+- The transitional casing split DM-147 flagged (canonical lowercase in the rules text vs.
+  uppercase in pre-existing entries) is now closed — no further split to track.
+- Two placeholder/rename near-misses were caught by manual review during this batch, not
+  by `gov_lint.py` itself (the linter checks field presence, not whether an adjacent
+  differently-named field already carries the content). A future amendment to
+  `gov_lint.py` could add a duplicate-content heuristic, but this is not scoped here.
+- Re-run `gov_lint.py` at the next session start to confirm the clean state holds.
+
+**References:** DM-147, IN-030, IN-028, IN-016, DM-102, DM-040, DM-061, DM-096, DM-108,
+DM-078, DM-079, DM-080, gov-lint-spec.md, design-project-backlog.md BL-D-03.
+
+---
+
+## DM-150 | SESSION INSTRUCTIONS REVISED TO R-007: LL-069 PRE-DELIVERY LINT GATE CODIFIED
+
+- **Date:** 2026-07-25
+- **Status:** active
+
+**Decision:**
+Session Instructions revised R-006 → R-007. One line added to the Delivery Rule
+section codifying LL-069: before copying any batch of governance-file edits to
+outputs, run `gov_lint.py` against the full staged corpus and require baseline parity
+(or an explained delta) before delivering; never assert "no linter impact" from
+reasoning alone. Header `Last Updated` bumped to the revising batch's timestamp.
+
+This edit was delivered as line-level instructions (exact find/insert text) rather
+than a full reproduced Session Instructions file, an explicit exception to the
+Delivery Rule made at the operator's request this session: reproducing the entire
+instructions document verbatim in a very long session, with no canonical on-disk copy
+to mechanically diff the result against (unlike the governance files, which
+`gov_lint.py` re-verifies), carries a fidelity risk this project's own Delivery Rule
+exists to guard against. Giving surgical edit instructions lets the operator apply the
+change directly with certainty, at the cost of the operator doing the mechanical
+edit rather than Claude.
+
+**Context:**
+Carry-forward agenda item 3 (2026-07-17): LL-069 flagged its own implication as a
+"candidate one-line codification into the Session Instructions at the next revision,"
+queued rather than actioned mid-session to avoid churning a second revision in one
+sitting. Taken up this session per operator direction, after this session's BL-D-03
+batch had already run long.
+
+**Rationale:**
+The instructions-revision drift check (Session Start check 1) compares this file's
+latest logged `R-NNN` against the Session Instructions' own `Instructions Revision`
+line; skipping this DM would leave that check un-satisfiable at next session start
+even after the operator applies the manual edit. Logging the DM is the durable record
+of the change regardless of which party executed it.
+
+**Alternatives Considered:**
+- **Full file reproduction, as normal:** rejected for this one edit at the operator's
+  explicit request, given the length of this session and the absence of a canonical
+  on-disk copy to verify reproduction against.
+- **Defer to a fresh session:** rejected by the operator in favor of the line-edit
+  exception, which resolves the fidelity risk without losing the session.
+
+**Consequences to Watch:**
+- Next session start must confirm the operator actually applied both edits (header
+  bump to R-007 and the new Delivery Rule paragraph) before trusting Session Start
+  check 1 — a partially-applied manual edit (e.g., DM logged here but instructions
+  left at R-006, or vice versa) is exactly the drift-channel failure mode Session
+  Start exists to catch, and this session created it deliberately as a means, not
+  an end.
+- This line-edit-instead-of-full-file pattern is a one-off exception for this session's
+  context state, not a new standing convention for Session Instructions changes;
+  future revisions default back to full-file delivery unless the same conditions
+  (long session, no diffable source) recur and the operator again asks for it.
+
+**References:** LL-069, R-006, R-007, carry-forward-2026-07-17.md (agenda item 3).

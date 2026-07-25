@@ -1,5 +1,5 @@
 # implementation-friction.md
-**Last Updated:** 06/27/2026 17:26 EDT
+**Last Updated:** 07/25/2026 13:38 ET
 
 Persistent log of implementation friction issues encountered during setup and
 operational shake-out. Created once; never deleted. Issues accumulate with open/closed
@@ -7,7 +7,11 @@ status. At session start, the agent reads this file and surfaces any open issues
 taking new reports. At end-of-chat batch write, applied fixes are marked closed.
 
 Do not edit entries manually after they are written. The session agent maintains status
-fields.
+fields. Exception (DM-147, `decisions_made.md`): a gov_lint-flagged conformance
+correction to an entry's *form* (status-value casing, field-name repair, heading
+format) may be made in place under mandatory guards logged in the correcting DM. See
+`decisions_made.md` DM-147 for the full rule; it applies across all four append-only
+logs, not to `decisions_made.md` alone.
 
 ---
 
@@ -238,20 +242,21 @@ fields.
 
 ---
 
-## FRIC-017
+## FRIC-017 | Pre-Flight Budget Check Excluded Staged Files From Threshold Count
 
-- **symptom:** Pre-flight budget forced choice check counts only `[queued]` items against the ≤5 threshold. Staged files (those ingested via the staged path rather than the queue URL path) are not counted. In practice, staged files are increasingly common because long sources fail on the queue path due to context limits — meaning staged sources tend to be longer in content, not shorter. The result: the budget check can approve a session with 2 queued items but 4 staged files (6 total, all potentially long) without triggering a forced choice.
-- **implicated document:** CLAUDE.md — pre-flight check (Step 0) in the ingest workflow; budget forced choice logic; queue.md structure
-- **verdict:** Confirmed weakness — Step 0 counted only `[queued]` items; staged files
+- **Date:** 2026-04-22
+- **Status:** closed
+- **Phase:** —
+- **Document implicated:** CLAUDE.md — pre-flight check (Step 0) in the ingest workflow; budget forced choice logic; queue.md structure
+- **Symptom:** Pre-flight budget forced choice check counts only `[queued]` items against the ≤5 threshold. Staged files (those ingested via the staged path rather than the queue URL path) are not counted. In practice, staged files are increasingly common because long sources fail on the queue path due to context limits — meaning staged sources tend to be longer in content, not shorter. The result: the budget check can approve a session with 2 queued items but 4 staged files (6 total, all potentially long) without triggering a forced choice.
+- **Verdict:** Confirmed weakness — Step 0 counted only `[queued]` items; staged files
   were excluded despite constituting real session work and tending to be the heaviest
   sources.
-- **fix plan:** Step 0 now counts N = staged files (via `ls raw/staged/`) + queued
+- **Fix plan:** Step 0 now counts N = staged files (via `ls raw/staged/`) + queued
   items. Threshold unchanged at 5. Forced choice block template updated to show the
   breakdown (`{a} staged files + {b} queued URLs`). Deferral note template updated
   to record the breakdown at time of deferral.
-- **status:** closed
-- **reported:** 2026-04-22
-- **resolved:** 2026-04-22
+- **Resolved:** 2026-04-22
 
 ---
 
@@ -555,7 +560,7 @@ fields.
   eviction path. An agent encountering a novel claim on a saturated page has no
   authority to displace the weakest existing claim and no procedure to propose the
   swap as a forced choice.
-- **Fix plan (low priority):** Add an eviction forced-choice case to Step 12: when
+- **Fix plan:** Low priority. Add an eviction forced-choice case to Step 12: when
   extraction produces a claim not already represented and the table is at 5, surface
   the new claim alongside the table sorted by Support Score ascending and propose
   displacing the lowest-scoring claim as a forced choice. Human confirms before any
