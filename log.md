@@ -4,8 +4,17 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-08-08
 last_entry: 2026-08-08
-entry_count: 174
+entry_count: 175
 ---
+
+## [2026-08-08] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: no
+Time window: off-peak
+Source type mix: policy-document: 1
+Notes: Session resumed after a prior compaction; pre-flight decisions (choices.json, ingest-decisions.html) were preserved across the compaction boundary and the returned decision string matched all recommended defaults, so no wiki-lessons-learned draft was required. /cost unavailable in this environment — tokens line omitted rather than fabricated.
 
 ## [2026-08-08] ingest | Claude Opus 5 System Card
 Added: [[2026-claude-opus-5-system-card]]. Updated: [[topics/ai-model-welfare]], [[tools/anthropic-claude-opus-4-8]], [[comparisons/frontier-llm-benchmark-comparison]]. Contradictions flagged: 0.
