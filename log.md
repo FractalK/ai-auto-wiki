@@ -4,8 +4,14 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-08-08
 last_entry: 2026-08-08
-entry_count: 173
+entry_count: 174
 ---
+
+## [2026-08-08] ingest | Claude Opus 5 System Card
+Added: [[2026-claude-opus-5-system-card]]. Updated: [[topics/ai-model-welfare]], [[tools/anthropic-claude-opus-4-8]], [[comparisons/frontier-llm-benchmark-comparison]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 — [[tools/anthropic-claude-opus-5]], [[pitfalls/anthropic-claude-opus-5-pitfalls]] (source page: [[2026-claude-opus-5-system-card]]).
+Injection flags: 0.
+Note: tools/anthropic-claude-opus-4-8 succeeded_by corrected from anthropic-claude-fable-5 to anthropic-claude-opus-5 (lineage-pointer correction per CLAUDE.md Section 9 — Fable 5 is a separate model line; Opus 5 is the immediate same-lineage successor). frontier-llm-benchmark-comparison updated per pre-flight choice 1A: entities_compared swapped Opus 4.8 → Opus 5, Opus 4.8-era rows marked superseded in Data Records, verdict refreshed. topics/ai-model-welfare now at 6 Key Claims (overcap) — deferred to next lint. Teaching notes substantiality check on ai-model-welfare surfaced a proposed replacement in post-ingest summary Section B (moral patienthood dimension not previously covered) — pending human confirmation.
 
 ## [2026-08-08] session-stats | ingest
 Queue size at session start: 0

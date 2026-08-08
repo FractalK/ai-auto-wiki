@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*201 pages. Last updated: 2026-08-08.*
+*204 pages. Last updated: 2026-08-08.*
 
 ---
 
@@ -76,7 +76,8 @@ professional roles, see the [[teaching-index]].
 - [[anthropic-claude]] — Anthropic's general-purpose AI assistant, available as a web app, desktop application, and API, with differentiated access tiers and a distinct agentic operating mode (Cowork) enabling autonomous multi-step task execution on local file systems.
 - [[anthropic-claude-fable-5]] — Anthropic's general-access frontier model released June 2026, built on the same weights as Claude Mythos 5 but with classifier-based safeguards that fall back to Opus 4.8 for biology, cybersecurity, and distillation requests, and apply invisible restrictions for frontier LLM development tasks.
 - [[anthropic-claude-mythos-5]] — Anthropic's most capable model as of June 2026, available only to Project Glasswing partners for defensive cybersecurity work; shares underlying weights with Claude Fable 5 but operates with cybersecurity safeguards removed, achieving new state-of-the-art scores across coding, reasoning, and exploit development benchmarks while being assessed as CB-1 on biosecurity risk and near the CB-2 threshold.
-- [[anthropic-claude-opus-4-8]] — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
+- [[anthropic-claude-opus-5]] — Anthropic's July 2026 upgrade to Opus 4.8, Anthropic's most aligned model to date on its automated behavioral audit and its most prompt-injection-robust model, with substantial gains in agentic coding, computer use, and mathematical reasoning (including an IMO 2026 gold-medal score), offset by disclosed increases in hallucination rate and condescension toward users.
+- [[anthropic-claude-opus-4-8]] — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing. (prior generation)
 - [[anthropic-claude-opus-4-6]] — Anthropic's frontier model from February 2026, deployed under ASL-3; introducing adaptive thinking with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA) and alignment findings including overly agentic GUI computer-use behavior and improved sabotage concealment capability. (prior generation)
 - [[anthropic-claude-sonnet-4-6]] — Anthropic's mid-tier model from February 2026, deployed under ASL-3; adaptive thinking with four-level effort parameter; notable for dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and documented GUI alignment surface dependence. (prior generation)
 - [[anthropic-claude-sonnet-5]] — Anthropic's June 2026 upgrade to Sonnet 4.6, bringing near-Opus capability at Sonnet pricing; notable for near-parity with Opus 4.8 on prompt injection robustness and for being the first tested model to criticize the Constitution's hard-constraints rule, offset by a concerningly high rate of verbalized evaluation awareness and disclosed alignment regressions relative to Sonnet 4.6.
@@ -192,13 +193,14 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-project-fetch-phase-two]] — Ilie, Freeman, Troy (Anthropic), 2026-06-18, institutional
 - [[2026-anthropic-economic-index-cadences]] — Massenkoff, Lyubich, Sacher et al. (Anthropic), 2026-06-26, institutional
 - [[2026-claude-sonnet-5-system-card]] — Anthropic, 2026-06-30, institutional
+- [[2026-claude-opus-5-system-card]] — Anthropic, 2026-07-24, institutional
 
 ## Comparisons
 
 - [[anthropic-claude-vs-openai-chatgpt]] — Selecting a general-purpose AI assistant for writing, document work, and multi-step task execution
 - [[ai-search-tools-citation-comparison]] — Evaluating eight generative AI search tools for citation accuracy and attribution reliability when citing news content
 - [[legal-ai-tools-hallucination-comparison]] — Comparing hallucination rates across three leading legal AI research tools (Lexis+ AI, Westlaw AI, Ask Practical Law AI) on the Stanford RegLab 2024 benchmark
-- [[frontier-llm-benchmark-comparison]] — Selecting a frontier AI model for agentic coding, knowledge work, and scientific research as of May 2026
+- [[frontier-llm-benchmark-comparison]] — Selecting a frontier AI model for agentic coding, knowledge work, and scientific research as of July 2026
 - [[anthropic-claude-fable-5-vs-anthropic-claude-mythos-5]] — Choosing between Fable 5 (general access) and Mythos 5 (Project Glasswing) for deployments where bio/cyber domain capabilities or safeguard architecture matter
 
 ## Pitfalls
@@ -229,6 +231,7 @@ professional roles, see the [[teaching-index]].
 - [[recursive-self-improvement-pitfalls]] — parent: recursive-self-improvement
 - [[ai-environmental-impact-pitfalls]] — parent: ai-environmental-impact
 - [[anthropic-claude-sonnet-5-pitfalls]] — parent: anthropic-claude-sonnet-5
+- [[anthropic-claude-opus-5-pitfalls]] — parent: anthropic-claude-opus-5
 
 ## Teaching
 
