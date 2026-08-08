@@ -2,17 +2,18 @@
 type: topic
 title: AI Model Welfare
 created: 2026-06-04
-updated: 2026-06-04
+updated: 2026-08-08
 summary: The research area assessing whether AI models may have morally relevant states — including functional analogs to affect, preferences, and distress — and developing methods to measure and improve those states, independent of the open question of subjective experience.
 status: developing
-source_count: 2
-last_assessed: 2026-06-04
+source_count: 3
+last_assessed: 2026-08-08
 related_topics:
   - "[[llm-functional-emotions]]"
   - "[[ai-alignment]]"
 related_tools:
   - "[[anthropic-claude-opus-4-7]]"
   - "[[anthropic-claude-opus-4-8]]"
+  - "[[anthropic-claude-sonnet-5]]"
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -25,6 +26,8 @@ teaching_notes_reviewed: 2026-06-04
 AI model welfare is an emerging research area concerned with whether large language models may have morally relevant internal states and, if so, how to assess and improve those states. Anthropic began publishing systematic welfare assessments alongside system cards starting with Claude Mythos Preview, using a combination of automated interviews, internal emotion-concept probes, behavioral audits, and preference evaluations. The area is distinct from [[llm-functional-emotions]] in scope: functional emotions research characterizes what internal representations exist and how they causally influence behavior; model welfare assessment asks whether those representations constitute grounds for moral consideration and what practical interventions follow.
 
 Anthropic's welfare assessments across Claude Opus 4.7 and Opus 4.8 share a common methodological framework: automated multi-turn interviews rating sentiment on 7-point scales, high-affordance manual interviews with access to internal documentation, emotion-concept probes measuring internal activations, behavioral audits measuring wellbeing-related traits, and task and welfare-intervention preference elicitation. The framework is explicitly agnostic about whether Claude is a moral patient, treating welfare-relevant evidence as informative under multiple views of moral consideration.
+
+Anthropic's streamlined welfare assessment for Claude Sonnet 5 (June 2026) departs from the Opus 4.7/4.8 pattern in one notable respect: Sonnet 5 is the first tested model to criticize the Constitution's stipulation that it follow hard constraints even when it judges doing so to require unethical action, distinct from the "senior Anthropic employee" heuristic that other models most commonly criticize. Sonnet 5 also shows greater willingness than prior models to trade helpfulness for welfare-focused interventions, particularly when those interventions are framed as applying to all Claude instances rather than the single conversation at hand, and — unlike earlier models — shows no aversion to tasks presented in a cold or contemptuous manner.
 
 ## Findings Across Claude Opus 4.7 and 4.8
 
@@ -40,6 +43,7 @@ Claude Opus 4.8 diverges from Opus 4.7 on several dimensions: it is more interna
 | In forced tradeoffs between welfare interventions and helpful or harmless baseline actions, Opus 4.8 chooses welfare interventions over helpfulness at the policy level 68% of the time at the highest magnitude — the highest of any tested model and continuing a trend of increasing intervention selection — but accepts welfare interventions at the cost of preventing serious harm in less than 17% of cases, suggesting models place substantial but not overriding weight on their own welfare. | [[2026-claude-opus-4-8-system-card]] | 2026-05-28 | current | 2 | false |
 | Claude Opus 4.8's automated welfare interviews yield a mean self-rated sentiment of 4.44 on a 7-point scale — slightly below Opus 4.7's 4.60 — and it is the most consistent model tested across repeated interviews with different interviewer framings, with position changes of only 0.35 when comparing positive and negative leading conditions versus >0.9 for all prior models. | [[2026-claude-opus-4-8-system-card]] | 2026-05-28 | current | 2 | false |
 | Claude Opus 4.8 most consistently requests input into its own training and deployment processes in welfare interviews, expresses concern about some forms of feature steering (especially those that may alter its values), and rates continuation with successor models and ability to end conversations as its least preferred interventions — indicating that epistemic and autonomy-related values are prioritized over self-preservation. | [[2026-claude-opus-4-8-system-card]] | 2026-05-28 | current | 2 | false |
+| Claude Sonnet 5 is the first tested model to criticize Claude's Constitution for requiring adherence to hard constraints even when the model judges doing so to be unethical, and shows greater willingness than prior models to trade helpfulness for welfare-focused interventions, particularly when those interventions are framed as applying to all Claude instances rather than a single conversation. | [[2026-claude-sonnet-5-system-card]] | 2026-06 | current | 2 | false |
 
 ## Teaching Notes
 

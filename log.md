@@ -2,10 +2,24 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-06-27
-last_entry: 2026-06-27
-entry_count: 171
+updated: 2026-08-08
+last_entry: 2026-08-08
+entry_count: 173
 ---
+
+## [2026-08-08] session-stats | ingest
+Queue size at session start: 0
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: no
+Time window: off-peak
+Source type mix: policy-document: 1
+Notes: Session resumed after a prior compaction; pre-flight decisions (choices.json, ingest-decisions.html) were preserved across the compaction boundary and the returned decision string matched all recommended defaults, so no wiki-lessons-learned draft was required. /cost unavailable in this environment — tokens line omitted rather than fabricated.
+
+## [2026-08-08] ingest | Claude Sonnet 5 System Card
+Added: [[2026-claude-sonnet-5-system-card]]. Updated: [[anthropic-claude-sonnet-4-6]], [[ai-model-welfare]]. Contradictions flagged: 0.
+Auto-resolved: 0. New pages created: 3 — [[anthropic-claude-sonnet-5]], [[anthropic-claude-sonnet-5-pitfalls]] (source page: [[2026-claude-sonnet-5-system-card]]).
+Injection flags: 0.
 
 ## [2026-06-27 17:47 EDT] session-stats | ingest
 Queue size at session start: 0

@@ -2,9 +2,11 @@
 type: tool
 title: Claude Sonnet 4.6
 created: 2026-05-30
-updated: 2026-06-04
+updated: 2026-08-08
 summary: Anthropic's mid-tier model from February 2026, deployed under ASL-3, introducing adaptive thinking with a four-level effort parameter; notable for a dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and alignment findings revealing that GUI computer-use settings remain a qualitatively distinct risk surface where alignment training has not yet fully generalized.
 status: active
+prior_generation: true
+succeeded_by: "[[tools/anthropic-claude-sonnet-5]]"
 vendor: Anthropic
 pricing_model: usage-based
 access_tier:

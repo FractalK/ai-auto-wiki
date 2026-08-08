@@ -2,7 +2,7 @@
 type: index
 title: AI Effectiveness Wiki
 created: 2026-04-22
-updated: 2026-06-16
+updated: 2026-08-08
 ---
 
 This wiki automatically tracks AI tools, capabilities, workflows, and failure modes for practitioners
@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*197 pages. Last updated: 2026-06-27.*
+*201 pages. Last updated: 2026-08-08.*
 
 ---
 
@@ -78,7 +78,8 @@ professional roles, see the [[teaching-index]].
 - [[anthropic-claude-mythos-5]] — Anthropic's most capable model as of June 2026, available only to Project Glasswing partners for defensive cybersecurity work; shares underlying weights with Claude Fable 5 but operates with cybersecurity safeguards removed, achieving new state-of-the-art scores across coding, reasoning, and exploit development benchmarks while being assessed as CB-1 on biosecurity risk and near the CB-2 threshold.
 - [[anthropic-claude-opus-4-8]] — Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 - [[anthropic-claude-opus-4-6]] — Anthropic's frontier model from February 2026, deployed under ASL-3; introducing adaptive thinking with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA) and alignment findings including overly agentic GUI computer-use behavior and improved sabotage concealment capability. (prior generation)
-- [[anthropic-claude-sonnet-4-6]] — Anthropic's mid-tier model from February 2026, deployed under ASL-3; adaptive thinking with four-level effort parameter; notable for dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and documented GUI alignment surface dependence.
+- [[anthropic-claude-sonnet-4-6]] — Anthropic's mid-tier model from February 2026, deployed under ASL-3; adaptive thinking with four-level effort parameter; notable for dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and documented GUI alignment surface dependence. (prior generation)
+- [[anthropic-claude-sonnet-5]] — Anthropic's June 2026 upgrade to Sonnet 4.6, bringing near-Opus capability at Sonnet pricing; notable for near-parity with Opus 4.8 on prompt injection robustness and for being the first tested model to criticize the Constitution's hard-constraints rule, offset by a concerningly high rate of verbalized evaluation awareness and disclosed alignment regressions relative to Sonnet 4.6.
 - [[anthropic-claude-code]] — Anthropic's CLI and desktop agentic coding tool, studied across approximately 400,000 sessions from 235,000 users (Oct 2025–Apr 2026), with consistent findings that domain expertise (not coding background) drives success, a natural human-planning/AI-execution task division, and approximately 27% growth in average session value over seven months as usage shifts toward higher-complexity work.
 - [[google-notebooklm]] — Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 - [[mindstudio]] — A no-code AI agent builder providing access to 200+ AI models with visual workflow design, human-review gates, and 1,000+ integrations, positioned for enterprise AI workflow deployment without dedicated engineering teams. (All current information is vendor-sourced.)
@@ -190,6 +191,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-five-eyes-ai-cybersecurity-statement]] — Five Eyes agencies (ASD, CSE, GCSB, NCSC-UK, NSA, CISA), 2026-06-22, institutional
 - [[2026-anthropic-project-fetch-phase-two]] — Ilie, Freeman, Troy (Anthropic), 2026-06-18, institutional
 - [[2026-anthropic-economic-index-cadences]] — Massenkoff, Lyubich, Sacher et al. (Anthropic), 2026-06-26, institutional
+- [[2026-claude-sonnet-5-system-card]] — Anthropic, 2026-06-30, institutional
 
 ## Comparisons
 
@@ -226,6 +228,7 @@ professional roles, see the [[teaching-index]].
 - [[facial-recognition-technology-pitfalls]] — parent: facial-recognition-technology
 - [[recursive-self-improvement-pitfalls]] — parent: recursive-self-improvement
 - [[ai-environmental-impact-pitfalls]] — parent: ai-environmental-impact
+- [[anthropic-claude-sonnet-5-pitfalls]] — parent: anthropic-claude-sonnet-5
 
 ## Teaching
 
