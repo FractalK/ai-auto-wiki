@@ -347,6 +347,30 @@ Populate when a peer-reviewed source has non-standard section structure (e.g., a
 organized as a position paper rather than as methods/results, or a policy document with
 annex-heavy structure where the normative content is distributed across annexes).
 
+*Case: Chart-only reported metrics with no accompanying verbatim text (2026-08-10)*
+
+`2026-openai-gpt-5-6-system-card` reported several capability comparisons only as
+plotted line-chart or bar-chart data — e.g., GPT-5.6 Terra's NanoGPT self-improvement
+score relative to Sol, and GPT-5.6 Luna's first-person fairness score relative to
+other GPT-5.x models — with no sentence in the surrounding prose stating the value.
+The standard spot-check format (Section 5) calls for a verbatim source passage under
+15 words; no such passage exists for a value that only appears as a point on an axis.
+
+**Signal:** A quantitative finding you want to extract as a Key Claim exists only in a
+figure — a line endpoint, a bar height, a plotted marker — and no sentence in the body
+text states the number.
+
+**Correct behavior:** The finding may still qualify as a Key Claim if the chart is
+unambiguous and the value is readable with confidence — precisely labeled (a printed
+data label next to the bar or point) or clearly axis-readable (gridlines or endpoint
+markers near the value, no overlapping series at that point). In the spot-check block,
+mark the Source passage field as `[chart-derived — Figure N, description]` instead of
+a verbatim quote — do not fabricate a text quote to satisfy the format. If the chart is
+genuinely ambiguous (overlapping lines, no gridlines near the endpoint, a value that
+requires interpolating between axis ticks), do not extract a precise numeric Key Claim;
+describe the qualitative finding in prose instead, or route it to Data Records if it
+otherwise meets the data-record criteria (Section 7).
+
 **6.3 vendor_bias Edge Cases**
 Populate with cases where a non-vendor-content source contains vendor-favorable claims
 (e.g., a practitioner blog sponsored by a vendor, or a white-paper co-authored with

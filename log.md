@@ -4,8 +4,11 @@ title: Operation Log
 created: 2026-04-22
 updated: 2026-08-10
 last_entry: 2026-08-10
-entry_count: 177
+entry_count: 178
 ---
+
+## [2026-08-10] skill-enrichment | EXTRACTION-SKILL.md § 6.2
+Case: Two Key Claims extracted from the GPT-5.6 System Card (GPT-5.6 Terra's NanoGPT score, GPT-5.6 Luna's first-person fairness score) were supported only by plotted chart data with no accompanying verbatim text, requiring the spot-check format to accommodate a "[chart-derived]" passage marker rather than a text quote.
 
 ## [2026-08-10 12:12 PDT] session-stats | ingest
 Queue size at session start: not applicable — INGEST-STAGED session, raw/queue.md not accessed
