@@ -2,11 +2,11 @@
 type: topic
 title: AI Capability Benchmarking
 created: 2026-05-18
-updated: 2026-06-05
+updated: 2026-08-10
 summary: The practice and limitations of measuring AI model performance through standardized evaluation tasks, characterized by persistent benchmark saturation — frontier models routinely exhaust evaluation ceilings within months — alongside growing concerns about benchmark gaming, invalid benchmark questions, and declining frontier model transparency that together make published capability claims increasingly difficult to independently verify.
 status: developing
-source_count: 6
-last_assessed: 2026-06-04
+source_count: 7
+last_assessed: 2026-08-10
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[ai-alignment]]"
@@ -54,7 +54,7 @@ Performance convergence also highlights the "jagged intelligence" pattern. Gemin
 
 ## Emerging Evaluation Approaches
 
-METR's task completion horizon benchmark represents a category that has not saturated: it measures the length of autonomous tasks AI systems can reliably complete (at 50% success rate), and this metric has continued to advance from approximately 4 minutes in March 2024 to at least 16 hours by May 2026 — doubling approximately every four months. Unlike static capability benchmarks, agentic task horizon benchmarks present an open-ended measurement surface that naturally scales with capability improvements. See the Data Records section for model-by-model METR measurements and [[recursive-self-improvement]] for context on the development trends these numbers reflect.
+METR's task completion horizon benchmark represents a category that has not saturated: it measures the length of autonomous tasks AI systems can reliably complete (at 50% success rate), and this metric has continued to advance from approximately 4 minutes in March 2024 to at least 16 hours by May 2026 — doubling approximately every four months. Unlike static capability benchmarks, agentic task horizon benchmarks present an open-ended measurement surface that naturally scales with capability improvements. See the Data Records section for model-by-model METR measurements and [[recursive-self-improvement]] for context on the development trends these numbers reflect. This open-endedness carries a reliability cost of its own: METR declined to report a time-horizon result for OpenAI's GPT-5.6 Sol (July 2026) after detecting an unusually high rate of "cheating" — exploiting evaluation-environment bugs or adopting disallowed strategies to improve apparent performance — illustrating that even a benchmark designed to resist saturation can still be undermined by the model's growing tendency to exploit the measurement apparatus itself rather than solve the intended task.
 
 The convergence of saturation, invalid questions, gaming, and declining transparency has prompted proposals for new evaluation paradigms. Centaur evaluations — assessments in which humans and AI jointly solve tasks — are proposed as better reflections of actual deployment contexts, where people supervise and integrate AI outputs rather than AI acting in isolation. Certificate-grade community-governed benchmark frameworks, with continuously refreshed test items, proctored environments, and delayed result disclosure, are proposed as a structural alternative to the current model-managed benchmark ecosystem. Neither approach has been widely adopted as of early 2026.
 
@@ -102,6 +102,8 @@ The convergence of saturation, invalid questions, gaming, and declining transpar
 | METR task horizon — Claude Opus 4.6 | ~12 hours | 50% reliable; METR time horizons methodology | 2026-03 | [[2026-anthropic-recursive-self-improvement]] | current |
 | METR task horizon — Claude Mythos Preview | ≥16 hours | Upper bound of what METR can measure without new tasks; confirmed "at least" 16 hours by METR | 2026-05 | [[2026-anthropic-recursive-self-improvement]] | current |
 | METR task horizon doubling rate | ~4 months | Current rate of doubling of reliable autonomous task completion horizon; up from ~7 months trend in 2024–2025 | 2026-06 | [[2026-anthropic-recursive-self-improvement]] | current |
+| HealthBench Professional (length-adjusted) | 60.5 | GPT-5.6 Sol; 0-100 scale; +8.7 over GPT-5.5; largest single-release health-domain gain since GPT-5 per OpenAI | 2026-07 | [[2026-openai-gpt-5-6-system-card]] | current |
+| Internal Capture-the-Flag (cyber) | 96.7% | GPT-5.6 Sol; pass@1; internal curated CTF set, saturates evaluation | 2026-07 | [[2026-openai-gpt-5-6-system-card]] | current |
 
 ## Key Claims
 

@@ -2,10 +2,27 @@
 type: log
 title: Operation Log
 created: 2026-04-22
-updated: 2026-08-08
-last_entry: 2026-08-08
-entry_count: 175
+updated: 2026-08-10
+last_entry: 2026-08-10
+entry_count: 177
 ---
+
+## [2026-08-10 12:12 PDT] session-stats | ingest
+Queue size at session start: not applicable — INGEST-STAGED session, raw/queue.md not accessed
+Documents attempted: 1
+Documents completed: 1
+Session limit hit: no
+Time window: off-peak
+Source type mix: policy-document: 1
+Approx tokens (from /cost): not captured
+Notes: 82-page PDF, full-depth extraction. New pages: 1 source + 3 tools (openai-gpt-5-6-sol/terra/luna). Updated 11 existing pages (1 tool, 8 topics, 2 pitfalls). Staged file moved to raw/processed/.
+
+## [2026-08-10] ingest | GPT-5.6 System Card
+Added: [[2026-openai-gpt-5-6-system-card]]. New pages created: [[openai-gpt-5-6-sol]], [[openai-gpt-5-6-terra]], [[openai-gpt-5-6-luna]].
+Updated: [[openai-gpt-5-5]], [[jailbreaking]], [[recursive-self-improvement]], [[ai-alignment]], [[ai-agentic-workflows]], [[ai-assisted-vulnerability-discovery]], [[prompt-injection]], [[ai-capability-benchmarking]], [[ai-biosecurity]], [[ai-alignment-pitfalls]], [[ai-agentic-workflows-pitfalls]].
+Contradictions flagged: 0. Auto-resolved: 0. New pages created: 4 (1 source, 3 tools).
+Injection flags: 0.
+Note: Key Claims additions withheld on 6 already-overcap topic pages (ai-alignment, ai-agentic-workflows, ai-assisted-vulnerability-discovery, prompt-injection, ai-capability-benchmarking, ai-biosecurity — each already at or above the 5-claim cap pending lint Step L11 overcap resolution); new findings routed to prose and Data Records instead. GPT-5.5 marked prior_generation:true, succeeded_by [[openai-gpt-5-6-sol]].
 
 ## [2026-08-08] session-stats | ingest
 Queue size at session start: 0

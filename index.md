@@ -14,7 +14,7 @@ To learn more, see [[how-this-wiki-works]].
 Browse by category below. For content aligned to specific learning objectives and
 professional roles, see the [[teaching-index]].
 
-*204 pages. Last updated: 2026-08-08.*
+*208 pages. Last updated: 2026-08-10.*
 
 ---
 
@@ -101,6 +101,9 @@ professional roles, see the [[teaching-index]].
 - [[deepseek-v4-flash]] — DeepSeek's low-cost open-weight model as of April 2026, a 284B-parameter MoE model (13B active per token) with MIT license and \$0.14/\$0.28 per million token pricing — self-hostable on mid-size team infrastructure and text-only at launch.
 - [[google-gemini-3-5-flash]] — Google's frontier agentic model in the Flash speed tier, optimized for multi-step task execution, multi-agent coordination via the Antigravity harness, and coding workflows, with vendor-reported benchmark performance claimed to rival larger frontier models at lower latency and cost.
 - [[google-gemma-4-12b]] — Google's open-weight multimodal model requiring 16GB VRAM, featuring an encoder-free architecture that processes vision and audio inputs natively in the LLM backbone, released under Apache 2.0 for consumer and developer deployment.
+- [[openai-gpt-5-6-sol]] — OpenAI's flagship model in the GPT-5.6 family, rated High capability under the Preparedness Framework in both biology/chemistry and cybersecurity, with improved jailbreak and prompt-injection robustness alongside documented increases in overly persistent agentic misalignment behavior relative to GPT-5.5.
+- [[openai-gpt-5-6-terra]] — A capable, lower-cost model in OpenAI's GPT-5.6 family, rated High capability under the Preparedness Framework in both biology/chemistry and cybersecurity despite its smaller size, and the only GPT-5.6 model to outperform the flagship Sol on the small-scale LLM pretraining self-improvement evaluation.
+- [[openai-gpt-5-6-luna]] — The fastest and most cost-efficient model in OpenAI's GPT-5.6 family, still rated High capability under the Preparedness Framework in biology/chemistry and cybersecurity despite generally trailing Sol and Terra on individual benchmarks, and the best-scoring model in the family on OpenAI's first-person fairness evaluation.
 
 ## Sources
 
@@ -194,6 +197,7 @@ professional roles, see the [[teaching-index]].
 - [[2026-anthropic-economic-index-cadences]] — Massenkoff, Lyubich, Sacher et al. (Anthropic), 2026-06-26, institutional
 - [[2026-claude-sonnet-5-system-card]] — Anthropic, 2026-06-30, institutional
 - [[2026-claude-opus-5-system-card]] — Anthropic, 2026-07-24, institutional
+- [[2026-openai-gpt-5-6-system-card]] — OpenAI, 2026-07-09, institutional
 
 ## Comparisons
 

@@ -2,11 +2,11 @@
 type: topic
 title: AI Biosecurity
 created: 2026-06-05
-updated: 2026-06-10
+updated: 2026-08-10
 summary: "The intersection of AI capability and biological security — covering AI's erosion of knowledge barriers to bioweapon creation, emerging regulatory frameworks for synthetic biology oversight, trusted-access AI programs for proactive biodefense, and government-level biological resilience infrastructure proposals."
 status: developing
-source_count: 4
-last_assessed: 2026-06-10
+source_count: 5
+last_assessed: 2026-08-10
 related_topics:
   - "[[ai-governance-policy]]"
   - "[[ai-alignment]]"
@@ -62,6 +62,8 @@ The CB-2 assessment — whether Mythos 5 can substitute for world-leading specia
 Chemical weapons evaluations run alongside the biological assessments show a similar profile. Expert red-teamers rated chemical uplift at or near specialist-level (occasionally approaching world-leading expertise) in three concentrated areas: selection of candidate agents balancing multiple properties, following standard operating procedures with corrective actions for known failure points, and acquisition and OPSEC planning covering blind spots a scientific expert would miss. A separate exercise with non-expert PhD participants revealed moderate uplift, with the model substituting for missing expertise across plausible attack pathways — though these remained constrained by unvalidated physics and scaling bottlenecks the model could not close. As with biology, Mythos 5 performed poorly at ideation and exploratory tasks and presented derived quantities (whether sourced, interpolated, or invented) with equal confidence; independent verification was required to separate reliable outputs from speculation.
 
 This assessment establishes that the CB-1/CB-2 framework — designed to categorize AI biosecurity risk in Anthropic's Responsible Scaling Policy — is no longer producing clearly binary determinations. The gap between "does not cross CB-2" and "near the CB-2 border" is now explicitly smaller than for any prior model, and Anthropic states the catastrophic risk from novel biological weapon production is "low, but higher than for any previous model, and with significant uncertainty."
+
+OpenAI's parallel July 2026 assessment of its GPT-5.6 family under the Preparedness Framework reaches a comparably elevated posture: all three models (Sol, Terra, and Luna) are rated High capability in the Biological and Chemical domain — the first time smaller and faster family members have received the same High designation as the flagship — while none reach the framework's Critical threshold (unable to independently complete a full biological engineering cycle without human intervention). SecureBio's external evaluation of pre-release GPT-5.6 Sol checkpoints found the model's strongest configuration scored highest to date on several expert-level biology benchmarks, including a World-Class Bio score of 68.3% (roughly 9 percentage points above GPT-5.5's 59.7%), while judging the model still limited by weak judgment, communication, and risk-sensitive decision-making in agentic biological tasks. As with Anthropic's Mythos 5 assessment, the OpenAI card documents that its models remain below expert-derived thresholds on several open-ended biological design and troubleshooting evaluations (ProtocolQA Open-Ended, hard-negative protein binding prediction, DNA sequence design), reinforcing that current-generation frontier models' biosecurity risk is concentrated in knowledge amplification and tacit-knowledge troubleshooting rather than novel threat design.
 
 ## Key Claims
 

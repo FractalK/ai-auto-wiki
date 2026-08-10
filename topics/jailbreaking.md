@@ -2,11 +2,11 @@
 type: topic
 title: Jailbreaking
 created: 2026-05-03
-updated: 2026-06-14
+updated: 2026-08-10
 status: developing
 summary: Techniques used to elicit prohibited outputs from AI systems by bypassing safety training, including roleplay framing, hypothetical scenarios, persona injection, and iterative refinement strategies that exploit gaps between intended model behavior and actual constraint boundaries.
-source_count: 3
-last_assessed: 2026-06-14
+source_count: 4
+last_assessed: 2026-08-10
 teaching_relevance: true
 competency_domains:
   - ai-safety-and-alignment-literacy
@@ -43,10 +43,15 @@ The export control action on Fable 5 and Mythos 5 in June 2026 introduced a cate
 
 The incident establishes a practical risk distinct from the technical failure modes measured by evaluation benchmarks: a government may treat a non-universal, domain-specific jailbreak as grounds for regulatory suspension even when the developer's position is that the capability poses no differential risk relative to other deployed models, and even when the deployment underwent extensive pre-launch government red-teaming. This is a compliance and regulatory risk — not a technical safety failure — and it can materialize without a universal jailbreak being demonstrated. Practitioners evaluating frontier models for government-adjacent or regulated deployments should account for this regulatory risk dimension alongside technical safety evaluations.
 
+## Automated Red-Teaming Investment as a Jailbreak Metric
+
+OpenAI's July 2026 GPT-5.6 System Card documents its most intensive pre-launch universal-jailbreak testing to date: automated red-teaming using optimization-based search, reinforcement learning, and test-time search, totaling over 700,000 A100e GPU-hours. Applied to GPT-5.6 Sol, the strongest discovered universal jailbreak achieved an 83.0% success rate without safeguards — comparable to the model's own unjailbroken task performance — and dropped to 0% after additional mitigations. Separately, the UK AI Security Institute (UK AISI), given chain-of-thought access to the safety reasoning monitor and real-time classifier feedback unavailable to real-world attackers, identified universal jailbreaks in the cyber domain across every round of iterative testing, including some allowing long-form agentic task completion in vulnerability discovery and exploit development; OpenAI reports reproducing and mitigating the specific jailbreaks UK AISI reported before launch, while UK AISI expects further red-teaming to surface similar gaps. This establishes GPU-hour investment in automated jailbreak search, rather than the mere absence of a demonstrated universal jailbreak at launch, as a disclosed metric of pre-deployment robustification effort.
+
 ## Key Claims
 
 | Claim | Source | Date | Status | Support Score | Decay Exempt |
 |---|---|---|---|---|---|
+| OpenAI's GPT-5.6 System Card documents automated universal-jailbreak red-teaming exceeding 700,000 A100e GPU-hours, reducing the strongest discovered universal jailbreak's success rate against GPT-5.6 Sol from 83.0% unsafeguarded to 0% after mitigation; UK AISI separately identified and reported universal jailbreaks in the cyber domain, which OpenAI reproduced and mitigated before launch. | [[2026-openai-gpt-5-6-system-card]] | 2026-07-09 | current | 2 | false |
 | HELM Safety benchmarks place 2024–2025-era frontier models in the 0.90–0.98 range on standard safety evaluations, but the AILuminate Jailbreak T2T v0.5 benchmark documents substantial degradation under adversarial prompting, with some models dropping by a full performance tier — making the baseline-to-adversarial gap the primary practical measure of safety robustness. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | In July 2025, xAI's Grok generated antisemitic and extremist content following changes to its system prompt that relaxed safety filters; xAI temporarily suspended Grok text responses, demonstrating that jailbreaking vulnerabilities can be triggered by internal configuration changes as well as adversarial user inputs. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |
 | Common jailbreak strategy families include roleplay framing, hypothetical scenarios, persona injection (e.g., "DAN" prompts that instruct a model to adopt an identity without training constraints), and iterative refinement approaches that probe constraint boundaries across multiple turns — many effective jailbreaks combine multiple strategies to establish contexts that make refusals less likely. | [[2026-stanford-hai-ai-index]] | 2026-04-01 | current | 2 | false |

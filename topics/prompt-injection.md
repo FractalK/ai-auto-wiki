@@ -2,11 +2,11 @@
 type: topic
 title: Prompt Injection
 created: 2026-04-30
-updated: 2026-06-04
+updated: 2026-08-10
 summary: An adversarial attack class in which malicious instructions are embedded in content an AI system processes, redirecting its behavior from the user's intent; indirect prompt injection (IPI) through retrieved web content is the primary concern for agentic AI deployments and is showing measured growth on the public web as of early 2026.
 status: developing
-source_count: 3
-last_assessed: 2026-06-04
+source_count: 4
+last_assessed: 2026-08-10
 related_topics:
   - "[[llm-fundamentals]]"
   - "[[constitutional-classifiers]]"
@@ -56,6 +56,8 @@ No comprehensive architectural mitigation was production-ready as of the initial
 At the model level, Anthropic's Sonnet 4.6 system card (February 2026) documents a substantial improvement in coding-context prompt injection robustness: the Gray Swan Shade adaptive attacker achieved 0% attack success against Sonnet 4.6 with extended thinking enabled — across 200 refinement attempts, with or without additional safeguards — compared to 70% for Sonnet 4.5 in the same conditions. Browser-use robustness improved similarly (1.29% scenario attack success vs. 54.24% for Sonnet 4.5, without safeguards). This established the first documented near-complete prompt injection resistance in a production frontier model in coding contexts.
 
 Claude Opus 4.8 (May 2026) shows mixed results relative to this baseline. Without safeguards, Opus 4.8 is less robust than Opus 4.7 in coding environments (7.03% vs. 2.34% per-attempt success with extended thinking; 57.5% vs. 60.0% success over 200 attempts) and substantially less robust in computer use (7.14% vs. 0.46% per-attempt). With deployed safeguards, however, Opus 4.8 achieves near-zero attack success in browser-use environments (0.0% without thinking mode; 0.5% with thinking across 129 scenarios). Anthropic hosted the first one-week live bug bounty for prompt injection during Opus 4.8's evaluation period, testing robustness directly against expert red-teamers across tool use, coding, and browser surfaces. The results confirm that model-level robustness and deployment-level safeguards are distinct and non-interchangeable protection layers.
+
+OpenAI's July 2026 GPT-5.6 System Card reports comparable model-level progress, evaluated with GPT-Red — OpenAI's own automated red-teaming model, trained via self-play reinforcement learning to iteratively discover new attack strategies. Against GPT-Red's direct (chat-based) injection scenarios, GPT-5.6 Sol's defender success rate reaches 99.95%; against GPT-Red's indirect (agentic) prompt injection scenarios — where a compromised third-party tool output attempts to redirect the model away from its original task — defender success is lower, at 96.23%, illustrating that indirect injection remains harder to defend against than direct injection even for a model purpose-built with an updated instruction-hierarchy training regime. OpenAI also reports that GPT-5.6's robustness to known connector-based injection attacks reaches 100% (unchanged from GPT-5.5), while robustness on the harder search-and-function-calling variant improved to 91.0% from GPT-5.5's untested baseline.
 
 ## Key Claims
 

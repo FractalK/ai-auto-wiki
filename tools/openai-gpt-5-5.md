@@ -5,6 +5,8 @@ created: 2026-04-30
 updated: 2026-06-23
 summary: OpenAI's flagship agentic model as of April 2026, with state-of-the-art results on agentic coding and abstract reasoning benchmarks at GPT-5.4 latency, rated "High" under OpenAI's Preparedness Framework for cybersecurity and biosecurity capabilities.
 status: active
+prior_generation: true
+succeeded_by: "[[tools/openai-gpt-5-6-sol]]"
 vendor: OpenAI
 pricing_model: usage-based
 access_tier:
@@ -29,17 +31,18 @@ primary_use_cases:
   - Knowledge work automation across professional domains
   - Scientific data analysis and research assistance
   - Computer use and multi-tool workflow automation
-source_count: 4
-last_assessed: 2026-06-23
+source_count: 5
+last_assessed: 2026-08-10
 related_tools:
   - "[[openai-gpt-5-5-pro]]"
   - "[[openai-gpt-5-5-cyber]]"
+  - "[[openai-gpt-5-6-sol]]"
   - "[[anthropic-claude-opus-4-7]]"
   - "[[openai-chatgpt]]"
 technical_depth: practitioner
 ---
 
-GPT-5.5 is OpenAI's flagship model as of April 2026, positioned as a substantial advance over GPT-5.4 in agentic coding, knowledge work, computer use, and scientific research. It is available in ChatGPT (Plus, Pro, Business, Enterprise) and Codex, and through the OpenAI API with a 1M token context window. A higher-capability variant, GPT-5.5 Pro, is available to Pro, Business, and Enterprise users — see [[openai-gpt-5-5-pro]].
+GPT-5.5 is OpenAI's flagship model as of April 2026, positioned as a substantial advance over GPT-5.4 in agentic coding, knowledge work, computer use, and scientific research. It is available in ChatGPT (Plus, Pro, Business, Enterprise) and Codex, and through the OpenAI API with a 1M token context window. A higher-capability variant, GPT-5.5 Pro, is available to Pro, Business, and Enterprise users — see [[openai-gpt-5-5-pro]]. GPT-5.5 remains available following the July 2026 release of the GPT-5.6 family; flagship succession passed to [[openai-gpt-5-6-sol]], which OpenAI's own evaluations use as the primary comparison baseline throughout the GPT-5.6 system card.
 
 All benchmark comparisons below are from OpenAI's own release materials and should be evaluated as vendor-sourced claims.
 
