@@ -17,9 +17,9 @@ capabilities:
   - Humanity's Last Exam 43.2% without tools, 57.4% with tools
   - BrowseComp 84.7% single-agent, 86.6% multi-agent
   - USAMO 2026 79.5% (proof-based, post-training-cutoff problem set, no contamination)
-  - Live cross-model prompt injection bug bounty: 0.19% attack success, tied with Opus 4.8 for best result (Sonnet 4.6: 1.41%)
-  - Coding-environment prompt injection (Shade adaptive attacker, 200 attempts): 0.31% with thinking / 0.29% without (Sonnet 4.6: 12.71% / 45.26%)
-  - Browser-use prompt injection: 0.93% with thinking / 1.01% without safeguards, 0% with safeguards (Sonnet 4.6: 50.7% / 47.3%)
+  - "Live cross-model prompt injection bug bounty: 0.19% attack success, tied with Opus 4.8 for best result (Sonnet 4.6: 1.41%)"
+  - "Coding-environment prompt injection (Shade adaptive attacker, 200 attempts): 0.31% with thinking / 0.29% without (Sonnet 4.6: 12.71% / 45.26%)"
+  - "Browser-use prompt injection: 0.93% with thinking / 1.01% without safeguards, 0% with safeguards (Sonnet 4.6: 50.7% / 47.3%)"
   - Lowest MASK dishonesty-under-pressure lying rate of any tested model (3.1%)
   - Malicious Claude Code request refusal 92.37%, up from Sonnet 4.6's 76.60%
 limitations:
