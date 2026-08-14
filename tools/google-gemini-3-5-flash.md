@@ -2,7 +2,7 @@
 type: tool
 title: Google Gemini 3.5 Flash
 created: 2026-05-28
-updated: 2026-05-28
+updated: 2026-08-14
 summary: Google's frontier agentic model in the Flash speed tier, optimized for multi-step task execution, multi-agent coordination via the Antigravity harness, and coding workflows, with vendor-reported benchmark performance claimed to exceed Gemini 3.1 Pro and rival larger frontier models at lower latency and cost.
 status: active
 vendor: Google
@@ -13,22 +13,22 @@ access_tier:
   - enterprise
   - api
 capabilities:
-  - "Multi-step agentic task planning and execution with long-horizon context"
-  - "Multi-agent coordination via Google Antigravity harness for parallel subagent deployment"
-  - "Code generation, codebase maintenance, and iterative software development"
-  - "Multimodal input and interactive web UI generation"
-  - "MCP integration for connecting to external tools and data sources"
-  - "Personal AI agent operations via Gemini Spark (24/7 autonomous action under user direction)"
+  - 'Multi-step agentic task planning and execution with long-horizon context'
+  - 'Multi-agent coordination via Google Antigravity harness for parallel subagent deployment'
+  - 'Code generation, codebase maintenance, and iterative software development'
+  - 'Multimodal input and interactive web UI generation'
+  - 'MCP integration for connecting to external tools and data sources'
+  - 'Personal AI agent operations via Gemini Spark (24/7 autonomous action under user direction)'
 limitations:
-  - "All benchmark scores are vendor-reported; no independent verification available in current sources"
-  - "Speed and cost claims (4x output speed, <50% cost vs. frontier models) are vendor-stated and unverified"
-  - "Frontier Safety Framework compliance is self-reported; CBRN and cyber safeguard effectiveness not independently assessed"
-  - "Gemini Spark was in limited beta (trusted testers only) as of May 2026"
+  - 'All benchmark scores are vendor-reported; no independent verification available in current sources'
+  - 'Speed and cost claims (4x output speed, <50% cost vs. frontier models) are vendor-stated and unverified'
+  - 'Frontier Safety Framework compliance is self-reported; CBRN and cyber safeguard effectiveness not independently assessed'
+  - 'Gemini Spark was in limited beta (trusted testers only) as of May 2026'
 primary_use_cases:
-  - "Agentic automation of complex multi-step and long-horizon workflows"
-  - "Enterprise coding at scale via Antigravity multi-agent coordination"
-  - "Financial document preparation and compliance workflow automation"
-  - "Consumer personal AI agent via Gemini app"
+  - 'Agentic automation of complex multi-step and long-horizon workflows'
+  - 'Enterprise coding at scale via Antigravity multi-agent coordination'
+  - 'Financial document preparation and compliance workflow automation'
+  - 'Consumer personal AI agent via Gemini app'
 source_count: 1
 last_assessed: 2026-05-28
 related_tools:

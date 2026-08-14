@@ -2,7 +2,7 @@
 type: tool
 title: GPT-5.5-Cyber
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-14
 summary: OpenAI's specialized cybersecurity variant of GPT-5.5, offering more permissive response behavior for authorized security work and state-of-the-art performance on vulnerability reproduction and exploitation benchmarks as of June 2026, released in continued limited access to verified defenders through the Daybreak initiative.
 status: emerging
 vendor: OpenAI
@@ -13,8 +13,8 @@ capabilities:
   - Vulnerability reproduction at 85.6% on CyberGym — highest reported single-model score as of June 2026 (vendor-reported)
   - Exploit generation from known vulnerabilities at 39.5% on ExploitGym vs 25.95% for GPT-5.5 (vendor-reported)
   - Long-horizon vulnerability discovery and PoC generation at 69.8% on SEC-bench Pro vs 63.1% for GPT-5.5 (vendor-reported)
-  - Deep analysis across large codebases: identifying security-relevant components, tracing code reachability, and validating issues in controlled environments
-  - Full remediation loop support: discovery, validation, patch development, testing, and evidence preparation for human review
+  - 'Deep analysis across large codebases: identifying security-relevant components, tracing code reachability, and validating issues in controlled environments'
+  - 'Full remediation loop support: discovery, validation, patch development, testing, and evidence preparation for human review'
 limitations:
   - Access limited to trusted defenders via continued limited release; not available for general API use
   - Intended for verified defenders with authorized security work requiring advanced capabilities and more permissive model behavior; most defenders should start with GPT-5.5 and Codex Security per OpenAI

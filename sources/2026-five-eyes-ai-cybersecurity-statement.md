@@ -2,16 +2,16 @@
 type: source
 title: "Five Eyes Cyber Security Agencies Statement on AI-Accelerated Cyber Risk"
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-14
 status: active
 source_type: policy-document
 author:
-  - "Stephanie Crowe, Australian Signals Directorate"
-  - "Rajiv Gupta, Communications Security Establishment (Canada)"
-  - "Catriona Robinson, Government Communications Security Bureau (New Zealand)"
-  - "Richard Horne, Government Communications Headquarters (UK)"
-  - "David Imbordino, National Security Agency (US)"
-  - "Nick Andersen, Cybersecurity and Infrastructure Security Agency (US)"
+  - 'Stephanie Crowe, Australian Signals Directorate'
+  - 'Rajiv Gupta, Communications Security Establishment (Canada)'
+  - 'Catriona Robinson, Government Communications Security Bureau (New Zealand)'
+  - 'Richard Horne, Government Communications Headquarters (UK)'
+  - 'David Imbordino, National Security Agency (US)'
+  - 'Nick Andersen, Cybersecurity and Infrastructure Security Agency (US)'
 publication: Australian Cyber Security Centre
 published_date: 2026-06-22
 ingested_date: 2026-06-23

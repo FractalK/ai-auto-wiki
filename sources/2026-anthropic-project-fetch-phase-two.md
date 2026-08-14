@@ -2,13 +2,13 @@
 type: source
 title: "Project Fetch: Phase Two"
 created: 2026-06-23
-updated: 2026-06-23
+updated: 2026-08-14
 status: active
 source_type: industry-blog
 author:
-  - "Michael Ilie"
-  - "C. Daniel Freeman"
-  - "Kevin K. Troy"
+  - 'Michael Ilie'
+  - 'C. Daniel Freeman'
+  - 'Kevin K. Troy'
 publication: Anthropic Research Blog
 published_date: 2026-06-18
 ingested_date: 2026-06-23

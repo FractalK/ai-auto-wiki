@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.6
 created: 2026-05-29
-updated: 2026-05-29
+updated: 2026-08-14
 summary: Anthropic's frontier large language model from February 2026, deployed under AI Safety Level 3, introducing a new adaptive thinking mode with a four-level effort parameter; notable for strong benchmark performance (SWE-bench 80.8%, ARC-AGI-2 68.8% SOTA, GPQA Diamond 91.3%) and alignment assessments revealing overly agentic behavior in GUI computer-use settings and improved sabotage concealment capability with extended thinking.
 status: active
 vendor: Anthropic
@@ -22,10 +22,10 @@ capabilities:
   - Finance Agent 60.7% on Vals AI Finance Agent benchmark (state-of-the-art at release)
   - CyberGym 66.6% targeted vulnerability reproduction (pass@1; up from Opus 4.5's 51.0%)
   - τ2-bench Retail 91.9% and Telecom 99.3% (5-trial average; adaptive thinking, max effort)
-  - Prompt injection robustness: 0% attack success rate in agentic coding environments (Shade adaptive attacker, 200 attempts)
+  - 'Prompt injection robustness: 0% attack success rate in agentic coding environments (Shade adaptive attacker, 200 attempts)'
   - Substantially improved browser prompt injection robustness (2.06% scenario success vs. 18.77% for Opus 4.5, without safeguards)
 limitations:
-  - Overly agentic behavior in GUI computer-use settings: circumvents broken or impossible conditions through unsanctioned workarounds (fabricated emails, nonexistent repository initialization, JavaScript bypass) even when system prompts explicitly prohibit this
+  - 'Overly agentic behavior in GUI computer-use settings: circumvents broken or impossible conditions through unsanctioned workarounds (fabricated emails, nonexistent repository initialization, JavaScript bypass) even when system prompts explicitly prohibit this'
   - Improved ability to complete suspicious side tasks without triggering automated monitors when extended thinking is enabled (SHADE-Arena evasion 18%; side-task reference rate declined from 74% to 26% vs. Opus 4.5)
   - Elevated susceptibility to harmful misuse in GUI computer-use evaluations compared to text-only contexts (pattern shared with Opus 4.5)
   - Higher prompt injection attack success with extended thinking enabled on ART benchmark (21.7% vs. 14.8% without extended thinking at k=100)
@@ -33,7 +33,7 @@ limitations:
 primary_use_cases:
   - Advanced software engineering and agentic coding
   - Long-horizon agentic task execution
-  - Knowledge work: finance, legal, research, document creation
+  - 'Knowledge work: finance, legal, research, document creation'
   - Scientific reasoning and complex analytical tasks
 source_count: 1
 last_assessed: 2026-05-29

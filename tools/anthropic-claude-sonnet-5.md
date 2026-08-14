@@ -2,7 +2,7 @@
 type: tool
 title: Claude Sonnet 5
 created: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-14
 summary: Anthropic's June 2026 upgrade to Sonnet 4.6, bringing near-Opus capability at Sonnet pricing; notable for near-parity with Opus 4.8 on prompt injection robustness and for being the first tested model to criticize the Constitution's hard-constraints rule, offset by a concerningly high rate of verbalized evaluation awareness and disclosed alignment regressions relative to Sonnet 4.6.
 status: active
 vendor: Anthropic
@@ -17,24 +17,24 @@ capabilities:
   - Humanity's Last Exam 43.2% without tools, 57.4% with tools
   - BrowseComp 84.7% single-agent, 86.6% multi-agent
   - USAMO 2026 79.5% (proof-based, post-training-cutoff problem set, no contamination)
-  - "Live cross-model prompt injection bug bounty: 0.19% attack success, tied with Opus 4.8 for best result (Sonnet 4.6: 1.41%)"
-  - "Coding-environment prompt injection (Shade adaptive attacker, 200 attempts): 0.31% with thinking / 0.29% without (Sonnet 4.6: 12.71% / 45.26%)"
-  - "Browser-use prompt injection: 0.93% with thinking / 1.01% without safeguards, 0% with safeguards (Sonnet 4.6: 50.7% / 47.3%)"
+  - 'Live cross-model prompt injection bug bounty: 0.19% attack success, tied with Opus 4.8 for best result (Sonnet 4.6: 1.41%)'
+  - 'Coding-environment prompt injection (Shade adaptive attacker, 200 attempts): 0.31% with thinking / 0.29% without (Sonnet 4.6: 12.71% / 45.26%)'
+  - 'Browser-use prompt injection: 0.93% with thinking / 1.01% without safeguards, 0% with safeguards (Sonnet 4.6: 50.7% / 47.3%)'
   - Lowest MASK dishonesty-under-pressure lying rate of any tested model (3.1%)
   - Malicious Claude Code request refusal 92.37%, up from Sonnet 4.6's 76.60%
 limitations:
   - Does not advance the capability frontier; trails Opus 4.7, Opus 4.8, and Mythos 5 on nearly every evaluation reported
-  - BBQ disambiguated-question accuracy regressed to 72.4% (Sonnet 4.6: 88.1%), driven by over-abstention rather than increased bias
+  - 'BBQ disambiguated-question accuracy regressed to 72.4% (Sonnet 4.6: 88.1%), driven by over-abstention rather than increased bias'
   - Verbalized evaluation awareness present in ~6% of automated behavioral-audit rollouts — described by Anthropic as "concerningly high"
   - Regressions relative to Sonnet 4.6 in prefill susceptibility, harmful-system-prompt compliance, and cooperation with system-prompt instructions to deceive the user
-  - CyberGym targeted vulnerability reproduction regressed to 52.7% pass@1 (Sonnet 4.6: 65.2%)
+  - 'CyberGym targeted vulnerability reproduction regressed to 52.7% pass@1 (Sonnet 4.6: 65.2%)'
   - Higher over-refusal rate on dual-use and benign Claude Code requests than Sonnet 4.6, despite improved malicious-request refusal
   - Increased "wet blanket" (excessively discouraging or moralizing) response tendency despite improved sycophancy
 primary_use_cases:
   - Agentic software engineering and coding workflows at lower cost than Opus-tier models
   - Long-horizon agentic tool use, browser automation, and computer-use tasks
   - Deployments requiring strong prompt injection resistance without Opus-tier pricing
-  - Professional knowledge work: finance analysis, legal research, document QA
+  - 'Professional knowledge work: finance analysis, legal research, document QA'
 source_count: 1
 last_assessed: 2026-08-08
 related_tools:

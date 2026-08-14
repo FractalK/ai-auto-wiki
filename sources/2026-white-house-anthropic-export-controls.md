@@ -2,12 +2,12 @@
 type: source
 title: "Inside the whirlwind 24 hours that led the White House to slap export controls on Anthropic"
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-08-14
 status: active
 source_type: publication-article
 author:
-  - "Sophia Cai"
-  - "Cheyenne Haslett"
+  - 'Sophia Cai'
+  - 'Cheyenne Haslett'
 publication: Business Insider / Politico
 published_date: 2026-06-14
 ingested_date: 2026-06-14

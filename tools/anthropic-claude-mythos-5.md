@@ -2,7 +2,7 @@
 type: tool
 title: Claude Mythos 5
 created: 2026-06-09
-updated: 2026-06-15
+updated: 2026-08-14
 summary: Anthropic's most capable model as of June 2026, available only to Project Glasswing partners for defensive cybersecurity work; shares underlying weights with Claude Fable 5 but operates with cybersecurity safeguards removed, achieving new state-of-the-art scores across coding, reasoning, and exploit development benchmarks while being assessed as CB-1 on biosecurity risk and near the CB-2 threshold; access suspended alongside Fable 5 under June 2026 US export controls.
 status: emerging
 vendor: Anthropic
@@ -11,14 +11,14 @@ access_tier:
   - enterprise
   - api
 capabilities:
-  - Autonomous vulnerability discovery and exploit development — ExploitBench: 10.75 mean capability flags (AutoNudge), arbitrary code execution on >50% of V8 environments
-  - CyberGym targeted vulnerability reproduction: 83.8% (vs 78.1% for Opus 4.8)
-  - Firefox 147 exploit development: 88.4% full working exploit (vs 70.8% for Mythos Preview)
-  - OSS-Fuzz unguided vulnerability discovery: 80.0% any crash, 32.4% write primitive or better
-  - SWE-bench Pro: 80.3% (new SOTA as of June 2026)
-  - SWE-bench Verified: 95.5%
-  - Terminal-Bench 2.1: 88.0%
-  - Humanity's Last Exam (no tools): 59.0%
+  - 'Autonomous vulnerability discovery and exploit development — ExploitBench: 10.75 mean capability flags (AutoNudge), arbitrary code execution on >50% of V8 environments'
+  - 'CyberGym targeted vulnerability reproduction: 83.8% (vs 78.1% for Opus 4.8)'
+  - 'Firefox 147 exploit development: 88.4% full working exploit (vs 70.8% for Mythos Preview)'
+  - 'OSS-Fuzz unguided vulnerability discovery: 80.0% any crash, 32.4% write primitive or better'
+  - 'SWE-bench Pro: 80.3% (new SOTA as of June 2026)'
+  - 'SWE-bench Verified: 95.5%'
+  - 'Terminal-Bench 2.1: 88.0%'
+  - 'Humanity''s Last Exam (no tools): 59.0%'
   - Extended thinking with step-by-step reasoning before response
   - Multi-agent orchestration and coordination
 limitations:

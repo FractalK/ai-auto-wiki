@@ -2,7 +2,7 @@
 type: tool
 title: Anthropic Claude Code
 created: 2026-06-16
-updated: 2026-06-27
+updated: 2026-08-14
 summary: Anthropic's CLI and desktop agentic coding tool, studied across approximately 400,000 sessions from 235,000 users (Oct 2025–Apr 2026), with consistent findings that domain expertise (not coding background) drives success, a natural human-planning/AI-execution task division, and approximately 27% growth in average session value over seven months as usage shifts toward higher-complexity work.
 status: active
 vendor: Anthropic
@@ -12,7 +12,7 @@ access_tier:
   - prosumer
 capabilities:
   - Multi-step software development via CLI, Claude.ai, or desktop app
-  - Nine work modes: building, fixing, testing, orchestrating, operating, understanding, planning, analyzing, communicating
+  - 'Nine work modes: building, fixing, testing, orchestrating, operating, understanding, planning, analyzing, communicating'
   - Autonomous execution chains averaging 10 actions per user prompt, sometimes exceeding 100
   - Cross-session context via CLAUDE.md configuration files and memory
 limitations:

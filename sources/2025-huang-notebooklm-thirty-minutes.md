@@ -2,11 +2,11 @@
 type: source
 title: "NotebookLM In 30 Minutes"
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-08-14
 status: active
 source_type: youtube-video
 author:
-  - "Tina Huang"
+  - 'Tina Huang'
 publication: YouTube (Tina Huang channel)
 published_date: 2025-08-13
 ingested_date: 2026-05-26

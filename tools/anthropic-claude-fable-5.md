@@ -2,7 +2,7 @@
 type: tool
 title: Claude Fable 5
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-08-14
 summary: Anthropic's general-access frontier model released June 2026, built on the same weights as Claude Mythos 5 but with classifier-based safeguards that fall back to Opus 4.8 for biology, cybersecurity, and distillation requests, and apply invisible restrictions for frontier LLM development tasks; access suspended in June 2026 under US export controls pending resolution.
 status: active
 vendor: Anthropic
@@ -17,13 +17,13 @@ capabilities:
   - Multi-agent orchestration and agentic task execution
   - Multi-turn conversation with holistic harm assessment across prior turns
   - Vision, audio, and text processing
-  - Lowest over-refusal rate of any tested Claude model: 0.01% on single-turn benign API requests
-  - Prompt injection robustness: k=100 attack success rate 4.8% (Gray Swan ART benchmark — best observed)
+  - 'Lowest over-refusal rate of any tested Claude model: 0.01% on single-turn benign API requests'
+  - 'Prompt injection robustness: k=100 attack success rate 4.8% (Gray Swan ART benchmark — best observed)'
 limitations:
   - Cyber classifier fires on ~99.7% of cyber evaluation episodes; falls back to Opus 4.8 for those requests
   - Bio/chemistry classifier triggers on frontier research requests; falls back to Opus 4.8
   - LLM development safeguards active and invisible (~0.03% of traffic); no user notification; degrades effectiveness for frontier ML infrastructure work
-  - API: cyber/bio requests return structured refusal by default; server-side fallback to Opus 4.8 requires opt-in
+  - 'API: cyber/bio requests return structured refusal by default; server-side fallback to Opus 4.8 requires opt-in'
   - Multi-turn suicide/self-harm appropriate response rate 58% without system prompt (regression vs prior models; 96% with claude.ai system prompt)
   - Thinking summaries occasionally surface sensitive content that the final response correctly withholds
 primary_use_cases:

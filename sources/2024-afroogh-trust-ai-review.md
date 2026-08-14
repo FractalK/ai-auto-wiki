@@ -2,15 +2,15 @@
 type: source
 title: "Trust in AI: Progress, Challenges, and Future Directions"
 created: 2026-05-21
-updated: 2026-05-21
+updated: 2026-08-14
 status: active
 source_type: research-paper
 author:
-  - "Saleh Afroogh"
-  - "Ali Akbari"
-  - "Emmie Malone"
-  - "Mohammadali Kargar"
-  - "Hananeh Alambeigi"
+  - 'Saleh Afroogh'
+  - 'Ali Akbari'
+  - 'Emmie Malone'
+  - 'Mohammadali Kargar'
+  - 'Hananeh Alambeigi'
 publication: "Humanities and Social Sciences Communications"
 published_date: 2024-11-17
 ingested_date: 2026-05-21

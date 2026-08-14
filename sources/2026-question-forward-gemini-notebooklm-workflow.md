@@ -2,11 +2,11 @@
 type: source
 title: "The AI System Most People Aren't Building (Gemini + NotebookLM + Gems)"
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-08-14
 status: active
 source_type: youtube-video
 author:
-  - "Question Forward"
+  - 'Question Forward'
 publication: YouTube (Question Forward channel)
 published_date: 2026-03-04
 ingested_date: 2026-05-26

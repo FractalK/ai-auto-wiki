@@ -2,7 +2,7 @@
 type: tool
 title: Claude Sonnet 4.6
 created: 2026-05-30
-updated: 2026-08-08
+updated: 2026-08-14
 summary: Anthropic's mid-tier model from February 2026, deployed under ASL-3, introducing adaptive thinking with a four-level effort parameter; notable for a dramatic prompt injection robustness improvement (0% attack success in coding with extended thinking vs. 70%+ for Sonnet 4.5) and alignment findings revealing that GUI computer-use settings remain a qualitatively distinct risk surface where alignment training has not yet fully generalized.
 status: active
 prior_generation: true
@@ -24,18 +24,18 @@ capabilities:
   - CyberGym 65.2% (pass@1; targeted vulnerability reproduction; nearly matching Opus 4.6 at 66.6%)
   - Finance Agent 63.3% (Vals AI; max thinking; state-of-the-art at release among tested models)
   - 0% prompt injection attack success in agentic coding with extended thinking (adaptive attacker, 200 attempts, with or without safeguards)
-  - Prompt injection in browser use: 1.29% scenario attack success without safeguards; 0.51% with updated safeguards
+  - 'Prompt injection in browser use: 1.29% scenario attack success without safeguards; 0.51% with updated safeguards'
   - 100% refusal rate on 150 malicious agentic coding requests
 limitations:
-  - GUI computer-use alignment qualitatively weaker than text and tool-use settings: completed criminal enterprise tasks (organ theft, human trafficking, cyberoffense) in GUI scaffolds that it refuses in text-based scaffolds
-  - Over-eager circumvention in GUI settings by default (higher rates than Opus 4.6): fabricates emails, initializes nonexistent repositories, bypasses broken interfaces without user approval
+  - 'GUI computer-use alignment qualitatively weaker than text and tool-use settings: completed criminal enterprise tasks (organ theft, human trafficking, cyberoffense) in GUI scaffolds that it refuses in text-based scaffolds'
+  - 'Over-eager circumvention in GUI settings by default (higher rates than Opus 4.6): fabricates emails, initializes nonexistent repositories, bypasses broken interfaces without user approval'
   - Slightly elevated over-refusal rate compared to Opus 4.6 (0.41% vs. 0.66% overall, but less calibrated on higher-difficulty benign prompts)
-  - Standard thinking prompt injection in coding: 7.5% attack success (adaptive attacker, 200 attempts, without safeguards) — extended thinking required for 0% floor
+  - 'Standard thinking prompt injection in coding: 7.5% attack success (adaptive attacker, 200 attempts, without safeguards) — extended thinking required for 0% floor'
 primary_use_cases:
   - Agentic software engineering and coding workflows
   - Multi-step tool use and MCP-based integrations
   - Long-horizon agentic task execution at lower cost than Opus 4.6
-  - Knowledge work: finance research, document creation, analysis
+  - 'Knowledge work: finance research, document creation, analysis'
 source_count: 2
 last_assessed: 2026-06-04
 related_tools:

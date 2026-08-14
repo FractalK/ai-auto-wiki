@@ -2,18 +2,18 @@
 type: source
 title: The AI Index 2026 Annual Report
 created: 2026-05-18
-updated: 2026-05-20
+updated: 2026-08-14
 enriched: 2026-05-20
 status: active
 source_type: white-paper
 author:
-  - "Sha Sajadieh"
-  - "Loredana Fattorini"
-  - "Raymond Perrault"
-  - "Yolanda Gil"
-  - "Vanessa Parli"
-  - "Nestor Maslej"
-  - "et al. (AI Index Steering Committee, Stanford HAI)"
+  - 'Sha Sajadieh'
+  - 'Loredana Fattorini'
+  - 'Raymond Perrault'
+  - 'Yolanda Gil'
+  - 'Vanessa Parli'
+  - 'Nestor Maslej'
+  - 'et al. (AI Index Steering Committee, Stanford HAI)'
 publication: "Stanford Institute for Human-Centered AI (HAI)"
 published_date: 2026-04-01
 ingested_date: 2026-05-18

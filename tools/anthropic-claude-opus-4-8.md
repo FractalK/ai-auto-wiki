@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 4.8
 created: 2026-05-29
-updated: 2026-08-08
+updated: 2026-08-14
 summary: Anthropic's production flagship model as of May 2026, advancing on Opus 4.7 with stronger agentic task performance, substantially improved alignment, and dynamic multi-agent workflows in Claude Code — at unchanged standard pricing.
 status: active
 vendor: Anthropic
@@ -17,7 +17,7 @@ capabilities:
   - Code quality — ~4× less likely to allow code flaws than Opus 4.7; fixes comment-verbosity and tool-calling issues
   - CursorBench — exceeds all prior Opus models at every effort level
   - Dynamic workflows (Claude Code research preview) — hundreds of parallel subagents per session
-  - Effort control: high (default), xhigh, and max levels
+  - 'Effort control: high (default), xhigh, and max levels'
   - Mid-task instruction updates via system entries inside the Messages API messages array
 limitations:
   - Fast mode doubles per-token pricing relative to standard (\$10/\$50 per million input/output tokens)

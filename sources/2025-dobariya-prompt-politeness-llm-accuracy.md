@@ -2,12 +2,12 @@
 type: source
 title: "Mind Your Tone: Investigating How Prompt Politeness Affects LLM Accuracy"
 created: 2026-05-26
-updated: 2026-05-26
+updated: 2026-08-14
 status: active
 source_type: research-paper
 author:
-  - "Om Dobariya"
-  - "Akhil Kumar"
+  - 'Om Dobariya'
+  - 'Akhil Kumar'
 publication: arXiv (Pennsylvania State University)
 published_date: 2025-10
 ingested_date: 2026-05-26

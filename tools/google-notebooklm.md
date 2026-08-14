@@ -2,7 +2,7 @@
 type: tool
 title: Google NotebookLM
 created: 2026-04-22
-updated: 2026-06-15
+updated: 2026-08-14
 summary: Google's AI-powered research notebook powered by Gemini 3.5, offering agentic cloud code execution, 100+ research skills, source discovery via Google Search from open-ended questions, multi-format output (PDF, PPTX, Excel, CSV), and a Studio suite of Audio/Video Overviews, Mind Maps, and Reports for bounded-source research workflows.
 status: active
 vendor: Google
@@ -18,7 +18,7 @@ capabilities:
   - Video Overview generation (visual summaries with source-grounded graphics)
   - AI-generated Mind Map output (concept visualization of source content — read-only; no import, export, or editing of mind map files)
   - Reports generation (briefing documents, study guides, timelines, and quizzes)
-  - Document export in multiple formats: PDF (with charts and tables), Excel/XLSX, PowerPoint/PPTX, CSV, SVG, JSON, DOCX, and markdown
+  - 'Document export in multiple formats: PDF (with charts and tables), Excel/XLSX, PowerPoint/PPTX, CSV, SVG, JSON, DOCX, and markdown'
   - Note-taking, synthesis note creation, and conversion of saved notes back into sources
   - YouTube transcript integration as a source type
   - Cross-source connection identification via question-framing strategies

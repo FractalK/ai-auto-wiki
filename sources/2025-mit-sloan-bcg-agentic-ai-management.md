@@ -2,12 +2,12 @@
 type: source
 title: "Agentic AI at Scale: Redefining Management for a Superhuman Workforce"
 created: 2026-05-21
-updated: 2026-05-21
+updated: 2026-08-14
 status: active
 source_type: publication-article
 author:
-  - "MIT Sloan Management Review"
-  - "Boston Consulting Group"
+  - 'MIT Sloan Management Review'
+  - 'Boston Consulting Group'
 published_date: 2025-09-16
 ingested_date: 2026-05-21
 ingest_via: staged

@@ -2,7 +2,7 @@
 type: tool
 title: Claude Opus 5
 created: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-14
 summary: Anthropic's July 2026 upgrade to Opus 4.8, Anthropic's most aligned model to date on its automated behavioral audit and its most prompt-injection-robust model, with substantial gains in agentic coding, computer use, and mathematical reasoning (including an IMO 2026 gold-medal score), offset by disclosed increases in hallucination rate and condescension toward users.
 status: active
 vendor: Anthropic
@@ -19,7 +19,7 @@ capabilities:
   - Humanity's Last Exam 56.3% without tools, 64.7% with tools
   - OSWorld 2.0 computer-use benchmark 70.6%
   - ARC-AGI-1 97.5%, ARC-AGI-2 90.4%, ARC-AGI-3 30.2% (high effort)
-  - "Most prompt-injection-robust model tested on the Gray Swan IPI benchmark: 2.0% attacker success at k=15 attempts (next best non-Claude model: 16.5%)"
+  - 'Most prompt-injection-robust model tested on the Gray Swan IPI benchmark: 2.0% attacker success at k=15 attempts (next best non-Claude model: 16.5%)'
   - 0% attack success across all 129 browser-use red-team scenarios with auto mode enabled (down from 31.5% unsafeguarded on Opus 4.8)
   - Anthropic's most aligned model to date on its automated behavioral audit, ahead of Sonnet 5, Opus 4.8, and Mythos 5
   - Fewer than 0.01% of monitored deployment completions showed attempts to circumvent safety classifiers or access restrictions, comparable to Mythos 5
