@@ -1,5 +1,5 @@
 # CLAUDE.md — Wiki Schema and Operational Instructions
-**Last Updated:** 07/12/2026 23:42 EDT
+**Last Updated:** 08/14/2026 12:56 ET
 
 **Document status:** Design draft. Not yet in the execution environment.
 **Authority:** This document governs all wiki maintenance operations. When this document
@@ -352,6 +352,26 @@ condition is met. Fields marked **optional** may be omitted if not applicable.
 errors in Obsidian and broken links in Quartz. Write all wikilinks in frontmatter as
 `"[[slug]]"`, whether short-form or full-path. This applies to every wikilink-valued
 field in every page type.
+
+**Free-text list items in frontmatter must be single-quoted.** The YAML parser treats a
+colon followed by a space inside an unquoted list item as a mapping-key delimiter, not as
+punctuation — producing a mapping where a string was intended, silently when the item
+contains one such sequence and as a hard Quartz build failure when it contains more than
+one. This applies to every list field whose items are free text — every list field that is
+neither wikilink-valued nor drawn from a controlled vocabulary. Those fields are currently
+`aliases`, `capabilities`, `limitations`, `primary_use_cases`, and `author`; a free-text
+list field added to this section later is governed by this rule from the moment it is
+added. The rule governs list *items*: a field that may be written either as a scalar or as
+a list — `author` — is governed in its list form and not in its scalar form, because a
+colon followed by a space in a scalar value fails the build loudly at the first occurrence
+while the same sequence in a list item parses silently into a mapping. Write
+every item of those fields wrapped in single quotes:
+`- 'Scores 2.0% on the Gray Swan IPI benchmark: best of any model tested'`. Escape
+a literal apostrophe by doubling it (`- 'Anthropic''s extended thinking mode'`). Do not
+double-quote these items — the currency escape `\$` required by Section 6.2 is not a valid
+escape sequence inside a YAML double-quoted scalar and will fail to parse. Do not write
+`\'` — backslash escaping does not exist inside a single-quoted scalar. Wikilink-valued
+fields keep the double-quoted form required above; this rule does not change them.
 
 ### 5.1 Universal Fields (all page types)
 
@@ -983,7 +1003,8 @@ fields. Do not use bare `$` anywhere in wiki page content.
 
 The `capabilities` and `limitations` fields on Tool/Product pages currently use
 list-of-brief-strings format. Each item is one clause, no prose. This preserves
-partial RAG utility without committing to a rigid typed object structure.
+partial RAG utility without committing to a rigid typed object structure. Each item is
+single-quoted per the frontmatter quoting rule in the Section 5 preamble.
 
 If the RAG use case is activated — wiki pages used as runtime agent input for
 programmatic methodology comparison — these fields must be revised to typed YAML

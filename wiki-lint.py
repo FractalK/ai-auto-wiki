@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# **Last Updated:** 06/05/2026 21:49 EDT
+# **Last Updated:** 08/14/2026 12:56 ET
 """
 wiki-lint.py — Mechanical lint checks for the AI Effectiveness Wiki.
 
@@ -297,6 +297,31 @@ def _parse_scalar(val):
     return val
 
 
+def _strip_outer_quotes(val):
+    """
+    Remove one matching pair of outer quotes from a raw YAML scalar string.
+
+    Single-quoted YAML scalars escape a literal apostrophe by doubling it, so an
+    un-doubling pass follows the strip. Falls back to the historical behaviour
+    (strip any outer double quotes) when no matching pair is present, preserving
+    the parse of pre-existing values such as "[[slug]]".
+
+    >>> _strip_outer_quotes("'Anthropic''s model: 2.0%'")
+    "Anthropic's model: 2.0%"
+    >>> _strip_outer_quotes('"[[tools/openai-gpt-4o]]"')
+    '[[tools/openai-gpt-4o]]'
+    >>> _strip_outer_quotes('unquoted value')
+    'unquoted value'
+    """
+    val = val.strip()
+    if len(val) >= 2 and val[0] == val[-1]:
+        if val[0] == "'":
+            return val[1:-1].replace("''", "'")
+        if val[0] == '"':
+            return val[1:-1]
+    return val.strip('"')
+
+
 def parse_frontmatter(text):
     """
     Parse YAML frontmatter delimited by --- markers.
@@ -344,7 +369,7 @@ def parse_frontmatter(text):
         if dict_list_start and current_key is not None:
             # New dict item in a dict-list
             sub_key = dict_list_start.group(1)
-            sub_val = dict_list_start.group(2).strip().strip('"')
+            sub_val = _strip_outer_quotes(dict_list_start.group(2))
             current_dict = {sub_key: _parse_scalar(sub_val)}
             if current_dict_list is None:
                 current_dict_list = []
@@ -357,14 +382,14 @@ def parse_frontmatter(text):
         if dict_continuation and current_dict is not None:
             # Continuation key-value inside a dict item
             sub_key = dict_continuation.group(1)
-            sub_val = dict_continuation.group(2).strip().strip('"')
+            sub_val = _strip_outer_quotes(dict_continuation.group(2))
             current_dict[sub_key] = _parse_scalar(sub_val)
             i += 1
             continue
 
         if simple_list_item and current_key is not None and current_dict is None:
             # Check if this could be a dict-list item (doesn't match dict pattern above)
-            item_val = simple_list_item.group(1).strip().strip('"')
+            item_val = _strip_outer_quotes(simple_list_item.group(1))
             if current_list is None:
                 current_list = []
                 fm[current_key] = current_list
@@ -376,7 +401,7 @@ def parse_frontmatter(text):
         if top_key:
             # New top-level key resets all list/dict context
             current_key = top_key.group(1)
-            raw_val = top_key.group(2).strip().strip('"')
+            raw_val = _strip_outer_quotes(top_key.group(2))
             current_list = None
             current_dict_list = None
             current_dict = None

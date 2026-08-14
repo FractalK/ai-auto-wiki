@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Last Updated: 21/05/2026 19:45 EST
+# Last Updated: 08/14/2026 12:56 ET
 # wiki-verify.sh — Tier 1 configuration, conformance, and content-level checks
 # AI Effectiveness Wiki — see test-harness.md for specification
 #
@@ -806,6 +806,106 @@ fi
 
 if [ "$V16_FAIL" = "0" ]; then
     pass "vocabulary.json is present, well-formed, and free of duplicate ids"
+fi
+
+# ─── 17. Frontmatter list-item quoting ──────────────────────────────────────
+printf "\n--- 17. Frontmatter list-item quoting (FRIC-042/LL-076/DM-161/DM-163/DM-165) ---\n"
+# Free-text frontmatter list items must be single-quoted (CLAUDE.md Section 5
+# preamble). An unquoted list item containing a colon followed by a space
+# parses as a YAML mapping instead of a string -- silently at one occurrence,
+# as a hard Quartz build failure at two or more (LL-076).
+#
+# Sub-check A (FAIL, unscoped): any frontmatter block-sequence item -- in any
+# field -- that is unquoted and contains a colon followed by a space. The
+# colon-space defect is a genuine YAML type error wherever it occurs, so this
+# sub-check is not limited to the governed key list below.
+#
+# Sub-checks B and C are scoped to the five fields whose items are free text --
+# neither wikilink-valued nor drawn from a controlled vocabulary: aliases,
+# capabilities, limitations, primary_use_cases, author. MAINTENANCE: any
+# frontmatter list field added to CLAUDE.md Section 5 whose items are free
+# text -- neither wikilink-valued nor drawn from a controlled vocabulary --
+# must be added to this key list in the same change.
+#
+# `author` is union-typed (CLAUDE.md Section 5.4: "string or list of
+# strings"). Sub-checks B and C test block-sequence items only and must never
+# fire on a scalar `author:` key line -- the scalar form is deliberately out
+# of scope for this rule (CLAUDE.md Section 5 preamble; DM-165).
+#
+# Sub-check B (FAIL): a governed-field item that begins with a double quote.
+# Sub-check C (WARN): a governed-field item, unquoted, whose whole value
+# would coerce silently to a non-string type in at least one of the two YAML
+# parsers in play (Section 1.2 of the governing spec).
+#
+# Single awk pass per file, scoped to the frontmatter block only (the region
+# between the first and second --- delimiters) so body prose is never
+# scanned. State (current top-level key) is tracked in awk; dispatch to
+# fail()/warn() happens in the shell, mirroring check 12's structure.
+
+FQ_FAIL=0
+FQ_WARN=0
+for d in topics tools sources comparisons pitfalls teaching; do
+    [ -d "$d" ] || continue
+    while IFS= read -r filepath; do
+        result=$(awk '
+            BEGIN { n = 0; key = "" }
+            /^---$/ { n++; next }
+            n != 1 { next }
+            /^[A-Za-z_][A-Za-z0-9_-]*:/ {
+                key = $0
+                sub(/:.*/, "", key)
+                next
+            }
+            /^[ \t]+-[ \t]+/ {
+                v = $0
+                sub(/^[ \t]+-[ \t]+/, "", v)
+                if (v !~ /^[\047"]/ && v ~ /: /) {
+                    print "A:" NR": " $0
+                }
+                governed = (key == "aliases" || key == "capabilities" || key == "limitations" || key == "primary_use_cases" || key == "author")
+                if (governed) {
+                    if (v ~ /^"/) {
+                        print "B:" NR": " $0
+                    } else if (v !~ /^[\047"]/) {
+                        if (v ~ /^[0-9]+\.[0-9]+$/ || v ~ /^~$/ || v ~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/ || v ~ /^(yes|no|on|off|true|false|null|Yes|No|On|Off|True|False|Null|YES|NO|ON|OFF|TRUE|FALSE|NULL)$/) {
+                            print "C:" NR": " $0
+                        }
+                    }
+                }
+            }
+        ' "$filepath" 2>/dev/null)
+
+        result_a=$(printf '%s\n' "$result" | grep '^A:')
+        if [ -n "$result_a" ]; then
+            fail "Unquoted colon in frontmatter list item (parses as a YAML mapping -- single-quote the item per Section 5): $filepath"
+            while IFS= read -r fq_line; do
+                printf "         %s\n" "${fq_line#A:}"
+            done <<< "$result_a"
+            FQ_FAIL=1
+        fi
+
+        result_b=$(printf '%s\n' "$result" | grep '^B:')
+        if [ -n "$result_b" ]; then
+            fail "Double-quoted item in a free-text frontmatter list (\\$ escape breaks YAML -- use single quotes per Section 5): $filepath"
+            while IFS= read -r fq_line; do
+                printf "         %s\n" "${fq_line#B:}"
+            done <<< "$result_b"
+            FQ_FAIL=1
+        fi
+
+        result_c=$(printf '%s\n' "$result" | grep '^C:')
+        if [ -n "$result_c" ]; then
+            warn "Unquoted list item coerces to a non-string YAML type (single-quote it per Section 5): $filepath"
+            while IFS= read -r fq_line; do
+                printf "         %s\n" "${fq_line#C:}"
+            done <<< "$result_c"
+            FQ_WARN=1
+        fi
+    done < <(find "$d" -maxdepth 1 -name "*.md" 2>/dev/null)
+done
+
+if [ "$FQ_FAIL" = "0" ] && [ "$FQ_WARN" = "0" ]; then
+    pass "No frontmatter list-item quoting issues found in content pages"
 fi
 
 # ─── Summary ─────────────────────────────────────────────────────────────────

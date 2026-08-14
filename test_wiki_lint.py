@@ -409,5 +409,36 @@ class TestL20Ceiling(unittest.TestCase):
         self.assertEqual(deferred_findings[0]["data"]["deferred_count"], 2)
 
 
+class TestStripOuterQuotes(unittest.TestCase):
+    """BL-W-13 (DM-161/163/164/165): _strip_outer_quotes single-quote un-doubling."""
+
+    def test_single_quoted_with_doubled_apostrophe(self):
+        self.assertEqual(
+            wl._strip_outer_quotes("'Anthropic''s model: 2.0%'"),
+            "Anthropic's model: 2.0%",
+        )
+
+    def test_double_quoted_wikilink(self):
+        self.assertEqual(
+            wl._strip_outer_quotes('"[[tools/openai-gpt-4o]]"'),
+            "[[tools/openai-gpt-4o]]",
+        )
+
+    def test_unquoted_value_passes_through(self):
+        self.assertEqual(wl._strip_outer_quotes("unquoted value"), "unquoted value")
+
+    def test_empty_string(self):
+        self.assertEqual(wl._strip_outer_quotes(""), "")
+
+    def test_single_character(self):
+        # Len < 2, so the quote-pair branch cannot fire; falls through to
+        # the historical strip('"'), which only acts on double-quote chars —
+        # a lone double quote strips away to empty, a lone single quote or
+        # any other char passes through unchanged.
+        self.assertEqual(wl._strip_outer_quotes("x"), "x")
+        self.assertEqual(wl._strip_outer_quotes("'"), "'")
+        self.assertEqual(wl._strip_outer_quotes('"'), "")
+
+
 if __name__ == "__main__":
     unittest.main()

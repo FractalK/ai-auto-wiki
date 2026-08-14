@@ -1,5 +1,5 @@
 # OPERATIONS.md — Wiki Operational Workflows
-**Last Updated:** 07/12/2026 23:42 EDT
+**Last Updated:** 08/14/2026 12:56 ET
 
 **Document status:** Companion to CLAUDE.md. Both files must be loaded at the start of
 every wiki maintenance session.
@@ -771,10 +771,32 @@ Step 12 — Update or create Topic pages
   assign technical_depth if not already set
 - Self-check before writing (Section 6.1)
 - New stub pages: 1–3 Key Claims, 2–4 sentence prose opening, status: stub
+- **Frontmatter list-item quoting.** Every item of a frontmatter list field whose values are
+  free text — `aliases`, `capabilities`, `limitations`, `primary_use_cases`, `author`, and
+  any free-text list field added to CLAUDE.md Section 5 later — is wrapped in single quotes
+  when written. `author` may be written as a scalar or as a list; this rule governs its list
+  form only. An unquoted item containing a colon followed by a space is parsed as a YAML
+  mapping rather than a string: silently when the item contains one such sequence, as a hard
+  Quartz build failure when it contains more than one. Write
+  `- 'Knowledge work: finance research, document creation'`, not
+  `- Knowledge work: finance research, document creation`. Escape a literal apostrophe by
+  doubling it (`- 'Anthropic''s extended thinking mode'`). Do not double-quote these items —
+  the `\$` currency escape required by CLAUDE.md Section 6.2 is not a valid escape sequence
+  inside a YAML double-quoted scalar and fails to parse. Do not write `\'` — backslash
+  escaping does not exist inside a single-quoted scalar. Wikilink-valued fields keep the
+  double-quoted form CLAUDE.md Section 5 requires; this rule does not change them. Full rule:
+  CLAUDE.md Section 5 preamble.
 - **Post-write dollar-sign check (FRIC-041):** After writing any page containing
   currency amounts, verify no double-backslash-escaped dollar (`\\$`) appears.
   Run: `python3 -c "c=open('PATH').read(); n=c.count(chr(92)*2+'$'); assert n==0, str(n)+' double-escaped dollar(s) — correct to single backslash before committing'"` with PATH set to the file.
   Non-zero assertion = wrong escaping. Applies to Step 13 as well. (CLAUDE.md Section 6.2)
+- **Frontmatter list-item quoting check.** After writing any page whose `aliases`,
+  `capabilities`, `limitations`, `primary_use_cases`, or `author` fields were created or
+  modified, run:
+  `awk '/^---$/{n++; next} n==1 && /^[ \t]+-[ \t]+/ {v=$0; sub(/^[ \t]+-[ \t]+/,"",v); if (v !~ /^[\047"]/ && v ~ /: /) print FILENAME": "$0}' {file}`
+  Any output means an unquoted list item will parse as a YAML mapping rather than a string.
+  Single-quote the item per CLAUDE.md Section 5 before committing. Do not double-quote it —
+  the `\$` currency escape is invalid inside a YAML double-quoted scalar.
 
 Step 12a — Teaching notes assessment (Topic pages with teaching_relevance: true)
 
@@ -822,7 +844,8 @@ surfaced once regardless of how many constituent pages were updated.
 Step 13 — Update or create Tool/Product pages
 - Same prose, Key Claims, Data Records, and frontmatter logic as Step 12
 - Additional: update capabilities and limitations lists (one clause per item, no
-  duplicates, remove superseded items)
+  duplicates, remove superseded items) Single-quote every item per the frontmatter
+  list-item quoting rule in Step 12.
 - Version handling per Section 9
 
 Step 13b — Teaching notes assessment (Tool pages with teaching_relevance: true)
